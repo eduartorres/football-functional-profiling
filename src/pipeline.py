@@ -31,6 +31,11 @@ def _select():
     select()
 
 
+def _profiles_full():
+    from src.models.profiles import main
+    main("full")
+
+
 def _call(module: str):
     def run():
         import importlib
@@ -47,6 +52,12 @@ STAGES = [
     ("findings", "Hallazgos preliminares de la sección 5.7", _call("src.diagnostics.wyscout_findings")),
     ("model_select", "Selección del modelo sobre la grilla confirmada", _select),
     ("profiles", "Caracterización de perfiles en desarrollo", _call("src.models.profiles")),
+    ("evaluate", "Reserva temporal, H1 a H3 y generalización", _call("src.evaluation.evaluate")),
+    ("replacement", "Casos de reemplazo y H4", _call("src.evaluation.replacement_cases")),
+    ("sensitivity", "Análisis de sensibilidad", _call("src.evaluation.sensitivity")),
+    ("replication_prep", "Homologación StatsBomb, Mundial 2018", _call("src.harmonization.statsbomb_wc2018")),
+    ("replication", "Replicación con StatsBomb", _call("src.evaluation.replication")),
+    ("profiles_final", "Perfiles finales en la temporada completa (D24)", _profiles_full),
     ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary")),
     ("casebook", "Datos del casebook", _call("src.reports.export_casebook_data")),
 ]
