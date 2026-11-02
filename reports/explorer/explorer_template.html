@@ -1,0 +1,238 @@
+<title>Explorador de perfiles funcionales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+<style>
+/* Herramienta de consulta: ficha del jugador a la izquierda, mapa y similares a la derecha.
+   Misma identidad del casebook: base blanca, negro y grises; amarillo Uniandes solo para el jugador consultado
+   y para el perfil 3 en el mapa. */
+:root{
+  --paper:#FFFFFF; --ink:#000000; --ink-2:#333333; --ink-3:#6E6E6E; --rule:#D6D6D6; --wash:#F3F3F1;
+  --mid:#8C8C8C; --soft:#C9C9C9; --yellow:#FFFF00;
+  --f-sans:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);font-size:15px;line-height:1.45}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:max(16px,3vw);padding-block:24px 48px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+h1{font-size:1.45rem;margin:0;font-weight:700;letter-spacing:-.01em}
+.meta{font-size:.82rem;color:var(--ink-3)}
+.controls{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;padding:16px 0;border-bottom:1px solid var(--rule)}
+.controls label{display:flex;flex-direction:column;gap:4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
+.controls input[type=search],.controls select{font:inherit;font-size:.95rem;padding:7px 10px;border:1px solid var(--ink);background:var(--paper);color:var(--ink);min-width:0}
+.controls input[type=search]{width:min(340px,80vw)}
+.controls .chk{flex-direction:row;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--ink-2)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:1px}
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:36px;padding-top:22px}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.bars{grid-template-columns:minmax(0,9rem) minmax(0,1fr) 2.2rem}}
+.card-name{font-size:1.6rem;font-weight:700;margin:0;line-height:1.15}
+.card-name span{background:linear-gradient(transparent 60%,var(--yellow) 60%,var(--yellow) 92%,transparent 92%)}
+.card-sub{color:var(--ink-2);margin:4px 0 12px}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.facts div{padding:8px 10px 8px 0}
+.facts b{display:block;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.facts small{font-size:.72rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
+.profile-tag{display:inline-flex;align-items:center;gap:8px;margin:14px 0 4px;font-weight:500}
+.sw{width:12px;height:12px;display:inline-block;flex:none}
+.sw.p1{background:var(--ink)} .sw.p2{background:var(--mid)} .sw.p3{background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)}
+h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:500;margin:22px 0 8px}
+.bars{display:grid;grid-template-columns:minmax(0,11rem) minmax(0,1fr) 2.6rem;gap:5px 10px;align-items:center;font-size:.86rem}
+.bars .grp{grid-column:1/-1;font-weight:700;font-size:.8rem;margin-top:6px}
+.track{height:12px;background:var(--wash);position:relative}
+.fill{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+.track .mid{position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--mid)}
+.num{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink-2)}
+.note{font-size:.78rem;color:var(--ink-3)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:500;text-align:left;border-bottom:2px solid var(--ink);padding:6px 8px 6px 0;white-space:nowrap}
+td{border-bottom:1px solid var(--rule);padding:6px 8px 6px 0;vertical-align:middle}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.row{cursor:pointer}
+tr.row:hover td{background:var(--wash)}
+.pill{font-size:.72rem;border:1px solid var(--ink);padding:1px 6px;white-space:nowrap}
+.pill.other{background:var(--yellow)}
+.simbar{display:inline-block;height:8px;background:var(--ink);vertical-align:middle;margin-right:6px}
+.scroll-x{overflow-x:auto;max-width:100%}
+svg text{font-family:var(--f-sans)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--ink-2);margin-top:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--paper);font-size:.78rem;padding:6px 9px;z-index:10;max-width:240px}
+.tip b{color:var(--yellow);font-weight:500}
+footer{margin-top:30px;padding-top:12px;border-top:1px solid var(--rule)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Explorador de perfiles funcionales</h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="controls">
+    <label for="q">Jugador
+      <input id="q" type="search" list="names" placeholder="Escriba un nombre" autocomplete="off">
+      <datalist id="names"></datalist>
+    </label>
+    <label for="league">Liga de los candidatos
+      <select id="league"><option value="">Todas</option></select>
+    </label>
+    <label for="pos">Posición de los candidatos
+      <select id="pos"><option value="">Todas</option></select>
+    </label>
+    <label class="chk" for="other"><input id="other" type="checkbox"> Solo posiciones distintas a la del jugador</label>
+  </div>
+
+  <div class="main">
+    <section aria-labelledby="pname">
+      <p class="card-name" id="pname"></p>
+      <p class="card-sub" id="psub"></p>
+      <div class="facts" id="facts"></div>
+      <div class="profile-tag" id="ptag"></div>
+      <div class="note" id="pdesc"></div>
+      <h2>Percentil frente a los 1.500 jugadores elegibles</h2>
+      <div class="bars" id="bars"></div>
+      <p class="note" style="margin-top:8px">La línea vertical marca el percentil 50. Los indicadores por 90 minutos se muestran sin ajuste por posesión para facilitar su lectura.</p>
+    </section>
+
+    <section>
+      <h2 style="margin-top:0">Jugadores más similares de otros clubes</h2>
+      <div class="scroll-x"><table>
+        <thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th>Posición</th><th>Perfil</th><th>Similitud</th></tr></thead>
+        <tbody id="sim"></tbody>
+      </table></div>
+      <p class="note" id="simnote"></p>
+
+      <h2>Mapa de los perfiles</h2>
+      <div id="map"></div>
+      <div class="legend" id="legend"></div>
+      <p class="note">Plano de los dos primeros componentes de la representación de composición. El jugador consultado aparece resaltado y sus similares con contorno. Seleccione un punto para consultarlo.</p>
+    </section>
+  </div>
+
+  <footer class="note">
+    Prototipo del Trabajo Práctico de Grado II, MIIA, Universidad de los Andes. Datos: Wyscout (Pappalardo et al., 2019), cinco grandes ligas europeas 2017/18; jugadores de campo con al menos 900 minutos. Posición fina según alineaciones de Transfermarkt. La similitud es una distancia en el espacio de composición de acciones y localización; describe semejanza de comportamiento, no calidad ni adaptación a otro equipo, y requiere revisión de video y criterio deportivo.
+  </footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const DATA = /*__DATA__*/;
+const P = DATA.players, NS = "http://www.w3.org/2000/svg";
+const PROF = DATA.profiles;
+const DESC = {
+  1: "Mayor proporción de pases simples y largos, intercepciones y despejes; actúa en zonas profundas y centrales.",
+  2: "Mayor proporción de centros y duelos defensivos; ocupa los carriles exteriores del campo.",
+  3: "Mayor proporción de remates, duelos ofensivos y acciones en el área; actúa en zonas adelantadas."
+};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C = {ink:css("--ink"), mid:css("--mid"), yellow:css("--yellow"), paper:css("--paper"), rule:css("--rule"), ink3:css("--ink-3"), soft:css("--soft")};
+const fill = p => p === 1 ? C.ink : p === 2 ? C.mid : C.yellow;
+const fmt = (v, d=0) => v.toLocaleString("es-CO", {minimumFractionDigits:d, maximumFractionDigits:d});
+const $ = id => document.getElementById(id);
+let current = P.findIndex(p => p.name === "M. Hamšík"); if (current < 0) current = 0;
+
+// controles
+$("meta").textContent = `${fmt(DATA.meta.n)} jugadores · cinco grandes ligas · temporada ${DATA.meta.season}`;
+const dl = $("names");
+P.forEach(p => { const o = document.createElement("option"); o.value = `${p.name} · ${p.team}`; dl.appendChild(o); });
+[...new Set(P.map(p => p.league))].sort().forEach(l => $("league").add(new Option(l, l)));
+[...new Set(P.map(p => p.position))].sort().forEach(l => $("pos").add(new Option(l, l)));
+$("q").addEventListener("change", e => {
+  const v = e.target.value.trim().toLowerCase();
+  const i = P.findIndex(p => `${p.name} · ${p.team}`.toLowerCase() === v) >= 0
+    ? P.findIndex(p => `${p.name} · ${p.team}`.toLowerCase() === v)
+    : P.findIndex(p => p.name.toLowerCase().includes(v));
+  if (i >= 0) { current = i; render(); }
+});
+["league", "pos", "other"].forEach(id => $(id).addEventListener("change", render));
+
+const tip = $("tip");
+function showTip(ev, html){ tip.innerHTML = html; tip.hidden = false; let x = ev.clientX + 14, y = ev.clientY + 14; const r = tip.getBoundingClientRect(); if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - 14; if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - 14; tip.style.left = x + "px"; tip.style.top = y + "px"; }
+function hideTip(){ tip.hidden = true; }
+
+// mapa
+const W = 640, H = 430, pad = 26;
+const xs = P.map(p => p.x), ys = P.map(p => p.y);
+const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+const X = v => pad + (v - x0) / (x1 - x0) * (W - 2 * pad), Y = v => H - pad - (v - y0) / (y1 - y0) * (H - 2 * pad);
+const svg = document.createElementNS(NS, "svg");
+svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("width", "100%"); svg.setAttribute("role", "img");
+svg.setAttribute("aria-label", "Mapa de jugadores por perfil funcional");
+$("map").appendChild(svg);
+const bg = document.createElementNS(NS, "g"), fg = document.createElementNS(NS, "g");
+svg.appendChild(bg); svg.appendChild(fg);
+P.forEach((p, i) => {
+  const c = document.createElementNS(NS, "circle");
+  c.setAttribute("cx", X(p.x)); c.setAttribute("cy", Y(p.y)); c.setAttribute("r", 2.6);
+  c.setAttribute("fill", fill(p.profile)); c.setAttribute("fill-opacity", p.profile === 3 ? 0.9 : 0.55);
+  if (p.profile === 3) { c.setAttribute("stroke", C.mid); c.setAttribute("stroke-width", 0.4); }
+  c.style.cursor = "pointer";
+  c.addEventListener("mousemove", e => showTip(e, `<b>${p.name}</b><br>${p.team} · ${p.position}<br>${PROF[p.profile]}`));
+  c.addEventListener("mouseleave", hideTip);
+  c.addEventListener("click", () => { current = i; render(); });
+  bg.appendChild(c);
+});
+const counts = {1:0, 2:0, 3:0}; P.forEach(p => counts[p.profile]++);
+$("legend").innerHTML = [1, 2, 3].map(k => `<span><i class="sw p${k}"></i>${PROF[k]} (${fmt(counts[k])})</span>`).join("");
+
+function candidates(p){
+  const lg = $("league").value, ps = $("pos").value, other = $("other").checked;
+  return p.sim.filter(([j]) => (!lg || P[j].league === lg) && (!ps || P[j].position === ps) && (!other || P[j].position !== p.position)).slice(0, 10);
+}
+
+function render(){
+  const p = P[current];
+  $("q").value = "";
+  $("pname").innerHTML = `<span>${p.name}</span>`;
+  $("psub").textContent = `${p.team} · ${p.league}`;
+  $("facts").innerHTML = [["Posición fina", p.position], ["Minutos", fmt(p.minutes)], ["Partidos", p.matches], ["Temporada", DATA.meta.season]]
+    .map(([k, v]) => `<div><b>${v}</b><small>${k}</small></div>`).join("");
+  $("ptag").innerHTML = `<i class="sw p${p.profile}"></i>Perfil ${p.profile}. ${PROF[p.profile]}`;
+  $("pdesc").textContent = DESC[p.profile];
+
+  // percentiles
+  let html = "", last = "";
+  DATA.indicators.forEach(([g, label], k) => {
+    if (g !== last) { html += `<div class="grp">${g}</div>`; last = g; }
+    const v = p.pct[k];
+    html += `<div>${label}</div><div class="track" title="Valor: ${fmt(p.val[k], 2)}"><div class="fill" style="width:${v}%"></div><div class="mid"></div></div><div class="num">${v}</div>`;
+  });
+  $("bars").innerHTML = html;
+
+  // similares
+  const list = candidates(p);
+  $("sim").innerHTML = list.map(([j, s], n) => {
+    const q = P[j], other = q.position !== p.position;
+    return `<tr class="row" data-j="${j}" tabindex="0"><td class="n">${n + 1}</td><td><b>${q.name}</b></td><td>${q.team}<br><span class="note">${q.league}</span></td>
+      <td><span class="pill${other ? " other" : ""}">${q.position}</span></td><td><i class="sw p${q.profile}" title="${PROF[q.profile]}"></i></td>
+      <td class="n"><span class="simbar" style="width:${Math.max(4, s * 0.6)}px"></span>${s}</td></tr>`;
+  }).join("") || `<tr><td colspan="6" class="note">Ningún candidato entre los 30 más similares cumple los filtros.</td></tr>`;
+  document.querySelectorAll("tr.row").forEach(tr => {
+    const go = () => { current = +tr.dataset.j; render(); };
+    tr.addEventListener("click", go);
+    tr.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+  });
+  const nOther = list.filter(([j]) => P[j].position !== p.position).length;
+  $("simnote").textContent = `${nOther} de ${list.length} candidatos están registrados en una posición fina distinta (marcados en amarillo). La similitud va de 0 a 100 y decrece con la distancia en el espacio de composición y localización.`;
+
+  // resaltado en el mapa
+  fg.innerHTML = "";
+  list.forEach(([j]) => {
+    const q = P[j], c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", X(q.x)); c.setAttribute("cy", Y(q.y)); c.setAttribute("r", 5.5);
+    c.setAttribute("fill", "none"); c.setAttribute("stroke", C.ink); c.setAttribute("stroke-width", 1.4);
+    fg.appendChild(c);
+  });
+  const c = document.createElementNS(NS, "circle");
+  c.setAttribute("cx", X(p.x)); c.setAttribute("cy", Y(p.y)); c.setAttribute("r", 8);
+  c.setAttribute("fill", C.yellow); c.setAttribute("stroke", C.ink); c.setAttribute("stroke-width", 2);
+  fg.appendChild(c);
+  const t = document.createElementNS(NS, "text");
+  t.setAttribute("x", Math.min(X(p.x) + 12, W - 90)); t.setAttribute("y", Y(p.y) - 10);
+  t.setAttribute("font-size", 13); t.setAttribute("font-weight", 700); t.setAttribute("fill", C.ink);
+  t.setAttribute("stroke", C.paper); t.setAttribute("stroke-width", 4); t.setAttribute("paint-order", "stroke");
+  t.textContent = p.name; fg.appendChild(t);
+}
+render();
+</script>

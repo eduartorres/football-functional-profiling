@@ -31,6 +31,12 @@ def _select():
     select()
 
 
+def _explorer():
+    from src.reports import build_explorer, export_explorer_data
+    export_explorer_data.main()
+    build_explorer.main()
+
+
 def _profiles_full():
     from src.models.profiles import main
     main("full")
@@ -58,6 +64,7 @@ STAGES = [
     ("replication_prep", "Homologación StatsBomb, Mundial 2018", _call("src.harmonization.statsbomb_wc2018")),
     ("replication", "Replicación con StatsBomb", _call("src.evaluation.replication")),
     ("profiles_final", "Perfiles finales en la temporada completa (D24)", _profiles_full),
+    ("explorer", "Datos y página del explorador (prototipo)", _explorer),
     ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary")),
     ("casebook", "Datos del casebook", _call("src.reports.export_casebook_data")),
 ]
