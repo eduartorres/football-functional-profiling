@@ -312,13 +312,63 @@ h2("6.5 Comparación y selección del modelo final")
 p("Según la regla del protocolo, entre las configuraciones que cumplen la estabilidad y la condición de confusión por equipo se elige la de mayor silueta. La solución seleccionada es K-means con tres grupos sobre la representación de composición: silueta de 0,422, índice de Davies-Bouldin de 0,884, ARI bootstrap promedio de 0,969 e índice de Jaccard bootstrap entre 0,975 y 0,983 en los tres grupos. Su asociación con el equipo es despreciable (NMI de 0,009 y V de Cramér corregida de 0) y su información mutua normalizada con la posición fina es de 0,475.")
 p("La silueta favorece soluciones con pocos grupos. La configuración de K-means con cinco grupos sobre la misma representación también es estable (ARI de 0,943 y Jaccard mínimo de 0,935) y ofrece una resolución mayor, con una NMI con la posición fina de 0,597. Esta solución no reemplaza a la seleccionada; se reporta como análisis de sensibilidad en el capítulo 7. La consulta de similitud opera sobre la representación continua de componentes, de modo que su resolución no depende del número de grupos.")
 
+# ---------------------------------------------------------------- 7
+h1("7. Evaluación")
+h2("7.1 Desempeño técnico en datos de prueba y fuera de tiempo")
+p("El transformador y el modelo ajustados en la primera mitad de la temporada se aplicaron sin reajuste a la segunda mitad, que funcionó como reserva temporal (1.439 jugadores elegibles). La silueta de la asignación en la reserva fue de 0,420, prácticamente igual a la de desarrollo (0,422), y la asignación con el modelo fijado coincidió con una partición reajustada en la reserva con un ARI de 0,970. Los tamaños de los perfiles fueron de 469, 303 y 667 jugadores, en proporciones semejantes a las de desarrollo.")
+p("Para los 1.155 jugadores elegibles en ambas mitades, el 91,8 % conservó el mismo perfil entre la primera y la segunda mitad, frente a un 36,7 % esperado por azar con los tamaños observados (ARI de 0,773). La Tabla 8 muestra que los cambios se concentran entre perfiles contiguos. La generalización a jugadores nuevos se evaluó con validación agrupada por jugador en cinco particiones sobre la temporada completa: la asignación de los jugadores no vistos coincidió con la solución global con un ARI promedio de 0,987 (mínimo de 0,979).")
+table("Tabla 8. Perfil de los mismos jugadores en la primera y la segunda mitad de la temporada",
+      ["Perfil en la primera mitad", "1. Construcción", "2. Carril lateral", "3. Ataque", "Total"],
+      [["1. Construcción y defensa posicional", "341", "17", "17", "375"],
+       ["2. Carril lateral", "12", "219", "17", "248"],
+       ["3. Ataque y finalización", "22", "10", "500", "532"]],
+      [3000, 1600, 1600, 1600, 1600], font=9,
+      note="Jugadores elegibles en ambas mitades (450 minutos o más en cada una). Columnas: perfil asignado en la segunda mitad con el modelo fijado en la primera.")
+h2("7.2 Traducción a métricas de negocio (lift, ganancia esperada, matriz de costo-beneficio, ROI)")
+p("Las métricas de negocio se estimaron con treinta casos de reemplazo: jugadores elegibles que Transfermarkt registra como transferidos entre junio y agosto de 2018, seleccionados con muestreo estratificado por posición fina. Para cada caso se construyeron dos listas de veinte candidatos de otros clubes con la información de la primera mitad de la temporada, una con la consulta funcional y otra con la consulta por posición, y se calificó como pertinente a todo candidato ubicado, en la segunda mitad de la temporada, dentro del 10 % más cercano al jugador transferido en el espacio descriptivo completo.")
+p("La proporción de candidatos pertinentes fue de 0,62 en la lista funcional y de 0,61 en la lista por posición, frente a 0,10 esperado por azar; la diferencia no es significativa (prueba de Wilcoxon, p = 0,72). Las dos listas compartieron en promedio 3,6 de sus 20 candidatos, y la consulta funcional aportó 9,6 candidatos pertinentes por caso que la búsqueda por posición no incluía (mediana de 10,5); el 43 % de sus candidatos provenía de otra posición fina. En términos del embudo de búsqueda, la consulta funcional mantiene la tasa de pertinencia de la búsqueda por posición y amplía el conjunto de candidatos pertinentes disponibles para revisión.")
+p("Con la consulta sobre el espacio ponderado completo, sin reducción por PCA, la proporción de pertinentes subió a 0,67 (p = 0,09) y los candidatos pertinentes nuevos a 10,0 por caso. Las horas de revisión de video por candidato aceptado, el ahorro y el retorno de inversión requieren usuarios y datos de operación, y no se estiman.")
+h2("7.3 Evaluación de impacto (experimento A/B, diseño cuasiexperimental o simulación)")
+p("La evaluación corresponde a una simulación con casos históricos y no a un experimento con usuarios. Los casos reproducen la situación del usuario de referencia, un club que debe reemplazar a un jugador transferido, y comparan dos procedimientos de preselección bajo las mismas condiciones de información, población y tamaño de lista. La pertinencia se mide con un criterio analítico construido sobre datos posteriores a la construcción de las listas. Este criterio comparte variables con la representación funcional, por lo que el resultado indica consistencia del procedimiento y no reemplaza el juicio de revisores deportivos.")
+h2("7.4 Análisis de sensibilidad y escenarios")
+p("La solución es robusta a las decisiones de procesamiento evaluadas (Tabla 9). Con umbrales de exposición de 450 y 1.350 minutos y con escalamiento robusto, la partición coincide con la de referencia con ARI entre 0,976 y 0,988. La distancia coseno produce una partición algo distinta (ARI de 0,819) y una silueta mayor. El número de grupos sí modifica la solución: con cuatro y cinco grupos la NMI con la posición fina sube a 0,524 y 0,609, y la representación de volumen genera una partición diferente (ARI de 0,516) con menor silueta.")
+table("Tabla 9. Sensibilidad de la solución seleccionada (temporada completa)",
+      ["Variante", "Jugadores", "k", "Silueta", "NMI posición fina", "NMI equipo", "ARI con referencia"],
+      [["Referencia (900 minutos)", "1.500", "3", "0,421", "0,495", "0,008", "1,000"],
+       ["Umbral de 450 minutos", "1.793", "3", "0,417", "0,490", "0,007", "0,976"],
+       ["Umbral de 1.350 minutos", "1.183", "3", "0,425", "0,509", "0,009", "0,981"],
+       ["Escalamiento robusto", "1.500", "3", "0,413", "0,489", "0,008", "0,988"],
+       ["Distancia coseno", "1.500", "3", "0,451", "0,512", "0,008", "0,819"],
+       ["Cuatro grupos", "1.500", "4", "0,376", "0,524", "0,014", "0,689"],
+       ["Cinco grupos", "1.500", "5", "0,370", "0,609", "0,019", "0,451"],
+       ["Representación de volumen", "1.500", "3", "0,344", "0,478", "0,010", "0,516"]],
+      [2600, 1000, 500, 1000, 1500, 1100, 1700], font=9)
+p("La replicación con StatsBomb se realizó en el Mundial 2018 con 213 jugadores de campo enlazados entre proveedores y con al menos 270 minutos en ambos, sobre diez categorías de acción homologadas y el bloque de localización (Tabla 10). La correlación de Spearman entre proveedores fue de 0,93 en la mediana de las variables y superior a 0,98 en la profundidad y la amplitud de la ocupación; las categorías con menor acuerdo fueron los pases de cabeza (0,36) y los pases filtrados (0,35), cuyas definiciones difieren entre proveedores. Los componentes principales ajustados por separado tuvieron congruencias de Tucker entre 0,86 y 0,97, y las particiones obtenidas en cada proveedor coincidieron con un ARI de 0,943.")
+table("Tabla 10. Replicación de las dimensiones con StatsBomb en el Mundial 2018",
+      ["Medida", "Resultado", "Referencia"],
+      [["Correlación de Spearman entre proveedores (mediana; mínimo)", "0,93; 0,35", "Mismos jugadores"],
+       ["Congruencia de Tucker de los cuatro primeros componentes", "0,86; 0,97; 0,92; 0,95", "0,85 a 0,94: similitud aceptable; 0,95 o más: equivalencia (Lorenzo-Seva y ten Berge, 2006)"],
+       ["ARI entre particiones ajustadas en cada proveedor", "0,943", "0 = azar"],
+       ["ARI entre la partición de Wyscout y StatsBomb proyectado en su espacio", "0,866", "0 = azar"],
+       ["Superposición de los 10 vecinos (Jaccard)", "0,383", "0,024 por azar"],
+       ["Identificación cruzada del mismo jugador (top-1; top-10)", "0,32; 0,89", "0,005; 0,05 por azar"]],
+      [4600, 2300, 2500], font=9)
+h2("7.5 Evaluación de equidad, sesgos y riesgos del modelo")
+p("La asociación de los perfiles con el equipo es despreciable (NMI de 0,008 y V de Cramér corregida de 0 en desarrollo y en reserva), lo que indica que la representación de composición neutralizó el sesgo por estilo de equipo identificado en el diagnóstico. La asociación con la liga también es nula (NMI de 0,001): en las cinco ligas, entre el 29 % y el 33 % de los jugadores pertenece al perfil de construcción, entre el 18 % y el 22 % al de carril lateral y entre el 47 % y el 49 % al de ataque.")
+p("Los riesgos identificados son de cobertura e interpretación. La población corresponde a cinco ligas europeas de una temporada; 50 jugadores con exposición suficiente quedaron fuera por no disponer de posición fina, y la categoría de segundo delantero tiene solo 19 jugadores. El perfil de ataque agrupa funciones distintas, como delanteros centro y extremos, que la solución de tres grupos no separa; la consulta de similitud, que opera sobre el espacio continuo, conserva esa información.")
+h2("7.6 Contraste con los criterios de éxito definidos en el capítulo 2")
+p("La Tabla 11 resume el contraste de las hipótesis con los criterios fijados en el protocolo antes de la evaluación.")
+table("Tabla 11. Contraste de las hipótesis",
+      ["Hipótesis", "Medida en la reserva", "Criterio de rechazo", "Resultado"],
+      [["H1. Los perfiles aportan información que la posición fina no captura", "NMI perfil-posición fina = 0,495 (desarrollo 0,475)", "NMI ≥ 0,50", "No se rechaza, con margen estrecho"],
+       ["H2. Proximidad funcional estable entre posiciones distintas", "31 % de vecinos de otra posición; autoidentificación top-1 = 0,10 (base 0,18)", "< 20 % de vecinos o top-1 < 0,50", "Se rechaza por autoidentificación"],
+       ["H3. Perfiles estables", "ARI bootstrap = 0,969; Jaccard 0,975 a 0,983; 91,8 % sin cambio temporal", "ARI < 0,60 o Jaccard < 0,60 en la mayoría", "No se rechaza"],
+       ["H4. Candidatos pertinentes nuevos frente a la posición", "Pertinencia 0,62 frente a 0,61; 9,6 pertinentes nuevos por caso", "Pertinencia inferior a la base o menos de 2 nuevos", "No se rechaza (evaluación analítica)"],
+       ["Condición de confusión por equipo", "NMI perfil-equipo = 0,008", "≥ 0,20", "Se cumple"]],
+      [2700, 2900, 2000, 1800], font=8)
+p("El rechazo de H2 tiene una lectura precisa. La proporción de vecinos de otra posición fina (31 %) supera el umbral, pero la representación de cuatro componentes no permite reconocer a un mismo jugador entre las dos mitades de la temporada: solo el 10 % de los jugadores encuentra su propio registro como vecino más cercano y el 38 % lo encuentra entre los diez primeros. La representación describe funciones compartidas por muchos jugadores, no la firma individual de cada uno. Sin reducción por PCA la autoidentificación sube a 0,25 y en el espacio descriptivo completo a 0,28, todavía por debajo del umbral de 0,50; como referencia, Kim et al. (2021) reportan 0,46 con datos de tracking. Este resultado motivó que la consulta de similitud del producto use el espacio ponderado completo (decisión D27), una decisión posterior a la evaluación que se reporta como tal.")
+
 for chap, secs in [
- ("7. Evaluación", [("7.1 Desempeño técnico en datos de prueba y fuera de tiempo", "Pendiente. Se reportará la evaluación sobre la segunda mitad de la temporada y la generalización a jugadores nuevos."),
-                    ("7.2 Traducción a métricas de negocio (lift, ganancia esperada, matriz de costo-beneficio, ROI)", "Pendiente. Se reportarán pertinencia de la lista, candidatos pertinentes adicionales y horas de revisión por candidato aceptado."),
-                    ("7.3 Evaluación de impacto (experimento A/B, diseño cuasiexperimental o simulación)", "Pendiente. Se documentará el ejercicio controlado con casos de reemplazo."),
-                    ("7.4 Análisis de sensibilidad y escenarios", "Pendiente. Se evaluarán umbrales de minutos, ventanas, escalamiento, ponderación, métrica y número de grupos."),
-                    ("7.5 Evaluación de equidad, sesgos y riesgos del modelo", "Pendiente. Se revisarán la asociación con equipo y competición y los riesgos de interpretación."),
-                    ("7.6 Contraste con los criterios de éxito definidos en el capítulo 2", "Pendiente. Se contrastarán H1 a H4 y los criterios de la Tabla 1.")]),
  ("8. Propuesta de valor y plan de despliegue", [("8.1 Recomendaciones estratégicas accionables", "Pendiente."),
                     ("8.2 Integración en los procesos de decisión (responsables, frecuencia, canales)", "Pendiente. Se describirá el uso por parte del usuario de referencia en cada periodo de transferencias."),
                     ("8.3 Arquitectura de implementación y consumo (tablero, API, campañas)", "Pendiente. Se describirá un explorador de jugadores con perfil, percentiles y jugadores similares."),
@@ -355,6 +405,7 @@ for r in [
  "Hubert, L., & Arabie, P. (1985). Comparing partitions. *Journal of Classification*, *2*(1), 193–218. https://doi.org/10.1007/BF01908075",
  "Kim, H., Kim, J., Chung, D., Lee, J., Yoon, J., & Ko, S.-K. (2021). *6MapNet: Representing soccer players from tracking data by a triplet network* (arXiv:2109.04720). arXiv. https://doi.org/10.48550/arXiv.2109.04720",
  "Li, Y., Zong, S., Shen, Y., Pu, Z., Gómez, M.-Á., & Cui, Y. (2022). Characterizing player’s playing styles based on player vectors for each playing position in the Chinese Football Super League. *Journal of Sports Sciences*. https://doi.org/10.1080/02640414.2022.2096771",
+ "Lorenzo-Seva, U., & ten Berge, J. M. F. (2006). Tucker's congruence coefficient as a meaningful index of factor similarity. *Methodology*, *2*(2), 57–64. https://doi.org/10.1027/1614-2241.2.2.57",
  "Pappalardo, L., Cintia, P., Ferragina, P., Massucco, E., Pedreschi, D., & Giannotti, F. (2019). PlayeRank: Data-driven performance evaluation and player ranking in soccer via a machine learning approach. *ACM Transactions on Intelligent Systems and Technology*, *10*(5), 1–27. https://doi.org/10.1145/3343172",
  "Pappalardo, L., Cintia, P., Rossi, A., Massucco, E., Ferragina, P., Pedreschi, D., & Giannotti, F. (2019). A public data set of spatio-temporal match events in soccer competitions. *Scientific Data*, *6*, Artículo 236. https://doi.org/10.1038/s41597-019-0247-7",
  "Plakias, S., Moustakidis, S., Kokkotis, C., Papalexi, M., Tsatalas, T., Giakas, G., & Tsaopoulos, D. (2023). Identifying soccer players’ playing styles: A systematic review. *Journal of Functional Morphology and Kinesiology*, *8*(3), Artículo 104. https://doi.org/10.3390/jfmk8030104",
