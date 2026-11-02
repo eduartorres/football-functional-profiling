@@ -8,6 +8,7 @@ Salida  : data/interim/wyscout/events/*.json, data/interim/wyscout/matches/*.jso
 data/raw no se modifica. Las coordenadas Wyscout van de 0 a 100 en ambos ejes, en la dirección
 de ataque del equipo que ejecuta la acción.
 """
+
 from __future__ import annotations
 
 import zipfile

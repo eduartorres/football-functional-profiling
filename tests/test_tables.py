@@ -1,4 +1,5 @@
 """Verificaciones de consistencia de las tablas derivadas. Requieren haber ejecutado el pipeline."""
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -26,7 +27,10 @@ def test_minutes_bounds(pm):
 
 def test_players_on_pitch(pm):
     # 11 jugadores por equipo como máximo; menos solo por expulsiones
-    r = pm.groupby(["match_id", "team_id"]).minutes.sum() / pm.groupby(["match_id", "team_id"]).match_minutes.first()
+    r = (
+        pm.groupby(["match_id", "team_id"]).minutes.sum()
+        / pm.groupby(["match_id", "team_id"]).match_minutes.first()
+    )
     assert r.max() <= 11 + 1e-6
     assert r.mean() > 10.9
 

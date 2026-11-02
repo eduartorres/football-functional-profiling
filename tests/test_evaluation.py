@@ -1,4 +1,5 @@
 """Verificaciones de las salidas de modelado y evaluación. Requieren haber ejecutado el pipeline completo."""
+
 import json
 
 import pandas as pd
@@ -26,7 +27,9 @@ def test_selected_model_meets_protocol():
     assert s["nmi_team"] < h["max_nmi_team"]
 
 
-@pytest.mark.skipif(not (path("models") / "profiles_full_assignments.parquet").exists(), reason="perfiles no generados")
+@pytest.mark.skipif(
+    not (path("models") / "profiles_full_assignments.parquet").exists(), reason="perfiles no generados"
+)
 def test_profiles_cover_population():
     a = pd.read_parquet(path("models") / "profiles_full_assignments.parquet")
     f = pd.read_parquet(path("features") / "player_features_full.parquet")

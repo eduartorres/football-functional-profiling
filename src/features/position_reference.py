@@ -9,6 +9,7 @@ Posición fina de referencia para cada jugador de las cinco ligas 2017/18 (secci
 Salida : data/processed/features/position_reference.parquet
          data/processed/diagnostics/linkage_summary.json
 """
+
 from __future__ import annotations
 
 import difflib
@@ -22,11 +23,13 @@ from src.common.config import load_config, path
 
 
 def norm(s) -> str:
+    """Normaliza un nombre: sin tildes, en minúsculas y sin guiones ni puntos."""
     s = unicodedata.normalize("NFKD", str(s or "")).encode("ascii", "ignore").decode().lower()
     return " ".join(s.replace("-", " ").replace(".", " ").split())
 
 
 def name_score(first, last, short, tm_name) -> float:
+    """Similitud entre el nombre de Wyscout y el de Transfermarkt, entre 0 y 1."""
     b = norm(tm_name)
     s = difflib.SequenceMatcher(None, norm(f"{first} {last}"), b).ratio()
     # apellidos compuestos o nombres artísticos: basta con que un token del apellido coincida
@@ -59,10 +62,16 @@ def main() -> None:
             s = name_score(r.first_name, r.last_name, r.short_name, c.tm_name)
             if s > score:
                 best, score = c, s
-        links.append({"player_id": r.player_id, "tm_id": getattr(best, "tm_id", None),
-                      "tm_name": getattr(best, "tm_name", None),
-                      "tm_sub_position": getattr(best, "tm_sub_position", None),
-                      "n_dob_candidates": len(cands), "name_score": round(score, 3)})
+        links.append(
+            {
+                "player_id": r.player_id,
+                "tm_id": getattr(best, "tm_id", None),
+                "tm_name": getattr(best, "tm_name", None),
+                "tm_sub_position": getattr(best, "tm_sub_position", None),
+                "n_dob_candidates": len(cands),
+                "name_score": round(score, 3),
+            }
+        )
     L = pd.DataFrame(links)
     L["linked"] = L.name_score >= cfg["position_reference"]["linkage_min_name_score"]
     # un mismo jugador de Transfermarkt no puede quedar enlazado a dos de Wyscout: se conserva el de mayor puntaje
@@ -81,10 +90,17 @@ def main() -> None:
         GROUP BY 1, 2""").fetchdf()
     tot = pos.groupby("tm_id").minutes.transform("sum")
     pos["share"] = pos.minutes / tot
-    main_pos = (pos.sort_values(["tm_id", "minutes"], ascending=[True, False])
-                .groupby("tm_id").agg(tm_main_position=("position", "first"), main_share=("share", "first"),
-                                      n_positions=("position", "nunique"), tm_minutes=("minutes", "sum"))
-                .reset_index())
+    main_pos = (
+        pos.sort_values(["tm_id", "minutes"], ascending=[True, False])
+        .groupby("tm_id")
+        .agg(
+            tm_main_position=("position", "first"),
+            main_share=("share", "first"),
+            n_positions=("position", "nunique"),
+            tm_minutes=("minutes", "sum"),
+        )
+        .reset_index()
+    )
     R = L.merge(main_pos, on="tm_id", how="left")
     R.loc[~R.linked, ["tm_main_position", "main_share", "n_positions", "tm_minutes"]] = None
     R["position_source"] = "lineups_2017_18"
@@ -97,11 +113,15 @@ def main() -> None:
     R = R.merge(pl[["player_id", "short_name", "role"]], on="player_id", how="left")
     R.to_parquet(path("features") / "position_reference.parquet", index=False)
 
-    summ = {"players_in_pool": len(R), "linked": int(R.linked.sum()), "linked_share": round(R.linked.mean(), 4),
-            "position_from_lineups": int((R.position_source == "lineups_2017_18").sum()),
-            "position_from_snapshot": int((R.position_source == "registro_snapshot").sum()),
-            "main_share_median": round(float(R.main_share.median()), 3),
-            "rule": "misma fecha de nacimiento y similitud de nombre >= umbral; tm_id único"}
+    summ = {
+        "players_in_pool": len(R),
+        "linked": int(R.linked.sum()),
+        "linked_share": round(R.linked.mean(), 4),
+        "position_from_lineups": int((R.position_source == "lineups_2017_18").sum()),
+        "position_from_snapshot": int((R.position_source == "registro_snapshot").sum()),
+        "main_share_median": round(float(R.main_share.median()), 3),
+        "rule": "misma fecha de nacimiento y similitud de nombre >= umbral; tm_id único",
+    }
     (path("diagnostics") / "linkage_summary.json").write_text(json.dumps(summ, indent=2))
     print(json.dumps(summ, indent=2))
     print(R.fine_group.value_counts(dropna=False).to_string())

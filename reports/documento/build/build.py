@@ -10,6 +10,7 @@ from docx.oxml import OxmlElement
 from docx.shared import Pt, Emu, Twips
 
 from pathlib import Path
+
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from content import C, TITLE
@@ -23,19 +24,23 @@ for el in list(body):
 
 TOKEN = re.compile(r"(\*\*.+?\*\*|\*.+?\*)")
 
+
 def add_runs(par, text, size=None):
     for part in TOKEN.split(text):
         if not part:
             continue
         if part.startswith("**"):
-            r = par.add_run(part[2:-2]); r.bold = True
+            r = par.add_run(part[2:-2])
+            r.bold = True
         elif part.startswith("*"):
-            r = par.add_run(part[1:-1]); r.italic = True
+            r = par.add_run(part[1:-1])
+            r.italic = True
         else:
             r = par.add_run(part)
         if size:
             r.font.size = Pt(size)
     return par
+
 
 def para(text, style="Normal", align=None, size=None):
     par = doc.add_paragraph(style=style)
@@ -43,6 +48,7 @@ def para(text, style="Normal", align=None, size=None):
     if align is not None:
         par.alignment = align
     return par
+
 
 # numeración simple para objetivos (sin depender de definiciones de numeración del original)
 def numbered(items):
@@ -52,16 +58,19 @@ def numbered(items):
         par.paragraph_format.first_line_indent = Emu(-274320)
         add_runs(par, f"OE{i}.\t{t}")
 
+
 def set_cell_border(cell, **kw):
     tcPr = cell._tc.get_or_add_tcPr()
     borders = tcPr.find(qn("w:tcBorders"))
     if borders is None:
-        borders = OxmlElement("w:tcBorders"); tcPr.append(borders)
+        borders = OxmlElement("w:tcBorders")
+        tcPr.append(borders)
     for edge, val in kw.items():
         el = OxmlElement(f"w:{edge}")
         for k, v in val.items():
             el.set(qn(f"w:{k}"), str(v))
         borders.append(el)
+
 
 def set_landscape(section, landscape):
     w, h = section.page_width, section.page_height
@@ -69,13 +78,17 @@ def set_landscape(section, landscape):
         section.page_width, section.page_height = h, w
     section.orientation = WD_ORIENT.LANDSCAPE if landscape else WD_ORIENT.PORTRAIT
 
+
 def add_table(spec):
     if spec["landscape"]:
-        sec = doc.add_section(WD_SECTION.NEW_PAGE); set_landscape(sec, True)
+        sec = doc.add_section(WD_SECTION.NEW_PAGE)
+        set_landscape(sec, True)
     cap = doc.add_paragraph(style="Normal")
     m = re.match(r"(Tabla [A-Z]?\d+\.)\s*(.*)", spec["caption"])
-    r = cap.add_run(m.group(1) + " "); r.bold = True
-    r = cap.add_run(m.group(2)); r.italic = True
+    r = cap.add_run(m.group(1) + " ")
+    r.bold = True
+    r = cap.add_run(m.group(2))
+    r.italic = True
     cap.paragraph_format.keep_with_next = True
     headers, rows, widths, fs = spec["headers"], spec["rows"], spec["widths"], spec["font"]
     t = doc.add_table(rows=1 + len(rows), cols=len(headers))
@@ -83,7 +96,9 @@ def add_table(spec):
     t.autofit = False
     # bordes horizontales tipo APA: superior, bajo encabezado e inferior; líneas finas entre filas
     tblPr = t._tbl.tblPr
-    lay = OxmlElement("w:tblLayout"); lay.set(qn("w:type"), "fixed"); tblPr.append(lay)
+    lay = OxmlElement("w:tblLayout")
+    lay.set(qn("w:type"), "fixed")
+    tblPr.append(lay)
     for i, row in enumerate([headers] + rows):
         for j, val in enumerate(row):
             cell = t.cell(i, j)
@@ -92,7 +107,8 @@ def add_table(spec):
             cp.paragraph_format.space_after = Pt(1)
             cp.paragraph_format.space_before = Pt(1)
             cp.paragraph_format.line_spacing = 1.0
-            run = cp.add_run(str(val)); run.font.size = Pt(fs)
+            run = cp.add_run(str(val))
+            run.font.size = Pt(fs)
             if i == 0:
                 run.bold = True
             b = {}
@@ -106,19 +122,26 @@ def add_table(spec):
             set_cell_border(cell, **b)
         if i == 0:
             trPr = t.rows[0]._tr.get_or_add_trPr()
-            h = OxmlElement("w:tblHeader"); h.set(qn("w:val"), "true"); trPr.append(h)
+            h = OxmlElement("w:tblHeader")
+            h.set(qn("w:val"), "true")
+            trPr.append(h)
     # anchos de columna en la grilla
     grid = t._tbl.tblGrid
     for j, gc in enumerate(grid.findall(qn("w:gridCol"))):
         gc.set(qn("w:w"), str(widths[j]))
     if spec.get("note"):
         n = doc.add_paragraph(style="Normal")
-        r = n.add_run("Nota. "); r.italic = True; r.font.size = Pt(9)
-        r = n.add_run(spec["note"]); r.font.size = Pt(9)
+        r = n.add_run("Nota. ")
+        r.italic = True
+        r.font.size = Pt(9)
+        r = n.add_run(spec["note"])
+        r.font.size = Pt(9)
     else:
         doc.add_paragraph(style="Normal").paragraph_format.space_after = Pt(2)
     if spec["landscape"]:
-        sec = doc.add_section(WD_SECTION.NEW_PAGE); set_landscape(sec, False)
+        sec = doc.add_section(WD_SECTION.NEW_PAGE)
+        set_landscape(sec, False)
+
 
 # portada
 doc.add_paragraph(TITLE, style="Title")
@@ -148,11 +171,14 @@ for kind, val in C:
         par.paragraph_format.first_line_indent = Emu(-274320)
     elif kind == "image":
         from docx.shared import Inches
+
         img = HERE.parents[2] / val["path"]
         doc.add_paragraph(style="Normal").add_run().add_picture(str(img), width=Inches(val.get("width", 6.5)))
         cap = doc.add_paragraph(style="Normal")
-        r = cap.add_run(val["caption"].split(".")[0] + ". "); r.bold = True
-        r = cap.add_run(".".join(val["caption"].split(".")[1:]).strip()); r.italic = True
+        r = cap.add_run(val["caption"].split(".")[0] + ". ")
+        r.bold = True
+        r = cap.add_run(".".join(val["caption"].split(".")[1:]).strip())
+        r.italic = True
     elif kind == "pagebreak":
         doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
 

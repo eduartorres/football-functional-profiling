@@ -11,6 +11,7 @@ descriptivo completo (vol_*, clr_*, loc_* estandarizados con parámetros de h1).
 
 Salida: data/processed/evaluation/replacement_cases.csv y replacement_summary.json
 """
+
 from __future__ import annotations
 
 import json
@@ -29,6 +30,7 @@ TOP_SHARE = 0.10
 
 
 def cases(pool: pd.DataFrame, seed: int) -> pd.DataFrame:
+    """Casos de reemplazo: jugadores transferidos en el verano de 2018, muestreados por posición fina."""
     con = duckdb.connect(str(path("transfermarkt_db")), read_only=True)
     t = con.execute("""SELECT player_id tm_id, min(transfer_date) transfer_date, any_value(from_club_name) from_club,
                               any_value(to_club_name) to_club, max(transfer_fee) fee
@@ -41,7 +43,9 @@ def cases(pool: pd.DataFrame, seed: int) -> pd.DataFrame:
     n_by = (share * N_CASES).round().astype(int).clip(lower=1)
     while n_by.sum() > N_CASES:
         n_by[n_by.idxmax()] -= 1
-    parts = [g.sample(min(len(g), n_by[k]), random_state=seed) for k, g in c.groupby("fine_group") if k in n_by]
+    parts = [
+        g.sample(min(len(g), n_by[k]), random_state=seed) for k, g in c.groupby("fine_group") if k in n_by
+    ]
     return pd.concat(parts).reset_index(drop=True)
 
 
@@ -64,7 +68,9 @@ def main(space_variant: str = "pca") -> None:
     cs = cases(pool1, seed)
     rows = []
     for c in cs.itertuples():
-        i = int(np.where((pool1.player_id == c.player_id) & (pool1.competition_file == c.competition_file))[0][0])
+        i = int(
+            np.where((pool1.player_id == c.player_id) & (pool1.competition_file == c.competition_file))[0][0]
+        )
         cand = (pool1.main_team_id != pool1.main_team_id[i]).to_numpy()
         cand[i] = False
         # pertinencia en h2
@@ -72,39 +78,63 @@ def main(space_variant: str = "pca") -> None:
         thr = np.quantile(dd[cand], TOP_SHARE)
         pertinent = cand & (dd <= thr)
         # lista funcional
-        df = np.linalg.norm(F - F[i], axis=1); df[~cand] = np.inf
+        df = np.linalg.norm(F - F[i], axis=1)
+        df[~cand] = np.inf
         lf = np.argsort(df)[:L]
         # lista base: misma posición fina
         same = cand & (pool1.fine_group == pool1.fine_group[i]).to_numpy()
-        db = np.linalg.norm(Bs - Bs[i], axis=1); db[~same] = np.inf
+        db = np.linalg.norm(Bs - Bs[i], axis=1)
+        db[~same] = np.inf
         lb = [j for j in np.argsort(db)[:L] if np.isfinite(db[j])]
         new = set(lf) - set(lb)
-        rows.append({"player_id": c.player_id, "short_name": c.short_name, "fine_group": c.fine_group,
-                     "to_club": c.to_club, "list_size_baseline": len(lb),
-                     "pertinent_share_functional": float(pertinent[lf].mean()),
-                     "pertinent_share_baseline": float(pertinent[lb].mean()) if lb else np.nan,
-                     "new_pertinent": int(sum(pertinent[j] for j in new)),
-                     "overlap": len(set(lf) & set(lb)),
-                     "functional_other_position_share": float((pool1.fine_group.to_numpy()[lf] != c.fine_group).mean())})
+        rows.append(
+            {
+                "player_id": c.player_id,
+                "short_name": c.short_name,
+                "fine_group": c.fine_group,
+                "to_club": c.to_club,
+                "list_size_baseline": len(lb),
+                "pertinent_share_functional": float(pertinent[lf].mean()),
+                "pertinent_share_baseline": float(pertinent[lb].mean()) if lb else np.nan,
+                "new_pertinent": int(sum(pertinent[j] for j in new)),
+                "overlap": len(set(lf) & set(lb)),
+                "functional_other_position_share": float(
+                    (pool1.fine_group.to_numpy()[lf] != c.fine_group).mean()
+                ),
+            }
+        )
     R = pd.DataFrame(rows)
     H = cfg["hypotheses"]
-    summ = {"variant": space_variant, "n_cases": len(R), "list_size": L, "pool": len(pool1),
-            "pertinent_share_functional_mean": float(R.pertinent_share_functional.mean()),
-            "pertinent_share_baseline_mean": float(R.pertinent_share_baseline.mean()),
-            "new_pertinent_mean": float(R.new_pertinent.mean()), "new_pertinent_median": float(R.new_pertinent.median()),
-            "overlap_mean": float(R.overlap.mean()),
-            "functional_other_position_share_mean": float(R.functional_other_position_share.mean()),
-            "chance_pertinent_share": TOP_SHARE,
-            "wilcoxon_p": float(wilcoxon(R.pertinent_share_functional, R.pertinent_share_baseline).pvalue)}
-    summ["rejected"] = bool(summ["pertinent_share_functional_mean"] < summ["pertinent_share_baseline_mean"]
-                            or summ["new_pertinent_mean"] < H["h4_min_new_relevant"])
+    summ = {
+        "variant": space_variant,
+        "n_cases": len(R),
+        "list_size": L,
+        "pool": len(pool1),
+        "pertinent_share_functional_mean": float(R.pertinent_share_functional.mean()),
+        "pertinent_share_baseline_mean": float(R.pertinent_share_baseline.mean()),
+        "new_pertinent_mean": float(R.new_pertinent.mean()),
+        "new_pertinent_median": float(R.new_pertinent.median()),
+        "overlap_mean": float(R.overlap.mean()),
+        "functional_other_position_share_mean": float(R.functional_other_position_share.mean()),
+        "chance_pertinent_share": TOP_SHARE,
+        "wilcoxon_p": float(wilcoxon(R.pertinent_share_functional, R.pertinent_share_baseline).pvalue),
+    }
+    summ["rejected"] = bool(
+        summ["pertinent_share_functional_mean"] < summ["pertinent_share_baseline_mean"]
+        or summ["new_pertinent_mean"] < H["h4_min_new_relevant"]
+    )
     suffix = "" if space_variant == "pca" else f"_{space_variant}"
     R.to_csv(path("evaluation") / f"replacement_cases{suffix}.csv", index=False)
     (path("evaluation") / f"replacement_summary{suffix}.json").write_text(json.dumps(summ, indent=2))
     print(json.dumps(summ, indent=2))
-    print(R.groupby("fine_group")[["pertinent_share_functional", "pertinent_share_baseline", "new_pertinent"]].mean().round(2))
+    print(
+        R.groupby("fine_group")[["pertinent_share_functional", "pertinent_share_baseline", "new_pertinent"]]
+        .mean()
+        .round(2)
+    )
 
 
 if __name__ == "__main__":
     import sys
+
     main(sys.argv[1] if len(sys.argv) > 1 else "pca")

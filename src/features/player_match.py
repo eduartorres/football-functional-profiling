@@ -14,6 +14,7 @@ suplentes en el minuto del cambio, y salen en el minuto del cambio, de la roja o
 
 Posesión. Aproximada como la proporción de pases del equipo en el partido (config: possession.method).
 """
+
 from __future__ import annotations
 
 import json
@@ -46,6 +47,7 @@ def _int(v):
 
 
 def lineups(con) -> pd.DataFrame:
+    """Minutos por jugador y partido a partir de alineaciones, sustituciones y expulsiones."""
     dur = con.execute(f"""
         SELECT match_id, sum(last_sec) / 60.0 AS match_minutes FROM (
             SELECT match_id, match_period, max(event_sec) last_sec FROM read_parquet('{EV}')
@@ -62,7 +64,10 @@ def lineups(con) -> pd.DataFrame:
                 subs = [] if isinstance(subs, str) else subs
                 s_in = {s["playerIn"]: s["minute"] for s in subs}
                 s_out = {s["playerOut"]: s["minute"] for s in subs}
-                for status, plist in (("starter", form.get("lineup") or []), ("bench", form.get("bench") or [])):
+                for status, plist in (
+                    ("starter", form.get("lineup") or []),
+                    ("bench", form.get("bench") or []),
+                ):
                     for p in plist:
                         pid = p["playerId"]
                         if status == "bench" and pid not in s_in:
@@ -72,15 +77,27 @@ def lineups(con) -> pd.DataFrame:
                         red = _int(p.get("redCards"))
                         if red is not None:
                             t_out = min(t_out, float(red))
-                        rows.append({"match_id": mid, "competition_file": comp, "season_id": m["seasonId"],
-                                     "gameweek": m.get("gameweek"), "date_utc": m["dateutc"],
-                                     "team_id": team["teamId"], "player_id": pid, "started": status == "starter",
-                                     "minute_in": t_in, "minute_out": t_out,
-                                     "minutes": max(0.0, min(t_out, end) - t_in), "match_minutes": end})
+                        rows.append(
+                            {
+                                "match_id": mid,
+                                "competition_file": comp,
+                                "season_id": m["seasonId"],
+                                "gameweek": m.get("gameweek"),
+                                "date_utc": m["dateutc"],
+                                "team_id": team["teamId"],
+                                "player_id": pid,
+                                "started": status == "starter",
+                                "minute_in": t_in,
+                                "minute_out": t_out,
+                                "minutes": max(0.0, min(t_out, end) - t_in),
+                                "match_minutes": end,
+                            }
+                        )
     return pd.DataFrame(rows)
 
 
 def team_possession(con) -> pd.DataFrame:
+    """Posesión aproximada de cada equipo en cada partido: su proporción de pases."""
     tm = con.execute(f"""
         WITH p AS (SELECT match_id, team_id, count(*) n FROM read_parquet('{EV}')
                    WHERE event_name = 'Pass' GROUP BY 1, 2)
@@ -91,9 +108,11 @@ def team_possession(con) -> pd.DataFrame:
 
 def action_counts(con, categories: dict) -> pd.DataFrame:
     # indicadores de la versión de diagnóstico (mismas definiciones de la Tabla 3 del documento)
+    """Conteos por indicador y por categoría de composición, y sumas espaciales, por jugador y partido."""
     cat_sql = ",\n".join(
         f"count(*) FILTER (sub_event_name IN ({', '.join(repr(s) for s in subs)})) AS cat_{name}"
-        for name, subs in categories.items())
+        for name, subs in categories.items()
+    )
     return con.execute(f"""
         SELECT match_id, player_id,
             count(*) AS n_actions,
@@ -123,13 +142,24 @@ def action_counts(con, categories: dict) -> pd.DataFrame:
 
 
 def players_table() -> pd.DataFrame:
+    """Atributos de los jugadores con nombres decodificados."""
     players = json.loads(next((ROOT / "data/raw/wyscout").glob("players__*/players.json")).read_text())
-    return pd.DataFrame([{
-        "player_id": p["wyId"], "short_name": fix_escapes(p["shortName"]),
-        "first_name": fix_escapes(p["firstName"]), "last_name": fix_escapes(p["lastName"]),
-        "birth_date": p["birthDate"], "role": p["role"]["code2"], "foot": p.get("foot"),
-        "height": p.get("height"), "current_team_id": _int(p.get("currentTeamId")),
-    } for p in players])
+    return pd.DataFrame(
+        [
+            {
+                "player_id": p["wyId"],
+                "short_name": fix_escapes(p["shortName"]),
+                "first_name": fix_escapes(p["firstName"]),
+                "last_name": fix_escapes(p["lastName"]),
+                "birth_date": p["birthDate"],
+                "role": p["role"]["code2"],
+                "foot": p.get("foot"),
+                "height": p.get("height"),
+                "current_team_id": _int(p.get("currentTeamId")),
+            }
+            for p in players
+        ]
+    )
 
 
 def main() -> None:
@@ -143,8 +173,10 @@ def main() -> None:
     pm = pm.merge(tm[["match_id", "team_id", "possession_share"]], on=["match_id", "team_id"], how="left")
     # mitad de temporada por jornada (solo ligas); torneos quedan como 'full'
     split = cfg["windows"]["half_split_gameweek"]
-    pm["half"] = [("h1" if gw <= split[c] else "h2") if c in split else "full"
-                  for c, gw in zip(pm.competition_file, pm.gameweek)]
+    pm["half"] = [
+        ("h1" if gw <= split[c] else "h2") if c in split else "full"
+        for c, gw in zip(pm.competition_file, pm.gameweek)
+    ]
     count_cols = ac.columns.drop(["match_id", "player_id"])
     pm[count_cols] = pm[count_cols].fillna(0).astype("int64")
     pl = players_table()
@@ -152,7 +184,10 @@ def main() -> None:
     pm.to_parquet(OUT / "player_match.parquet", index=False)
     tm.to_parquet(OUT / "team_match.parquet", index=False)
     pl.to_parquet(OUT / "players.parquet", index=False)
-    ratio = (pm.groupby(["match_id", "team_id"]).minutes.sum() / pm.groupby(["match_id", "team_id"]).match_minutes.first())
+    ratio = (
+        pm.groupby(["match_id", "team_id"]).minutes.sum()
+        / pm.groupby(["match_id", "team_id"]).match_minutes.first()
+    )
     print(f"player_match: {len(pm):,} filas | jugadores en cancha por equipo-partido: {ratio.mean():.2f}")
 
 

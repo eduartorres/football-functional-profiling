@@ -1,4 +1,5 @@
 """Acceso a la configuración central (config/project.yaml) y a las rutas del proyecto."""
+
 from __future__ import annotations
 
 from functools import lru_cache

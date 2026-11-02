@@ -7,6 +7,7 @@ y los 30 jugadores más similares de otros clubes en el espacio ponderado comple
 
 Salida: reports/explorer/explorer_data.json
 """
+
 from __future__ import annotations
 
 import json
@@ -20,10 +21,24 @@ from src.features.player_match import fix_escapes
 from src.models.representation import Transformer
 
 PROFILE_NAMES = {1: "Construcción y defensa posicional", 2: "Carril lateral", 3: "Ataque y finalización"}
-POSITION_NAMES = {"defensa_central": "Defensa central", "lateral": "Lateral", "pivote": "Pivote",
-                  "mediocentro": "Mediocentro", "mediapunta": "Mediapunta", "volante_banda": "Volante de banda",
-                  "extremo": "Extremo", "segundo_delantero": "Segundo delantero", "delantero_centro": "Delantero centro"}
-LEAGUES = {"England": "Premier League", "France": "Ligue 1", "Germany": "Bundesliga", "Italy": "Serie A", "Spain": "La Liga"}
+POSITION_NAMES = {
+    "defensa_central": "Defensa central",
+    "lateral": "Lateral",
+    "pivote": "Pivote",
+    "mediocentro": "Mediocentro",
+    "mediapunta": "Mediapunta",
+    "volante_banda": "Volante de banda",
+    "extremo": "Extremo",
+    "segundo_delantero": "Segundo delantero",
+    "delantero_centro": "Delantero centro",
+}
+LEAGUES = {
+    "England": "Premier League",
+    "France": "Ligue 1",
+    "Germany": "Bundesliga",
+    "Italy": "Serie A",
+    "Spain": "La Liga",
+}
 # indicadores mostrados con percentil, agrupados por dimensión
 INDICATORS = [
     ("Distribución", "p90_passes", "Pases por 90"),
@@ -41,21 +56,39 @@ INDICATORS = [
     ("Localización", "loc_depth", "Profundidad media"),
     ("Localización", "loc_width", "Distancia al eje central"),
 ]
-COMP = ["pase_simple", "pase_largo", "pase_cabeza", "pase_filtrado", "centro", "remate", "conduccion", "toque",
-        "despeje", "duelo_ofensivo", "duelo_defensivo", "duelo_aereo", "balon_dividido"]
+COMP = [
+    "pase_simple",
+    "pase_largo",
+    "pase_cabeza",
+    "pase_filtrado",
+    "centro",
+    "remate",
+    "conduccion",
+    "toque",
+    "despeje",
+    "duelo_ofensivo",
+    "duelo_defensivo",
+    "duelo_aereo",
+    "balon_dividido",
+]
 K = 30  # el explorador muestra 10 tras aplicar filtros
 
 
 def main() -> None:
     rep, _ = selected()
     d = window("full")
-    prof = pd.read_parquet(path("models") / "profiles_full_assignments.parquet")[["player_id", "competition_file", "profile"]]
+    prof = pd.read_parquet(path("models") / "profiles_full_assignments.parquet")[
+        ["player_id", "competition_file", "profile"]
+    ]
     d = d.merge(prof, on=["player_id", "competition_file"], how="left").reset_index(drop=True)
-    teams = {t["wyId"]: fix_escapes(t["name"]) for t in json.loads(next((ROOT / "data/raw/wyscout").glob("teams__*/teams.json")).read_text())}
+    teams = {
+        t["wyId"]: fix_escapes(t["name"])
+        for t in json.loads(next((ROOT / "data/raw/wyscout").glob("teams__*/teams.json")).read_text())
+    }
 
-    Tfull = Transformer(rep).fit(d, use_pca=False)       # consulta de similitud (D27)
+    Tfull = Transformer(rep).fit(d, use_pca=False)  # consulta de similitud (D27)
     Z = Tfull.weighted(d)
-    Tmap = Transformer(rep).fit(d)                        # plano de visualización (PCA)
+    Tmap = Transformer(rep).fit(d)  # plano de visualización (PCA)
     P = Tmap.transform(d)[:, :2]
 
     D = np.sqrt(((Z[:, None, :] - Z[None, :, :]) ** 2).sum(-1))
@@ -67,21 +100,37 @@ def main() -> None:
     players = []
     for i, r in d.iterrows():
         nn = np.argsort(D[i])[:K]
-        players.append({
-            "id": int(i), "name": r.short_name, "league": LEAGUES[r.competition_file],
-            "team": teams.get(int(r.main_team_id), str(r.main_team_id)), "minutes": int(round(r.minutes)),
-            "matches": int(r.matches), "position": POSITION_NAMES[r.fine_group], "profile": int(r.profile),
-            "x": round(float(P[i, 0]), 3), "y": round(float(P[i, 1]), 3),
-            "pct": [int(pct[c][i]) for _, c, _ in INDICATORS],
-            "val": [round(float(r[c]), 2) for _, c, _ in INDICATORS],
-            "comp": [round(float(r[f"comp_{c}"]), 4) for c in COMP],
-            "sim": [[int(j), round(float(np.exp(-D[i, j] / scale)) * 100)] for j in nn],
-        })
-    out = {"profiles": PROFILE_NAMES, "indicators": [[g, l] for g, _, l in INDICATORS],
-           "composition": COMP, "players": players,
-           "meta": {"n": len(players), "season": "2017/18", "source": "Wyscout (Pappalardo et al., 2019)",
-                    "similarity": "espacio ponderado completo de composición y localización; candidatos de otros clubes",
-                    "min_minutes": 900}}
+        players.append(
+            {
+                "id": int(i),
+                "name": r.short_name,
+                "league": LEAGUES[r.competition_file],
+                "team": teams.get(int(r.main_team_id), str(r.main_team_id)),
+                "minutes": int(round(r.minutes)),
+                "matches": int(r.matches),
+                "position": POSITION_NAMES[r.fine_group],
+                "profile": int(r.profile),
+                "x": round(float(P[i, 0]), 3),
+                "y": round(float(P[i, 1]), 3),
+                "pct": [int(pct[c][i]) for _, c, _ in INDICATORS],
+                "val": [round(float(r[c]), 2) for _, c, _ in INDICATORS],
+                "comp": [round(float(r[f"comp_{c}"]), 4) for c in COMP],
+                "sim": [[int(j), round(float(np.exp(-D[i, j] / scale)) * 100)] for j in nn],
+            }
+        )
+    out = {
+        "profiles": PROFILE_NAMES,
+        "indicators": [[group, label] for group, _, label in INDICATORS],
+        "composition": COMP,
+        "players": players,
+        "meta": {
+            "n": len(players),
+            "season": "2017/18",
+            "source": "Wyscout (Pappalardo et al., 2019)",
+            "similarity": "espacio ponderado completo de composición y localización; candidatos de otros clubes",
+            "min_minutes": 900,
+        },
+    }
     f = ROOT / "reports" / "explorer" / "explorer_data.json"
     f.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")))
     print(f.relative_to(ROOT), f"{f.stat().st_size / 1e3:.0f} KB", len(players))

@@ -10,6 +10,7 @@ Evaluación de la solución seleccionada (protocolo, secciones 4 y 7; capítulo 
 
 Salida: data/processed/evaluation/evaluation_core.json y archivos auxiliares.
 """
+
 from __future__ import annotations
 
 import json
@@ -26,6 +27,7 @@ from src.models.representation import Transformer
 
 
 def knn_other_position(X, groups, k):
+    """Proporción de los k vecinos más cercanos que pertenecen a otra posición fina."""
     D = ((X[:, None, :] - X[None, :, :]) ** 2).sum(-1)
     np.fill_diagonal(D, np.inf)
     nn = np.argsort(D, axis=1)[:, :k]
@@ -58,7 +60,8 @@ def main() -> None:
     res["reserve"] = {
         "silhouette_h2_assigned": float(silhouette_score(X2, lab2)),
         "ari_assigned_vs_refit_h2": float(adjusted_rand_score(lab2, lab2_refit)),
-        "cluster_sizes_h1": np.bincount(lab1).tolist(), "cluster_sizes_h2": np.bincount(lab2).tolist(),
+        "cluster_sizes_h1": np.bincount(lab1).tolist(),
+        "cluster_sizes_h2": np.bincount(lab2).tolist(),
         "nmi_team_h2": float(normalized_mutual_info_score(h2.main_team_id, lab2)),
         "cramers_v_team_h2": cl.cramers_v(lab2, h2.main_team_id.to_numpy()),
     }
@@ -66,29 +69,52 @@ def main() -> None:
     # 2. H1
     nmi1 = float(normalized_mutual_info_score(h1.fine_group, lab1))
     nmi2 = float(normalized_mutual_info_score(h2.fine_group, lab2))
-    res["H1"] = {"nmi_fine_group_h1": nmi1, "nmi_fine_group_h2": nmi2,
-                 "threshold": H["h1_max_nmi_fine_position"], "rejected": bool(nmi2 >= H["h1_max_nmi_fine_position"])}
+    res["H1"] = {
+        "nmi_fine_group_h1": nmi1,
+        "nmi_fine_group_h2": nmi2,
+        "threshold": H["h1_max_nmi_fine_position"],
+        "rejected": bool(nmi2 >= H["h1_max_nmi_fine_position"]),
+    }
 
     # 3. H2: vecinos y autoidentificación
     k = H["h2_neighbors_k"]
     both = h1.merge(h2[["player_id", "competition_file"]], on=["player_id", "competition_file"])
-    a = h1.set_index(["player_id", "competition_file"]).loc[list(zip(both.player_id, both.competition_file))].reset_index()
-    b = h2.set_index(["player_id", "competition_file"]).loc[list(zip(both.player_id, both.competition_file))].reset_index()
+    a = (
+        h1.set_index(["player_id", "competition_file"])
+        .loc[list(zip(both.player_id, both.competition_file))]
+        .reset_index()
+    )
+    b = (
+        h2.set_index(["player_id", "competition_file"])
+        .loc[list(zip(both.player_id, both.competition_file))]
+        .reset_index()
+    )
     base = baseline_space(h1)
-    other = {"functional": knn_other_position(X2, h2.fine_group.to_numpy(), k),
-             "baseline_p90": knn_other_position(base.transform(h2), h2.fine_group.to_numpy(), k)}
-    si = {"functional": self_identification(T.transform(a), T.transform(b)),
-          "baseline_p90": self_identification(base.transform(a), base.transform(b))}
+    other = {
+        "functional": knn_other_position(X2, h2.fine_group.to_numpy(), k),
+        "baseline_p90": knn_other_position(base.transform(h2), h2.fine_group.to_numpy(), k),
+    }
+    si = {
+        "functional": self_identification(T.transform(a), T.transform(b)),
+        "baseline_p90": self_identification(base.transform(a), base.transform(b)),
+    }
     # sensibilidad: la otra representación
     alt = "volume" if rep == "composition" else "composition"
     Ta = transformer(alt)
     si[f"functional_{alt}"] = self_identification(Ta.transform(a), Ta.transform(b))
     other[f"functional_{alt}"] = knn_other_position(Ta.transform(h2), h2.fine_group.to_numpy(), k)
-    res["H2"] = {"share_neighbors_other_position": other, "self_identification": si,
-                 "thresholds": {"min_share": H["h2_min_share_neighbors_other_position"],
-                                "min_top1": H["h2_min_self_identification_top1"]},
-                 "rejected": bool(other["functional"] < H["h2_min_share_neighbors_other_position"]
-                                  or si["functional"]["top1"] < H["h2_min_self_identification_top1"])}
+    res["H2"] = {
+        "share_neighbors_other_position": other,
+        "self_identification": si,
+        "thresholds": {
+            "min_share": H["h2_min_share_neighbors_other_position"],
+            "min_top1": H["h2_min_self_identification_top1"],
+        },
+        "rejected": bool(
+            other["functional"] < H["h2_min_share_neighbors_other_position"]
+            or si["functional"]["top1"] < H["h2_min_self_identification_top1"]
+        ),
+    }
 
     # 4. H3: estabilidad bootstrap de la grilla confirmada + consistencia temporal por jugador
     g = pd.read_csv(path("models") / "grid_confirm.csv")
@@ -97,10 +123,15 @@ def main() -> None:
     lb = model.predict(T.transform(b))
     same = float((la == lb).mean())
     p = np.bincount(lab1, minlength=conf["k"]) / len(lab1)
-    res["H3"] = {"ari_bootstrap_mean": float(row.ari_mean), "jaccard_by_cluster": row.jaccard_by_cluster,
-                 "temporal_same_profile_share": same, "temporal_chance_share": float((p ** 2).sum()),
-                 "temporal_ari_players": float(adjusted_rand_score(la, lb)), "n_players_both_halves": len(a),
-                 "rejected": bool(row.ari_mean < H["h3_min_mean_ari"] or row.share_clusters_jaccard_ok <= 0.5)}
+    res["H3"] = {
+        "ari_bootstrap_mean": float(row.ari_mean),
+        "jaccard_by_cluster": row.jaccard_by_cluster,
+        "temporal_same_profile_share": same,
+        "temporal_chance_share": float((p**2).sum()),
+        "temporal_ari_players": float(adjusted_rand_score(la, lb)),
+        "n_players_both_halves": len(a),
+        "rejected": bool(row.ari_mean < H["h3_min_mean_ari"] or row.share_clusters_jaccard_ok <= 0.5),
+    }
     transitions = pd.crosstab(pd.Series(la, name="perfil_h1"), pd.Series(lb, name="perfil_h2"))
     transitions.to_csv(path("evaluation") / "temporal_transitions.csv")
 
@@ -113,8 +144,11 @@ def main() -> None:
         Tt = Transformer(rep, scaler=T.scaler, variance=T.variance).fit(full.iloc[tr])
         m, _ = fitted_model(rep, conf, Tt.transform(full.iloc[tr]))
         aris.append(adjusted_rand_score(lab_full[te], m.predict(Tt.transform(full.iloc[te]))))
-    res["generalization"] = {"ari_heldout_mean": float(np.mean(aris)), "ari_heldout_min": float(np.min(aris)),
-                             "folds": 5}
+    res["generalization"] = {
+        "ari_heldout_mean": float(np.mean(aris)),
+        "ari_heldout_min": float(np.min(aris)),
+        "folds": 5,
+    }
 
     out = path("evaluation") / "evaluation_core.json"
     out.write_text(json.dumps(res, indent=2, ensure_ascii=False))

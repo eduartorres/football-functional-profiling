@@ -9,6 +9,7 @@ Uso: python -m src.models.profiles [--window h1]
 Salidas en data/processed/models/: profiles_<window>_assignments.parquet, profiles_<window>_summary.csv,
 profiles_<window>_positions.csv, profiles_<window>_representatives.csv
 """
+
 from __future__ import annotations
 
 import argparse
@@ -22,11 +23,32 @@ from src.common.config import load_config, path
 from src.models import clustering as cl
 from src.models.representation import Transformer
 
-DESCRIBE = ["p90_passes", "vol_precision_pase", "p90_prog_passes", "p90_key_passes", "p90_crosses", "p90_carries",
-            "p90_dribbles_won", "p90_shots", "p90_box_actions", "p90_interceptions", "p90_def_duels",
-            "p90_clearances", "p90_air_duels", "comp_pase_simple", "comp_pase_largo", "comp_centro", "comp_remate",
-            "comp_toque", "comp_despeje", "comp_duelo_ofensivo", "comp_duelo_defensivo", "comp_duelo_aereo",
-            "loc_depth", "loc_width"]
+DESCRIBE = [
+    "p90_passes",
+    "vol_precision_pase",
+    "p90_prog_passes",
+    "p90_key_passes",
+    "p90_crosses",
+    "p90_carries",
+    "p90_dribbles_won",
+    "p90_shots",
+    "p90_box_actions",
+    "p90_interceptions",
+    "p90_def_duels",
+    "p90_clearances",
+    "p90_air_duels",
+    "comp_pase_simple",
+    "comp_pase_largo",
+    "comp_centro",
+    "comp_remate",
+    "comp_toque",
+    "comp_despeje",
+    "comp_duelo_ofensivo",
+    "comp_duelo_defensivo",
+    "comp_duelo_aereo",
+    "loc_depth",
+    "loc_width",
+]
 
 
 def main(window: str = "h1") -> None:
@@ -45,13 +67,25 @@ def main(window: str = "h1") -> None:
     # orden estable de perfiles: por profundidad media creciente
     order = d.groupby(labels).loc_depth.mean().sort_values().index
     remap = {old: new for new, old in enumerate(order, 1)}
-    d["profile"] = [remap[l] for l in labels]
+    d["profile"] = [remap[lab] for lab in labels]
     cent = np.vstack([X[labels == old].mean(axis=0) for old in order])
     d["dist_centroid"] = np.linalg.norm(X - cent[d.profile - 1], axis=1)
 
     out = path("models")
-    d[["player_id", "short_name", "competition_file", "main_team_id", "minutes", "fine_position", "fine_group",
-       "role", "profile", "dist_centroid"]].to_parquet(out / f"profiles_{window}_assignments.parquet", index=False)
+    d[
+        [
+            "player_id",
+            "short_name",
+            "competition_file",
+            "main_team_id",
+            "minutes",
+            "fine_position",
+            "fine_group",
+            "role",
+            "profile",
+            "dist_centroid",
+        ]
+    ].to_parquet(out / f"profiles_{window}_assignments.parquet", index=False)
     mu, sd = d[DESCRIBE].mean(), d[DESCRIBE].std()
     summ = d.groupby("profile")[DESCRIBE].mean()
     z = ((summ - mu) / sd).add_prefix("z_")
@@ -60,8 +94,11 @@ def main(window: str = "h1") -> None:
     summ.to_csv(out / f"profiles_{window}_summary.csv")
     pos = pd.crosstab(d.fine_group, d.profile)
     pos.to_csv(out / f"profiles_{window}_positions.csv")
-    reps = (d.sort_values("dist_centroid").groupby("profile").head(8)
-            [["profile", "short_name", "competition_file", "fine_position", "minutes", "dist_centroid"]])
+    reps = (
+        d.sort_values("dist_centroid")
+        .groupby("profile")
+        .head(8)[["profile", "short_name", "competition_file", "fine_position", "minutes", "dist_centroid"]]
+    )
     reps.to_csv(out / f"profiles_{window}_representatives.csv", index=False)
 
     pd.set_option("display.width", 220)

@@ -13,6 +13,7 @@ Bloques de variables
 
 Salida : data/processed/features/player_features_{full,h1,h2}.parquet
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -20,8 +21,17 @@ import pandas as pd
 
 from src.common.config import load_config, path
 
-ON_BALL = ["passes", "prog_passes", "final_third_entries", "key_passes", "crosses",
-           "carries", "shots", "box_actions", "dribbles_won"]
+ON_BALL = [
+    "passes",
+    "prog_passes",
+    "final_third_entries",
+    "key_passes",
+    "crosses",
+    "carries",
+    "shots",
+    "box_actions",
+    "dribbles_won",
+]
 DEFENSIVE = ["interceptions", "def_duels", "clearances"]
 NEUTRAL = ["air_duels"]
 RATIOS = {"precision_pase": ("passes_accurate", "passes")}
@@ -42,30 +52,58 @@ def multiplicative_replacement(counts: np.ndarray, half_count: float) -> np.ndar
 
 
 def clr(x: np.ndarray) -> np.ndarray:
+    """Transformación log-ratio centrada de composiciones sin ceros (Aitchison, 1982)."""
     lx = np.log(x)
     return lx - lx.mean(axis=1, keepdims=True)
 
 
 def aggregate(pm: pd.DataFrame, cfg: dict) -> pd.DataFrame:
+    """Agrega la tabla jugador-partido a jugador x competición y construye los bloques de variables."""
     p = pm.copy()
     p["own_min"] = p.minutes * p.possession_share
     p["opp_min"] = p.minutes * (1 - p.possession_share)
     keys = ["player_id", "competition_file"]
     cats = [c for c in p.columns if c.startswith("cat_")]
-    sums = ["minutes", "own_min", "opp_min", "n_actions", "passes_accurate", "duels", "duels_won",
-            "n_loc", "sum_x", "sum_x2", "sum_absy", "sum_y", "sum_y2"] + ON_BALL + DEFENSIVE + NEUTRAL + cats
+    sums = (
+        [
+            "minutes",
+            "own_min",
+            "opp_min",
+            "n_actions",
+            "passes_accurate",
+            "duels",
+            "duels_won",
+            "n_loc",
+            "sum_x",
+            "sum_x2",
+            "sum_absy",
+            "sum_y",
+            "sum_y2",
+        ]
+        + ON_BALL
+        + DEFENSIVE
+        + NEUTRAL
+        + cats
+    )
     sums = list(dict.fromkeys(sums))
     g = p.groupby(keys)
     a = g[sums].sum()
     a["matches"] = g.match_id.nunique()
     a["starts"] = g.started.sum()
     a["n_teams"] = g.team_id.nunique()
-    a["team_possession_mean"] = g.apply(lambda d: np.average(d.possession_share, weights=d.minutes)
-                                        if d.minutes.sum() > 0 else np.nan, include_groups=False)
+    a["team_possession_mean"] = g.apply(
+        lambda d: np.average(d.possession_share, weights=d.minutes) if d.minutes.sum() > 0 else np.nan,
+        include_groups=False,
+    )
     a = a.reset_index()
-    main_team = (p.groupby(keys + ["team_id"]).minutes.sum().reset_index()
-                 .sort_values("minutes").drop_duplicates(keys, keep="last")
-                 .rename(columns={"team_id": "main_team_id"})[keys + ["main_team_id"]])
+    main_team = (
+        p.groupby(keys + ["team_id"])
+        .minutes.sum()
+        .reset_index()
+        .sort_values("minutes")
+        .drop_duplicates(keys, keep="last")
+        .rename(columns={"team_id": "main_team_id"})[keys + ["main_team_id"]]
+    )
     a = a.merge(main_team, on=keys, how="left")
 
     ref = cfg["possession"]["reference_share"]
@@ -84,7 +122,7 @@ def aggregate(pm: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     # localización
     a["loc_depth"] = a.sum_x / a.n_loc
     a["loc_width"] = a.sum_absy / a.n_loc
-    a["loc_sd_x"] = np.sqrt(np.maximum(a.sum_x2 / a.n_loc - a.loc_depth ** 2, 0))
+    a["loc_sd_x"] = np.sqrt(np.maximum(a.sum_x2 / a.n_loc - a.loc_depth**2, 0))
     a["loc_sd_y"] = np.sqrt(np.maximum(a.sum_y2 / a.n_loc - (a.sum_y / a.n_loc) ** 2, 0))
 
     # composición en juego abierto
@@ -114,8 +152,21 @@ def main() -> None:
     for w, d in windows.items():
         a = aggregate(d, cfg)
         a = a.merge(pl[["player_id", "short_name", "role", "birth_date"]], on="player_id", how="left")
-        a = a.merge(pref[["player_id", "tm_id", "linked", "fine_position", "fine_group", "position_source",
-                          "main_share"]], on="player_id", how="left")
+        a = a.merge(
+            pref[
+                [
+                    "player_id",
+                    "tm_id",
+                    "linked",
+                    "fine_position",
+                    "fine_group",
+                    "position_source",
+                    "main_share",
+                ]
+            ],
+            on="player_id",
+            how="left",
+        )
         min_m = cfg["exposure"]["min_minutes"] if w == "full" else cfg["exposure"]["min_minutes_half"]
         a["is_core"] = a.competition_file.isin(cfg["core"]["competitions"])
         a["eligible"] = a.is_core & (a.role != "GK") & (a.minutes >= min_m) & a.fine_group.notna()

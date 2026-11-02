@@ -14,6 +14,7 @@ Medidas
 
 Salida: data/processed/evaluation/replication.json, replication_variables.csv
 """
+
 from __future__ import annotations
 
 import json
@@ -36,8 +37,11 @@ MIN_MINUTES = 270
 
 
 def represent(d: pd.DataFrame, hc: float) -> pd.DataFrame:
+    """Composición homologada (proporciones y clr) y bloque de localización de cada jugador."""
     C = d[[f"cat_{c}" for c in CATS]].to_numpy(float)
-    out = pd.DataFrame(clr(multiplicative_replacement(C, hc)), columns=[f"clr_{c}" for c in CATS], index=d.index)
+    out = pd.DataFrame(
+        clr(multiplicative_replacement(C, hc)), columns=[f"clr_{c}" for c in CATS], index=d.index
+    )
     comp = pd.DataFrame(C / C.sum(1, keepdims=True), columns=[f"comp_{c}" for c in CATS], index=d.index)
     return pd.concat([out, comp, d[LOC]], axis=1)
 
@@ -63,10 +67,12 @@ class Space:
 
 
 def tucker(a, b):
+    """Coeficiente de congruencia de Tucker entre dos vectores de cargas."""
     return float(a @ b / np.sqrt((a @ a) * (b @ b)))
 
 
 def knn_sets(X, k):
+    """Índices de los k vecinos más cercanos de cada fila."""
     D = ((X[:, None] - X[None]) ** 2).sum(-1)
     np.fill_diagonal(D, np.inf)
     return np.argsort(D, axis=1)[:, :k]
@@ -81,8 +87,10 @@ def main() -> None:
     w = pd.read_parquet(src / "wc2018_wyscout.parquet")
     s = pd.read_parquet(src / "wc2018_statsbomb.parquet")
     L = pd.read_parquet(src / "wc2018_player_link.parquet")
-    m = (L.merge(w, on="player_id").merge(s, on="sb_player_id", suffixes=("_w", "_s")))
-    m = m[(m.role != "GK") & (m.minutes_w >= MIN_MINUTES) & (m.minutes_s >= MIN_MINUTES)].reset_index(drop=True)
+    m = L.merge(w, on="player_id").merge(s, on="sb_player_id", suffixes=("_w", "_s"))
+    m = m[(m.role != "GK") & (m.minutes_w >= MIN_MINUTES) & (m.minutes_s >= MIN_MINUTES)].reset_index(
+        drop=True
+    )
     ok = np.ones(len(m), bool)
     for suf in ("_w", "_s"):
         C = m[[f"cat_{c}{suf}" for c in CATS]].to_numpy(float)
@@ -94,8 +102,14 @@ def main() -> None:
     # acuerdo por variable
     var_rows = []
     for c in [f"comp_{x}" for x in CATS] + LOC:
-        var_rows.append({"variable": c, "spearman": spearmanr(W[c], S[c]).statistic,
-                         "media_wyscout": W[c].mean(), "media_statsbomb": S[c].mean()})
+        var_rows.append(
+            {
+                "variable": c,
+                "spearman": spearmanr(W[c], S[c]).statistic,
+                "media_wyscout": W[c].mean(),
+                "media_statsbomb": S[c].mean(),
+            }
+        )
     V = pd.DataFrame(var_rows)
     V.to_csv(path("evaluation") / "replication_variables.csv", index=False)
 
@@ -124,13 +138,21 @@ def main() -> None:
     D = ((Xs_in_w[:, None] - Xw[None]) ** 2).sum(-1)
     rank = (D < np.diag(D)[:, None]).sum(1)
 
-    res = {"n_players": len(m), "min_minutes": MIN_MINUTES, "k": k,
-           "spearman_median": float(V.spearman.median()), "spearman_min": float(V.spearman.min()),
-           "pca_components": {"wyscout": int(sw.pca.n_components_), "statsbomb": int(ss.pca.n_components_)},
-           "tucker_congruence": congr,
-           "ari_own_clusterings": float(ari_own), "ari_statsbomb_projected_on_wyscout_model": float(ari_proj),
-           "knn_jaccard_mean": float(jac), "knn_jaccard_chance": float(jac_chance),
-           "cross_identification_top1": float((rank < 1).mean()), "cross_identification_top10": float((rank < 10).mean())}
+    res = {
+        "n_players": len(m),
+        "min_minutes": MIN_MINUTES,
+        "k": k,
+        "spearman_median": float(V.spearman.median()),
+        "spearman_min": float(V.spearman.min()),
+        "pca_components": {"wyscout": int(sw.pca.n_components_), "statsbomb": int(ss.pca.n_components_)},
+        "tucker_congruence": congr,
+        "ari_own_clusterings": float(ari_own),
+        "ari_statsbomb_projected_on_wyscout_model": float(ari_proj),
+        "knn_jaccard_mean": float(jac),
+        "knn_jaccard_chance": float(jac_chance),
+        "cross_identification_top1": float((rank < 1).mean()),
+        "cross_identification_top10": float((rank < 10).mean()),
+    }
     (path("evaluation") / "replication.json").write_text(json.dumps(res, indent=2))
     print(json.dumps(res, indent=2))
     print(V.round(3).to_string(index=False))

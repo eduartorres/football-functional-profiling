@@ -1,12 +1,18 @@
 """Ajuste uniforme de los algoritmos candidatos (protocolo, sección 5) y métricas de una solución."""
+
 from __future__ import annotations
 
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
 from sklearn.cluster import HDBSCAN, AgglomerativeClustering, KMeans
-from sklearn.metrics import (adjusted_rand_score, calinski_harabasz_score, davies_bouldin_score,
-                             normalized_mutual_info_score, silhouette_score)
+from sklearn.metrics import (
+    adjusted_rand_score,
+    calinski_harabasz_score,
+    davies_bouldin_score,
+    normalized_mutual_info_score,
+    silhouette_score,
+)
 from sklearn.mixture import GaussianMixture
 
 from src.models.archetypes import Archetypes
@@ -15,29 +21,40 @@ HDBSCAN_SIZES = [10, 20, 30, 50]
 
 
 def configs(k_range) -> list[dict]:
+    """Grilla de configuraciones del protocolo. En HDBSCAN, k es el tamaño mínimo de grupo."""
     out = []
     for k in range(k_range[0], k_range[1] + 1):
-        out += [{"algorithm": "kmeans", "k": k}, {"algorithm": "gmm_full", "k": k},
-                {"algorithm": "gmm_diag", "k": k}, {"algorithm": "ward", "k": k},
-                {"algorithm": "archetypes", "k": k}]
+        out += [
+            {"algorithm": "kmeans", "k": k},
+            {"algorithm": "gmm_full", "k": k},
+            {"algorithm": "gmm_diag", "k": k},
+            {"algorithm": "ward", "k": k},
+            {"algorithm": "archetypes", "k": k},
+        ]
     out += [{"algorithm": "hdbscan", "k": m} for m in HDBSCAN_SIZES]  # k = tamaño mínimo de grupo
     return out
 
 
 def fit(cfg: dict, X: np.ndarray, seed: int):
+    """Ajusta una configuración y devuelve el modelo y las etiquetas de las observaciones de entrenamiento."""
     a, k = cfg["algorithm"], cfg["k"]
     if a == "kmeans":
-        m = KMeans(n_clusters=k, n_init=10, random_state=seed).fit(X); return m, m.labels_
+        m = KMeans(n_clusters=k, n_init=10, random_state=seed).fit(X)
+        return m, m.labels_
     if a.startswith("gmm"):
-        m = GaussianMixture(n_components=k, covariance_type=a.split("_")[1], n_init=3,
-                            random_state=seed, reg_covar=1e-4).fit(X)
+        m = GaussianMixture(
+            n_components=k, covariance_type=a.split("_")[1], n_init=3, random_state=seed, reg_covar=1e-4
+        ).fit(X)
         return m, m.predict(X)
     if a == "ward":
-        m = AgglomerativeClustering(n_clusters=k, linkage="ward").fit(X); return m, m.labels_
+        m = AgglomerativeClustering(n_clusters=k, linkage="ward").fit(X)
+        return m, m.labels_
     if a == "archetypes":
-        m = Archetypes(k, random_state=seed).fit(X); return m, m.labels_
+        m = Archetypes(k, random_state=seed).fit(X)
+        return m, m.labels_
     if a == "hdbscan":
-        m = HDBSCAN(min_cluster_size=k, min_samples=5).fit(X); return m, m.labels_
+        m = HDBSCAN(min_cluster_size=k, min_samples=5).fit(X)
+        return m, m.labels_
     raise ValueError(a)
 
 
@@ -59,10 +76,14 @@ def cramers_v(a, b) -> float:
 
 
 def internal_metrics(X, labels, fine_group, team) -> dict:
+    """Separación, tamaño de grupos y asociación con la posición fina y con el equipo."""
     m = labels >= 0  # HDBSCAN marca ruido con -1
     lab = labels[m]
-    out = {"n_clusters": int(len(np.unique(lab))), "noise_share": float(1 - m.mean()),
-           "min_cluster_size": int(np.bincount(lab).min()) if len(lab) else 0}
+    out = {
+        "n_clusters": int(len(np.unique(lab))),
+        "noise_share": float(1 - m.mean()),
+        "min_cluster_size": int(np.bincount(lab).min()) if len(lab) else 0,
+    }
     if out["n_clusters"] >= 2:
         out["silhouette"] = float(silhouette_score(X[m], lab))
         out["davies_bouldin"] = float(davies_bouldin_score(X[m], lab))
@@ -97,7 +118,11 @@ def bootstrap_stability(cfg, X, labels, B, seed) -> dict:
                 best = max(best, len(C & D) / len(C | D))
             jac[c].append(best)
     jm = np.array([np.mean(v) if v else np.nan for v in jac.values()])
-    return {"ari_mean": float(np.mean(aris)), "ari_sd": float(np.std(aris)),
-            "jaccard_min": float(np.nanmin(jm)), "jaccard_median": float(np.nanmedian(jm)),
-            "share_clusters_jaccard_ok": float(np.nanmean(jm >= 0.60)),
-            "jaccard_by_cluster": ";".join(f"{c}:{v:.3f}" for c, v in zip(clusters, jm))}
+    return {
+        "ari_mean": float(np.mean(aris)),
+        "ari_sd": float(np.std(aris)),
+        "jaccard_min": float(np.nanmin(jm)),
+        "jaccard_median": float(np.nanmedian(jm)),
+        "share_clusters_jaccard_ok": float(np.nanmean(jm >= 0.60)),
+        "jaccard_by_cluster": ";".join(f"{c}:{v:.3f}" for c, v in zip(clusters, jm)),
+    }

@@ -1,3 +1,15 @@
+"""
+Adquisición del conjunto público de eventos de Wyscout (Pappalardo et al., 2019).
+
+Descarga los artículos de la colección de Figshare 4415000, versión 5 (DOI 10.6084/m9.figshare.c.4415000.v5),
+en data/raw/wyscout y registra procedencia, tamaños y SHA-256 en manifests/wyscout_manifest.json.
+Los ZIP se conservan tal como se descargaron; la extracción ocurre en src/harmonization.
+
+Uso, desde la raíz del repositorio:
+    python -m src.ingestion.ingest_wyscout --list
+    python -m src.ingestion.ingest_wyscout --download
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -11,10 +23,7 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-
-# ============================================================
-# CONFIGURACIÓN FIJA DE LA FUENTE
-# ============================================================
+# Configuración fija de la fuente
 
 API_BASE = "https://api.figshare.com/v2"
 
@@ -29,9 +38,8 @@ REQUEST_DELAY_SECONDS = 1.05
 CHUNK_SIZE = 1024 * 1024  # 1 MB
 
 
-# ============================================================
-# UTILIDADES
-# ============================================================
+# Utilidades
+
 
 def api_get(path: str):
     """Realiza una consulta GET a la API pública de Figshare."""
@@ -39,9 +47,7 @@ def api_get(path: str):
 
     request = Request(
         url,
-        headers={
-            "User-Agent": "football-functional-profiling/1.0"
-        },
+        headers={"User-Agent": "football-functional-profiling/1.0"},
     )
 
     try:
@@ -92,9 +98,8 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-# ============================================================
-# FIGSHARE
-# ============================================================
+# Figshare
+
 
 def get_collection():
     collection = api_get(f"/collections/{COLLECTION_ID}")
@@ -118,10 +123,7 @@ def get_collection_articles():
     page_size = 100
 
     while True:
-        batch = api_get(
-            f"/collections/{COLLECTION_ID}/articles"
-            f"?page={page}&page_size={page_size}"
-        )
+        batch = api_get(f"/collections/{COLLECTION_ID}/articles?page={page}&page_size={page_size}")
 
         articles.extend(batch)
 
@@ -144,9 +146,8 @@ def get_article_files(article_id: int):
     return api_get(f"/articles/{article_id}/files")
 
 
-# ============================================================
-# INVENTARIO
-# ============================================================
+# Inventario
+
 
 def build_inventory():
     collection = get_collection()
@@ -168,7 +169,6 @@ def build_inventory():
     total_files = 0
 
     for article_summary in articles:
-
         article_id = article_summary["id"]
         article = get_article_details(article_id)
         files = get_article_files(article_id)
@@ -188,7 +188,6 @@ def build_inventory():
         print(f"\n[{article_id}] {article.get('title')}")
 
         for file_info in files:
-
             file_size = int(file_info.get("size", 0))
 
             total_size += file_size
@@ -204,10 +203,7 @@ def build_inventory():
 
             article_record["files"].append(record)
 
-            print(
-                f"    {file_info.get('name'):<45} "
-                f"{human_size(file_size):>12}"
-            )
+            print(f"    {file_info.get('name'):<45} {human_size(file_size):>12}")
 
         print(f"    Total artículo: {human_size(article_size)}")
 
@@ -224,9 +220,8 @@ def build_inventory():
     return collection, inventory, total_size
 
 
-# ============================================================
-# DESCARGA
-# ============================================================
+# Descarga
+
 
 def download_file(url: str, destination: Path):
     """
@@ -236,15 +231,11 @@ def download_file(url: str, destination: Path):
 
     destination.parent.mkdir(parents=True, exist_ok=True)
 
-    temporary = destination.with_suffix(
-        destination.suffix + ".part"
-    )
+    temporary = destination.with_suffix(destination.suffix + ".part")
 
     request = Request(
         url,
-        headers={
-            "User-Agent": "football-functional-profiling/1.0"
-        },
+        headers={"User-Agent": "football-functional-profiling/1.0"},
     )
 
     with urlopen(request, timeout=120) as response:
@@ -264,9 +255,7 @@ def download_file(url: str, destination: Path):
                 if total:
                     percentage = downloaded / total * 100
                     print(
-                        f"\r        {percentage:6.2f}% "
-                        f"({human_size(downloaded)} / "
-                        f"{human_size(total)})",
+                        f"\r        {percentage:6.2f}% ({human_size(downloaded)} / {human_size(total)})",
                         end="",
                     )
 
@@ -282,13 +271,10 @@ def download_inventory(collection, inventory):
     downloaded_files = []
 
     for article in inventory:
-
         article_id = article["article_id"]
         article_slug = slugify(article["title"])
 
-        article_dir = RAW_DIR / (
-            f"{article_slug}__article_{article_id}"
-        )
+        article_dir = RAW_DIR / (f"{article_slug}__article_{article_id}")
 
         article_dir.mkdir(parents=True, exist_ok=True)
 
@@ -298,30 +284,22 @@ def download_inventory(collection, inventory):
         print("=" * 70)
 
         for file_info in article["files"]:
-
             filename = file_info["name"]
             expected_size = file_info["size"]
             url = file_info["download_url"]
 
             destination = article_dir / filename
 
-            print(f"\n→ {filename}")
+            print(f"\nDescargando {filename}")
 
             if destination.exists():
-
                 existing_size = destination.stat().st_size
 
                 if existing_size == expected_size:
-                    print(
-                        "    Ya existe con el tamaño esperado. "
-                        "No se vuelve a descargar."
-                    )
+                    print("    Ya existe con el tamaño esperado. No se vuelve a descargar.")
 
                 else:
-                    print(
-                        "    Existe pero el tamaño no coincide. "
-                        "Se descargará nuevamente."
-                    )
+                    print("    Existe pero el tamaño no coincide. Se descargará nuevamente.")
 
                     destination.unlink()
 
@@ -355,18 +333,12 @@ def download_inventory(collection, inventory):
         "collection_id": COLLECTION_ID,
         "collection_version": EXPECTED_VERSION,
         "collection_doi": EXPECTED_DOI,
-        "retrieved_at_utc": datetime.now(
-            timezone.utc
-        ).isoformat(),
+        "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
         "articles": inventory,
         "downloaded_files": downloaded_files,
     }
 
-    with MANIFEST_PATH.open(
-        "w",
-        encoding="utf-8"
-    ) as file:
-
+    with MANIFEST_PATH.open("w", encoding="utf-8") as file:
         json.dump(
             manifest,
             file,
@@ -384,17 +356,13 @@ def download_inventory(collection, inventory):
     print("=" * 70)
 
 
-# ============================================================
-# MAIN
-# ============================================================
+# Punto de entrada
+
 
 def main():
 
     parser = argparse.ArgumentParser(
-        description=(
-            "Ingestión reproducible del Wyscout Public Dataset "
-            "publicado en Figshare."
-        )
+        description=("Ingestión reproducible del Wyscout Public Dataset publicado en Figshare.")
     )
 
     parser.add_argument(

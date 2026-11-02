@@ -14,6 +14,7 @@ Uso:
 Salidas en data/processed/models/: transformer_<rep>.pkl, loadings_<rep>.csv, grid_screen.csv,
 grid_confirm.csv, selected_model.json
 """
+
 from __future__ import annotations
 
 import argparse
@@ -33,11 +34,13 @@ REPS = ["volume", "composition"]
 
 
 def development_data() -> pd.DataFrame:
+    """Jugadores elegibles de la partición de desarrollo (primera mitad de la temporada)."""
     d = pd.read_parquet(path("features") / "player_features_h1.parquet")
     return d[d.eligible].reset_index(drop=True)
 
 
 def get_space(rep: str, d: pd.DataFrame):
+    """Coordenadas de desarrollo en el espacio de componentes; el transformador se ajusta una vez y se guarda."""
     cfg = load_config()["modeling"]
     out = path("models")
     f = out / f"transformer_{rep}.pkl"
@@ -51,6 +54,7 @@ def get_space(rep: str, d: pd.DataFrame):
 
 
 def evaluate(rep, conf, X, fg, tm, B, seed):
+    """Métricas internas y estabilidad bootstrap de una configuración."""
     _, labels = cl.fit(conf, X, seed)
     row = {"representation": rep, **conf, **cl.internal_metrics(X, labels, fg, tm)}
     if row["n_clusters"] >= 2:
@@ -59,12 +63,18 @@ def evaluate(rep, conf, X, fg, tm, B, seed):
 
 
 def passes_filter(r: pd.Series, h: dict) -> bool:
-    return (r.ari_mean >= h["h3_min_mean_ari"] and r.share_clusters_jaccard_ok > 0.5
-            and r.nmi_team < h["max_nmi_team"] and r.cramers_v_team < h["max_nmi_team"]
-            and r.noise_share <= load_config()["modeling"]["max_noise_share"])
+    """Filtro de estabilidad, confusión por equipo y ruido previo a la regla de selección."""
+    return (
+        r.ari_mean >= h["h3_min_mean_ari"]
+        and r.share_clusters_jaccard_ok > 0.5
+        and r.nmi_team < h["max_nmi_team"]
+        and r.cramers_v_team < h["max_nmi_team"]
+        and r.noise_share <= load_config()["modeling"]["max_noise_share"]
+    )
 
 
 def run(stage: str, budget: float) -> None:
+    """Ejecuta la etapa screen o confirm hasta agotar el presupuesto de tiempo; los resultados se acumulan."""
     cfg = load_config()
     seed, m = cfg["project"]["seed"], cfg["modeling"]
     d = development_data()
@@ -90,22 +100,31 @@ def run(stage: str, budget: float) -> None:
         new = pd.DataFrame(rows)
         new.to_csv(out, mode="a", header=not out.exists(), index=False)
         for r in rows:
-            print(f"  {r['representation']:11s} {r['algorithm']:10s} k={r['k']:<3} ARI={r.get('ari_mean', np.nan):.3f} "
-                  f"sil={r.get('silhouette', np.nan):.3f} NMIpos={r.get('nmi_fine_group', np.nan):.3f}")
+            print(
+                f"  {r['representation']:11s} {r['algorithm']:10s} k={r['k']:<3} ARI={r.get('ari_mean', np.nan):.3f} "
+                f"sil={r.get('silhouette', np.nan):.3f} NMIpos={r.get('nmi_fine_group', np.nan):.3f}"
+            )
     print(f"{stage}: quedan {len(todo)}")
 
 
 def select() -> None:
+    """Aplica la regla de selección del protocolo sobre la grilla confirmada."""
     cfg = load_config()
     c = pd.read_csv(path("models") / "grid_confirm.csv")
     ok = c[c.apply(passes_filter, axis=1, h=cfg["hypotheses"])].copy()
     result = {"n_confirmed": len(c), "n_passing": len(ok)}
     if ok.empty:
-        result["decision"] = "sin grupos estables: se conserva la representación continua (protocolo, sección 5)"
+        result["decision"] = (
+            "sin grupos estables: se conserva la representación continua (protocolo, sección 5)"
+        )
     else:
         best = ok.sort_values(["silhouette", "davies_bouldin"], ascending=[False, True]).iloc[0]
-        result.update({"decision": "solución seleccionada", **{k: (v.item() if hasattr(v, "item") else v)
-                                                               for k, v in best.to_dict().items()}})
+        result.update(
+            {
+                "decision": "solución seleccionada",
+                **{k: (v.item() if hasattr(v, "item") else v) for k, v in best.to_dict().items()},
+            }
+        )
     (path("models") / "selected_model.json").write_text(json.dumps(result, indent=2, ensure_ascii=False))
     print(json.dumps(result, indent=2, ensure_ascii=False))
 

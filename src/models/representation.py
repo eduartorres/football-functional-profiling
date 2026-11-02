@@ -5,6 +5,7 @@ estandarización -> ponderación 1/sqrt(n_bloque) -> PCA (80 % de varianza)
 
 El transformador se ajusta en la partición de desarrollo (h1) y se aplica sin reajuste a otras ventanas.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -25,21 +26,48 @@ BLOCKS = {
         "localizacion": LOCATION,
     },
     "composition": {
-        "composicion": ["clr_pase_simple", "clr_pase_largo", "clr_pase_cabeza", "clr_pase_filtrado", "clr_centro",
-                        "clr_remate", "clr_conduccion", "clr_toque", "clr_despeje", "clr_duelo_ofensivo",
-                        "clr_duelo_defensivo", "clr_duelo_aereo", "clr_balon_dividido"],
+        "composicion": [
+            "clr_pase_simple",
+            "clr_pase_largo",
+            "clr_pase_cabeza",
+            "clr_pase_filtrado",
+            "clr_centro",
+            "clr_remate",
+            "clr_conduccion",
+            "clr_toque",
+            "clr_despeje",
+            "clr_duelo_ofensivo",
+            "clr_duelo_defensivo",
+            "clr_duelo_aereo",
+            "clr_balon_dividido",
+        ],
         "localizacion": LOCATION,
     },
     # espacio descriptivo completo: solo para la pertinencia analítica de H4
     "descriptive": {},
 }
-BLOCKS["descriptive"] = {**{f"v_{k}": v for k, v in BLOCKS["volume"].items() if k != "localizacion"},
-                         "composicion": BLOCKS["composition"]["composicion"], "localizacion": LOCATION}
+BLOCKS["descriptive"] = {
+    **{f"v_{k}": v for k, v in BLOCKS["volume"].items() if k != "localizacion"},
+    "composicion": BLOCKS["composition"]["composicion"],
+    "localizacion": LOCATION,
+}
 
 # indicadores sin ajuste para la consulta de la línea base
-BASELINE_COLUMNS = ["p90_passes", "p90_prog_passes", "p90_final_third_entries", "p90_key_passes", "p90_crosses",
-                    "p90_carries", "p90_shots", "p90_box_actions", "p90_dribbles_won", "p90_interceptions",
-                    "p90_def_duels", "p90_clearances", "p90_air_duels"]
+BASELINE_COLUMNS = [
+    "p90_passes",
+    "p90_prog_passes",
+    "p90_final_third_entries",
+    "p90_key_passes",
+    "p90_crosses",
+    "p90_carries",
+    "p90_shots",
+    "p90_box_actions",
+    "p90_dribbles_won",
+    "p90_interceptions",
+    "p90_def_duels",
+    "p90_clearances",
+    "p90_air_duels",
+]
 
 
 def columns(rep: str) -> list[str]:
@@ -56,7 +84,7 @@ class Transformer:
     weights_: np.ndarray = field(default=None, repr=False)
     pca_: PCA = field(default=None, repr=False)
 
-    def fit(self, df: pd.DataFrame, use_pca: bool = True) -> "Transformer":
+    def fit(self, df: pd.DataFrame, use_pca: bool = True) -> Transformer:
         X = df[columns(self.rep)].to_numpy(float)
         if self.scaler == "robust":
             self.center_ = np.median(X, axis=0)
@@ -80,5 +108,8 @@ class Transformer:
         return self.pca_.transform(Z) if self.pca_ is not None else Z
 
     def loadings(self) -> pd.DataFrame:
-        return pd.DataFrame(self.pca_.components_.T, index=columns(self.rep),
-                            columns=[f"PC{i + 1}" for i in range(self.pca_.n_components_)])
+        return pd.DataFrame(
+            self.pca_.components_.T,
+            index=columns(self.rep),
+            columns=[f"PC{i + 1}" for i in range(self.pca_.n_components_)],
+        )

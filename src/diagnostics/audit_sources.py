@@ -17,6 +17,7 @@ Reglas:
     - Las fuentes muy pesadas (eventos StatsBomb, tracking) se cuentan por streaming o por muestra;
       cuando se usa muestra queda indicado en el JSON.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -69,13 +70,25 @@ def audit_wyscout() -> dict:
         for m in json.loads(f.read_text()):
             m["_file"] = f.stem.replace("matches_", "")
             matches.append(m)
-    mdf = pd.DataFrame([{
-        "match_id": m["wyId"], "competition_file": m["_file"], "competition_id": m["competitionId"],
-        "season_id": m["seasonId"], "date_utc": m["dateutc"], "duration": m.get("duration"),
-    } for m in matches])
+    mdf = pd.DataFrame(
+        [
+            {
+                "match_id": m["wyId"],
+                "competition_file": m["_file"],
+                "competition_id": m["competitionId"],
+                "season_id": m["seasonId"],
+                "date_utc": m["dateutc"],
+                "duration": m.get("duration"),
+            }
+            for m in matches
+        ]
+    )
 
-    q = lambda s: con.execute(s).fetchdf()
-    totals = q(f"""
+    def q(sql: str) -> pd.DataFrame:
+        return con.execute(sql).fetchdf()
+
+    totals = (
+        q(f"""
         SELECT count(*) n_events, count(DISTINCT match_id) n_matches,
                count(DISTINCT player_id) FILTER (WHERE player_id <> 0) n_players_with_events,
                count(DISTINCT team_id) n_teams,
@@ -83,18 +96,25 @@ def audit_wyscout() -> dict:
                avg((x_start IS NULL)::INT) share_missing_start_xy,
                avg((x_end IS NULL)::INT) share_missing_end_xy,
                min(x_start) min_x, max(x_start) max_x, min(y_start) min_y, max(y_start) max_y
-        FROM read_parquet('{ev_glob}')""").iloc[0].to_dict()
+        FROM read_parquet('{ev_glob}')""")
+        .iloc[0]
+        .to_dict()
+    )
     by_comp = q(f"""
         SELECT competition_file, count(*) n_events, count(DISTINCT match_id) n_matches,
                count(DISTINCT player_id) FILTER (WHERE player_id <> 0) n_players
         FROM read_parquet('{ev_glob}') GROUP BY 1 ORDER BY 1""")
-    ev_types = q(f"""SELECT event_name, count(*) n FROM read_parquet('{ev_glob}') GROUP BY 1 ORDER BY 2 DESC""")
+    ev_types = q(
+        f"""SELECT event_name, count(*) n FROM read_parquet('{ev_glob}') GROUP BY 1 ORDER BY 2 DESC"""
+    )
     sub_types = q(f"""SELECT event_name, sub_event_name, count(*) n FROM read_parquet('{ev_glob}')
                       GROUP BY 1,2 ORDER BY 3 DESC""")
 
     # tags: el diccionario oficial traduce ids a etiquetas (interception, accurate, key pass, ...)
     tag_map = pd.read_csv(next(base.glob("mapping_of_tag_identifiers*/tags2name.csv")))
-    tag_counts = q(f"""SELECT t AS Tag, count(*) n FROM (SELECT unnest(tag_ids) t FROM read_parquet('{ev_glob}')) GROUP BY 1""")
+    tag_counts = q(
+        f"""SELECT t AS Tag, count(*) n FROM (SELECT unnest(tag_ids) t FROM read_parquet('{ev_glob}')) GROUP BY 1"""
+    )
     tag_counts = tag_counts.merge(tag_map, on="Tag", how="left").sort_values("n", ascending=False)
     tag_label = "Label" if "Label" in tag_counts else tag_counts.columns[-1]
 
@@ -117,8 +137,11 @@ def audit_wyscout() -> dict:
         "event_types": ev_types.to_dict("records"),
         "sub_event_types": sub_types.to_dict("records"),
         "tags": tag_counts.to_dict("records"),
-        "vocab": sorted(set(ev_types.event_name) | set(sub_types.sub_event_name.dropna())
-                        | set(tag_counts[tag_label].dropna().astype(str))),
+        "vocab": sorted(
+            set(ev_types.event_name)
+            | set(sub_types.sub_event_name.dropna())
+            | set(tag_counts[tag_label].dropna().astype(str))
+        ),
         "coordinates": "0-100 en ambos ejes, relativas a la dirección de ataque del equipo que ejecuta",
         "tracking": False,
         "minutes_field": "no directo; reconstruible con teamsData (formation.lineup/bench/substitutions)",
@@ -135,12 +158,22 @@ def audit_statsbomb(sample_events: int = 120) -> dict:
     rows = []
     for f in sorted((base / "matches").glob("*/*.json")):
         for m in json.loads(f.read_text()):
-            rows.append({
-                "match_id": m["match_id"], "competition": m["competition"]["competition_name"],
-                "season": m["season"]["season_name"], "date": m["match_date"],
-                "gender": next((c["competition_gender"] for c in comps
-                                if c["competition_id"] == m["competition"]["competition_id"]), None),
-            })
+            rows.append(
+                {
+                    "match_id": m["match_id"],
+                    "competition": m["competition"]["competition_name"],
+                    "season": m["season"]["season_name"],
+                    "date": m["match_date"],
+                    "gender": next(
+                        (
+                            c["competition_gender"]
+                            for c in comps
+                            if c["competition_id"] == m["competition"]["competition_id"]
+                        ),
+                        None,
+                    ),
+                }
+            )
     mdf = pd.DataFrame(rows)
 
     event_files = sorted((base / "events").glob("*.json"))
@@ -150,7 +183,9 @@ def audit_statsbomb(sample_events: int = 120) -> dict:
     counts = {}
     chunk = [str(p) for p in event_files]
     for i in range(0, len(chunk), 400):
-        out = subprocess.run(["grep", "-c", '"index" :'] + chunk[i:i + 400], capture_output=True, text=True).stdout
+        out = subprocess.run(
+            ["grep", "-c", '"index" :'] + chunk[i : i + 400], capture_output=True, text=True
+        ).stdout
         for line in out.strip().splitlines():
             path, n = line.rsplit(":", 1)
             counts[int(Path(path).stem)] = int(n)
@@ -179,11 +214,16 @@ def audit_statsbomb(sample_events: int = 120) -> dict:
             if e["type"]["name"] == "Shot" and "statsbomb_xg" in e.get("shot", {}):
                 has_xg += 1
 
-    comp_season = (mdf.groupby(["competition", "season", "gender"])
-                   .agg(n_matches=("match_id", "size"), n_events=("n_events", "sum"), n_360=("has_360", "sum"))
-                   .reset_index().sort_values(["n_matches"], ascending=False))
-    big5_1516 = comp_season[(comp_season.season == "2015/2016") &
-                            comp_season.competition.isin(["La Liga", "Premier League", "Serie A", "1. Bundesliga", "Ligue 1"])]
+    comp_season = (
+        mdf.groupby(["competition", "season", "gender"])
+        .agg(n_matches=("match_id", "size"), n_events=("n_events", "sum"), n_360=("has_360", "sum"))
+        .reset_index()
+        .sort_values(["n_matches"], ascending=False)
+    )
+    big5_1516 = comp_season[
+        (comp_season.season == "2015/2016")
+        & comp_season.competition.isin(["La Liga", "Premier League", "Serie A", "1. Bundesliga", "Ligue 1"])
+    ]
     return {
         "source": "StatsBomb Open Data (git commit en manifests/statsbomb_commit.txt)",
         "n_competition_seasons": len(comps),
@@ -222,7 +262,9 @@ def audit_skillcorner() -> dict:
         mid = d.name
         m = json.loads((d / f"{mid}_match.json").read_text())
         trk = d / f"{mid}_tracking_extrapolated.jsonl"
-        n_frames = int(subprocess.run(["wc", "-l", str(trk)], capture_output=True, text=True).stdout.split()[0])
+        n_frames = int(
+            subprocess.run(["wc", "-l", str(trk)], capture_output=True, text=True).stdout.split()[0]
+        )
         dyn = pd.read_csv(d / f"{mid}_dynamic_events.csv", low_memory=False)
         dyn_cols |= set(dyn.columns)
         ev_types.update(dyn.event_type.value_counts().to_dict())
@@ -230,8 +272,16 @@ def audit_skillcorner() -> dict:
         for p in m["players"]:
             players[p["id"]] = p
             roles[p["player_role"]["name"]] += 1
-        rows.append({"match_id": mid, "date": m["date_time"], "competition": m["competition_edition"]["name"],
-                     "n_frames": n_frames, "n_dynamic_events": len(dyn), "tracking_mb": round(trk.stat().st_size / 1e6, 1)})
+        rows.append(
+            {
+                "match_id": mid,
+                "date": m["date_time"],
+                "competition": m["competition_edition"]["name"],
+                "n_frames": n_frames,
+                "n_dynamic_events": len(dyn),
+                "tracking_mb": round(trk.stat().st_size / 1e6, 1),
+            }
+        )
     mdf = pd.DataFrame(rows)
     aggr = [p.name for p in (RAW / "skillcorner/data/aggregates").glob("*.csv")]
     return {
@@ -248,7 +298,9 @@ def audit_skillcorner() -> dict:
         "dynamic_event_types": dict(ev_types),
         "dynamic_event_subtypes": _top(ev_sub, 40),
         "dynamic_event_n_columns": len(dyn_cols),
-        "dynamic_columns_selected": sorted(c for c in dyn_cols if re.search(r"xthreat|speed|pass_outcome|end_type|lead_to_shot", c)),
+        "dynamic_columns_selected": sorted(
+            c for c in dyn_cols if re.search(r"xthreat|speed|pass_outcome|end_type|lead_to_shot", c)
+        ),
         "aggregates_files": aggr,
         "matches": mdf.to_dict("records"),
         "vocab": sorted(set(ev_types) | set(ev_sub) | dyn_cols),
@@ -281,11 +333,24 @@ def audit_dfl() -> dict:
                     ev_types[ch.tag] += 1
                 el.clear()
         posf = next(base.glob(f"DFL_04_03_positions_raw_observed_*_{mid}.xml"))
-        n_frames = int(subprocess.run(["grep", "-c", "<Frame ", str(posf)], capture_output=True, text=True).stdout)
-        n_sets = int(subprocess.run(["grep", "-c", "<FrameSet ", str(posf)], capture_output=True, text=True).stdout)
-        rows.append({"match_id": mid, "competition": g["CompetitionName"], "season": g["Season"],
-                     "match": g["MatchTitle"], "n_events": n_ev, "n_position_rows": n_frames,
-                     "n_framesets": n_sets, "positions_mb": round(posf.stat().st_size / 1e6, 1)})
+        n_frames = int(
+            subprocess.run(["grep", "-c", "<Frame ", str(posf)], capture_output=True, text=True).stdout
+        )
+        n_sets = int(
+            subprocess.run(["grep", "-c", "<FrameSet ", str(posf)], capture_output=True, text=True).stdout
+        )
+        rows.append(
+            {
+                "match_id": mid,
+                "competition": g["CompetitionName"],
+                "season": g["Season"],
+                "match": g["MatchTitle"],
+                "n_events": n_ev,
+                "n_position_rows": n_frames,
+                "n_framesets": n_sets,
+                "positions_mb": round(posf.stat().st_size / 1e6, 1),
+            }
+        )
     mdf = pd.DataFrame(rows)
     return {
         "source": "DFL integrated dataset (Bassek et al., figshare 28196177.v1)",
@@ -390,7 +455,10 @@ def audit_transfermarkt() -> dict:
     tables = {}
     for (t,) in con.execute("SELECT table_name FROM information_schema.tables").fetchall():
         tables[t] = int(con.execute(f'SELECT count(*) FROM "{t}"').fetchone()[0])
-    q = lambda s: con.execute(s).fetchdf()
+
+    def q(sql: str) -> pd.DataFrame:
+        return con.execute(sql).fetchdf()
+
     seasons = q("SELECT min(season) min_season, max(season) max_season FROM games").iloc[0].to_dict()
     big5 = q("""
         SELECT g.competition_id, c.name, g.season, count(*) n_games
@@ -398,7 +466,13 @@ def audit_transfermarkt() -> dict:
         WHERE g.competition_id IN ('GB1','ES1','IT1','L1','FR1') AND g.season IN (2015, 2017)
         GROUP BY ALL ORDER BY 1, 3""")
     pos = q("SELECT position, sub_position, count(*) n FROM players GROUP BY ALL ORDER BY 1, 3 DESC")
-    dob = q("SELECT avg((date_of_birth IS NULL)::INT) share_missing_dob, avg((sub_position IS NULL)::INT) share_missing_subpos FROM players").iloc[0].to_dict()
+    dob = (
+        q(
+            "SELECT avg((date_of_birth IS NULL)::INT) share_missing_dob, avg((sub_position IS NULL)::INT) share_missing_subpos FROM players"
+        )
+        .iloc[0]
+        .to_dict()
+    )
     return {
         "source": "Transfermarkt (dcaribou/transfermarkt-datasets, snapshot 2026-07-06)",
         "tables": tables,
@@ -418,14 +492,62 @@ def audit_transfermarkt() -> dict:
 # ------------------------------------------------------------------
 # Para cada dimensión: términos que, si aparecen en el vocabulario observado de la fuente, cuentan como evidencia.
 COVERAGE_RULES = {
-    "Pases":                     {"wyscout": ["Pass"], "statsbomb": ["Pass"], "skillcorner": ["pass_outcome"], "dfl": ["Play"], "pff": ["PA"]},
-    "Conducciones":              {"wyscout": ["Acceleration"], "statsbomb": ["Carry"], "skillcorner": ["player_possession"], "dfl": [], "pff": ["BC"]},
-    "Remates":                   {"wyscout": ["Shot"], "statsbomb": ["Shot"], "skillcorner": ["lead_to_shot"], "dfl": ["ShotAtGoal"], "pff": ["SH"]},
-    "Duelos":                    {"wyscout": ["Duel"], "statsbomb": ["Duel"], "skillcorner": ["on_ball_engagement"], "dfl": ["TacklingGame"], "pff": ["CH"]},
-    "Recuperaciones/intercep.":  {"wyscout": ["interception"], "statsbomb": ["Ball Recovery", "Interception"], "skillcorner": ["recovery_press"], "dfl": ["BallClaiming"], "pff": []},
-    "Presión sobre el rival":    {"wyscout": [], "statsbomb": ["Pressure"], "skillcorner": ["pressing", "pressure", "counter_press"], "dfl": [], "pff": ["initialPressureType"]},
-    "Carreras sin balón":        {"wyscout": [], "statsbomb": [], "skillcorner": ["off_ball_run"], "dfl": [], "pff": []},
-    "Valor de acción (xG/xT)":   {"wyscout": [], "statsbomb": ["statsbomb_xg"], "skillcorner": ["xthreat"], "dfl": [], "pff": []},
+    "Pases": {
+        "wyscout": ["Pass"],
+        "statsbomb": ["Pass"],
+        "skillcorner": ["pass_outcome"],
+        "dfl": ["Play"],
+        "pff": ["PA"],
+    },
+    "Conducciones": {
+        "wyscout": ["Acceleration"],
+        "statsbomb": ["Carry"],
+        "skillcorner": ["player_possession"],
+        "dfl": [],
+        "pff": ["BC"],
+    },
+    "Remates": {
+        "wyscout": ["Shot"],
+        "statsbomb": ["Shot"],
+        "skillcorner": ["lead_to_shot"],
+        "dfl": ["ShotAtGoal"],
+        "pff": ["SH"],
+    },
+    "Duelos": {
+        "wyscout": ["Duel"],
+        "statsbomb": ["Duel"],
+        "skillcorner": ["on_ball_engagement"],
+        "dfl": ["TacklingGame"],
+        "pff": ["CH"],
+    },
+    "Recuperaciones/intercep.": {
+        "wyscout": ["interception"],
+        "statsbomb": ["Ball Recovery", "Interception"],
+        "skillcorner": ["recovery_press"],
+        "dfl": ["BallClaiming"],
+        "pff": [],
+    },
+    "Presión sobre el rival": {
+        "wyscout": [],
+        "statsbomb": ["Pressure"],
+        "skillcorner": ["pressing", "pressure", "counter_press"],
+        "dfl": [],
+        "pff": ["initialPressureType"],
+    },
+    "Carreras sin balón": {
+        "wyscout": [],
+        "statsbomb": [],
+        "skillcorner": ["off_ball_run"],
+        "dfl": [],
+        "pff": [],
+    },
+    "Valor de acción (xG/xT)": {
+        "wyscout": [],
+        "statsbomb": ["statsbomb_xg"],
+        "skillcorner": ["xthreat"],
+        "dfl": [],
+        "pff": [],
+    },
 }
 
 
@@ -439,42 +561,96 @@ def combine() -> None:
     inv = []
     if "wyscout" in A:
         w = A["wyscout"]
-        inv.append({"fuente": "Wyscout", "rol": "núcleo eventos", "competiciones": w["n_competitions"],
-                    "temporadas": w["n_seasons"], "partidos": w["totals"]["n_matches"],
-                    "jugadores": w["totals"]["n_players_with_events"], "eventos": w["totals"]["n_events"],
-                    "tracking": "no", "periodo": f'{w["period"]["min_date"][:10]} a {w["period"]["max_date"][:10]}'})
+        inv.append(
+            {
+                "fuente": "Wyscout",
+                "rol": "núcleo eventos",
+                "competiciones": w["n_competitions"],
+                "temporadas": w["n_seasons"],
+                "partidos": w["totals"]["n_matches"],
+                "jugadores": w["totals"]["n_players_with_events"],
+                "eventos": w["totals"]["n_events"],
+                "tracking": "no",
+                "periodo": f"{w['period']['min_date'][:10]} a {w['period']['max_date'][:10]}",
+            }
+        )
     if "statsbomb" in A:
         s = A["statsbomb"]
-        inv.append({"fuente": "StatsBomb", "rol": "validación", "competiciones": s["n_competitions"],
-                    "temporadas": s["n_competition_seasons"], "partidos": s["n_matches"],
-                    "jugadores": s["n_players_lineups"], "eventos": s["n_events_total"],
-                    "tracking": f'360 en {s["n_matches_with_360"]} partidos',
-                    "periodo": f'{s["period"]["min_date"]} a {s["period"]["max_date"]}'})
+        inv.append(
+            {
+                "fuente": "StatsBomb",
+                "rol": "validación",
+                "competiciones": s["n_competitions"],
+                "temporadas": s["n_competition_seasons"],
+                "partidos": s["n_matches"],
+                "jugadores": s["n_players_lineups"],
+                "eventos": s["n_events_total"],
+                "tracking": f"360 en {s['n_matches_with_360']} partidos",
+                "periodo": f"{s['period']['min_date']} a {s['period']['max_date']}",
+            }
+        )
     if "skillcorner" in A:
         k = A["skillcorner"]
-        inv.append({"fuente": "SkillCorner", "rol": "tracking / sin balón", "competiciones": len(k["competitions"]),
-                    "temporadas": 1, "partidos": k["n_matches"], "jugadores": k["n_players"],
-                    "eventos": k["n_dynamic_events_total"], "tracking": f'sí, {k["n_frames_total"]:,} frames (10 Hz)',
-                    "periodo": f'{k["period"]["min_date"][:10]} a {k["period"]["max_date"][:10]}'})
+        inv.append(
+            {
+                "fuente": "SkillCorner",
+                "rol": "tracking / sin balón",
+                "competiciones": len(k["competitions"]),
+                "temporadas": 1,
+                "partidos": k["n_matches"],
+                "jugadores": k["n_players"],
+                "eventos": k["n_dynamic_events_total"],
+                "tracking": f"sí, {k['n_frames_total']:,} frames (10 Hz)",
+                "periodo": f"{k['period']['min_date'][:10]} a {k['period']['max_date'][:10]}",
+            }
+        )
     if "dfl" in A:
         d = A["dfl"]
-        inv.append({"fuente": "DFL", "rol": "eventos + tracking", "competiciones": len(d["competitions"]),
-                    "temporadas": len(d["seasons"]), "partidos": d["n_matches"], "jugadores": d["n_players"],
-                    "eventos": d["n_events_total"], "tracking": f'sí, {d["n_position_rows_total"]:,} filas (25 Hz)',
-                    "periodo": ", ".join(d["seasons"])})
+        inv.append(
+            {
+                "fuente": "DFL",
+                "rol": "eventos + tracking",
+                "competiciones": len(d["competitions"]),
+                "temporadas": len(d["seasons"]),
+                "partidos": d["n_matches"],
+                "jugadores": d["n_players"],
+                "eventos": d["n_events_total"],
+                "tracking": f"sí, {d['n_position_rows_total']:,} filas (25 Hz)",
+                "periodo": ", ".join(d["seasons"]),
+            }
+        )
     if "pff" in A:
         p = A["pff"]
-        inv.append({"fuente": "PFF FC", "rol": "tracking internacional", "competiciones": 1, "temporadas": 1,
-                    "partidos": p["n_matches_metadata"], "jugadores": p["n_players_rosters"],
-                    "eventos": p["n_events_root"], "tracking": f'sí, {p["n_tracking_files"]} archivos ({p["tracking_gb_compressed"]} GB bz2)',
-                    "periodo": "Mundial 2022"})
+        inv.append(
+            {
+                "fuente": "PFF FC",
+                "rol": "tracking internacional",
+                "competiciones": 1,
+                "temporadas": 1,
+                "partidos": p["n_matches_metadata"],
+                "jugadores": p["n_players_rosters"],
+                "eventos": p["n_events_root"],
+                "tracking": f"sí, {p['n_tracking_files']} archivos ({p['tracking_gb_compressed']} GB bz2)",
+                "periodo": "Mundial 2022",
+            }
+        )
     if "transfermarkt" in A:
         t = A["transfermarkt"]
-        inv.append({"fuente": "Transfermarkt", "rol": "contexto externo", "competiciones": t["tables"].get("competitions"),
-                    "temporadas": int(t["games_season_range"]["max_season"]) - int(t["games_season_range"]["min_season"]) + 1,
-                    "partidos": t["tables"].get("games"), "jugadores": t["tables"].get("players"),
-                    "eventos": t["tables"].get("game_events"), "tracking": "no",
-                    "periodo": f'{int(t["games_season_range"]["min_season"])} a {int(t["games_season_range"]["max_season"])}'})
+        inv.append(
+            {
+                "fuente": "Transfermarkt",
+                "rol": "contexto externo",
+                "competiciones": t["tables"].get("competitions"),
+                "temporadas": int(t["games_season_range"]["max_season"])
+                - int(t["games_season_range"]["min_season"])
+                + 1,
+                "partidos": t["tables"].get("games"),
+                "jugadores": t["tables"].get("players"),
+                "eventos": t["tables"].get("game_events"),
+                "tracking": "no",
+                "periodo": f"{int(t['games_season_range']['min_season'])} a {int(t['games_season_range']['max_season'])}",
+            }
+        )
     pd.DataFrame(inv).to_csv(OUT / "inventory.csv", index=False)
 
     cov = []
@@ -488,11 +664,25 @@ def combine() -> None:
     # dimensiones estructurales que no dependen del vocabulario de eventos
     extra = {
         "Coordenadas de evento": {s: "sí" for s in ["wyscout", "statsbomb", "skillcorner", "dfl", "pff"]},
-        "Contexto espacial por evento": {"wyscout": "no", "statsbomb": "parcial: 360 en subconjunto", "skillcorner": "sí: tracking",
-                                         "dfl": "sí: tracking", "pff": "sí: 22 jugadores por evento"},
-        "Tracking continuo": {s: ("sí" if A.get(s, {}).get("tracking") is True else "no") for s in ["wyscout", "statsbomb", "skillcorner", "dfl", "pff"]},
-        "Minutos jugados": {s: A.get(s, {}).get("minutes_field", "") for s in ["wyscout", "statsbomb", "skillcorner", "dfl", "pff"]},
-        "Posición nominal": {s: A.get(s, {}).get("position_field", "") for s in ["wyscout", "statsbomb", "skillcorner", "dfl", "pff"]},
+        "Contexto espacial por evento": {
+            "wyscout": "no",
+            "statsbomb": "parcial: 360 en subconjunto",
+            "skillcorner": "sí: tracking",
+            "dfl": "sí: tracking",
+            "pff": "sí: 22 jugadores por evento",
+        },
+        "Tracking continuo": {
+            s: ("sí" if A.get(s, {}).get("tracking") is True else "no")
+            for s in ["wyscout", "statsbomb", "skillcorner", "dfl", "pff"]
+        },
+        "Minutos jugados": {
+            s: A.get(s, {}).get("minutes_field", "")
+            for s in ["wyscout", "statsbomb", "skillcorner", "dfl", "pff"]
+        },
+        "Posición nominal": {
+            s: A.get(s, {}).get("position_field", "")
+            for s in ["wyscout", "statsbomb", "skillcorner", "dfl", "pff"]
+        },
     }
     for dim, vals in extra.items():
         cov.append({"dimension": dim, **vals})
@@ -500,8 +690,14 @@ def combine() -> None:
     print("[ok] inventory.csv, coverage_matrix.csv")
 
 
-AUDITS = {"wyscout": audit_wyscout, "statsbomb": audit_statsbomb, "skillcorner": audit_skillcorner,
-          "dfl": audit_dfl, "pff": audit_pff, "transfermarkt": audit_transfermarkt}
+AUDITS = {
+    "wyscout": audit_wyscout,
+    "statsbomb": audit_statsbomb,
+    "skillcorner": audit_skillcorner,
+    "dfl": audit_dfl,
+    "pff": audit_pff,
+    "transfermarkt": audit_transfermarkt,
+}
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
@@ -509,7 +705,7 @@ if __name__ == "__main__":
     ap.add_argument("--combine", action="store_true")
     a = ap.parse_args()
     if a.source:
-        for name in (AUDITS if a.source == "all" else [a.source]):
+        for name in AUDITS if a.source == "all" else [a.source]:
             _save(name, AUDITS[name]())
     if a.combine or a.source == "all":
         combine()

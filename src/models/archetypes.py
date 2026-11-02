@@ -4,6 +4,7 @@ Análisis de arquetipos (Cutler & Breiman, 1994) por mínimos cuadrados alternad
 X ~ A Z,  Z = B X,  con filas de A y de B en el simplex. Cada jugador queda descrito como una mezcla de
 k perfiles extremos (arquetipos), que a su vez son combinaciones convexas de jugadores observados.
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -34,7 +35,7 @@ class Archetypes:
     def __init__(self, k: int, max_iter: int = 200, tol: float = 1e-5, random_state: int = 0):
         self.k, self.max_iter, self.tol, self.random_state = k, max_iter, tol, random_state
 
-    def fit(self, X: np.ndarray) -> "Archetypes":
+    def fit(self, X: np.ndarray) -> Archetypes:
         rng = np.random.default_rng(self.random_state)
         n = X.shape[0]
         # inicialización con puntos alejados (furthest-first)
@@ -42,7 +43,8 @@ class Archetypes:
         for _ in range(1, self.k):
             d = np.min(((X[:, None, :] - X[idx][None]) ** 2).sum(-1), axis=1)
             idx.append(int(np.argmax(d)))
-        B = np.zeros((self.k, n)); B[np.arange(self.k), idx] = 1
+        B = np.zeros((self.k, n))
+        B[np.arange(self.k), idx] = 1
         Z = B @ X
         A = project_simplex(rng.random((n, self.k)))
         prev = np.inf

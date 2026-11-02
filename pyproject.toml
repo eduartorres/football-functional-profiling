@@ -1,0 +1,20 @@
+[project]
+name = "football-functional-profiling"
+version = "1.0.0"
+description = "Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal (TPG II, MIIA, Universidad de los Andes)"
+requires-python = ">=3.10"
+authors = [{ name = "Eduar Felipe Riaño Torres", email = "e.rianot@uniandes.edu.co" }]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "I", "B", "UP"]
+ignore = ["B905", "E501"]  # el formateador controla el ancho; se toleran líneas largas en docstrings y tablas
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -22,6 +22,7 @@ Conducciones, toques y balones divididos se excluyen: sus definiciones no son eq
 Salida: data/interim/replication/wc2018_{wyscout,statsbomb}.parquet  (una fila por jugador del torneo)
         data/interim/replication/wc2018_player_link.parquet
 """
+
 from __future__ import annotations
 
 import difflib
@@ -35,8 +36,18 @@ import pandas as pd
 from src.common.config import ROOT, path
 from src.features.player_match import fix_escapes
 
-CATS = ["pase_raso", "pase_largo", "pase_cabeza", "pase_filtrado", "centro", "remate", "despeje",
-        "duelo_ofensivo", "duelo_defensivo", "duelo_aereo"]
+CATS = [
+    "pase_raso",
+    "pase_largo",
+    "pase_cabeza",
+    "pase_filtrado",
+    "centro",
+    "remate",
+    "despeje",
+    "duelo_ofensivo",
+    "duelo_defensivo",
+    "duelo_aereo",
+]
 SB = ROOT / "data/raw/statsbomb/data"
 OUT = path("interim") / "replication"
 
@@ -66,9 +77,16 @@ def statsbomb() -> pd.DataFrame:
                     continue
                 start = min(_clock(s["from"]) for s in p["positions"])
                 stop = max(_clock(s["to"]) if s["to"] else end for s in p["positions"])
-                mins.append({"sb_player_id": p["player_id"], "sb_name": p["player_name"],
-                             "sb_nickname": p.get("player_nickname"), "team": team["team_name"],
-                             "match_id": mid, "minutes": max(0.0, stop - start)})
+                mins.append(
+                    {
+                        "sb_player_id": p["player_id"],
+                        "sb_name": p["player_name"],
+                        "sb_nickname": p.get("player_nickname"),
+                        "team": team["team_name"],
+                        "match_id": mid,
+                        "minutes": max(0.0, stop - start),
+                    }
+                )
         for e in ev:
             t = e["type"]["name"]
             if "player" not in e:
@@ -99,19 +117,34 @@ def statsbomb() -> pd.DataFrame:
             aerial = any(isinstance(v, dict) and v.get("aerial_won") for v in e.values())
             loc = e.get("location")
             for cc in ([cat] if cat else []) + (["duelo_aereo"] if aerial and cat != "duelo_aereo" else []):
-                rows.append({"sb_player_id": e["player"]["id"], "cat": cc,
-                             "x": loc[0] / 120 * 100 if loc else np.nan, "y": loc[1] / 80 * 100 if loc else np.nan})
+                rows.append(
+                    {
+                        "sb_player_id": e["player"]["id"],
+                        "cat": cc,
+                        "x": loc[0] / 120 * 100 if loc else np.nan,
+                        "y": loc[1] / 80 * 100 if loc else np.nan,
+                    }
+                )
     ev = pd.DataFrame(rows)
     mn = pd.DataFrame(mins)
-    players = mn.groupby("sb_player_id").agg(sb_name=("sb_name", "first"), sb_nickname=("sb_nickname", "first"),
-                                             team=("team", "first"), minutes=("minutes", "sum"),
-                                             matches=("match_id", "nunique")).reset_index()
+    players = (
+        mn.groupby("sb_player_id")
+        .agg(
+            sb_name=("sb_name", "first"),
+            sb_nickname=("sb_nickname", "first"),
+            team=("team", "first"),
+            minutes=("minutes", "sum"),
+            matches=("match_id", "nunique"),
+        )
+        .reset_index()
+    )
     return aggregate(ev, players, "sb_player_id")
 
 
 def wyscout() -> pd.DataFrame:
     con = duckdb.connect()
-    ev = con.execute(f"""
+    ev = (
+        con.execute(f"""
         SELECT player_id, x_start x, y_start y,
           CASE WHEN sub_event_name = 'Simple pass' THEN 'pase_raso'
                WHEN sub_event_name IN ('High pass', 'Launch') THEN 'pase_largo'
@@ -124,15 +157,26 @@ def wyscout() -> pd.DataFrame:
                WHEN sub_event_name = 'Ground defending duel' THEN 'duelo_defensivo'
                WHEN sub_event_name = 'Air duel' THEN 'duelo_aereo' END AS cat
         FROM read_parquet('{path("interim") / "wyscout/events_parquet/World_Cup.parquet"}')
-        WHERE player_id <> 0""").fetchdf().dropna(subset=["cat"])
+        WHERE player_id <> 0""")
+        .fetchdf()
+        .dropna(subset=["cat"])
+    )
     pm = pd.read_parquet(path("interim") / "wyscout" / "player_match.parquet")
     pm = pm[pm.competition_file == "World_Cup"]
     pl = pd.read_parquet(path("interim") / "wyscout" / "players.parquet")
-    teams = {t["wyId"]: fix_escapes(t["name"]) for t in json.loads(next((ROOT / "data/raw/wyscout").glob("teams__*/teams.json")).read_text())}
-    players = pm.groupby("player_id").agg(minutes=("minutes", "sum"), matches=("match_id", "nunique"),
-                                          team_id=("team_id", "first")).reset_index()
+    teams = {
+        t["wyId"]: fix_escapes(t["name"])
+        for t in json.loads(next((ROOT / "data/raw/wyscout").glob("teams__*/teams.json")).read_text())
+    }
+    players = (
+        pm.groupby("player_id")
+        .agg(minutes=("minutes", "sum"), matches=("match_id", "nunique"), team_id=("team_id", "first"))
+        .reset_index()
+    )
     players["team"] = players.team_id.map(teams)
-    players = players.merge(pl[["player_id", "short_name", "first_name", "last_name", "role"]], on="player_id")
+    players = players.merge(
+        pl[["player_id", "short_name", "first_name", "last_name", "role"]], on="player_id"
+    )
     return aggregate(ev, players, "player_id")
 
 
@@ -142,7 +186,8 @@ def aggregate(ev: pd.DataFrame, players: pd.DataFrame, key: str) -> pd.DataFrame
     loc = ev.groupby(key).agg(loc_depth=("x", "mean"), loc_sd_x=("x", "std"), loc_sd_y=("y", "std"))
     loc["loc_width"] = ev.assign(w=(ev.y - 50).abs()).groupby(key).w.mean()
     return players.merge(counts, left_on=key, right_index=True, how="left").merge(
-        loc, left_on=key, right_index=True, how="left")
+        loc, left_on=key, right_index=True, how="left"
+    )
 
 
 TEAM_ALIASES = {"south korea": "korea republic"}  # nombre de StatsBomb -> nombre de Wyscout
@@ -156,12 +201,18 @@ def link(w: pd.DataFrame, s: pd.DataFrame) -> pd.DataFrame:
         best, sc = None, 0.0
         for c in cand.itertuples():
             full = norm(f"{c.first_name} {c.last_name}")
-            score = max(difflib.SequenceMatcher(None, full, norm(r.sb_name)).ratio(),
-                        difflib.SequenceMatcher(None, norm(c.short_name), norm(r.sb_nickname)).ratio() if r.sb_nickname else 0,
-                        0.9 if norm(c.last_name) and norm(c.last_name) in norm(r.sb_name).split() else 0)
+            score = max(
+                difflib.SequenceMatcher(None, full, norm(r.sb_name)).ratio(),
+                difflib.SequenceMatcher(None, norm(c.short_name), norm(r.sb_nickname)).ratio()
+                if r.sb_nickname
+                else 0,
+                0.9 if norm(c.last_name) and norm(c.last_name) in norm(r.sb_name).split() else 0,
+            )
             if score > sc:
                 best, sc = c, score
-        rows.append({"sb_player_id": r.sb_player_id, "player_id": getattr(best, "player_id", None), "score": sc})
+        rows.append(
+            {"sb_player_id": r.sb_player_id, "player_id": getattr(best, "player_id", None), "score": sc}
+        )
     L = pd.DataFrame(rows)
     L = L[L.score >= 0.75].sort_values("score", ascending=False).drop_duplicates("player_id")
     return L
@@ -174,8 +225,10 @@ def main() -> None:
     s.to_parquet(OUT / "wc2018_statsbomb.parquet", index=False)
     w.to_parquet(OUT / "wc2018_wyscout.parquet", index=False)
     L.to_parquet(OUT / "wc2018_player_link.parquet", index=False)
-    print(f"StatsBomb: {len(s)} jugadores | Wyscout: {len(w)} | enlazados: {len(L)} | equipos sin cruce: "
-          f"{sorted(set(s.team.map(norm).replace(TEAM_ALIASES)) - set(w.team.map(norm)))}")
+    print(
+        f"StatsBomb: {len(s)} jugadores | Wyscout: {len(w)} | enlazados: {len(L)} | equipos sin cruce: "
+        f"{sorted(set(s.team.map(norm).replace(TEAM_ALIASES)) - set(w.team.map(norm)))}"
+    )
 
 
 if __name__ == "__main__":
