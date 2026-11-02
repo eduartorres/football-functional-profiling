@@ -1,6 +1,7 @@
 """
-Reúne en un solo JSON las cifras que usa el casebook del video de avances.
-Todas las cifras salen de data/processed (diagnóstico y representaciones); ninguna se escribe a mano.
+Reúne en un solo JSON las cifras que usa el casebook: diagnóstico de las fuentes, hallazgos
+preliminares y resultados del modelado, la evaluación y la replicación.
+Todas las cifras salen de data/processed; ninguna se escribe a mano.
 
 Salida: reports/casebook/casebook_data.json
 """
@@ -14,6 +15,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 D = ROOT / "data/processed/diagnostics"
+M = ROOT / "data/processed/models"
+E = ROOT / "data/processed/evaluation"
 OUT = ROOT / "reports/casebook/casebook_data.json"
 FEATS_EXAMPLE = [
     "profundidad_media_x",
@@ -23,6 +26,29 @@ FEATS_EXAMPLE = [
     "duelos_p90",
     "remates_p90",
 ]
+
+
+def results() -> dict:
+    """Resultados del modelado y la evaluación que se muestran en la segunda parte del casebook."""
+    screen = pd.read_csv(M / "grid_screen.csv")
+    confirm = pd.read_csv(M / "grid_confirm.csv")
+    keys = ["representation", "algorithm", "k"]
+    screen["confirmed"] = screen.set_index(keys).index.isin(confirm.set_index(keys).index)
+    grid = screen[keys + ["silhouette", "ari_mean", "noise_share", "nmi_team", "confirmed"]]
+    summary = pd.read_csv(M / "profiles_h1_summary.csv")
+    z_cols = ["profile", "n"] + [c for c in summary.columns if c.startswith("z_")]
+    return {
+        "selected": json.loads((M / "selected_model.json").read_text()),
+        "grid": grid.round(4).to_dict("records"),
+        "profiles_positions": pd.read_csv(M / "profiles_h1_positions.csv").to_dict("records"),
+        "profiles_z": summary[z_cols].round(3).to_dict("records"),
+        "evaluation": json.loads((E / "evaluation_core.json").read_text()),
+        "temporal_transitions": pd.read_csv(E / "temporal_transitions.csv").values[:, 1:].tolist(),
+        "replacement": json.loads((E / "replacement_summary.json").read_text()),
+        "replacement_cases": pd.read_csv(E / "replacement_cases.csv").round(3).to_dict("records"),
+        "replication": json.loads((E / "replication.json").read_text()),
+        "sensitivity": pd.read_csv(E / "sensitivity.csv").round(4).to_dict("records"),
+    }
 
 
 def main() -> None:
@@ -114,6 +140,7 @@ def main() -> None:
             ]
         },
         "transfermarkt": {k: A["transfermarkt"][k] for k in ["tables", "games_season_range"]},
+        "results": results(),
     }
     OUT.write_text(json.dumps(data, ensure_ascii=False, default=str))
     print(f"{OUT} ({OUT.stat().st_size / 1e3:.0f} KB)")

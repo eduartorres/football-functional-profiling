@@ -1,0 +1,736 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><title>Casebook perfilamiento funcional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>
+/* Composición: páginas apiladas de lectura vertical, una idea por página, base blanca con negro y grises;
+   el amarillo Uniandes solo marca énfasis (cifras clave, categorías destacadas, estado "en curso"). */
+:root{
+  --paper:#FFFFFF;
+  --ink:#000000;
+  --ink-2:#333333;
+  --ink-3:#6E6E6E;
+  --rule:#D6D6D6;
+  --wash:#F3F3F1;
+  --mid:#9A9A9A;
+  --soft:#C9C9C9;
+  --yellow:#FFFF00;
+  --f-sans:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --f-mono:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
+  --s-title:clamp(1.6rem,1.1rem + 1.6vw,2.35rem);
+  --s-lead:clamp(1.05rem,.98rem + .3vw,1.22rem);
+  --s-body:1rem;
+  --s-note:.84rem;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);font-size:var(--s-body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{min-height:100vh;padding-block:56px 64px;padding-inline:max(20px,4vw);border-bottom:1px solid var(--rule);display:flex;flex-direction:column}
+.page>.inner{max-width:1180px;width:100%;margin-inline:auto;flex:1;display:flex;flex-direction:column;gap:28px}
+.kicker{font-size:var(--s-note);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:flex;gap:12px;align-items:baseline}
+.kicker b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+h1,h2{margin:0;font-weight:700;letter-spacing:-.01em;text-wrap:balance;line-height:1.15}
+h2{font-size:var(--s-title);max-width:28ch}
+.lead{font-size:var(--s-lead);color:var(--ink-2);max-width:62ch;margin:0;font-weight:300;line-height:1.55}
+p{margin:0}
+.note{font-size:var(--s-note);color:var(--ink-3);max-width:80ch}
+.mono{font-family:var(--f-mono);font-size:.86em}
+.mark{background:linear-gradient(transparent 58%,var(--yellow) 58%,var(--yellow) 92%,transparent 92%);padding-inline:2px}
+.chart-title{font-weight:500;font-size:var(--s-body);margin:0 0 4px;max-width:70ch}
+.chart-sub{font-size:var(--s-note);color:var(--ink-3);margin:0 0 10px}
+svg text{font-family:var(--f-sans)}
+.grid-2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:48px;align-items:start}
+.grid-2.rev{grid-template-columns:minmax(0,1fr) minmax(0,1.35fr)}
+@media (max-width:860px){.grid-2,.grid-2.rev{grid-template-columns:1fr;gap:28px}}
+.scroll-x{overflow-x:auto;max-width:100%}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:var(--s-note);color:var(--ink-2);white-space:nowrap}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex:none}
+.dot.done{background:var(--ink)}
+.dot.now{background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.dot.next{background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--mid)}
+
+/* portada */
+.cover .inner{justify-content:center;gap:40px}
+.cover h1{font-size:clamp(2.1rem,1.3rem + 3vw,3.6rem);max-width:20ch;border-left:10px solid var(--yellow);padding-left:24px;margin-left:-34px}
+@media (max-width:860px){.cover h1{margin-left:0;padding-left:16px;border-left-width:8px}}
+.cover dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 28px;margin:0;font-size:var(--s-body)}
+.cover dt{color:var(--ink-3);font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.cover dd{margin:0}
+
+/* pregunta */
+.question{font-size:clamp(1.35rem,1.05rem + 1.1vw,2rem);font-weight:400;line-height:1.3;max-width:34ch;margin:0;text-wrap:balance}
+.question .q{font-weight:700}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:2px solid var(--ink)}
+.trio>div{padding:14px 22px 0 0}
+.trio>div+div{padding-left:22px;border-left:1px solid var(--rule)}
+.trio h3,.scope h3{font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:500;margin:0 0 8px}
+@media (max-width:860px){.trio{grid-template-columns:1fr}.trio>div+div{padding-left:0;border-left:0;border-top:1px solid var(--rule)}}
+.scope{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr);gap:32px}
+@media (max-width:860px){.scope{grid-template-columns:1fr}}
+.scope ul{margin:0;padding-left:1.1em}
+.scope li{margin-bottom:4px}
+
+.evo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 28px;font-size:var(--s-note);color:var(--ink-2)}
+.evo>div{position:relative;padding-top:12px;border-top:1px solid var(--rule)}
+.evo>div:last-child{border-top:2px solid var(--ink)}
+.evo>div:last-child::before{content:"";position:absolute;top:-6px;left:0;width:10px;height:10px;background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.evo h3{font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:500;margin:0 0 4px}
+@media (max-width:860px){.evo{grid-template-columns:1fr;gap:14px}}
+/* objetivos */
+.objectives{list-style:none;margin:0;padding:0;counter-reset:o}
+.objectives li{display:grid;grid-template-columns:2.2rem minmax(0,1fr) auto;gap:14px;padding:12px 0;border-top:1px solid var(--rule);align-items:baseline}
+.objectives li::before{counter-increment:o;content:counter(o);font-weight:700;font-variant-numeric:tabular-nums}
+.hyp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 36px}
+@media (max-width:760px){.hyp{grid-template-columns:1fr}.objectives li{grid-template-columns:1.6rem minmax(0,1fr)}.objectives .status{grid-column:2}}
+.hyp p{font-size:var(--s-note);color:var(--ink-2)}
+.hyp b{color:var(--ink)}
+
+/* tablas */
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th{font-weight:500;text-align:left;font-size:var(--s-note);color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;padding:6px 14px 6px 0;border-bottom:2px solid var(--ink);white-space:nowrap}
+td{padding:8px 14px 8px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.src{font-weight:500;white-space:nowrap}
+
+/* heatmap de cobertura */
+.cov{display:grid;grid-template-columns:minmax(190px,1.2fr) repeat(5,minmax(130px,1fr));gap:3px;min-width:860px}
+.cov .h{font-size:var(--s-note);font-weight:500;padding:6px 4px;align-self:end}
+.cov .r{font-size:.9rem;padding:8px 8px 8px 0;align-self:center}
+.cov .c{min-height:36px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--f-mono);font-size:.72rem;line-height:1.2;padding:4px}
+.cov .yes{background:var(--ink);color:var(--paper)}
+.cov .part{background:var(--mid);color:var(--ink)}
+.cov .no{background:var(--wash);color:var(--ink-3)}
+.cov .sep{grid-column:1/-1;height:10px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:var(--s-note);color:var(--ink-2);align-items:center}
+.legend i{display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px}
+.adjust{list-style:none;margin:0;padding:0;counter-reset:a}
+.adjust li{padding:12px 0 12px 2.2rem;border-top:1px solid var(--rule);position:relative}
+.adjust-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 32px}
+@media (max-width:860px){.adjust-row{grid-template-columns:1fr}}
+.adjust li::before{counter-increment:a;content:counter(a);position:absolute;left:0;top:10px;width:1.5rem;height:1.5rem;background:var(--yellow);color:var(--ink);font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+
+/* variables */
+.vars{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px 32px}
+.vars h3{font-size:var(--s-body);margin:0 0 6px;font-weight:700}
+.vars ul{list-style:none;margin:0;padding:0;font-size:.93rem;color:var(--ink-2)}
+.vars li{padding:3px 0}
+pre.frag{margin:0;font-family:var(--f-mono);font-size:.78rem;line-height:1.55;background:var(--wash);padding:16px 18px;overflow-x:auto;color:var(--ink-2)}
+pre.frag .k{color:var(--ink-3)}
+pre.frag .hl{background:var(--yellow);color:var(--ink)}
+.arrow-down{font-size:var(--s-note);color:var(--ink-3);padding:8px 0;display:flex;align-items:center;gap:8px}
+.arrow-down::before{content:"";width:1px;height:22px;background:var(--ink)}
+
+/* pipeline */
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));position:relative;min-width:860px}
+.flow .st{padding:0 16px 0 0;position:relative}
+.flow .st::before{content:"";position:absolute;top:6px;left:14px;right:0;height:2px;background:var(--ink)}
+.flow .st:last-child::before{display:none}
+.flow .st .dot{position:relative;z-index:1;width:14px;height:14px}
+.flow h3{font-size:.95rem;margin:14px 0 4px;font-weight:700}
+.flow .n{font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums;margin:2px 0 4px;display:inline-block}
+.flow p{font-size:var(--s-note);color:var(--ink-2)}
+.flow-next{display:flex;flex-wrap:wrap;gap:10px 0;align-items:center;font-size:.92rem;color:var(--ink-2)}
+.flow-next span{padding:6px 14px;border:1px dashed var(--mid)}
+.flow-next em{font-style:normal;color:var(--mid);padding:0 8px}
+
+/* cifra destacada */
+.big{font-size:clamp(3rem,2rem + 3vw,4.6rem);font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.facts{display:grid;gap:0}
+.facts div{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:14px;padding:11px 0;border-top:1px solid var(--rule);align-items:baseline}
+.facts b{font-variant-numeric:tabular-nums;font-size:1.05rem}
+.facts span{font-size:.92rem;color:var(--ink-2)}
+
+/* metodología */
+.method{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:0;border-top:2px solid var(--ink)}
+.method .ph{padding:12px 16px 12px 0;font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+.method .acts{padding:10px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:7px}
+.method .acts div{display:flex;gap:10px;align-items:baseline;font-size:.95rem}
+.method .acts .dot{transform:translateY(1px)}
+.method .acts small{color:var(--ink-3);font-size:var(--s-note)}
+@media (max-width:640px){.method{grid-template-columns:1fr}.method .ph{border-bottom:0;padding-bottom:0}}
+.principle{border-left:4px solid var(--ink);padding:4px 0 4px 18px;max-width:46ch}
+.principle p{font-size:var(--s-lead);font-weight:300}
+
+/* cronograma */
+.gantt{display:grid;grid-template-columns:minmax(240px,1.6fr) repeat(12,minmax(34px,1fr));align-items:center;min-width:820px;row-gap:10px}
+.gantt .wk{font-size:var(--s-note);color:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums;border-bottom:1px solid var(--rule);padding-bottom:6px}
+.gantt .lbl{font-size:.92rem;padding-right:14px}
+.gantt .lbl small{display:block;color:var(--ink-3);font-size:var(--s-note)}
+.gantt .bar{height:22px}
+.gantt .bar.done{background:var(--ink)}
+.gantt .bar.now{background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.gantt .bar.next{background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)}
+.gantt .pre{grid-column:2/-1;height:22px;background:var(--ink);display:flex;align-items:center;padding-left:10px;color:var(--paper);font-size:var(--s-note)}
+
+/* retos */
+.challenges{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);border-top:2px solid var(--ink)}
+.challenges>div{padding:13px 24px 13px 0;border-bottom:1px solid var(--rule)}
+.challenges .rt{font-weight:500}
+.challenges .rs{color:var(--ink-2);font-size:.95rem}
+@media (max-width:700px){.challenges{grid-template-columns:1fr}.challenges .rt{border-bottom:0;padding-bottom:0}}
+
+/* resultados */
+.expected{list-style:none;margin:0;padding:0;max-width:72ch}
+.expected li{padding:14px 0;border-top:1px solid var(--rule);font-size:1.02rem}
+.expected li b{display:block;font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:500;margin-bottom:2px}
+
+/* navegación */
+.pager{position:fixed;right:max(16px,2vw);bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;align-items:center;z-index:5}
+.pager button{font:inherit;font-size:var(--s-note);border:1px solid var(--ink);background:var(--paper);color:var(--ink);width:34px;height:34px;cursor:pointer}
+.pager button:focus-visible{outline:3px solid var(--yellow);outline-offset:1px}
+.pager span{font-size:var(--s-note);font-variant-numeric:tabular-nums;background:var(--yellow);color:var(--ink);padding:8px 10px;font-weight:500}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--paper);font-size:.8rem;padding:7px 10px;line-height:1.35;z-index:10;max-width:240px}
+.tip b{color:var(--yellow);font-weight:500}
+.foot{font-size:var(--s-note);color:var(--ink-3);margin-top:auto;padding-top:10px}
+</style>
+
+<!-- 01 Portada -->
+<section class="page cover" id="p1"><div class="inner">
+  <div class="kicker">Universidad de los Andes · Facultad de Ingeniería · Departamento de Ingeniería Industrial</div>
+  <h1>Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal</h1>
+  <p class="lead">Presentación de avances. Trabajo Práctico de Grado II (MIIA4005), Maestría en Inteligencia Analítica para la Toma de Decisiones. 11 de octubre de 2026.</p>
+  <dl>
+    <dt>Autor</dt><dd>Eduar Felipe Riaño Torres · código 202423073 · <span class="mono">e.rianot@uniandes.edu.co</span></dd>
+    <dt>Asesor</dt><dd>Juan Pablo Gómez Bravo</dd>
+    <dt>Preasesor</dt><dd>No aplica</dd>
+  </dl>
+</div></section>
+
+<!-- 02 Problema -->
+<section class="page" id="p2"><div class="inner">
+  <div class="kicker"><b>02</b> Descripción del problema</div>
+  <h2>Situación problemática</h2>
+  <div class="grid-2 rev">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <p class="lead">En los procesos de scouting y recruitment la búsqueda de candidatos suele empezar por la posición nominal. Esa etiqueta indica la demarcación registrada del jugador, pero no describe cómo participa en el juego.</p>
+      <p>Dos mediocampistas pueden diferir en la circulación del balón, la progresión o la recuperación, y jugadores registrados en posiciones distintas pueden intervenir de forma parecida. Cuando la comparación depende principalmente de la etiqueta, la preselección puede incluir perfiles poco pertinentes u omitir candidatos comparables.</p>
+      <p>El proyecto propone describir a cada jugador por su comportamiento observado en datos de partidos y evaluar qué información agrega esa descripción frente a la posición.</p>
+    </div>
+    <figure style="margin:0">
+      <p class="chart-title">Hamšík y Diamé tienen la misma etiqueta de mediocampista central y difieren en más de 50 puntos de percentil en cinco de seis indicadores</p>
+      <p class="chart-sub">Percentil dentro de 600 mediocampistas de Wyscout, cinco grandes ligas 2017/18, con al menos 900 minutos</p>
+      <div id="butterfly"></div>
+      <p class="note">Sub-posición en Transfermarkt: Central Midfield para ambos. Hamšík, Serie A, 2.448 minutos; Diamé, Premier League, 2.165 minutos.</p>
+    </figure>
+  </div>
+</div></section>
+
+<!-- 03 Pregunta de negocio -->
+<section class="page" id="p3"><div class="inner">
+  <div class="kicker"><b>03</b> Pregunta de negocio</div>
+  <p class="question"><span class="q">¿Cómo apoyar la preselección de jugadores comparables</span> con una necesidad deportiva o con un jugador de referencia a partir de su comportamiento observado en campo?</p>
+  <div class="evo">
+    <div><h3>Versión inicial</h3><p>¿Cómo puede una representación funcional basada en datos complementar la posición nominal para identificar y comparar jugadores en procesos de scouting y recruitment?</p></div>
+    <div><h3>Versión actual</h3><p>Se centra en una decisión concreta, la preselección de candidatos, y en dos formas de consulta: una necesidad deportiva o un jugador de referencia.</p></div>
+    <div><h3>Acotación a partir de los datos</h3><p>Jugadores de campo de las cinco ligas 2017/18 con al menos 900 minutos, y replicación en los 64 partidos del Mundial 2018 presentes en Wyscout y StatsBomb.</p></div>
+  </div>
+  <div class="trio">
+    <div><h3>Decisión que se apoya</h3><p>Qué jugadores pasan a una revisión deportiva detallada cuando se busca cubrir una función de la plantilla o reemplazar a un futbolista.</p></div>
+    <div><h3>Quién decide y cuándo</h3><p>La dirección deportiva y el cuerpo técnico definen la necesidad; el equipo de scouting prepara la lista. Ocurre en la planificación de plantilla y en las ventanas de transferencias.</p></div>
+    <div><h3>Por qué se requiere una metodología</h3><p>No existe una etiqueta correcta de perfil funcional. La representación debe construirse con datos de eventos heterogéneos, controlar minutos y contexto, y evaluarse sin una verdad de referencia.</p></div>
+  </div>
+  <div class="scope">
+    <div><h3>Dentro del alcance</h3><ul><li>Jugadores de campo</li><li>Eventos de Wyscout como base</li><li>Replicación con StatsBomb</li><li>Tracking como estudio complementario</li><li>Transfermarkt como contexto posterior</li></ul></div>
+    <div><h3>Fuera del alcance</h3><ul><li>Porteros</li><li>Predicción de resultados</li><li>Valoración económica</li><li>Decisión automática de contratación</li></ul></div>
+    <div><h3>Pregunta de investigación</h3><p>¿En qué medida es posible identificar perfiles funcionales de jugadores a partir de sus patrones de comportamiento en campo, más allá de su posición nominal?</p></div>
+  </div>
+</div></section>
+
+<!-- 04 Objetivos -->
+<section class="page" id="p4"><div class="inner">
+  <div class="kicker"><b>04</b> Objetivos</div>
+  <h2>Objetivo general</h2>
+  <p class="lead" style="max-width:70ch">Construir y evaluar perfiles funcionales de futbolistas de campo a partir de su comportamiento observado en datos de juego, para apoyar comparaciones de jugadores que aporten información adicional a la posición nominal.</p>
+  <div>
+    <h3 class="chart-title" style="margin-bottom:8px">Objetivos específicos</h3>
+    <ol class="objectives">
+      <li><span>Auditar las fuentes y definir la unidad de análisis, los indicadores y las reglas de comparabilidad acordes con su cobertura.</span><span class="status"><i class="dot now"></i>En curso</span></li>
+      <li><span>Construir una representación reproducible de distribución, progresión, creación, finalización, recuperación y participación espacial.</span><span class="status"><i class="dot now"></i>Iniciado</span></li>
+      <li><span>Comparar técnicas de agrupación y seleccionar una solución según separación, estabilidad e interpretación.</span><span class="status"><i class="dot next"></i>Previsto</span></li>
+      <li><span>Evaluar la relación entre perfiles y posición nominal, y la sensibilidad a la exposición, el contexto y el proveedor.</span><span class="status"><i class="dot next"></i>Previsto</span></li>
+      <li><span>Diseñar y evaluar consultas de similitud mediante casos documentados, con una propuesta de uso y sus restricciones.</span><span class="status"><i class="dot next"></i>Previsto</span></li>
+    </ol>
+  </div>
+  <div class="hyp">
+    <p><b>H1.</b> Dentro de una misma posición nominal hay diferencias de comportamiento que permiten describir perfiles distintos. <span class="mark">Con evidencia preliminar (página 11).</span></p>
+    <p><b>H2.</b> Algunos jugadores registrados en posiciones diferentes muestran proximidad funcional.</p>
+    <p><b>H3.</b> Las dimensiones principales se mantienen al cambiar la muestra y decisiones razonables de procesamiento.</p>
+    <p><b>H4.</b> La consulta funcional entrega candidatos pertinentes adicionales a una búsqueda restringida por posición.</p>
+  </div>
+</div></section>
+
+<!-- 05 Fuentes -->
+<section class="page" id="p5"><div class="inner">
+  <div class="kicker"><b>05</b> Uso y análisis de la información · fuentes</div>
+  <h2>Información disponible</h2>
+  <figure style="margin:0">
+    <p class="chart-title">Las fuentes cubren periodos distintos y coinciden en dos torneos: el Mundial 2018 y el Mundial 2022</p>
+    <p class="chart-sub">Periodo cubierto por cada fuente. Para StatsBomb se muestran las competiciones relevantes para el proyecto de un total de 80 competiciones-temporada</p>
+    <div class="scroll-x"><div id="timeline" style="min-width:760px"></div></div>
+  </figure>
+  <div class="scroll-x">
+    <table id="inv">
+      <thead><tr><th>Fuente</th><th>Rol en el proyecto</th><th class="num">Partidos</th><th class="num">Jugadores</th><th class="num">Registros de eventos</th><th>Seguimiento espacial</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="note">Cifras obtenidas de la auditoría de los archivos descargados (src/diagnostics/audit_sources.py). En Transfermarkt los registros corresponden a eventos de partido como goles, tarjetas y cambios.</p>
+</div></section>
+
+<!-- 06 Cobertura -->
+<section class="page" id="p6"><div class="inner">
+  <div class="kicker"><b>06</b> Uso y análisis de la información · relaciones entre fuentes</div>
+  <h2>Cobertura de las dimensiones funcionales</h2>
+  <div style="display:flex;flex-direction:column;gap:30px">
+    <figure style="margin:0;min-width:0">
+      <p class="chart-title">Pases, remates y duelos aparecen en las cinco fuentes; la presión y las carreras sin balón no están en Wyscout</p>
+      <p class="chart-sub">Cada celda muestra el campo o tipo de evento encontrado al inspeccionar los archivos</p>
+      <div class="scroll-x"><div class="cov" id="cov"></div></div>
+      <div class="legend" style="margin-top:12px"><span><i style="background:var(--ink)"></i>Observado</span><span><i style="background:var(--mid)"></i>Parcial</span><span><i style="background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)"></i>No observado</span></div>
+    </figure>
+    <div>
+      <h3 class="chart-title" style="margin-bottom:6px">Ajustes al planteamiento a partir de la auditoría</h3>
+      <ol class="adjust adjust-row">
+        <li>La comparación entre proveedores se hará sobre el Mundial 2018, que está en Wyscout y StatsBomb con los mismos 64 partidos. Así se comparan jugadores y partidos idénticos y no temporadas distintas.</li>
+        <li>El componente espacial se concentrará en el Mundial 2022, que tiene StatsBomb 360 y tracking de PFF para los mismos 64 partidos.</li>
+        <li>El perfil base se construye con acciones con balón y duelos. La presión y el movimiento sin balón se estudiarán donde existen: StatsBomb y SkillCorner.</li>
+      </ol>
+    </div>
+  </div>
+</div></section>
+
+<!-- 07 Variables -->
+<section class="page" id="p7"><div class="inner">
+  <div class="kicker"><b>07</b> Uso y análisis de la información · variables relevantes</div>
+  <h2>Variables relevantes</h2>
+  <div class="grid-2">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <p>Para el diagnóstico se construyeron 18 indicadores por jugador y temporada a partir de los eventos de Wyscout. Las tasas se calculan por 90 minutos jugados y las proporciones sobre el total de acciones del jugador, que dependen menos del volumen de juego del equipo.</p>
+      <div class="vars">
+        <div><h3>Distribución</h3><ul><li>Pases por 90</li><li>Precisión de pase</li><li>Proporción de pases</li></ul></div>
+        <div><h3>Progresión</h3><ul><li>Pases progresivos por 90</li><li>Entradas al último tercio</li><li>Conducciones por 90</li></ul></div>
+        <div><h3>Creación</h3><ul><li>Pases clave por 90</li><li>Centros por 90</li></ul></div>
+        <div><h3>Finalización</h3><ul><li>Remates por 90</li><li>Acciones en el área</li><li>Proporción de remates</li></ul></div>
+        <div><h3>Recuperación y duelo</h3><ul><li>Intercepciones por 90</li><li>Duelos y duelos aéreos</li><li>Regates ganados</li><li>Proporción de duelos</li></ul></div>
+        <div><h3>Ocupación espacial</h3><ul><li>Profundidad media (eje x)</li><li>Distancia al eje central (eje y)</li></ul></div>
+      </div>
+      <p class="note">La posición nominal no se usa como variable del perfil y las variables de Transfermarkt no intervienen en su construcción. Las definiciones son una primera versión; el umbral de progresión y el ajuste por posesión se fijarán en la etapa de construcción de variables.</p>
+    </div>
+    <div style="min-width:0">
+      <p class="chart-sub" style="margin-bottom:6px">Un evento de Wyscout tal como llega en el archivo original</p>
+<pre class="frag">{ <span class="k">"eventName"</span>: <span class="hl">"Pass"</span>, <span class="k">"subEventName"</span>: "Simple pass",
+  <span class="k">"playerId"</span>: 122671, <span class="k">"teamId"</span>: 16521,
+  <span class="k">"matchId"</span>: 2057954, <span class="k">"matchPeriod"</span>: "1H",
+  <span class="k">"eventSec"</span>: 1.656,
+  <span class="k">"positions"</span>: [{"x": <span class="hl">50</span>, "y": 50}, {"x": <span class="hl">35</span>, "y": 53}],
+  <span class="k">"tags"</span>: [{"id": <span class="hl">1801</span>}] }</pre>
+      <div class="arrow-down">las coordenadas van de 0 a 100 en la dirección de ataque; el tag 1801 indica pase preciso</div>
+      <p class="chart-sub" style="margin-bottom:6px">El mismo tipo de evento agregado en la tabla jugador-temporada</p>
+<pre class="frag"><span class="k">jugador</span>            M. Hamšík      <span class="k">competición</span>  Italia 2017/18
+<span class="k">minutos</span>            2.448          <span class="k">rol Wyscout</span>  MD
+<span class="k">pases_p90</span>          91,52          <span class="k">profundidad</span>  57,85
+<span class="k">progresivos_p90</span>     5,59          <span class="k">remates_p90</span>   3,05</pre>
+    </div>
+  </div>
+</div></section>
+
+<!-- 08 Transformación -->
+<section class="page" id="p8"><div class="inner">
+  <div class="kicker"><b>08</b> Uso y análisis de la información · transformación de los datos</div>
+  <h2>Proceso de transformación de los datos</h2>
+  <p class="lead">Recorrido de los datos de Wyscout desde los archivos originales hasta la población que se usará en el modelado. Los archivos de <span class="mono">data/raw</span> no se modifican; cada etapa escribe en una capa propia.</p>
+  <div class="scroll-x" style="padding-top:6px">
+    <div class="flow">
+      <div class="st"><i class="dot done"></i><h3>Archivos originales</h3><span class="n">956 MB</span><p>7 archivos JSON de eventos y 7 de partidos, extraídos de los ZIP descargados de figshare.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Eventos en Parquet</h3><span class="n">3.251.294</span><p>Eventos con coordenadas aplanadas y tags como lista. Ocupan 51 MB en la capa interim.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Jugador-partido</h3><span class="n">53.791</span><p>Minutos reconstruidos con alineaciones, cambios y expulsiones, más los conteos de acciones.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Jugador-temporada</h3><span class="n">3.676</span><p>Agregación por jugador y competición, con promedios espaciales ponderados por acciones.</p></div>
+      <div class="st"><i class="dot now"></i><h3>Población elegible</h3><span class="n mark">1.550</span><p>Jugadores de campo de las cinco ligas con al menos 900 minutos. Umbral provisional.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Enlace Transfermarkt</h3><span class="n">97,0 %</span><p>2.494 de 2.570 jugadores enlazados por fecha de nacimiento y similitud de nombre.</p></div>
+    </div>
+  </div>
+  <div>
+    <p class="chart-sub" style="margin-bottom:8px">Etapas siguientes</p>
+    <div class="flow-next"><span>Homologación de StatsBomb, Mundial 2018</span><em>→</em><span>Variables definitivas</span><em>→</em><span>Estandarización</span><em>→</em><span>Matriz para el modelado</span></div>
+  </div>
+  <div class="legend"><span><i class="dot done" style="width:12px;height:12px"></i>Realizado</span><span><i class="dot now" style="width:12px;height:12px"></i>En curso</span><span><i class="dot next" style="width:12px;height:12px"></i>Previsto</span></div>
+  <p class="note">Código: <span class="mono">src/harmonization/wyscout_to_parquet.py</span>, <span class="mono">src/features/wyscout_player_tables.py</span>, <span class="mono">src/diagnostics/wyscout_findings.py</span>.</p>
+</div></section>
+
+<!-- 09 Hallazgos: calidad -->
+<section class="page" id="p9"><div class="inner">
+  <div class="kicker"><b>09</b> Hallazgos después de la depuración · calidad</div>
+  <h2>Exploración inicial de los datos de Wyscout</h2>
+  <div class="grid-2 rev">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div>
+        <div class="big"><span class="mark">10,97</span></div>
+        <p style="margin-top:8px;max-width:38ch">jugadores en cancha por equipo y partido, en promedio, al sumar los minutos reconstruidos. El valor esperado es 11 menos las expulsiones, lo que respalda la reconstrucción.</p>
+      </div>
+      <div class="facts">
+        <div><b>6,95 %</b><span>de los eventos no tiene jugador asociado; en su mayoría son interrupciones del juego.</span></div>
+        <div><b>0,09 %</b><span>de las combinaciones jugador-partido con eventos no aparece en la alineación del partido.</span></div>
+        <div><b>0,02 %</b><span>de los eventos no tiene coordenada final.</span></div>
+        <div><b>1.152</b><span>de los 3.603 nombres de jugadores venían con caracteres sin decodificar en el archivo original; se corrigieron.</span></div>
+      </div>
+    </div>
+    <figure style="margin:0">
+      <p class="chart-title">Con un umbral de 900 minutos quedan 1.550 jugadores-temporada de campo, el 64 % de los que tienen minutos</p>
+      <p class="chart-sub">Jugadores-temporada de campo en las cinco ligas 2017/18 según el mínimo de minutos exigido</p>
+      <div id="elig"></div>
+      <p class="note">El umbral es provisional. Se revisará con la estabilidad de los indicadores y se compararán umbrales alternativos. Los porteros se excluyen del perfilamiento.</p>
+    </figure>
+  </div>
+</div></section>
+
+<!-- 10 Hallazgos: posición -->
+<section class="page" id="p10"><div class="inner">
+  <div class="kicker"><b>10</b> Hallazgos preliminares · posición y comportamiento</div>
+  <h2>¿Cuánto del comportamiento explica la posición?</h2>
+  <div class="grid-2">
+    <figure style="margin:0;min-width:0">
+      <p class="chart-title">La posición de Wyscout explica en mediana el 36 % de la variación entre jugadores; la sub-posición de Transfermarkt, el 56 %</p>
+      <p class="chart-sub">Proporción de la varianza de cada indicador explicada por la posición (eta cuadrado de un ANOVA de una vía)</p>
+      <div id="dumb"></div>
+    </figure>
+    <div style="display:flex;flex-direction:column;gap:18px;padding-top:6px">
+      <p>Incluso con trece sub-posiciones queda cerca del 44 % de la variación sin explicar. En los indicadores resaltados la posición gruesa casi no informa: centros, conducciones y distancia al eje central.</p>
+      <p>El equipo, por sí solo, explica el 37 % de la variación en pases por 90 minutos. Sin ningún efecto se esperaría cerca del 6 % con 98 equipos, lo que indica que el volumen de pases depende de la posesión del equipo y debe ajustarse.</p>
+      <p class="note">Universo: 1.550 jugadores-temporada de campo con al menos 900 minutos en las cinco ligas 2017/18 (1.500 con sub-posición enlazada). La sub-posición de Transfermarkt corresponde al registro de 2026. Es un resultado descriptivo y preliminar; todavía no corresponde a perfiles funcionales.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 11 Hallazgos: mediocampistas -->
+<section class="page" id="p11"><div class="inner">
+  <div class="kicker"><b>11</b> Hallazgos preliminares · mediocampistas</div>
+  <h2>Los mediocampistas de Wyscout no forman un grupo homogéneo</h2>
+  <figure style="margin:0">
+    <p class="chart-title">120 de los 600 mediocampistas de Wyscout aparecen en Transfermarkt como extremos, defensas o delanteros</p>
+    <p class="chart-sub">Sub-posición en Transfermarkt de los jugadores que Wyscout clasifica como mediocampistas (MD)</p>
+    <div id="stack"></div>
+  </figure>
+  <figure style="margin:0">
+    <p class="chart-title">Dentro de cada sub-posición la profundidad media y la progresión varían ampliamente</p>
+    <p class="chart-sub">Eje horizontal: profundidad media de las acciones (0 a 100). Eje vertical: pases progresivos por 90. En gris, los 600 mediocampistas; en negro, los de la sub-posición del panel</p>
+    <div class="scroll-x"><div id="panels" style="min-width:760px"></div></div>
+  </figure>
+</div></section>
+
+<!-- 12 Metodología -->
+<section class="page" id="p12"><div class="inner">
+  <div class="kicker"><b>12</b> Metodología específica</div>
+  <h2>Metodología analítica</h2>
+  <div class="grid-2">
+    <div class="method">
+      <div class="ph">Comprensión del negocio</div>
+      <div class="acts"><div><i class="dot done"></i>Problema, pregunta, alcance e hipótesis</div></div>
+      <div class="ph">Comprensión de los datos</div>
+      <div class="acts"><div><i class="dot done"></i>Adquisición y trazabilidad de seis fuentes <small>manifiestos, hashes y commits</small></div><div><i class="dot done"></i>Auditoría y matriz de cobertura</div></div>
+      <div class="ph">Preparación</div>
+      <div class="acts"><div><i class="dot done"></i>Tablas jugador-partido y jugador-temporada de Wyscout</div><div><i class="dot done"></i>Enlace con Transfermarkt</div><div><i class="dot now"></i>Indicadores, umbral de minutos y reglas de comparabilidad</div><div><i class="dot next"></i>Estandarización <small>por 90, composición y ajuste por posesión</small></div></div>
+      <div class="ph">Modelado</div>
+      <div class="acts"><div><i class="dot next"></i>Reducción de dimensionalidad <small>PCA; UMAP solo como apoyo visual</small></div><div><i class="dot next"></i>Agrupación <small>K-means, mezclas gaussianas y jerárquico</small></div><div><i class="dot next"></i>Caracterización de perfiles y jugadores representativos</div></div>
+      <div class="ph">Evaluación</div>
+      <div class="acts"><div><i class="dot next"></i>Separación, estabilidad y autoidentificación</div><div><i class="dot next"></i>Contraste con la posición nominal</div><div><i class="dot next"></i>Replicación con StatsBomb en el Mundial 2018</div></div>
+      <div class="ph">Despliegue</div>
+      <div class="acts"><div><i class="dot next"></i>Consulta de jugadores similares y prototipo</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:26px">
+      <div class="principle"><p>La posición nominal no entra como variable del agrupamiento. Se usa después, como referencia externa, para medir qué información adicional aportan los perfiles.</p></div>
+      <p>El trabajo sigue CRISP-DM. La auditoría ya obligó a volver sobre el planteamiento: cambió la estrategia de validación entre proveedores y delimitó las dimensiones del perfil base.</p>
+      <p>Si los grupos no resultan estables, el proyecto conservará una representación continua y la consulta de similitud seguirá siendo posible sin etiquetas discretas.</p>
+      <div class="legend"><span><i class="dot done" style="width:12px;height:12px"></i>Realizado</span><span><i class="dot now" style="width:12px;height:12px"></i>En curso</span><span><i class="dot next" style="width:12px;height:12px"></i>Previsto</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 13 Criterios de éxito -->
+<section class="page" id="p13"><div class="inner">
+  <div class="kicker"><b>13</b> Criterios de éxito</div>
+  <h2>Cómo se medirá la efectividad de la solución</h2>
+  <p class="lead">No existe una etiqueta correcta de perfil funcional, por eso ningún indicador decide por sí solo. La línea base es una búsqueda por posición nominal con los mismos filtros, la misma población y el mismo tamaño de lista.</p>
+  <div class="scroll-x">
+    <table>
+      <thead><tr><th>Aspecto</th><th>Medida</th><th>Cómo se aplica</th></tr></thead>
+      <tbody>
+        <tr><td class="src">Separación</td><td>Silueta y Davies-Bouldin</td><td>Comparación entre algoritmos y número de grupos</td></tr>
+        <tr><td class="src">Estabilidad</td><td>Índice de Rand ajustado; cambio en los vecinos recuperados</td><td>Remuestreo por jugador y primera frente a segunda mitad de la temporada</td></tr>
+        <tr><td class="src">Comportamiento propio</td><td>Autoidentificación: proporción de jugadores cuyo vecino más cercano en la otra mitad de la temporada es él mismo</td><td>Frente a la línea base por posición. Criterio incorporado en esta etapa</td></tr>
+        <tr><td class="src">Aporte frente a la posición</td><td>Diferencias dentro de una posición y similitudes entre posiciones</td><td>Deben ser interpretables y mantenerse en los análisis de sensibilidad</td></tr>
+        <tr><td class="src">Replicación</td><td>Concordancia de dimensiones entre Wyscout y StatsBomb</td><td>Mismos 64 partidos del Mundial 2018</td></tr>
+        <tr><td class="src">Uso</td><td>Candidatos pertinentes en una lista de tamaño fijo y tiempo de revisión</td><td>Solo con revisores deportivos. Sin datos de operación no se estima ahorro ni retorno</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Los rangos aceptables de estabilidad y los criterios de descarte se fijarán en el protocolo de modelado antes de revisar la evaluación final.</p>
+</div></section>
+
+<!-- 14 Cronograma -->
+<section class="page" id="p14"><div class="inner">
+  <div class="kicker"><b>14</b> Avance en el cronograma</div>
+  <h2>Estado actual</h2>
+  <p class="lead">El plan de trabajo tiene doce semanas desde el inicio del desarrollo empírico. El planteamiento y la adquisición de datos están terminados; el diagnóstico avanzó y ya se inició la construcción de la población elegible y los indicadores.</p>
+  <div class="scroll-x">
+    <div class="gantt" id="gantt"></div>
+  </div>
+  <div class="legend"><span><i style="background:var(--ink)"></i>Realizado</span><span><i style="background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)"></i>En curso</span><span><i style="background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)"></i>Previsto</span></div>
+  <p class="note">Pendiente dentro de la fase en curso: revisión de condiciones de uso de cada fuente y homologación de StatsBomb. El cronograma se ajusta con la auditoría y mantiene como prioridad el modelo principal de eventos.</p>
+</div></section>
+
+<!-- 15 Retos -->
+<section class="page" id="p15"><div class="inner">
+  <div class="kicker"><b>15</b> Retos del proyecto</div>
+  <h2>Retos identificados</h2>
+  <div class="challenges">
+    <div class="rt">Proveedores con taxonomías y coordenadas distintas</div><div class="rs">Wyscout usa una escala de 0 a 100, StatsBomb de 120 por 80 yardas y el tracking usa metros. Se trabaja con una matriz de definiciones y la comparación se hará en los mismos partidos.</div>
+    <div class="rt">Identidad de los jugadores entre fuentes</div><div class="rs">El enlace Wyscout y Transfermarkt alcanza 97,0 %. Falta construir el enlace con StatsBomb para el Mundial 2018.</div>
+    <div class="rt">Posición de referencia en el tiempo</div><div class="rs">La sub-posición de Transfermarkt es la registrada en 2026. Sus alineaciones traen la posición por partido en 1.825 partidos de las cinco ligas 2017/18, que se usarán como referencia de la temporada.</div>
+    <div class="rt">Efecto del equipo y la posesión</div><div class="rs">El equipo explica parte importante del volumen de pases. Se usarán proporciones de acciones y ajuste por posesión.</div>
+    <div class="rt">Ausencia de una verdad de referencia</div><div class="rs">La validación combina separación, estabilidad, autoidentificación e interpretación deportiva.</div>
+    <div class="rt">Volumen de información</div><div class="rs">34 GB en total. El tracking se procesa por partido y los datos intermedios se guardan en Parquet por capas.</div>
+  </div>
+</div></section>
+
+<!-- 16 Resultados esperados -->
+<section class="page" id="p16"><div class="inner">
+  <div class="kicker"><b>16</b> Resultados esperados</div>
+  <h2>Resultados esperados</h2>
+  <ol class="expected">
+    <li><b>Representación</b>Una descripción reproducible del comportamiento de los jugadores de campo de las cinco ligas 2017/18, con indicadores documentados desde el evento de origen.</li>
+    <li><b>Perfiles</b>Perfiles funcionales interpretables, con sus variables distintivas, jugadores representativos y su relación con la posición nominal.</li>
+    <li><b>Consulta</b>Una consulta de jugadores similares evaluada frente a la búsqueda por posición, con sus límites de comparación explícitos.</li>
+    <li><b>Validación</b>Evidencia de replicación con StatsBomb en el Mundial 2018 y un estudio espacial complementario en el Mundial 2022.</li>
+    <li><b>Prototipo</b>Un explorador que permita consultar el perfil de un jugador, sus percentiles y los jugadores con comportamiento similar.</li>
+  </ol>
+  <p class="note">Estos son resultados esperados, no resultados obtenidos. Próximo paso: fijar las definiciones de los indicadores y el protocolo de modelado antes de entrenar los primeros modelos.</p>
+  <p class="foot">Eduar Felipe Riaño Torres · MIIA, Universidad de los Andes · Asesor: Juan Pablo Gómez Bravo</p>
+</div></section>
+
+<nav class="pager" aria-label="Navegación entre páginas">
+  <button id="prev" aria-label="Página anterior">↑</button>
+  <span id="pnum">01 / 16</span>
+  <button id="next" aria-label="Página siguiente">↓</button>
+</nav>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const DATA = {"variance":[{"feature":"pases_p90","eta2_wyscout_role":0.286,"eta2_tm_subposition":0.372,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.367,"eta2_role_x_team":0.726},{"feature":"precision_pase","eta2_wyscout_role":0.18,"eta2_tm_subposition":0.392,"eta2_tm_subposition_n":1500,"eta2_competition":0.005,"eta2_team":0.26,"eta2_role_x_team":0.5},{"feature":"pases_progresivos_p90","eta2_wyscout_role":0.487,"eta2_tm_subposition":0.595,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.048,"eta2_role_x_team":0.584},{"feature":"entradas_ultimo_tercio_p90","eta2_wyscout_role":0.281,"eta2_tm_subposition":0.418,"eta2_tm_subposition_n":1500,"eta2_competition":0.001,"eta2_team":0.176,"eta2_role_x_team":0.544},{"feature":"pases_clave_p90","eta2_wyscout_role":0.126,"eta2_tm_subposition":0.38,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.132,"eta2_role_x_team":0.367},{"feature":"centros_p90","eta2_wyscout_role":0.001,"eta2_tm_subposition":0.529,"eta2_tm_subposition_n":1500,"eta2_competition":0.001,"eta2_team":0.047,"eta2_role_x_team":0.129},{"feature":"conducciones_p90","eta2_wyscout_role":0.087,"eta2_tm_subposition":0.413,"eta2_tm_subposition_n":1500,"eta2_competition":0.003,"eta2_team":0.081,"eta2_role_x_team":0.257},{"feature":"remates_p90","eta2_wyscout_role":0.611,"eta2_tm_subposition":0.654,"eta2_tm_subposition_n":1500,"eta2_competition":0.003,"eta2_team":0.063,"eta2_role_x_team":0.723},{"feature":"acciones_area_p90","eta2_wyscout_role":0.625,"eta2_tm_subposition":0.713,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.061,"eta2_role_x_team":0.737},{"feature":"duelos_p90","eta2_wyscout_role":0.37,"eta2_tm_subposition":0.399,"eta2_tm_subposition_n":1500,"eta2_competition":0.006,"eta2_team":0.05,"eta2_role_x_team":0.518},{"feature":"duelos_aereos_p90","eta2_wyscout_role":0.151,"eta2_tm_subposition":0.344,"eta2_tm_subposition_n":1500,"eta2_competition":0.02,"eta2_team":0.095,"eta2_role_x_team":0.441},{"feature":"intercepciones_p90","eta2_wyscout_role":0.559,"eta2_tm_subposition":0.685,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.046,"eta2_role_x_team":0.636},{"feature":"regates_ganados_p90","eta2_wyscout_role":0.342,"eta2_tm_subposition":0.55,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.044,"eta2_role_x_team":0.456},{"feature":"profundidad_media_x","eta2_wyscout_role":0.674,"eta2_tm_subposition":0.855,"eta2_tm_subposition_n":1500,"eta2_competition":0.001,"eta2_team":0.035,"eta2_role_x_team":0.72},{"feature":"distancia_al_centro_y","eta2_wyscout_role":0.069,"eta2_tm_subposition":0.652,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.02,"eta2_role_x_team":0.143},{"feature":"share_pases","eta2_wyscout_role":0.409,"eta2_tm_subposition":0.565,"eta2_tm_subposition_n":1500,"eta2_competition":0.002,"eta2_team":0.193,"eta2_role_x_team":0.653},{"feature":"share_duelos","eta2_wyscout_role":0.526,"eta2_tm_subposition":0.603,"eta2_tm_subposition_n":1500,"eta2_competition":0.003,"eta2_team":0.136,"eta2_role_x_team":0.724},{"feature":"share_remates","eta2_wyscout_role":0.635,"eta2_tm_subposition":0.688,"eta2_tm_subposition_n":1500,"eta2_competition":0.001,"eta2_team":0.032,"eta2_role_x_team":0.724}],"elig":[{"min_minutes":0,"player_seasons":2620,"outfield":2419,"role_DF":896,"role_MD":949,"role_FW":574,"role_GK":201},{"min_minutes":450,"player_seasons":1985,"outfield":1849,"role_DF":716,"role_MD":716,"role_FW":417,"role_GK":136},{"min_minutes":900,"player_seasons":1671,"outfield":1550,"role_DF":611,"role_MD":600,"role_FW":339,"role_GK":121},{"min_minutes":1350,"player_seasons":1328,"outfield":1221,"role_DF":508,"role_MD":467,"role_FW":246,"role_GK":107},{"min_minutes":1800,"player_seasons":1002,"outfield":906,"role_DF":386,"role_MD":347,"role_FW":173,"role_GK":96}],"md":[{"n":"C. Eriksen","c":"England","s":"Attacking Midfield","x":62.459,"p":4.342,"i":2.859,"m":3400},{"n":"J. Guðmunds­son","c":"England","s":"Right Winger","x":61.015,"p":1.802,"i":2.973,"m":2997},{"n":"K. Strootman","c":"Italy","s":"Central Midfield","x":54.663,"p":4.779,"i":3.451,"m":2373},{"n":"G. Wijnaldum","c":"England","s":"Central Midfield","x":52.965,"p":1.662,"i":3.183,"m":2545},{"n":"R. van La Parra","c":"England","s":"Left Winger","x":58.912,"p":1.16,"i":3.041,"m":2249},{"n":"F. Đuričić","c":"Italy","s":"Attacking Midfield","x":55.992,"p":1.745,"i":2.444,"m":1031},{"n":"L. Fer","c":"England","s":"Defensive Midfield","x":50.47,"p":2.263,"i":3.425,"m":1472},{"n":"D. Tadić","c":"England","s":"Right Winger","x":64.577,"p":2.329,"i":2.391,"m":2898},{"n":"D. Pröpper","c":"England","s":"Central Midfield","x":45.804,"p":3.662,"i":5.985,"m":3293},{"n":"M. de Roon","c":"Italy","s":"Defensive Midfield","x":49.169,"p":4.409,"i":4.903,"m":2735},{"n":"É. Banega","c":"Spain","s":"Central Midfield","x":53.023,"p":10.232,"i":2.836,"m":2507},{"n":"Canales","c":"Spain","s":"Attacking Midfield","x":61.957,"p":3.21,"i":2.274,"m":2019},{"n":"Dani Parejo","c":"Spain","s":"Central Midfield","x":50.466,"p":7.437,"i":3.704,"m":3134},{"n":"Portu","c":"Spain","s":"Right Winger","x":65.934,"p":0.844,"i":1.193,"m":3093},{"n":"Á. di María","c":"France","s":"Right Winger","x":68.718,"p":2.28,"i":1.741,"m":2171},{"n":"Granero","c":"Spain","s":"Central Midfield","x":53.295,"p":2.485,"i":4.418,"m":1304},{"n":"S. Khedira","c":"Italy","s":"Central Midfield","x":52.463,"p":2.21,"i":3.382,"m":1996},{"n":"M. Özil","c":"England","s":"Attacking Midfield","x":63.129,"p":3.451,"i":1.922,"m":2295},{"n":"N. Şahin","c":"Germany","s":"Defensive Midfield","x":50.43,"p":7.058,"i":4.682,"m":1288},{"n":"Rafinha","c":"Italy","s":"Attacking Midfield","x":57.936,"p":3.214,"i":3.049,"m":1092},{"n":"Thiago Alcântara","c":"Germany","s":"Central Midfield","x":54.588,"p":8.692,"i":3.745,"m":1274},{"n":"Sergio Busquets","c":"Spain","s":"Defensive Midfield","x":46.837,"p":5.853,"i":4.18,"m":2691},{"n":"Fàbregas","c":"England","s":"Central Midfield","x":55.737,"p":8.339,"i":3.159,"m":2450},{"n":"Iniesta","c":"Spain","s":"Central Midfield","x":57.479,"p":4.436,"i":2.7,"m":1866},{"n":"A. Guardado","c":"Spain","s":"Central Midfield","x":52.356,"p":4.169,"i":3.297,"m":2375},{"n":"San José","c":"Spain","s":"Defensive Midfield","x":47.56,"p":3.235,"i":5.391,"m":2254},{"n":"Ander Herrera","c":"England","s":"Central Midfield","x":48.139,"p":4.737,"i":5.671,"m":1349},{"n":"Iturraspe","c":"Spain","s":"Defensive Midfield","x":48.173,"p":4.186,"i":6.931,"m":2000},{"n":"Javi Martínez","c":"Germany","s":"Defensive Midfield","x":46.584,"p":4.322,"i":5.997,"m":1666},{"n":"Susaeta","c":"Spain","s":"Right Winger","x":61.623,"p":1.453,"i":2.753,"m":2354},{"n":"Ibai Gómez","c":"Spain","s":"Left Winger","x":59.496,"p":2.571,"i":2.683,"m":2415},{"n":"Gabi","c":"Spain","s":"Central Midfield","x":47.152,"p":5.588,"i":4.926,"m":2448},{"n":"Koke","c":"Spain","s":"Central Midfield","x":53.741,"p":4.817,"i":3.936,"m":2858},{"n":"Campaña","c":"Spain","s":"Central Midfield","x":51.709,"p":4.886,"i":4.822,"m":2837},{"n":"Jesús Navas","c":"Spain","s":"Right Midfield","x":58.499,"p":2.519,"i":3.827,"m":1858},{"n":"I. Rakitić","c":"Spain","s":"Central Midfield","x":51.059,"p":5.238,"i":4.502,"m":2938},{"n":"Luis Alberto","c":"Italy","s":"Attacking Midfield","x":63.825,"p":4.287,"i":2.288,"m":2792},{"n":"Raúl García","c":"Spain","s":"Centre-Forward","x":61.555,"p":1.591,"i":3.713,"m":2715},{"n":"Timor","c":"Spain","s":"Defensive Midfield","x":42.251,"p":3.983,"i":6.483,"m":972},{"n":"J. de Guzmán","c":"Germany","s":"Central Midfield","x":53.346,"p":4.217,"i":2.811,"m":1153},{"n":"M. Wakaso","c":"Spain","s":"Central Midfield","x":45.947,"p":3.893,"i":5.606,"m":1156},{"n":"Trigueros","c":"Spain","s":"Central Midfield","x":49.182,"p":5.13,"i":4.066,"m":2789},{"n":"Borja Valero","c":"Italy","s":"Central Midfield","x":51.141,"p":4.728,"i":3.755,"m":2684},{"n":"Isco","c":"Spain","s":"Attacking Midfield","x":62.243,"p":4.016,"i":1.273,"m":1838},{"n":"Camacho","c":"Germany","s":null,"x":39.799,"p":4.124,"i":8.427,"m":1004},{"n":"Recio","c":"Spain","s":"Central Midfield","x":52.013,"p":3.477,"i":4.37,"m":1915},{"n":"Joaquín","c":"Spain","s":"Right Winger","x":59.533,"p":2.262,"i":2.644,"m":2587},{"n":"Portillo","c":"Spain","s":"Right Winger","x":57.851,"p":3.265,"i":3.651,"m":2564},{"n":"J. Toulalan","c":"France","s":"Defensive Midfield","x":31.915,"p":8.454,"i":5.967,"m":1991},{"n":"Beñat","c":"Spain","s":"Central Midfield","x":54.25,"p":4.246,"i":4.321,"m":1187},{"n":"Chory Castro","c":"Spain","s":"Left Winger","x":58.197,"p":2.498,"i":3.429,"m":2126},{"n":"Tomás Pina","c":"Spain","s":"Central Midfield","x":46.639,"p":2.868,"i":5.337,"m":2479},{"n":"Markel Bergara","c":"Spain","s":"Defensive Midfield","x":48.616,"p":0.703,"i":4.804,"m":1536},{"n":"Illarramendi","c":"Spain","s":"Defensive Midfield","x":46.661,"p":6.436,"i":5.509,"m":3300},{"n":"Xabi Prieto","c":"Spain","s":"Central Midfield","x":61.731,"p":2.766,"i":2.358,"m":1985},{"n":"Zurutuza","c":"Spain","s":"Central Midfield","x":49.852,"p":2.661,"i":4.397,"m":2333},{"n":"P. Diop","c":"Spain","s":"Defensive Midfield","x":53.328,"p":2.988,"i":4.625,"m":1265},{"n":"Adrián","c":"Spain","s":"Central Midfield","x":50.639,"p":2.688,"i":4.308,"m":2444},{"n":"Víctor Sánchez","c":"Spain","s":"Central Midfield","x":43.338,"p":4.723,"i":6.203,"m":2554},{"n":"Sergi Darder","c":"Spain","s":"Central Midfield","x":49.077,"p":3.932,"i":4.026,"m":2884},{"n":"F. Orellana","c":"Spain","s":"Right Winger","x":67.142,"p":1.309,"i":2.544,"m":1238},{"n":"M. Iturra","c":"Spain","s":"Defensive Midfield","x":43.632,"p":2.686,"i":4.111,"m":1642},{"n":"Vicente Iborra","c":"England","s":"Defensive Midfield","x":44.99,"p":3.617,"i":6.993,"m":1493},{"n":"N. El Zhar","c":"Spain","s":"Right Winger","x":62.256,"p":1.314,"i":2.497,"m":2055},{"n":"M. Lacen","c":"Spain","s":null,"x":45.327,"p":2.905,"i":2.905,"m":1177},{"n":"Rubén Pérez","c":"Spain","s":"Defensive Midfield","x":42.116,"p":6.517,"i":7.689,"m":2610},{"n":"Pedro León","c":"Spain","s":"Right Winger","x":69.121,"p":0.916,"i":3.48,"m":983},{"n":"Pablo Sarabia","c":"Spain","s":"Attacking Midfield","x":59.595,"p":2.313,"i":3.832,"m":2490},{"n":"Borja García","c":"Spain","s":"Attacking Midfield","x":58.947,"p":2.714,"i":3.213,"m":2885},{"n":"Javi Fuego","c":"Spain","s":"Defensive Midfield","x":42.599,"p":3.274,"i":4.842,"m":1952},{"n":"Javi Castellano","c":"Spain","s":"Left-Back","x":42.237,"p":2.52,"i":5.315,"m":1643},{"n":"Vicente Gómez","c":"Spain","s":"Defensive Midfield","x":48.573,"p":1.872,"i":3.518,"m":1586},{"n":"Vitolo","c":"Spain","s":"Left Winger","x":56.952,"p":1.853,"i":3.375,"m":1360},{"n":"Jonathan Viera","c":"Spain","s":null,"x":57.925,"p":3.843,"i":1.857,"m":2084},{"n":"Saúl","c":"Spain","s":"Central Midfield","x":49.634,"p":3.318,"i":5.895,"m":3282},{"n":"Pedro Mosquera","c":"Spain","s":"Central Midfield","x":44.852,"p":4.773,"i":5.516,"m":1452},{"n":"D. Cheryshev","c":"Spain","s":"Left Winger","x":56.35,"p":1.921,"i":3.934,"m":984},{"n":"Sergio Mora","c":"Spain","s":"Central Midfield","x":47.533,"p":3.488,"i":6.079,"m":903},{"n":"A. Szymanowski","c":"Spain","s":"Left Winger","x":60.762,"p":0.655,"i":3.848,"m":1099},{"n":"Jozabed","c":"Spain","s":"Central Midfield","x":51.993,"p":3.614,"i":3.436,"m":1519},{"n":"Tana","c":"Spain","s":"Attacking Midfield","x":56.675,"p":2.385,"i":2.884,"m":1623},{"n":"Omar Ramos","c":"Spain","s":"Attacking Midfield","x":57.605,"p":2.058,"i":4.298,"m":1487},{"n":"Mikel Rico","c":"Spain","s":"Central Midfield","x":50.562,"p":2.696,"i":4.445,"m":1235},{"n":"Dani García","c":"Spain","s":"Defensive Midfield","x":50.058,"p":4.542,"i":6.377,"m":2893},{"n":"Eraso","c":"Spain","s":"Central Midfield","x":59.882,"p":1.232,"i":2.464,"m":2629},{"n":"Manu García","c":"Spain","s":"Central Midfield","x":46.268,"p":2.818,"i":4.861,"m":2555},{"n":"A. Oxlade-Chamberlain","c":"England","s":"Central Midfield","x":59.734,"p":2.935,"i":4.186,"m":1871},{"n":"A. Ramsey","c":"England","s":"Central Midfield","x":57.692,"p":2.846,"i":2.479,"m":1961},{"n":"J. Wilshere","c":"England","s":"Central Midfield","x":55.136,"p":3.272,"i":1.88,"m":1293},{"n":"Oriol Romeu","c":"England","s":"Defensive Midfield","x":45.647,"p":3.416,"i":5.664,"m":3082},{"n":"Juan Mata","c":"England","s":"Attacking Midfield","x":63.061,"p":2.681,"i":2.145,"m":2014},{"n":"T. Cleverley","c":"England","s":"Central Midfield","x":54.136,"p":3.913,"i":3.253,"m":2047},{"n":"D. Fletcher","c":"England","s":"Central Midfield","x":46.627,"p":3.827,"i":3.521,"m":2352},{"n":"J. Lingard","c":"England","s":"Attacking Midfield","x":61.631,"p":1.363,"i":2.068,"m":1915},{"n":"P. Pogba","c":"England","s":"Central Midfield","x":55.103,"p":6.295,"i":2.851,"m":2273},{"n":"J. Henderson","c":"England","s":"Defensive Midfield","x":49.172,"p":7.463,"i":5.783,"m":2303},{"n":"Lucas Leiva","c":"Italy","s":"Defensive Midfield","x":45.871,"p":6.272,"i":5.232,"m":3028},{"n":"J. Shelvey","c":"England","s":"Central Midfield","x":48.974,"p":7.334,"i":4.341,"m":2405},{"n":"M. Abeid","c":"France","s":"Central Midfield","x":44.703,"p":3.136,"i":4.448,"m":1234},{"n":"Y. Cabaye","c":"England","s":"Central Midfield","x":51.175,"p":4.569,"i":5.512,"m":2482},{"n":"D. Gosling","c":"England","s":null,"x":47.603,"p":2.625,"i":5.8,"m":2126},{"n":"M. Albrighton","c":"England","s":"Right Midfield","x":55.636,"p":4.186,"i":3.148,"m":2687},{"n":"D. Stephens","c":"England","s":null,"x":42.527,"p":4.455,"i":5.897,"m":3434},{"n":"N. Redmond","c":"England","s":"Right Winger","x":60.792,"p":1.776,"i":2.643,"m":2077},{"n":"J. Cork","c":"England","s":"Defensive Midfield","x":47.729,"p":2.44,"i":4.584,"m":3652},{"n":"M. Schneiderlin","c":"England","s":"Defensive Midfield","x":44.786,"p":3.059,"i":6.038,"m":2266},{"n":"J. Ward-Prowse","c":"England","s":"Central Midfield","x":58.15,"p":1.945,"i":3.549,"m":1851},{"n":"S. N'Zonzi","c":"Spain","s":null,"x":47.102,"p":4.493,"i":4.454,"m":2324},{"n":"A. Lennon","c":"England","s":"Right Winger","x":57.907,"p":1.204,"i":3.433,"m":2019},{"n":"J. Livermore","c":"England","s":"Defensive Midfield","x":50.428,"p":2.554,"i":4.004,"m":2855},{"n":"L. Modrić","c":"Spain","s":"Central Midfield","x":53.561,"p":7.466,"i":2.811,"m":2049},{"n":"A. Pritchard","c":"England","s":"Attacking Midfield","x":63.169,"p":1.629,"i":2.143,"m":1050},{"n":"Sandro","c":"Italy","s":"Defensive Midfield","x":41.44,"p":3.244,"i":7.226,"m":1221},{"n":"G. Barry","c":"England","s":"Defensive Midfield","x":47.872,"p":4.402,"i":4.27,"m":2045},{"n":"David Silva","c":"England","s":"Attacking Midfield","x":61.698,"p":4.029,"i":2.172,"m":2569},{"n":"J. Milner","c":"England","s":"Central Midfield","x":56.195,"p":5.383,"i":4.177,"m":1939},{"n":"A. Surman","c":"England","s":"Central Midfield","x":46.802,"p":4.056,"i":5.482,"m":2019},{"n":"C. Brunt","c":"England","s":"Central Midfield","x":50.533,"p":5.427,"i":4.809,"m":2040},{"n":"W. Zaha","c":"England","s":"Left Winger","x":68.103,"p":0.989,"i":1.549,"m":2731},{"n":"F. Delph","c":"England","s":"Central Midfield","x":49.886,"p":3.892,"i":3.357,"m":1850},{"n":"A. Townsend","c":"England","s":"Right Winger","x":62.585,"p":1.472,"i":3.217,"m":3302},{"n":"A. King","c":"England","s":"Central Midfield","x":48.765,"p":2.631,"i":3.71,"m":1334},{"n":"J. McClean","c":"England","s":"Left Midfield","x":56.811,"p":0.639,"i":3.255,"m":1548},{"n":"S. Sessègnon","c":"France","s":"Attacking Midfield","x":60.291,"p":3.874,"i":1.119,"m":1045},{"n":"M. Noble","c":"England","s":"Central Midfield","x":46.666,"p":3.98,"i":4.503,"m":2578},{"n":"M. Diamé","c":"England","s":"Central Midfield","x":46.413,"p":2.369,"i":4.696,"m":2165},{"n":"J. McArthur","c":"England","s":"Central Midfield","x":51.336,"p":2.677,"i":4.623,"m":2589},{"n":"V. Moses","c":"England","s":"Right Midfield","x":55.196,"p":1.83,"i":3.783,"m":2213},{"n":"J. Hogg","c":"England","s":"Central Midfield","x":43.582,"p":3.361,"i":6.543,"m":2517},{"n":"A. Westwood","c":"England","s":"Defensive Midfield","x":47.658,"p":4.627,"i":5.374,"m":1206},{"n":"J. Stanislas","c":"England","s":"Left Winger","x":59.782,"p":1.73,"i":3.127,"m":1353},{"n":"T. Carroll","c":"England","s":"Central Midfield","x":53.895,"p":3.779,"i":3.154,"m":2739},{"n":"J. Hendrick","c":"England","s":"Central Midfield","x":58.256,"p":1.613,"i":1.906,"m":2455},{"n":"W. Hughes","c":"England","s":"Central Midfield","x":61.526,"p":2.351,"i":3.135,"m":1033},{"n":"A. Taarabt","c":"Italy","s":"Central Midfield","x":64.125,"p":1.957,"i":2.381,"m":1701},{"n":"M. Ritchie","c":"England","s":"Right Midfield","x":57.093,"p":1.925,"i":3.91,"m":2946},{"n":"H. Arter","c":"England","s":"Central Midfield","x":48.206,"p":4.711,"i":3.751,"m":1032},{"n":"M. Pugh","c":"England","s":"Left Winger","x":61.41,"p":2.685,"i":3.272,"m":1073},{"n":"M. Phillips","c":"England","s":"Right Winger","x":61.122,"p":1.61,"i":3.503,"m":2235},{"n":"T. Ince","c":"England","s":"Right Winger","x":59.535,"p":0.936,"i":1.871,"m":2597},{"n":"R. Brady","c":"England","s":"Left Midfield","x":60.136,"p":2.255,"i":3.516,"m":1357},{"n":"J. Ibe","c":"England","s":"Right Winger","x":62.469,"p":1.272,"i":1.356,"m":2123},{"n":"S. Clucas","c":"England","s":"Central Midfield","x":50.3,"p":1.411,"i":3.86,"m":2168},{"n":"M. Dembélé","c":"England","s":"Central Midfield","x":50.441,"p":4.094,"i":3.594,"m":1978},{"n":"S. Arfield","c":"England","s":"Central Midfield","x":53.582,"p":1.148,"i":3.7,"m":1411},{"n":"D. Alli","c":"England","s":"Attacking Midfield","x":63.462,"p":1.661,"i":2.652,"m":3088},{"n":"P. Bargfrede","c":"Germany","s":"Defensive Midfield","x":42.537,"p":5.406,"i":6.91,"m":1915},{"n":"Z. Junuzović","c":"Germany","s":"Central Midfield","x":61.397,"p":2.868,"i":2.125,"m":1695},{"n":"A. Hunt","c":"Germany","s":"Attacking Midfield","x":61.853,"p":2.892,"i":3.012,"m":2241},{"n":"Luiz Gustavo","c":"France","s":"Defensive Midfield","x":43.966,"p":5.08,"i":3.774,"m":3171},{"n":"T. Kroos","c":"Spain","s":"Central Midfield","x":54.885,"p":6.729,"i":2.23,"m":2341},{"n":"F. Ribéry","c":"Germany","s":"Left Winger","x":63.64,"p":2.705,"i":1.462,"m":1231},{"n":"A. Robben","c":"Germany","s":"Right Winger","x":68.843,"p":1.452,"i":1.394,"m":1549},{"n":"C. Gentner","c":"Germany","s":"Central Midfield","x":50.929,"p":3.494,"i":5.276,"m":2525},{"n":"G. Castro","c":"Germany","s":"Central Midfield","x":56.683,"p":3.402,"i":3.473,"m":1270},{"n":"L. Bender","c":"Germany","s":"Defensive Midfield","x":49.087,"p":4.142,"i":5.232,"m":1652},{"n":"K. Bellarabi","c":"Germany","s":"Right Winger","x":62.007,"p":1.549,"i":2.951,"m":1220},{"n":"M. Bakalorz","c":"Germany","s":"Defensive Midfield","x":50.831,"p":1.886,"i":4.945,"m":2148},{"n":"M. Götze","c":"Germany","s":"Attacking Midfield","x":59.966,"p":2.38,"i":2.434,"m":1664},{"n":"İ. Gündoğan","c":"England","s":"Central Midfield","x":55.616,"p":3.74,"i":3.025,"m":1636},{"n":"I. Perišić","c":"Italy","s":"Left Winger","x":63.871,"p":1.236,"i":4.093,"m":3496},{"n":"S. Kagawa","c":"Germany","s":"Attacking Midfield","x":59.714,"p":2.868,"i":1.25,"m":1224},{"n":"T. Inui","c":"Spain","s":"Left Winger","x":64.28,"p":1.16,"i":2.585,"m":2716},{"n":"C. Kramer","c":"Germany","s":"Defensive Midfield","x":46.653,"p":3.685,"i":4.526,"m":2247},{"n":"J. Draxler","c":"France","s":"Left Winger","x":57.094,"p":2.951,"i":2.646,"m":1769},{"n":"M. Höger","c":"Germany","s":"Defensive Midfield","x":44.587,"p":5.787,"i":4.967,"m":1757},{"n":"L. Holtby","c":"Germany","s":"Central Midfield","x":55.744,"p":3.641,"i":2.927,"m":1261},{"n":"Jurado","c":"Spain","s":"Attacking Midfield","x":55.835,"p":1.724,"i":2.069,"m":1566},{"n":"T. Rincón","c":"Italy","s":"Defensive Midfield","x":47.48,"p":2.702,"i":4.398,"m":3131},{"n":"P. Skjelbred","c":"Germany","s":"Central Midfield","x":45.86,"p":2.275,"i":4.158,"m":2294},{"n":"M. Hasebe","c":"Germany","s":"Centre-Back","x":37.037,"p":4.632,"i":6.066,"m":2196},{"n":"M. Arnold","c":"Germany","s":"Central Midfield","x":48.814,"p":3.688,"i":3.688,"m":2563},{"n":"D. Caligiuri","c":"Germany","s":"Right Winger","x":51.244,"p":4.013,"i":5.654,"m":3072},{"n":"J. Schmid","c":"Germany","s":null,"x":54.224,"p":1.756,"i":3.804,"m":1538},{"n":"J. Schuster","c":"Germany","s":"Defensive Midfield","x":40.779,"p":5.509,"i":5.574,"m":1372},{"n":"H. Nordtveit","c":"Germany","s":"Centre-Back","x":36.019,"p":6.243,"i":6.419,"m":1023},{"n":"P. Herrmann","c":"Germany","s":"Right Winger","x":57.856,"p":1.274,"i":3.296,"m":1201},{"n":"D. Didavi","c":"Germany","s":"Attacking Midfield","x":59.726,"p":1.835,"i":1.562,"m":2305},{"n":"M. Frantz","c":"Germany","s":"Defensive Midfield","x":51.638,"p":1.334,"i":3.169,"m":1079},{"n":"J. Baumgartlinger","c":"Germany","s":"Defensive Midfield","x":44.983,"p":3.165,"i":4.406,"m":1450},{"n":"Y. Mallı","c":"Germany","s":"Attacking Midfield","x":58.786,"p":2.144,"i":1.646,"m":2351},{"n":"M. Risse","c":"Germany","s":"Right Winger","x":56.425,"p":4.017,"i":3.068,"m":1232},{"n":"M. Lehmann","c":"Germany","s":"Defensive Midfield","x":42.231,"p":7.072,"i":4.47,"m":1591},{"n":"P. Schwegler","c":"Germany","s":"Defensive Midfield","x":48.246,"p":3.318,"i":5.443,"m":2414},{"n":"M. Weiser","c":"Germany","s":"Right-Back","x":54.048,"p":2.958,"i":5.046,"m":2069},{"n":"L. Bittencourt","c":"Germany","s":"Central Midfield","x":62.392,"p":1.22,"i":2.281,"m":1696},{"n":"N. Höfler","c":"Germany","s":"Defensive Midfield","x":44.772,"p":3.409,"i":5.242,"m":2455},{"n":"F. Klaus","c":"Germany","s":"Right Winger","x":58.519,"p":1.443,"i":2.973,"m":2059},{"n":"J. Haberer","c":"Germany","s":"Central Midfield","x":54.793,"p":1.667,"i":4.058,"m":2861},{"n":"H. Çalhanoğlu","c":"Italy","s":"Defensive Midfield","x":62.814,"p":2.827,"i":3.141,"m":2292},{"n":"P. Groß","c":"England","s":"Central Midfield","x":61.393,"p":2.352,"i":1.757,"m":3023},{"n":"M. Heller","c":"Germany","s":"Right Midfield","x":61.259,"p":0.924,"i":2.573,"m":1364},{"n":"D. Baier","c":"Germany","s":"Defensive Midfield","x":45.577,"p":5.681,"i":5.851,"m":2646},{"n":"Ja-Cheol Koo","c":"Germany","s":"Central Midfield","x":53.655,"p":1.644,"i":4.215,"m":2135},{"n":"S. Rudy","c":"Germany","s":"Defensive Midfield","x":52.35,"p":4.08,"i":3.962,"m":1522},{"n":"D. Williams","c":"England","s":"Defensive Midfield","x":46.118,"p":1.832,"i":4.91,"m":1228},{"n":"D. Demme","c":"Germany","s":"Defensive Midfield","x":48.685,"p":6.84,"i":5.487,"m":2395},{"n":"L. Rupp","c":"Germany","s":"Central Midfield","x":52.548,"p":1.717,"i":4.33,"m":1206},{"n":"F. Bartels","c":"Germany","s":"Right Winger","x":63.688,"p":1.487,"i":1.722,"m":1150},{"n":"K. Kampl","c":"Germany","s":"Central Midfield","x":54.914,"p":3.74,"i":4.665,"m":2142},{"n":"D. Latza","c":"Germany","s":"Central Midfield","x":49.445,"p":3.212,"i":5.219,"m":2466},{"n":"Caiuby","c":"Germany","s":"Left Winger","x":57.402,"p":0.993,"i":2.8,"m":2990},{"n":"R. Khedira","c":"Germany","s":"Defensive Midfield","x":41.929,"p":2.548,"i":6.39,"m":2366},{"n":"E. Can","c":"England","s":"Centre-Back","x":48.813,"p":3.483,"i":5.224,"m":2222},{"n":"J. Hofmann","c":"Germany","s":"Attacking Midfield","x":58.092,"p":1.956,"i":3.75,"m":1104},{"n":"N. Schulz","c":"Germany","s":"Left-Back","x":53.7,"p":2.377,"i":3.423,"m":1893},{"n":"A. Aquilani","c":"Spain","s":"Central Midfield","x":45.422,"p":4.814,"i":4.551,"m":1365},{"n":"K. Boateng","c":"Germany","s":"Attacking Midfield","x":54.028,"p":2.836,"i":3.964,"m":2475},{"n":"B. Cristante","c":"Italy","s":"Defensive Midfield","x":57.907,"p":3.39,"i":3.054,"m":2947},{"n":"M. Valoti","c":"Italy","s":"Central Midfield","x":49.606,"p":2.864,"i":5.405,"m":1665},{"n":"D. De Rossi","c":"Italy","s":"Defensive Midfield","x":45.693,"p":6.6,"i":5.421,"m":1909},{"n":"E. Lamela","c":"England","s":"Right Winger","x":63.422,"p":1.443,"i":2.116,"m":936},{"n":"M. Pjanić","c":"Italy","s":"Central Midfield","x":50.298,"p":5.631,"i":6.08,"m":2605},{"n":"F. Viviani","c":"Italy","s":"Defensive Midfield","x":48.903,"p":3.963,"i":4.996,"m":2612},{"n":"E. Giaccherini","c":"Italy","s":"Left Midfield","x":58.144,"p":2.652,"i":2.564,"m":1018},{"n":"S. Padoin","c":"Italy","s":"Central Midfield","x":49.509,"p":2.492,"i":3.533,"m":3286},{"n":"A. Vidal","c":"Germany","s":"Central Midfield","x":51.077,"p":4.407,"i":6.312,"m":1511},{"n":"J. Obi","c":"Italy","s":"Central Midfield","x":51.508,"p":2.379,"i":3.821,"m":1248},{"n":"A. Poli","c":"Italy","s":"Central Midfield","x":48.229,"p":1.971,"i":4.621,"m":2649},{"n":"A. Candreva","c":"Italy","s":"Right Midfield","x":64.775,"p":1.982,"i":2.734,"m":2634},{"n":"S. Lulić","c":"Italy","s":"Left Midfield","x":51.797,"p":3.524,"i":4.307,"m":2529},{"n":"K. Asamoah","c":"Italy","s":"Left Midfield","x":46.697,"p":4.452,"i":4.126,"m":1658},{"n":"G. Fernandes","c":"Germany","s":"Defensive Midfield","x":44.255,"p":1.64,"i":4.919,"m":1098},{"n":"R. Pereyra","c":"England","s":"Central Midfield","x":59.946,"p":1.899,"i":2.72,"m":1754},{"n":"Pedro Obiang","c":"England","s":"Central Midfield","x":46.079,"p":2.898,"i":5.743,"m":1677},{"n":"R. Soriano","c":"Spain","s":"Attacking Midfield","x":56.11,"p":1.351,"i":2.327,"m":1199},{"n":"P. Hetemaj","c":"Italy","s":"Central Midfield","x":51.062,"p":1.906,"i":4.482,"m":2550},{"n":"L. Rigoni","c":"Italy","s":"Central Midfield","x":53.004,"p":2.139,"i":3.456,"m":1641},{"n":"R. Krhin","c":"France","s":"Defensive Midfield","x":42.931,"p":2.533,"i":4.352,"m":1386},{"n":"G. Ramírez","c":"Italy","s":"Attacking Midfield","x":62.508,"p":1.875,"i":2.5,"m":2304},{"n":"A. Bertolacci","c":"Italy","s":"Central Midfield","x":49.212,"p":4.163,"i":4.576,"m":3048},{"n":"J. Cuadrado","c":"Italy","s":"Right Midfield","x":57.294,"p":2.956,"i":2.39,"m":1431},{"n":"A. Acquah","c":"Italy","s":"Central Midfield","x":50.785,"p":2.836,"i":2.493,"m":1047},{"n":"A. Barberis","c":"Italy","s":"Defensive Midfield","x":49.037,"p":1.765,"i":5.296,"m":3161},{"n":"É. Barreto","c":"Italy","s":"Central Midfield","x":53.575,"p":3.017,"i":4.198,"m":2058},{"n":"F. Vázquez","c":"Spain","s":"Attacking Midfield","x":60.787,"p":2.454,"i":2.124,"m":1907},{"n":"G. Bonaventura","c":"Italy","s":"Attacking Midfield","x":57.578,"p":2.645,"i":3.154,"m":2654},{"n":"L. Cigarini","c":"Italy","s":"Defensive Midfield","x":48.277,"p":6.673,"i":5.75,"m":2145},{"n":"A. Ekdal","c":"Germany","s":"Defensive Midfield","x":46.228,"p":2.769,"i":6.847,"m":1170},{"n":"R. Nainggolan","c":"Italy","s":"Central Midfield","x":58.0,"p":3.163,"i":2.504,"m":2732},{"n":"P. Schiattarella","c":"Italy","s":"Defensive Midfield","x":52.114,"p":2.999,"i":3.168,"m":2130},{"n":"Rômulo","c":"Italy","s":"Central Midfield","x":52.535,"p":2.318,"i":2.857,"m":3340},{"n":"V. Behrami","c":"Italy","s":"Defensive Midfield","x":44.87,"p":1.852,"i":7.038,"m":1458},{"n":"R. Montolivo","c":"Italy","s":"Defensive Midfield","x":48.537,"p":3.907,"i":5.783,"m":1152},{"n":"R. Saponara","c":"Italy","s":"Attacking Midfield","x":60.521,"p":3.924,"i":1.401,"m":963},{"n":"N. Rigoni","c":"Italy","s":"Defensive Midfield","x":45.879,"p":3.15,"i":4.677,"m":943},{"n":"B. Džemaili","c":"Italy","s":"Central Midfield","x":52.944,"p":2.281,"i":2.637,"m":1263},{"n":"M. Hamšík","c":"Italy","s":"Central Midfield","x":57.847,"p":5.589,"i":2.795,"m":2448},{"n":"Miguel Veloso","c":"Italy","s":"Defensive Midfield","x":48.99,"p":4.181,"i":4.526,"m":1830},{"n":"V. Birsa","c":"Italy","s":"Attacking Midfield","x":61.716,"p":2.4,"i":2.502,"m":2625},{"n":"Jorginho","c":"Italy","s":"Defensive Midfield","x":51.865,"p":6.652,"i":4.522,"m":2746},{"n":"M. Parolo","c":"Italy","s":"Central Midfield","x":51.572,"p":2.357,"i":5.074,"m":2749},{"n":"M. Verratti","c":"France","s":"Central Midfield","x":49.074,"p":6.857,"i":3.378,"m":1785},{"n":"D. Baselli","c":"Italy","s":null,"x":49.948,"p":3.015,"i":4.505,"m":2597},{"n":"I. Radovanović","c":"Italy","s":"Defensive Midfield","x":42.903,"p":5.129,"i":6.024,"m":3317},{"n":"J. Kurtič","c":"Italy","s":"Central Midfield","x":55.687,"p":1.644,"i":2.687,"m":2244},{"n":"Keko","c":"Spain","s":null,"x":57.133,"p":1.08,"i":3.743,"m":1250},{"n":"M. Büchel","c":"Italy","s":"Central Midfield","x":45.119,"p":2.724,"i":6.054,"m":1784},{"n":"F. Magnanelli","c":"Italy","s":"Defensive Midfield","x":46.581,"p":5.488,"i":8.061,"m":2624},{"n":"S. Missiroli","c":"Italy","s":"Central Midfield","x":51.807,"p":2.594,"i":5.449,"m":3088},{"n":"L. Memushaj","c":"Italy","s":"Central Midfield","x":50.015,"p":3.248,"i":3.18,"m":1330},{"n":"M. Benassi","c":"Italy","s":"Central Midfield","x":56.594,"p":2.628,"i":3.865,"m":2911},{"n":"Daniel Bessa","c":"Italy","s":"Central Midfield","x":54.872,"p":2.597,"i":3.117,"m":1906},{"n":"A. Duncan","c":"Italy","s":"Central Midfield","x":55.526,"p":3.748,"i":3.925,"m":2041},{"n":"A. Florenzi","c":"Italy","s":"Right-Back","x":50.421,"p":6.118,"i":5.76,"m":2516},{"n":"N. Viola","c":"Italy","s":"Attacking Midfield","x":49.044,"p":4.725,"i":3.271,"m":1981},{"n":"L. Mora","c":"Italy","s":"Central Midfield","x":51.729,"p":3.348,"i":2.443,"m":995},{"n":"M. Fossati","c":"Italy","s":"Defensive Midfield","x":44.031,"p":4.529,"i":6.141,"m":1173},{"n":"M. Gonalons","c":"Italy","s":"Defensive Midfield","x":49.311,"p":4.855,"i":4.624,"m":1168},{"n":"C. Grenier","c":"France","s":"Central Midfield","x":58.637,"p":3.893,"i":3.469,"m":1271},{"n":"B. Matuidi","c":"Italy","s":"Central Midfield","x":53.333,"p":3.71,"i":3.314,"m":2499},{"n":"T. Motta","c":"France","s":"Defensive Midfield","x":45.582,"p":6.65,"i":5.063,"m":1191},{"n":"J. Pastore","c":"France","s":"Attacking Midfield","x":59.673,"p":4.166,"i":2.692,"m":1404},{"n":"R. Boudebouz","c":"Spain","s":"Attacking Midfield","x":58.323,"p":2.456,"i":3.023,"m":1429},{"n":"S. Prcić","c":"France","s":"Central Midfield","x":47.391,"p":4.898,"i":4.953,"m":1654},{"n":"R. Camara","c":"France","s":"Left Winger","x":62.197,"p":0.683,"i":1.366,"m":922},{"n":"T. Monconduit","c":"France","s":"Defensive Midfield","x":46.04,"p":3.006,"i":5.253,"m":3084},{"n":"G. Mandjeck","c":"France","s":"Defensive Midfield","x":46.655,"p":3.836,"i":4.818,"m":1009},{"n":"S. Meïté","c":"France","s":"Defensive Midfield","x":51.227,"p":2.269,"i":4.061,"m":1507},{"n":"V. Bessat","c":"France","s":"Left-Back","x":51.539,"p":3.21,"i":2.884,"m":1654},{"n":"G. Krychowiak","c":"England","s":"Defensive Midfield","x":48.863,"p":2.76,"i":5.008,"m":1761},{"n":"J. Veretout","c":"Italy","s":"Central Midfield","x":50.849,"p":6.006,"i":3.81,"m":3402},{"n":"J. Plašil","c":"France","s":"Central Midfield","x":47.716,"p":3.255,"i":6.022,"m":1106},{"n":"G. Kondogbia","c":"Spain","s":"Defensive Midfield","x":45.881,"p":4.031,"i":5.881,"m":2724},{"n":"J. Féret","c":"France","s":"Attacking Midfield","x":52.437,"p":5.059,"i":5.315,"m":3167},{"n":"Y. M'Vila","c":"France","s":"Defensive Midfield","x":42.12,"p":7.164,"i":5.475,"m":1545},{"n":"V. Pajot","c":"France","s":null,"x":49.434,"p":2.276,"i":5.088,"m":1344},{"n":"F. Balmont","c":"France","s":"Central Midfield","x":51.303,"p":3.677,"i":2.981,"m":906},{"n":"I. Gueye","c":"England","s":"Defensive Midfield","x":46.749,"p":2.727,"i":5.888,"m":2904},{"n":"D. Payet","c":"France","s":"Attacking Midfield","x":63.418,"p":4.686,"i":1.956,"m":2439},{"n":"B. Sarr","c":"France","s":"Right-Back","x":49.274,"p":3.156,"i":4.145,"m":1911},{"n":"Y. Cahuzac","c":"France","s":"Defensive Midfield","x":41.284,"p":2.366,"i":5.859,"m":1598},{"n":"W. Khazri","c":"France","s":"Left Winger","x":64.416,"p":1.487,"i":2.117,"m":1998},{"n":"E. Capoue","c":"England","s":"Defensive Midfield","x":47.048,"p":3.323,"i":6.265,"m":1652},{"n":"É. Didot","c":"France","s":"Central Midfield","x":47.533,"p":4.424,"i":4.586,"m":1668},{"n":"M. Sissoko","c":"England","s":"Central Midfield","x":55.815,"p":1.999,"i":2.94,"m":1531},{"n":"F. Tabanou","c":"France","s":"Left-Back","x":45.392,"p":4.154,"i":4.48,"m":1105},{"n":"B. André","c":"France","s":"Defensive Midfield","x":52.406,"p":2.896,"i":6.559,"m":3170},{"n":"P. Lasne","c":"France","s":"Defensive Midfield","x":50.494,"p":4.448,"i":3.357,"m":3217},{"n":"F. Sammaritano","c":"France","s":"Attacking Midfield","x":57.908,"p":1.988,"i":2.59,"m":1494},{"n":"J. Guilavogui","c":"Germany","s":"Defensive Midfield","x":45.31,"p":4.937,"i":6.451,"m":2497},{"n":"F. Fajr","c":"Spain","s":"Central Midfield","x":53.779,"p":2.97,"i":3.936,"m":2515},{"n":"B. Nivet","c":"France","s":"Attacking Midfield","x":56.649,"p":2.929,"i":3.629,"m":1414},{"n":"M. Diallo","c":"France","s":"Defensive Midfield","x":49.207,"p":1.902,"i":3.988,"m":1467},{"n":"G. Imbula","c":"France","s":"Defensive Midfield","x":52.359,"p":3.235,"i":2.503,"m":2337},{"n":"A. Knockaert","c":"England","s":"Right Winger","x":57.467,"p":1.735,"i":3.399,"m":2542},{"n":"B. Stambouli","c":"Germany","s":"Defensive Midfield","x":36.106,"p":8.684,"i":6.036,"m":2311},{"n":"R. Cabella","c":"France","s":"Attacking Midfield","x":59.088,"p":4.105,"i":2.126,"m":2455},{"n":"B. Dabo","c":"France","s":"Central Midfield","x":52.201,"p":2.28,"i":3.219,"m":1342},{"n":"C. Doukouré","c":"Spain","s":"Defensive Midfield","x":50.914,"p":1.254,"i":3.345,"m":1076},{"n":"J. Martin","c":"France","s":"Defensive Midfield","x":51.323,"p":2.875,"i":3.622,"m":3131},{"n":"N. Sliti","c":"France","s":"Left Winger","x":62.919,"p":2.028,"i":2.141,"m":2396},{"n":"T. Mangani","c":"France","s":"Central Midfield","x":51.805,"p":6.252,"i":4.668,"m":3181},{"n":"R. Mahrez","c":"England","s":"Right Winger","x":61.579,"p":2.864,"i":2.517,"m":3111},{"n":"A. Gonçalves","c":"France","s":"Central Midfield","x":56.7,"p":2.797,"i":4.292,"m":1866},{"n":"R. Amalfitano","c":"France","s":"Central Midfield","x":45.065,"p":4.151,"i":4.531,"m":2840},{"n":"L. Deaux","c":"France","s":"Defensive Midfield","x":49.91,"p":3.574,"i":4.557,"m":2015},{"n":"B. Corgnet","c":"France","s":"Attacking Midfield","x":59.16,"p":1.559,"i":2.992,"m":1444},{"n":"G. Kakuta","c":"France","s":"Attacking Midfield","x":59.96,"p":2.178,"i":2.485,"m":3224},{"n":"Y. Sankharé","c":"France","s":"Central Midfield","x":50.422,"p":3.911,"i":2.319,"m":1979},{"n":"R. Cohade","c":"France","s":"Central Midfield","x":50.72,"p":4.713,"i":5.442,"m":3456},{"n":"M. Dossevi","c":"France","s":"Right Winger","x":64.921,"p":1.791,"i":2.549,"m":2612},{"n":"C. Sánchez","c":"Spain","s":"Defensive Midfield","x":41.872,"p":3.087,"i":6.405,"m":1166},{"n":"P. Oniangué","c":"France","s":"Defensive Midfield","x":52.866,"p":1.662,"i":3.49,"m":1083},{"n":"Y. Salibur","c":"France","s":null,"x":64.072,"p":1.594,"i":0.911,"m":1581},{"n":"D. Wass","c":"Spain","s":"Central Midfield","x":57.235,"p":2.845,"i":3.941,"m":3037},{"n":"N. Benezet","c":"France","s":"Left Winger","x":62.252,"p":2.468,"i":1.576,"m":1714},{"n":"P. Capelle","c":"France","s":"Central Midfield","x":54.139,"p":2.534,"i":3.639,"m":1954},{"n":"N. Fekir","c":"France","s":"Attacking Midfield","x":62.018,"p":2.172,"i":1.034,"m":2611},{"n":"R. Ghezzal","c":"France","s":"Right Winger","x":63.588,"p":1.843,"i":3.854,"m":1074},{"n":"A. Tameze","c":"France","s":null,"x":44.982,"p":1.945,"i":4.402,"m":1758},{"n":"I. Amadou","c":"France","s":"Defensive Midfield","x":39.048,"p":5.621,"i":5.084,"m":2514},{"n":"T. Bakayoko","c":"England","s":"Defensive Midfield","x":50.246,"p":3.23,"i":4.147,"m":2257},{"n":"A. Doucouré","c":"England","s":"Attacking Midfield","x":49.115,"p":3.622,"i":4.703,"m":3578},{"n":"K. Azamoum","c":"France","s":"Centre-Back","x":50.418,"p":1.792,"i":4.422,"m":2361},{"n":"T. Lemar","c":"France","s":"Attacking Midfield","x":61.625,"p":3.604,"i":2.403,"m":2472},{"n":"D. Liénard","c":"France","s":"Left Midfield","x":53.554,"p":4.001,"i":4.722,"m":2745},{"n":"J. Grimm","c":"France","s":"Defensive Midfield","x":44.698,"p":3.385,"i":6.172,"m":904},{"n":"M. Lemina","c":"England","s":"Defensive Midfield","x":48.082,"p":2.584,"i":3.755,"m":1846},{"n":"B. Pelé","c":"France","s":"Left Midfield","x":59.186,"p":1.428,"i":2.539,"m":1701},{"n":"J. Marié","c":"France","s":"Central Midfield","x":47.55,"p":3.004,"i":4.142,"m":1977},{"n":"F. Mollet","c":"France","s":"Attacking Midfield","x":59.231,"p":2.136,"i":1.709,"m":1475},{"n":"N. Kanté","c":"England","s":"Defensive Midfield","x":49.662,"p":3.544,"i":4.565,"m":3174},{"n":"E. Çolak","c":"Spain","s":"Attacking Midfield","x":59.699,"p":3.907,"i":1.142,"m":1497},{"n":"C. Kouyaté","c":"England","s":"Defensive Midfield","x":48.625,"p":0.778,"i":2.993,"m":3007},{"n":"L. Biglia","c":"Italy","s":"Defensive Midfield","x":46.49,"p":4.283,"i":5.779,"m":2165},{"n":"D. Praet","c":"Italy","s":"Central Midfield","x":56.278,"p":3.171,"i":4.918,"m":2782},{"n":"S. Peeters","c":"France","s":"Central Midfield","x":56.472,"p":3.283,"i":2.673,"m":1179},{"n":"K. De Bruyne","c":"England","s":"Attacking Midfield","x":61.961,"p":5.928,"i":2.825,"m":3249},{"n":"Paulinho","c":"Spain","s":"Central Midfield","x":54.129,"p":1.855,"i":2.605,"m":2038},{"n":"Guilherme","c":"Spain","s":"Defensive Midfield","x":46.104,"p":3.431,"i":5.881,"m":2755},{"n":"Allan","c":"Italy","s":"Defensive Midfield","x":57.355,"p":2.414,"i":3.56,"m":2983},{"n":"Casemiro","c":"Spain","s":"Defensive Midfield","x":44.241,"p":4.434,"i":6.768,"m":2699},{"n":"Felipe Anderson","c":"Italy","s":"Left Winger","x":65.376,"p":3.214,"i":2.285,"m":1260},{"n":"Thiago Mendes","c":"France","s":"Defensive Midfield","x":55.698,"p":3.972,"i":3.148,"m":2402},{"n":"M. Lanzini","c":"England","s":"Attacking Midfield","x":58.16,"p":2.843,"i":2.473,"m":2184},{"n":"Gabriel","c":"Spain","s":"Defensive Midfield","x":53.258,"p":2.784,"i":4.798,"m":2457},{"n":"Somália","c":"France","s":"Central Midfield","x":54.939,"p":1.393,"i":4.178,"m":2132},{"n":"Andrei Girotto","c":"France","s":"Centre-Back","x":48.691,"p":2.924,"i":5.005,"m":1600},{"n":"X. Shaqiri","c":"England","s":"Attacking Midfield","x":62.113,"p":2.718,"i":1.429,"m":3211},{"n":"G. Xhaka","c":"England","s":"Defensive Midfield","x":51.155,"p":6.108,"i":4.202,"m":3448},{"n":"R. Freuler","c":"Italy","s":"Central Midfield","x":51.979,"p":3.59,"i":4.353,"m":3184},{"n":"S. Zuber","c":"Germany","s":"Left Winger","x":48.464,"p":2.816,"i":5.325,"m":1470},{"n":"A. Ioniţă","c":"Italy","s":"Central Midfield","x":54.413,"p":1.084,"i":3.507,"m":2823},{"n":"J. Durmaz","c":"France","s":"Central Midfield","x":61.268,"p":2.24,"i":2.572,"m":1085},{"n":"C. Borges","c":"Spain","s":null,"x":50.768,"p":2.919,"i":5.201,"m":2405},{"n":"R. Quaison","c":"Germany","s":"Centre-Forward","x":63.4,"p":0.729,"i":1.822,"m":1482},{"n":"E. Forsberg","c":"Germany","s":"Left Winger","x":63.551,"p":1.391,"i":1.771,"m":1423},{"n":"O. Hiljemark","c":"Italy","s":"Central Midfield","x":57.308,"p":2.212,"i":2.749,"m":1342},{"n":"M. Rohdén","c":"Italy","s":"Central Midfield","x":51.09,"p":1.637,"i":2.745,"m":1705},{"n":"O. Selnæs","c":"France","s":"Defensive Midfield","x":43.662,"p":4.62,"i":5.922,"m":2143},{"n":"T. Delaney","c":"Germany","s":"Central Midfield","x":50.233,"p":2.896,"i":5.299,"m":2921},{"n":"M. Krohn-Dehli","c":"Spain","s":"Central Midfield","x":52.898,"p":3.839,"i":3.153,"m":1313},{"n":"L. Lerager","c":"France","s":"Defensive Midfield","x":50.577,"p":3.398,"i":4.392,"m":3443},{"n":"Sung-Yeung Ki","c":"England","s":"Defensive Midfield","x":50.88,"p":1.67,"i":3.881,"m":1994},{"n":"V. Wanyama","c":"England","s":"Defensive Midfield","x":48.88,"p":3.183,"i":4.34,"m":933},{"n":"S. Davis","c":"England","s":"Central Midfield","x":52.526,"p":3.972,"i":4.755,"m":1609},{"n":"R. Fraser","c":"England","s":"Left Winger","x":58.696,"p":2.421,"i":2.93,"m":2119},{"n":"A. Mooy","c":"England","s":"Central Midfield","x":54.72,"p":4.148,"i":4.203,"m":3255},{"n":"S. Ilsanker","c":"Germany","s":"Defensive Midfield","x":42.995,"p":6.615,"i":5.821,"m":1361},{"n":"F. Kainz","c":"Germany","s":"Attacking Midfield","x":61.04,"p":3.096,"i":2.889,"m":1744},{"n":"M. Sabitzer","c":"Germany","s":"Central Midfield","x":60.464,"p":3.396,"i":3.683,"m":1881},{"n":"M. Badelj","c":"Italy","s":"Defensive Midfield","x":48.612,"p":5.52,"i":7.082,"m":2478},{"n":"M. Kovačić","c":"Spain","s":"Central Midfield","x":48.578,"p":5.948,"i":2.719,"m":1059},{"n":"M. Brozović","c":"Italy","s":"Defensive Midfield","x":55.432,"p":6.657,"i":3.703,"m":2041},{"n":"S. Defour","c":"England","s":"Defensive Midfield","x":47.591,"p":3.979,"i":5.752,"m":2081},{"n":"João Moutinho","c":"France","s":"Central Midfield","x":52.65,"p":5.723,"i":4.682,"m":2941},{"n":"J. Rodríguez","c":"Germany","s":"Attacking Midfield","x":57.803,"p":4.485,"i":2.377,"m":1666},{"n":"Javi García","c":"Spain","s":"Defensive Midfield","x":40.654,"p":3.115,"i":4.036,"m":2542},{"n":"N. Matić","c":"England","s":"Defensive Midfield","x":45.854,"p":5.363,"i":6.068,"m":3323},{"n":"A. Carrillo","c":"England","s":"Central Midfield","x":58.317,"p":1.927,"i":2.837,"m":1681},{"n":"C. Atsu","c":"England","s":"Left Winger","x":59.133,"p":1.181,"i":3.45,"m":1905},{"n":"Guilherme","c":"Italy","s":"Attacking Midfield","x":58.787,"p":0.98,"i":1.96,"m":1010},{"n":"João Mário","c":"England","s":"Attacking Midfield","x":61.015,"p":1.425,"i":1.76,"m":1074},{"n":"J. Allen","c":"England","s":"Central Midfield","x":51.111,"p":2.623,"i":5.166,"m":3362},{"n":"N. Dyer","c":"England","s":"Right Winger","x":60.472,"p":0.648,"i":3.045,"m":1389},{"n":"G. Sigurðsson","c":"England","s":"Attacking Midfield","x":59.117,"p":1.622,"i":3.998,"m":2386},{"n":"V. Darida","c":"Germany","s":"Central Midfield","x":51.807,"p":3.279,"i":4.283,"m":1702},{"n":"A. Maxim","c":"Germany","s":"Attacking Midfield","x":59.235,"p":2.901,"i":2.462,"m":1024},{"n":"L. Castro","c":"Italy","s":"Attacking Midfield","x":53.467,"p":2.549,"i":5.703,"m":2083},{"n":"C. Yacob","c":"England","s":"Defensive Midfield","x":42.4,"p":2.392,"i":5.796,"m":978},{"n":"B. Zuculini","c":"Italy","s":"Defensive Midfield","x":41.979,"p":2.892,"i":6.841,"m":1276},{"n":"G. Poblete","c":"France","s":"Defensive Midfield","x":45.313,"p":2.824,"i":3.337,"m":1753},{"n":"G. Pizarro","c":"Spain","s":"Defensive Midfield","x":43.807,"p":4.471,"i":5.103,"m":1852},{"n":"C. Aránguiz","c":"Germany","s":"Central Midfield","x":48.676,"p":5.74,"i":5.252,"m":2399},{"n":"E. Pulgar","c":"Italy","s":"Defensive Midfield","x":43.571,"p":4.794,"i":5.313,"m":2948},{"n":"D. Torres","c":"Spain","s":"Defensive Midfield","x":42.507,"p":3.325,"i":5.73,"m":1272},{"n":"S. Darbion","c":"France","s":"Left Midfield","x":56.509,"p":1.499,"i":2.598,"m":1801},{"n":"G. Shibasaki","c":"Spain","s":null,"x":58.387,"p":1.632,"i":2.577,"m":1048},{"n":"P. Zieliński","c":"Italy","s":"Central Midfield","x":59.03,"p":3.292,"i":3.941,"m":1804},{"n":"Willian","c":"England","s":"Left Winger","x":65.665,"p":1.673,"i":1.717,"m":2044},{"n":"Douglas Costa","c":"Italy","s":"Right Winger","x":63.542,"p":1.37,"i":1.89,"m":1905},{"n":"H. Mkhitaryan","c":"England","s":"Central Midfield","x":61.062,"p":2.013,"i":3.221,"m":1788},{"n":"Fernandinho","c":"England","s":"Defensive Midfield","x":48.851,"p":5.845,"i":4.471,"m":3080},{"n":"Y. Konoplyanka","c":"Germany","s":"Attacking Midfield","x":66.812,"p":0.554,"i":1.44,"m":1625},{"n":"João Pedro","c":"Italy","s":"Centre-Forward","x":57.859,"p":0.991,"i":2.243,"m":1725},{"n":"D. Laxalt","c":"Italy","s":"Left-Back","x":52.897,"p":2.316,"i":4.022,"m":2954},{"n":"M. Vecino","c":"Italy","s":"Central Midfield","x":51.13,"p":3.581,"i":3.94,"m":2262},{"n":"Mohamed Elneny","c":"England","s":"Defensive Midfield","x":50.48,"p":3.651,"i":5.23,"m":912},{"n":"D. Lazović","c":"Italy","s":"Left Midfield","x":58.052,"p":2.33,"i":2.825,"m":1274},{"n":"L. Milivojević","c":"England","s":"Defensive Midfield","x":46.468,"p":4.42,"i":6.466,"m":3299},{"n":"M. Jojić","c":"Germany","s":"Central Midfield","x":56.943,"p":2.163,"i":3.741,"m":1540},{"n":"F. Kostić","c":"Germany","s":"Left Midfield","x":64.598,"p":0.966,"i":2.362,"m":2515},{"n":"D. Brašanac","c":"Spain","s":"Central Midfield","x":53.316,"p":1.505,"i":3.152,"m":1256},{"n":"J. Seri","c":"France","s":"Defensive Midfield","x":48.571,"p":5.232,"i":2.682,"m":2718},{"n":"Samu Castillejo","c":"Spain","s":"Right Winger","x":57.883,"p":2.395,"i":4.37,"m":2142},{"n":"I. Hayden","c":"England","s":"Defensive Midfield","x":47.661,"p":1.465,"i":6.226,"m":1474},{"n":"M. Meyer","c":"Germany","s":"Attacking Midfield","x":45.74,"p":2.431,"i":5.209,"m":1814},{"n":"L. Goretzka","c":"Germany","s":"Central Midfield","x":51.219,"p":2.154,"i":5.556,"m":2090},{"n":"S. Gnabry","c":"Germany","s":"Second Striker","x":62.417,"p":1.455,"i":2.096,"m":1546},{"n":"A. Grassi","c":"Italy","s":"Defensive Midfield","x":50.654,"p":1.062,"i":4.664,"m":2373},{"n":"S. Fofana","c":"Italy","s":"Central Midfield","x":50.34,"p":2.24,"i":4.114,"m":1969},{"n":"N. Mendy","c":"France","s":"Defensive Midfield","x":44.511,"p":3.962,"i":3.602,"m":1000},{"n":"P. Højbjerg","c":"England","s":"Defensive Midfield","x":48.923,"p":3.416,"i":5.375,"m":1792},{"n":"F. Grillitsch","c":"Germany","s":"Defensive Midfield","x":46.57,"p":4.345,"i":5.657,"m":1989},{"n":"Rony Lopes","c":"France","s":"Right Winger","x":64.517,"p":1.309,"i":1.963,"m":2613},{"n":"M. Gaćinović","c":"Germany","s":"Attacking Midfield","x":56.779,"p":1.706,"i":3.886,"m":1899},{"n":"K. Linetty","c":"Italy","s":"Central Midfield","x":53.712,"p":2.056,"i":3.203,"m":2276},{"n":"N. Radoja","c":"Spain","s":"Defensive Midfield","x":50.363,"p":2.615,"i":2.923,"m":1170},{"n":"J. Aholou","c":"France","s":"Defensive Midfield","x":44.821,"p":2.648,"i":5.296,"m":3161},{"n":"N. Bentaleb","c":"Germany","s":"Defensive Midfield","x":45.792,"p":2.877,"i":5.754,"m":1064},{"n":"J. Brandt","c":"Germany","s":"Attacking Midfield","x":61.584,"p":2.092,"i":2.129,"m":2409},{"n":"R. Walter","c":"France","s":"Central Midfield","x":48.414,"p":2.701,"i":3.506,"m":1566},{"n":"T. Dingomé","c":"France","s":"Central Midfield","x":50.246,"p":3.408,"i":4.133,"m":1241},{"n":"D. Kohr","c":"Germany","s":"Centre-Back","x":50.187,"p":3.607,"i":4.895,"m":1747},{"n":"S. Lobotka","c":"Spain","s":null,"x":45.053,"p":3.557,"i":4.262,"m":3188},{"n":"L. Spinazzola","c":"Italy","s":"Left-Back","x":52.563,"p":3.586,"i":5.18,"m":1581},{"n":"M. James","c":"England","s":"Central Midfield","x":46.95,"p":1.968,"i":5.049,"m":1052},{"n":"J. Correa","c":"Spain","s":"Second Striker","x":61.122,"p":1.662,"i":2.312,"m":1246},{"n":"Fabinho","c":"France","s":"Defensive Midfield","x":47.008,"p":5.826,"i":4.447,"m":3198},{"n":"B. N'Diaye","c":"England","s":null,"x":48.112,"p":2.078,"i":4.452,"m":1213},{"n":"I. Fossum","c":"Germany","s":"Central Midfield","x":53.369,"p":2.238,"i":4.872,"m":1367},{"n":"V. Lazaro","c":"Germany","s":"Right Midfield","x":58.657,"p":1.236,"i":3.571,"m":1966},{"n":"A. Thomasson","c":"France","s":"Central Midfield","x":56.387,"p":2.381,"i":3.588,"m":2684},{"n":"M. Sanson","c":"France","s":"Central Midfield","x":59.661,"p":2.479,"i":2.758,"m":2251},{"n":"C. Tolisso","c":"Germany","s":"Central Midfield","x":54.896,"p":4.86,"i":3.184,"m":1611},{"n":"A. Rabiot","c":"France","s":"Central Midfield","x":48.542,"p":4.39,"i":3.622,"m":2460},{"n":"F. Tait","c":"France","s":"Central Midfield","x":58.04,"p":2.449,"i":3.538,"m":2315},{"n":"E. Dier","c":"England","s":"Centre-Back","x":45.451,"p":5.88,"i":5.01,"m":3000},{"n":"G. Escalante","c":"Spain","s":"Central Midfield","x":53.839,"p":2.233,"i":5.609,"m":1653},{"n":"R. de Paul","c":"Italy","s":"Central Midfield","x":61.598,"p":3.193,"i":2.649,"m":2480},{"n":"Álex Granell","c":"Spain","s":"Defensive Midfield","x":52.635,"p":5.205,"i":4.901,"m":2957},{"n":"S. Boufal","c":"England","s":"Attacking Midfield","x":61.948,"p":2.716,"i":2.037,"m":1326},{"n":"Thomas","c":"Spain","s":"Defensive Midfield","x":46.527,"p":4.005,"i":5.171,"m":2472},{"n":"J. Iloki","c":"France","s":"Right Midfield","x":60.496,"p":1.021,"i":2.282,"m":1499},{"n":"A. Touré","c":"France","s":"Defensive Midfield","x":47.406,"p":3.767,"i":5.681,"m":2963},{"n":"R. Chibsah","c":"Italy","s":"Central Midfield","x":47.471,"p":1.638,"i":2.784,"m":1099},{"n":"P. Faragò","c":"Italy","s":"Central Midfield","x":51.385,"p":2.985,"i":4.595,"m":2683},{"n":"K. Demirbay","c":"Germany","s":"Central Midfield","x":53.139,"p":3.886,"i":4.593,"m":1274},{"n":"L. Öztunali","c":"Germany","s":"Central Midfield","x":63.698,"p":0.553,"i":2.06,"m":1791},{"n":"J. Weigl","c":"Germany","s":"Defensive Midfield","x":46.867,"p":3.476,"i":5.148,"m":2045},{"n":"M. Wolf","c":"Germany","s":"Right-Back","x":56.367,"p":2.919,"i":4.086,"m":2467},{"n":"G. Holtmann","c":"Germany","s":"Left Winger","x":55.821,"p":1.673,"i":3.624,"m":969},{"n":"E. Thommy","c":"Germany","s":"Attacking Midfield","x":62.138,"p":1.673,"i":3.803,"m":1183},{"n":"José Luis Morales","c":"Spain","s":"Centre-Forward","x":62.627,"p":1.696,"i":2.657,"m":3185},{"n":"Rubén Peña","c":"Spain","s":"Right-Back","x":53.059,"p":3.749,"i":4.341,"m":1825},{"n":"Burgui","c":"Spain","s":"Left Winger","x":61.017,"p":2.158,"i":1.577,"m":1084},{"n":"M. Lazzari","c":"Italy","s":"Right-Back","x":53.835,"p":1.173,"i":3.22,"m":3298},{"n":"A. Marušić","c":"Italy","s":"Right-Back","x":56.035,"p":1.363,"i":3.304,"m":2642},{"n":"J. Gbamin","c":"Germany","s":"Centre-Back","x":41.593,"p":3.592,"i":6.096,"m":2731},{"n":"B. Bourigeaud","c":"France","s":"Central Midfield","x":58.375,"p":3.326,"i":4.178,"m":3274},{"n":"W. Cyprien","c":"France","s":"Central Midfield","x":45.981,"p":4.575,"i":3.607,"m":1023},{"n":"A. Hunou","c":"France","s":"Centre-Forward","x":61.377,"p":1.177,"i":2.765,"m":1530},{"n":"H. Manzala","c":"France","s":"Right Winger","x":56.983,"p":1.049,"i":3.194,"m":1973},{"n":"A. Iwobi","c":"England","s":"Left Winger","x":59.902,"p":3.318,"i":2.181,"m":1898},{"n":"Pere Pons","c":"Spain","s":"Defensive Midfield","x":48.206,"p":2.67,"i":4.021,"m":2663},{"n":"Fede Cartabia","c":"Spain","s":"Right Winger","x":60.741,"p":2.248,"i":3.571,"m":1361},{"n":"J. Repas","c":"France","s":"Central Midfield","x":61.815,"p":0.864,"i":2.113,"m":937},{"n":"A. Halilović","c":"Spain","s":"Attacking Midfield","x":62.984,"p":1.192,"i":1.523,"m":1359},{"n":"R. Loftus-Cheek","c":"England","s":"Central Midfield","x":57.58,"p":2.112,"i":3.55,"m":2003},{"n":"S. Lukić","c":"Spain","s":"Central Midfield","x":44.546,"p":1.377,"i":4.39,"m":1045},{"n":"Andreas Pereira","c":"Spain","s":"Central Midfield","x":59.544,"p":1.664,"i":2.695,"m":1136},{"n":"R. Gagliardini","c":"Italy","s":"Central Midfield","x":48.941,"p":3.619,"i":5.535,"m":2114},{"n":"P. Sisto","c":"Spain","s":"Left Winger","x":60.068,"p":1.982,"i":1.739,"m":2588},{"n":"B. Zungu","c":"France","s":"Central Midfield","x":43.484,"p":2.979,"i":6.289,"m":2175},{"n":"L. Sané","c":"England","s":"Right Winger","x":69.869,"p":0.734,"i":1.467,"m":2576},{"n":"S. Sensi","c":"Italy","s":"Central Midfield","x":52.658,"p":3.864,"i":4.991,"m":1118},{"n":"E. Skhiri","c":"France","s":"Defensive Midfield","x":48.163,"p":3.058,"i":6.06,"m":3208},{"n":"Joan Jordán","c":"Spain","s":"Central Midfield","x":59.905,"p":2.734,"i":3.267,"m":2534},{"n":"Víctor Camarasa","c":"Spain","s":"Central Midfield","x":54.188,"p":2.197,"i":2.746,"m":1311},{"n":"Jason","c":"Spain","s":"Right Winger","x":60.196,"p":0.97,"i":3.056,"m":1856},{"n":"Medrán","c":"Spain","s":"Central Midfield","x":49.638,"p":4.53,"i":2.517,"m":1073},{"n":"S. March","c":"England","s":"Right Winger","x":54.812,"p":1.979,"i":3.734,"m":2001},{"n":"A. Blin","c":"France","s":"Defensive Midfield","x":49.432,"p":2.976,"i":4.96,"m":1996},{"n":"Kenedy","c":"England","s":"Left Winger","x":54.808,"p":2.034,"i":3.982,"m":1062},{"n":"J. Lerma","c":"Spain","s":"Defensive Midfield","x":44.802,"p":2.938,"i":5.071,"m":2236},{"n":"Kwon Chang-Hoon","c":"France","s":"Right Winger","x":61.394,"p":0.685,"i":3.303,"m":2234},{"n":"D. Cataldi","c":"Italy","s":"Defensive Midfield","x":50.818,"p":2.99,"i":3.396,"m":2438},{"n":"L. Phiri","c":"France","s":"Central Midfield","x":46.013,"p":3.913,"i":3.343,"m":1104},{"n":"A. Fulgini","c":"France","s":"Attacking Midfield","x":58.622,"p":2.249,"i":3.373,"m":1601},{"n":"Thiago Maia","c":"France","s":"Defensive Midfield","x":45.122,"p":5.122,"i":5.052,"m":2583},{"n":"V. Rongier","c":"France","s":"Central Midfield","x":53.438,"p":2.969,"i":4.288,"m":2456},{"n":"A. Januzaj","c":"Spain","s":"Right Winger","x":65.11,"p":1.606,"i":1.772,"m":1625},{"n":"Gumbau","c":"Spain","s":"Defensive Midfield","x":44.382,"p":3.118,"i":4.017,"m":1501},{"n":"N. Amiri","c":"Germany","s":"Central Midfield","x":56.552,"p":3.12,"i":2.971,"m":1817},{"n":"Y. Tielemans","c":"France","s":"Central Midfield","x":51.895,"p":4.24,"i":4.729,"m":1656},{"n":"A. Barák","c":"Italy","s":"Attacking Midfield","x":53.381,"p":2.566,"i":3.255,"m":2876},{"n":"E. Fernandes","c":"England","s":"Defensive Midfield","x":50.923,"p":1.382,"i":3.553,"m":912},{"n":"W. Ndidi","c":"England","s":"Defensive Midfield","x":44.822,"p":3.092,"i":7.206,"m":3085},{"n":"Bernardo Silva","c":"England","s":"Attacking Midfield","x":65.16,"p":1.872,"i":2.246,"m":1683},{"n":"S. Milinković-Savić","c":"Italy","s":"Central Midfield","x":56.36,"p":3.711,"i":3.322,"m":3007},{"n":"P. Hernández","c":"Spain","s":"Central Midfield","x":47.196,"p":5.214,"i":6.341,"m":1916},{"n":"M. Dahoud","c":"Germany","s":"Central Midfield","x":53.546,"p":3.817,"i":3.442,"m":1203},{"n":"M. Eggestein","c":"Germany","s":"Central Midfield","x":52.884,"p":2.123,"i":4.246,"m":2798},{"n":"Xeka","c":"France","s":"Central Midfield","x":51.586,"p":2.906,"i":4.056,"m":1487},{"n":"B. Santamaria","c":"France","s":"Defensive Midfield","x":45.089,"p":3.494,"i":5.024,"m":2705},{"n":"S. Khaoui","c":"France","s":"Attacking Midfield","x":58.986,"p":1.658,"i":2.181,"m":2063},{"n":"V. Vada","c":"France","s":"Central Midfield","x":56.266,"p":3.247,"i":2.164,"m":915},{"n":"P. Lees Melou","c":"France","s":"Defensive Midfield","x":54.661,"p":3.322,"i":3.951,"m":3007},{"n":"S. Bastien","c":"Italy","s":"Central Midfield","x":51.805,"p":0.879,"i":4.019,"m":1433},{"n":"Iván Alejo","c":"Spain","s":"Right Winger","x":69.274,"p":0.766,"i":2.223,"m":1174},{"n":"A. Maitland-Niles","c":"England","s":"Right-Back","x":46.957,"p":2.26,"i":6.148,"m":995},{"n":"M. Lopez","c":"France","s":"Defensive Midfield","x":51.264,"p":7.07,"i":2.543,"m":1451},{"n":"E. Bardhi","c":"Spain","s":"Attacking Midfield","x":55.724,"p":3.163,"i":2.509,"m":1650},{"n":"Aleix García","c":"Spain","s":"Central Midfield","x":47.254,"p":5.23,"i":5.23,"m":912},{"n":"K. Laimer","c":"Germany","s":"Right-Back","x":49.831,"p":2.233,"i":4.977,"m":1410},{"n":"D. Gray","c":"England","s":"Left Winger","x":62.453,"p":1.275,"i":2.649,"m":1835},{"n":"J. Brekalo","c":"Germany","s":"Left Winger","x":61.908,"p":1.083,"i":1.571,"m":1662},{"n":"F. Kessié","c":"Italy","s":"Central Midfield","x":57.047,"p":2.186,"i":3.228,"m":3458},{"n":"N. Barella","c":"Italy","s":"Central Midfield","x":52.566,"p":3.288,"i":4.269,"m":3120},{"n":"M. Arambarri","c":"Spain","s":"Central Midfield","x":46.097,"p":2.415,"i":4.298,"m":2198},{"n":"Marco Asensio","c":"Spain","s":"Attacking Midfield","x":64.606,"p":2.688,"i":1.53,"m":1942},{"n":"Y. Aït Bennasser","c":"France","s":"Defensive Midfield","x":45.811,"p":4.852,"i":4.472,"m":2133},{"n":"N. Keïta","c":"Germany","s":"Central Midfield","x":53.601,"p":3.536,"i":4.199,"m":2036},{"n":"L. Mazzitelli","c":"Italy","s":"Central Midfield","x":50.619,"p":3.329,"i":5.116,"m":1108},{"n":"J. Murphy","c":"England","s":"Right Winger","x":57.826,"p":0.947,"i":3.06,"m":1235},{"n":"T. Ndombèlé","c":"France","s":"Central Midfield","x":52.012,"p":3.422,"i":3.992,"m":2683},{"n":"G. Donsah","c":"Italy","s":"Central Midfield","x":51.285,"p":1.74,"i":4.281,"m":1913},{"n":"Otávio","c":"France","s":"Right-Back","x":41.447,"p":4.485,"i":5.883,"m":1545},{"n":"A. Balić","c":"Italy","s":"Central Midfield","x":50.366,"p":2.709,"i":4.953,"m":1163},{"n":"L. Cook","c":"England","s":"Central Midfield","x":47.461,"p":4.61,"i":4.197,"m":2401},{"n":"Brais Méndez","c":"Spain","s":"Attacking Midfield","x":59.303,"p":1.361,"i":2.994,"m":992},{"n":"S. Serdar","c":"Germany","s":"Central Midfield","x":53.329,"p":1.508,"i":4.173,"m":1790},{"n":"R. Mandragora","c":"Italy","s":"Defensive Midfield","x":46.105,"p":2.333,"i":6.134,"m":3434},{"n":"J. Lea Siliki","c":"France","s":"Central Midfield","x":55.365,"p":2.566,"i":2.566,"m":1859},{"n":"Walace","c":"Germany","s":"Defensive Midfield","x":47.86,"p":2.198,"i":5.367,"m":1392},{"n":"L. Pellegrini","c":"Italy","s":"Attacking Midfield","x":57.068,"p":3.203,"i":4.416,"m":1854},{"n":"M. Coco","c":"France","s":"Right-Back","x":60.16,"p":1.679,"i":2.545,"m":1662},{"n":"Ramadan Sobhi","c":"England","s":"Left Winger","x":57.187,"p":0.941,"i":2.152,"m":1338},{"n":"L. Torreira","c":"Italy","s":"Defensive Midfield","x":49.65,"p":3.905,"i":5.656,"m":3342},{"n":"J. Sambia","c":"France","s":"Right-Back","x":59.002,"p":2.649,"i":3.146,"m":1631},{"n":"Mikel Merino","c":"England","s":"Central Midfield","x":47.812,"p":3.537,"i":6.515,"m":1450},{"n":"Gerson","c":"Italy","s":"Central Midfield","x":56.574,"p":2.884,"i":2.614,"m":999},{"n":"L. Blas","c":"France","s":"Right Midfield","x":53.758,"p":3.189,"i":2.285,"m":1891},{"n":"L. Tousart","c":"France","s":"Central Midfield","x":42.673,"p":2.693,"i":5.551,"m":3275},{"n":"Iñigo Córdoba","c":"Spain","s":"Left Winger","x":58.712,"p":1.579,"i":4.328,"m":1539},{"n":"B. Özcan","c":"Germany","s":"Central Midfield","x":60.634,"p":1.564,"i":2.172,"m":1036},{"n":"Fabián","c":"Spain","s":"Central Midfield","x":50.534,"p":3.843,"i":4.488,"m":2787},{"n":"T. Davies","c":"England","s":"Central Midfield","x":55.661,"p":1.42,"i":2.973,"m":2028},{"n":"J. Jankto","c":"Italy","s":"Left Midfield","x":58.399,"p":1.899,"i":2.896,"m":2797},{"n":"Mikel Oyarzabal","c":"Spain","s":"Centre-Forward","x":64.145,"p":1.316,"i":2.632,"m":2872},{"n":"G. Lo Celso","c":"France","s":"Attacking Midfield","x":51.289,"p":4.14,"i":3.514,"m":1870},{"n":"S. Özcan","c":"Germany","s":"Defensive Midfield","x":48.405,"p":2.558,"i":4.962,"m":1759},{"n":"Alfonso Pedraza","c":"Spain","s":"Left-Back","x":56.426,"p":1.519,"i":3.533,"m":2547},{"n":"D. Zakaria","c":"Germany","s":"Defensive Midfield","x":45.285,"p":2.45,"i":4.673,"m":2388},{"n":"F. Valverde","c":"Spain","s":"Central Midfield","x":52.208,"p":3.319,"i":3.734,"m":1302},{"n":"A. Dioussé","c":"France","s":"Defensive Midfield","x":46.514,"p":3.28,"i":4.181,"m":1399},{"n":"Rodri","c":"Spain","s":"Defensive Midfield","x":43.351,"p":3.981,"i":5.958,"m":3368},{"n":"A. Zambo Anguissa","c":"France","s":"Central Midfield","x":48.896,"p":3.815,"i":6.616,"m":2571},{"n":"F. Maouassa","c":"France","s":"Left-Back","x":61.325,"p":1.308,"i":2.616,"m":963},{"n":"D. Geiger","c":"Germany","s":"Central Midfield","x":50.745,"p":2.616,"i":3.597,"m":1651},{"n":"Carlos Soler","c":"Spain","s":"Central Midfield","x":55.948,"p":2.762,"i":2.468,"m":2444},{"n":"A. Harit","c":"Germany","s":"Left Winger","x":59.359,"p":1.475,"i":2.655,"m":2135},{"n":"I. Sangaré","c":"France","s":"Defensive Midfield","x":48.453,"p":5.678,"i":4.875,"m":1680},{"n":"C. Pulisic","c":"Germany","s":"Right Winger","x":65.454,"p":0.821,"i":2.463,"m":2411},{"n":"T. Ito","c":"Germany","s":"Left Winger","x":61.322,"p":2.127,"i":2.552,"m":1058},{"n":"Zubeldía","c":"Spain","s":"Centre-Back","x":43.972,"p":3.684,"i":4.225,"m":1661},{"n":"H. Aouar","c":"France","s":"Attacking Midfield","x":53.948,"p":4.164,"i":3.67,"m":2551},{"n":"Pablo Fornals","c":"Spain","s":"Central Midfield","x":55.97,"p":3.423,"i":2.534,"m":2735},{"n":"M. Cuisance","c":"Germany","s":"Central Midfield","x":56.451,"p":2.528,"i":3.511,"m":1282},{"n":"B. Srarfi","c":"France","s":"Right Winger","x":58.765,"p":1.636,"i":3.176,"m":935},{"n":"Dani Raba","c":"Spain","s":"Second Striker","x":59.861,"p":1.882,"i":3.763,"m":1148},{"n":"Y. Bissouma","c":"France","s":"Defensive Midfield","x":49.26,"p":3.623,"i":4.489,"m":1664},{"n":"S. Ascacíbar","c":"Germany","s":"Defensive Midfield","x":46.21,"p":2.214,"i":5.881,"m":2479},{"n":"F. Depaoli","c":"Italy","s":"Right-Back","x":44.456,"p":2.088,"i":6.409,"m":1250},{"n":"K. Havertz","c":"Germany","s":"Centre-Forward","x":57.633,"p":2.155,"i":3.152,"m":2256},{"n":"A. Maier","c":"Germany","s":"Central Midfield","x":48.473,"p":2.674,"i":4.644,"m":1279},{"n":"F. Chiesa","c":"Italy","s":"Right Winger","x":63.72,"p":1.358,"i":1.896,"m":3180},{"n":"I. Sarr","c":"France","s":"Right Winger","x":65.682,"p":0.79,"i":1.301,"m":1936},{"n":"W. McKennie","c":"Germany","s":"Central Midfield","x":50.178,"p":2.033,"i":4.837,"m":1284}],"pair":[{"name":"M. Hamšík","competition":"Italy","minutes":2448,"tm_sub_position":"Central Midfield","values":{"profundidad_media_x":57.85,"pases_p90":91.52,"pases_progresivos_p90":5.59,"intercepciones_p90":2.79,"duelos_p90":10.88,"remates_p90":3.05},"percentiles":{"profundidad_media_x":71,"pases_p90":100,"pases_progresivos_p90":93,"intercepciones_p90":25,"duelos_p90":1,"remates_p90":100}},{"name":"M. Diamé","competition":"England","minutes":2165,"tm_sub_position":"Central Midfield","values":{"profundidad_media_x":46.41,"pases_p90":31.46,"pases_progresivos_p90":2.37,"intercepciones_p90":4.7,"duelos_p90":27.39,"remates_p90":0.83},"percentiles":{"profundidad_media_x":16,"pases_p90":20,"pases_progresivos_p90":36,"intercepciones_p90":72,"duelos_p90":94,"remates_p90":36}}],"coverage":[{"dimension":"Pases","wyscout":"sí: Pass","statsbomb":"sí: Pass","skillcorner":"sí: pass_outcome","dfl":"sí: Play","pff":"sí: PA"},{"dimension":"Conducciones","wyscout":"sí: Acceleration","statsbomb":"sí: Carry","skillcorner":"sí: player_possession","dfl":"no observado","pff":"sí: BC"},{"dimension":"Remates","wyscout":"sí: Shot","statsbomb":"sí: Shot","skillcorner":"sí: lead_to_shot","dfl":"sí: ShotAtGoal","pff":"sí: SH"},{"dimension":"Duelos","wyscout":"sí: Duel","statsbomb":"sí: Duel","skillcorner":"sí: on_ball_engagement","dfl":"sí: TacklingGame","pff":"sí: CH"},{"dimension":"Recuperaciones/intercep.","wyscout":"sí: interception","statsbomb":"sí: Ball Recovery, Interception","skillcorner":"sí: recovery_press","dfl":"sí: BallClaiming","pff":"no observado"},{"dimension":"Presión sobre el rival","wyscout":"no observado","statsbomb":"sí: Pressure","skillcorner":"sí: pressing, pressure, counter_press","dfl":"no observado","pff":"sí: initialPressureType"},{"dimension":"Carreras sin balón","wyscout":"no observado","statsbomb":"no observado","skillcorner":"sí: off_ball_run","dfl":"no observado","pff":"no observado"},{"dimension":"Valor de acción (xG/xT)","wyscout":"no observado","statsbomb":"sí: statsbomb_xg","skillcorner":"sí: xthreat","dfl":"no observado","pff":"no observado"},{"dimension":"Coordenadas de evento","wyscout":"sí","statsbomb":"sí","skillcorner":"sí","dfl":"sí","pff":"sí"},{"dimension":"Contexto espacial por evento","wyscout":"no","statsbomb":"parcial: 360 en subconjunto","skillcorner":"sí: tracking","dfl":"sí: tracking","pff":"sí: 22 jugadores por evento"},{"dimension":"Tracking continuo","wyscout":"no","statsbomb":"no","skillcorner":"sí","dfl":"sí","pff":"sí"},{"dimension":"Minutos jugados","wyscout":"no directo; reconstruible con teamsData (formation.lineup/bench/substitutions)","statsbomb":"reconstruible con lineups.positions[from/to] y eventos de sustitución","skillcorner":"players.playing_time en match.json","dfl":"derivable de alineación y Substitution","pff":"derivable de eventos SUB y metadatos de periodos"},{"dimension":"Posición nominal","wyscout":"players.role: GK/DF/MF/FW (4 categorías)","statsbomb":"posición detallada por partido y tramo (lineups.positions)","skillcorner":"players.player_role (posición detallada por partido)","dfl":"PlayingPosition por partido (códigos DFL)","pff":"positionGroupType por partido (Rosters)"}],"inventory":[{"fuente":"Wyscout","rol":"núcleo eventos","competiciones":7,"temporadas":7,"partidos":1941.0,"jugadores":3035.0,"eventos":3251294.0,"tracking":"no","periodo":"2016-06-10 a 2018-07-15"},{"fuente":"StatsBomb","rol":"validación","competiciones":24,"temporadas":80,"partidos":3961.0,"jugadores":11889.0,"eventos":14874171.0,"tracking":"360 en 426 partidos","periodo":"1958-06-24 a 2025-07-27"},{"fuente":"SkillCorner","rol":"tracking / sin balón","competiciones":1,"temporadas":1,"partidos":20.0,"jugadores":307.0,"eventos":94361.0,"tracking":"sí, 1,244,814 frames (10 Hz)","periodo":"2024-11-23 a 2025-05-17"},{"fuente":"DFL","rol":"eventos + tracking","competiciones":2,"temporadas":1,"partidos":7.0,"jugadores":207.0,"eventos":10498.0,"tracking":"sí, 23,739,462 filas (25 Hz)","periodo":"2022/2023"},{"fuente":"PFF FC","rol":"tracking internacional","competiciones":1,"temporadas":1,"partidos":64.0,"jugadores":829.0,"eventos":144541.0,"tracking":"sí, 64 archivos (2.78 GB bz2)","periodo":"Mundial 2022"},{"fuente":"Transfermarkt","rol":"contexto externo","competiciones":65,"temporadas":21,"partidos":88958.0,"jugadores":50149.0,"eventos":1274469.0,"tracking":"no","periodo":"2005 a 2025"}],"linkage":{"players_in_pool":2570,"with_dob_candidate":2566,"accepted":2494,"accepted_share":0.9704,"ambiguous_dob_multiple_candidates":2458,"rule":"misma fecha de nacimiento y similitud de nombre >= 0.75 (SequenceMatcher o token de apellido)"}};
+const NS = "http://www.w3.org/2000/svg";
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C = {ink:css("--ink"), ink2:css("--ink-2"), ink3:css("--ink-3"), rule:css("--rule"), wash:css("--wash"), mid:css("--mid"), soft:css("--soft"), yellow:css("--yellow"), paper:css("--paper")};
+const fmt = (v, d=0) => v.toLocaleString("es-CO", {minimumFractionDigits:d, maximumFractionDigits:d});
+function el(tag, attrs={}, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k, attrs[k]); if(parent) parent.appendChild(e); return e; }
+function txt(parent, x, y, s, attrs={}){ const t=el("text",{x,y,fill:C.ink2,...attrs},parent); t.textContent=s; return t; }
+function svg(host, w, h){ const s=el("svg",{viewBox:`0 0 ${w} ${h}`,width:"100%",role:"img"}); s.style.display="block"; document.getElementById(host).appendChild(s); return s; }
+const tip = document.getElementById("tip");
+function showTip(ev, html){ tip.innerHTML=html; tip.hidden=false; const pad=14; let x=ev.clientX+pad, y=ev.clientY+pad; const r=tip.getBoundingClientRect(); if(x+r.width>innerWidth-8) x=ev.clientX-r.width-pad; if(y+r.height>innerHeight-8) y=ev.clientY-r.height-pad; tip.style.left=x+"px"; tip.style.top=y+"px"; }
+function hideTip(){ tip.hidden=true; }
+const LABEL = {
+  pases_p90:"Pases por 90", precision_pase:"Precisión de pase", pases_progresivos_p90:"Pases progresivos por 90",
+  entradas_ultimo_tercio_p90:"Entradas al último tercio", pases_clave_p90:"Pases clave por 90", centros_p90:"Centros por 90",
+  conducciones_p90:"Conducciones por 90", remates_p90:"Remates por 90", acciones_area_p90:"Acciones en el área",
+  duelos_p90:"Duelos por 90", duelos_aereos_p90:"Duelos aéreos por 90", intercepciones_p90:"Intercepciones por 90",
+  regates_ganados_p90:"Regates ganados por 90", profundidad_media_x:"Profundidad media", distancia_al_centro_y:"Distancia al eje central",
+  share_pases:"Proporción de pases", share_duelos:"Proporción de duelos", share_remates:"Proporción de remates"
+};
+
+/* 02 mariposa: percentiles de dos jugadores */
+(function(){
+  const [a,b] = DATA.pair; const keys = Object.keys(a.percentiles);
+  const W=600, rowH=44, top=40, H=top+keys.length*rowH+8, mid=W/2, lab=118, span=mid-lab/2-40;
+  const s=svg("butterfly",W,H);
+  txt(s, mid-lab/2-4, 18, a.name, {"text-anchor":"end","font-weight":"700","font-size":"14",fill:C.ink});
+  txt(s, mid+lab/2+4, 18, b.name, {"font-weight":"700","font-size":"14",fill:C.ink});
+  keys.forEach((k,i)=>{
+    const y=top+i*rowH, cy=y+rowH/2;
+    const pa=a.percentiles[k], pb=b.percentiles[k];
+    el("line",{x1:mid-lab/2-span-4,x2:mid-lab/2-4,y1:cy,y2:cy,stroke:C.rule},s);
+    el("line",{x1:mid+lab/2+4,x2:mid+lab/2+span+4,y1:cy,y2:cy,stroke:C.rule},s);
+    const wa=span*pa/100, wb=span*pb/100;
+    const ra=el("rect",{x:mid-lab/2-4-wa,y:cy-10,width:Math.max(wa,1),height:20,fill:C.ink},s);
+    const rb=el("rect",{x:mid+lab/2+4,y:cy-10,width:Math.max(wb,1),height:20,fill:C.yellow,stroke:C.ink,"stroke-width":"1"},s);
+    txt(s, mid-lab/2-10-wa, cy+4, pa, {"text-anchor":"end","font-size":"12",fill:C.ink2});
+    txt(s, mid+lab/2+10+wb, cy+4, pb, {"font-size":"12",fill:C.ink2});
+    const L=LABEL[k].replace(" por 90",""); txt(s, mid, cy+4, L, {"text-anchor":"middle","font-size":"12",fill:C.ink});
+    [[ra,a,pa],[rb,b,pb]].forEach(([r,p,pc])=>{ r.addEventListener("mousemove",e=>showTip(e,`<b>${p.name}</b><br>${LABEL[k]}: ${fmt(p.values[k],2)}<br>Percentil ${pc}`)); r.addEventListener("mouseleave",hideTip); });
+  });
+  txt(s, mid-lab/2-4, H-2, "100 ← percentil", {"text-anchor":"end","font-size":"10",fill:C.ink3});
+  txt(s, mid+lab/2+4, H-2, "percentil → 100", {"font-size":"10",fill:C.ink3});
+})();
+
+/* 05 línea de tiempo de fuentes */
+(function(){
+  const W=1100, left=150, right=20, rowH=52, top=44, rows=["Wyscout","StatsBomb","SkillCorner","DFL","PFF FC","Transfermarkt"];
+  const H=top+rows.length*rowH+26, x0=2015.0, x1=2026.0, X=v=>left+(v-x0)/(x1-x0)*(W-left-right);
+  const s=svg("timeline",W,H);
+  const d=(y,m)=>y+(m-1)/12;
+  // bandas de coincidencia
+  [[d(2018,6),d(2018,8),"Mundial 2018",2],[d(2022,11),d(2023,1),"Mundial 2022",5]].forEach(([a,b,l,nr])=>{
+    el("rect",{x:X(a)-3,y:top-24,width:X(b)-X(a)+6,height:nr*rowH+24,fill:C.yellow,opacity:"0.5"},s);
+    txt(s,(X(a)+X(b))/2,top-30,l,{"text-anchor":"middle","font-size":"12","font-weight":"700",fill:C.ink});
+  });
+  for(let y=2015;y<=2026;y++){ el("line",{x1:X(y),x2:X(y),y1:top-4,y2:top+rows.length*rowH,stroke:C.rule,"stroke-width":"1"},s); if(y<2026) txt(s,X(y)+4,H-10,y,{"font-size":"11",fill:C.ink3}); }
+  rows.forEach((r,i)=>txt(s,0,top+i*rowH+rowH/2+4,r,{"font-size":"13","font-weight":"500",fill:C.ink}));
+  const seg=[
+    [0,d(2016,6),d(2016,8),"Euro 2016"],[0,d(2017,8),d(2018,6),"5 ligas 2017/18"],[0,d(2018,6),d(2018,8),""],
+    [1,d(2015,8),d(2016,6),"4 ligas 2015/16"],[1,d(2017,8),d(2018,6),"La Liga 2017/18 · 36 partidos"],[1,d(2018,6),d(2018,8),""],[1,d(2021,6),d(2021,8),"Euro 2020 · 360"],[1,d(2022,11),d(2023,1),"Mundial 2022 · 360"],[1,d(2024,6),d(2024,8),"Euro 2024 · 360"],
+    [2,d(2024,11),d(2025,6),"A-League 2024/25 · 20"],
+    [3,d(2022,8),d(2023,6),"Bundesliga y 2. Bundesliga · 7"],
+    [4,d(2022,11),d(2023,1),"Mundial 2022 · 64"],
+    [5,d(2015,1),d(2026,1),"temporadas 2005 a 2025 · contexto"]
+  ];
+  seg.forEach(([r,a,b,l])=>{
+    const y=top+r*rowH+rowH/2;
+    el("rect",{x:X(a),y:y-8,width:Math.max(X(b)-X(a),5),height:16,fill:r===5?C.mid:C.ink},s);
+    if(l){ if(r===5) txt(s, X(a)+8, y+4, l, {"font-size":"11",fill:C.ink}); else if(r===2) txt(s, X(b), y-12, l, {"font-size":"11",fill:C.ink2,"text-anchor":"end"}); else txt(s, X(a), y-12, l, {"font-size":"11",fill:C.ink2}); }
+  });
+  txt(s,X(2015)-6,top+5*rowH+rowH/2+4,"…",{"text-anchor":"end","font-size":"12",fill:C.ink3});
+})();
+
+/* 05 tabla de inventario */
+(function(){
+  const tb=document.querySelector("#inv tbody");
+  const rolMap={"núcleo eventos":"Construcción del perfil con eventos","validación":"Replicación con otro proveedor","tracking / sin balón":"Movimiento sin balón","eventos + tracking":"Eventos y tracking sincronizados","tracking internacional":"Estudio espacial, Mundial 2022","contexto externo":"Contexto del jugador, posterior"};
+  const trk={"Wyscout":"No","StatsBomb":"360 en 426 partidos","SkillCorner":"1.244.814 frames a 10 Hz","DFL":"23.739.462 posiciones a 25 Hz","PFF FC":"64 partidos","Transfermarkt":"No"};
+  DATA.inventory.forEach(r=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="src">${r.fuente}</td><td>${rolMap[r.rol]||r.rol}</td><td class="num">${fmt(r.partidos)}</td><td class="num">${fmt(r.jugadores)}</td><td class="num">${fmt(r.eventos)}</td><td>${trk[r.fuente]}</td>`;
+    tb.appendChild(tr);
+  });
+})();
+
+/* 06 matriz de cobertura */
+(function(){
+  const host=document.getElementById("cov");
+  const prov=[["wyscout","Wyscout"],["statsbomb","StatsBomb"],["skillcorner","SkillCorner"],["dfl","DFL"],["pff","PFF"]];
+  const add=(cls,html)=>{const d=document.createElement("div"); d.className=cls; d.innerHTML=html; host.appendChild(d); return d;};
+  add("h",""); prov.forEach(p=>add("h",p[1]));
+  const rows=DATA.coverage.filter(r=>!["Minutos jugados","Posición nominal"].includes(r.dimension));
+  rows.forEach((r,i)=>{
+    if(r.dimension==="Coordenadas de evento") add("sep","");
+    const name={"Recuperaciones/intercep.":"Recuperaciones e intercepciones","Valor de acción (xG/xT)":"Valor de la acción (xG, xT)"}[r.dimension]||r.dimension;
+    add("r",name);
+    prov.forEach(([k])=>{
+      const v=String(r[k]); let cls="no", label="no observado";
+      if(v.startsWith("sí")){cls="yes"; label=v.includes(":")?v.split(":").slice(1).join(":").trim():"sí";}
+      else if(v.startsWith("parcial")){cls="part"; label=v.split(":").slice(1).join(":").trim();}
+      else if(v==="no"){label="no";}
+      add("c "+cls,label);
+    });
+  });
+})();
+
+/* 09 elegibilidad por umbral */
+(function(){
+  const E=DATA.elig, W=520, H=300, left=12, bottom=46, top=26, bw=64;
+  const s=svg("elig",W,H), max=2600, Y=v=>H-bottom-(v/max)*(H-bottom-top);
+  const step=(W-left*2)/E.length;
+  el("line",{x1:left,x2:W-left,y1:H-bottom,y2:H-bottom,stroke:C.ink},s);
+  E.forEach((r,i)=>{
+    const x=left+i*step+(step-bw)/2, v=r.outfield, hi=r.min_minutes===900;
+    const rect=el("rect",{x,y:Y(v),width:bw,height:H-bottom-Y(v),fill:hi?C.yellow:C.soft,stroke:hi?C.ink:"none","stroke-width":"1.2"},s);
+    txt(s,x+bw/2,Y(v)-8,fmt(v),{"text-anchor":"middle","font-size":"13","font-weight":hi?"700":"400",fill:C.ink});
+    txt(s,x+bw/2,H-bottom+18,r.min_minutes===0?"sin mínimo":"≥ "+fmt(r.min_minutes),{"text-anchor":"middle","font-size":"12",fill:C.ink2});
+    rect.addEventListener("mousemove",e=>showTip(e,`<b>${r.min_minutes===0?"Sin mínimo":"Al menos "+fmt(r.min_minutes)+" min"}</b><br>Defensas ${r.role_DF} · Medios ${r.role_MD} · Delanteros ${r.role_FW}`)); rect.addEventListener("mouseleave",hideTip);
+  });
+  txt(s,W/2,H-6,"minutos jugados en la temporada",{"text-anchor":"middle","font-size":"11",fill:C.ink3});
+})();
+
+/* 10 dumbbell eta cuadrado */
+(function(){
+  const V=[...DATA.variance].sort((a,b)=>b.eta2_wyscout_role-a.eta2_wyscout_role);
+  const W=640, left=190, right=24, top=40, rowH=24, H=top+V.length*rowH+30, X=v=>left+v*(W-left-right);
+  const s=svg("dumb",W,H);
+  [0,.25,.5,.75,1].forEach(t=>{ el("line",{x1:X(t),x2:X(t),y1:top-8,y2:H-26,stroke:C.rule},s); txt(s,X(t),H-10,fmt(t*100)+" %",{"text-anchor":"middle","font-size":"11",fill:C.ink3}); });
+  // leyenda
+  el("circle",{cx:left,cy:14,r:5,fill:C.paper,stroke:C.ink2,"stroke-width":"1.8"},s); txt(s,left+10,18,"Posición Wyscout (3 categorías)",{"font-size":"12",fill:C.ink2});
+  el("circle",{cx:left+230,cy:14,r:5.5,fill:C.ink},s); txt(s,left+240,18,"Sub-posición Transfermarkt (13)",{"font-size":"12",fill:C.ink2});
+  V.forEach((r,i)=>{
+    const cy=top+i*rowH+rowH/2, low=r.eta2_wyscout_role<0.1;
+    if(low) el("rect",{x:0,y:cy-10,width:left-12,height:20,fill:C.yellow},s);
+    txt(s,left-18,cy+4,LABEL[r.feature],{"text-anchor":"end","font-size":"12.5",fill:C.ink,"font-weight":low?"500":"400"});
+    el("line",{x1:X(r.eta2_wyscout_role),x2:X(r.eta2_tm_subposition),y1:cy,y2:cy,stroke:C.mid,"stroke-width":"2"},s);
+    const c1=el("circle",{cx:X(r.eta2_wyscout_role),cy,r:5,fill:C.paper,stroke:C.ink2,"stroke-width":"1.8"},s);
+    const c2=el("circle",{cx:X(r.eta2_tm_subposition),cy,r:5.5,fill:C.ink},s);
+    const hit=el("rect",{x:0,y:cy-rowH/2,width:W,height:rowH,fill:"transparent"},s);
+    hit.addEventListener("mousemove",e=>showTip(e,`<b>${LABEL[r.feature]}</b><br>Posición Wyscout: ${fmt(r.eta2_wyscout_role*100,1)} %<br>Sub-posición TM: ${fmt(r.eta2_tm_subposition*100,1)} %<br>Equipo: ${fmt(r.eta2_team*100,1)} %`)); hit.addEventListener("mouseleave",hideTip);
+  });
+})();
+
+/* 11 barra apilada de sub-posiciones */
+(function(){
+  const groups=[
+    ["Central","Mediocentro",["Central Midfield"],false],["Defensivo","Pivote",["Defensive Midfield"],false],["Ofensivo","Mediapunta",["Attacking Midfield"],false],["Volante lateral","",["Left Midfield","Right Midfield"],false],
+    ["Extremo","",["Left Winger","Right Winger"],true],["Defensa","",["Centre-Back","Left-Back","Right-Back"],true],["Delantero","",["Centre-Forward","Second Striker"],true],["Sin enlace","",[null],false]
+  ];
+  const n=g=>DATA.md.filter(m=>g[2].includes(m.s)).length;
+  const W=1100, H=98, s=svg("stack",W,H), tot=DATA.md.length; let x=0;
+  const shades=[C.ink,C.ink2,"#5a5a5a",C.mid,C.yellow,C.yellow,C.yellow,C.wash], small=[];
+  groups.forEach((g,i)=>{
+    const v=n(g), w=v/tot*W;
+    const r=el("rect",{x:x+1,y:8,width:Math.max(w-2,1),height:34,fill:shades[i],stroke:g[3]?C.ink:(i===7?C.soft:"none"),"stroke-width":"1"},s);
+    const dark=i<3;
+    if(w>58){ txt(s,x+8,30,fmt(v),{"font-size":"14","font-weight":"700",fill:dark?C.paper:C.ink}); txt(s,x+2,62,g[0],{"font-size":"12",fill:C.ink2}); }
+    else small.push(`${g[0]} ${v}`);
+    r.addEventListener("mousemove",e=>showTip(e,`<b>${g[0]}</b><br>${v} jugadores-temporada (${fmt(v/tot*100,1)} %)`)); r.addEventListener("mouseleave",hideTip);
+    x+=w;
+  });
+  txt(s,W,90,"Segmentos menores: "+small.join(" · "),{"text-anchor":"end","font-size":"12",fill:C.ink2});
+})();
+
+/* 11 paneles pequeños: profundidad frente a progresión */
+(function(){
+  const P=[["Pivote (Defensive Midfield)",["Defensive Midfield"]],["Mediocentro (Central Midfield)",["Central Midfield"]],["Mediapunta (Attacking Midfield)",["Attacking Midfield"]],["Extremo (Left/Right Winger)",["Left Winger","Right Winger"]]];
+  const W=1100, H=300, gap=26, pw=(W-gap*3)/4, top=30, bottom=44, left=34;
+  const xs=[30,72], ys=[0,10.5];
+  const s=svg("panels",W,H);
+  P.forEach(([title,subs],k)=>{
+    const ox=k*(pw+gap), X=v=>ox+left+(v-xs[0])/(xs[1]-xs[0])*(pw-left-6), Y=v=>H-bottom-(v-ys[0])/(ys[1]-ys[0])*(H-bottom-top);
+    const own=DATA.md.filter(m=>subs.includes(m.s));
+    txt(s,ox,16,`${title} · ${own.length}`,{"font-size":"12.5","font-weight":"700",fill:C.ink});
+    [0,5,10].forEach(t=>{ el("line",{x1:ox+left,x2:ox+pw-6,y1:Y(t),y2:Y(t),stroke:C.rule},s); if(k===0||true) txt(s,ox+left-6,Y(t)+4,t,{"text-anchor":"end","font-size":"10.5",fill:C.ink3}); });
+    [35,50,65].forEach(t=>txt(s,X(t),H-bottom+16,t,{"text-anchor":"middle","font-size":"10.5",fill:C.ink3}));
+    DATA.md.forEach(m=>el("circle",{cx:X(m.x),cy:Y(m.p),r:2.4,fill:C.soft},s));
+    own.forEach(m=>{ const c=el("circle",{cx:X(m.x),cy:Y(m.p),r:3.4,fill:C.ink,stroke:C.paper,"stroke-width":"1"},s);
+      c.addEventListener("mousemove",e=>showTip(e,`<b>${m.n}</b><br>${m.c} · ${fmt(m.m)} min<br>Profundidad ${fmt(m.x,1)} · Progresivos ${fmt(m.p,2)}`)); c.addEventListener("mouseleave",hideTip); });
+    if(k===1){ DATA.pair.forEach(p=>{ const m=DATA.md.find(q=>q.n===p.name); const cx=X(m.x), cy=Y(m.p);
+      el("circle",{cx,cy,r:6.5,fill:C.yellow,stroke:C.ink,"stroke-width":"1.6"},s);
+      txt(s,cx+9,cy-8,m.n,{"font-size":"12","font-weight":"700",fill:C.ink,stroke:C.paper,"stroke-width":"4","paint-order":"stroke"}); }); }
+    txt(s,ox+left+(pw-left)/2,H-8,"profundidad media (0 a 100)",{"text-anchor":"middle","font-size":"10.5",fill:C.ink3});
+  });
+
+})();
+
+/* 14 cronograma */
+(function(){
+  const g=document.getElementById("gantt");
+  const add=(cls,html,style)=>{const d=document.createElement("div"); d.className=cls; if(html) d.innerHTML=html; if(style) d.style.cssText=style; g.appendChild(d); return d;};
+  add("lbl","","grid-row:1;grid-column:1"); for(let w=1;w<=12;w++) add("wk","S"+w,`grid-row:1;grid-column:${w+1}`);
+  add("lbl","Planteamiento y marco de referencia<small>Capítulos 1 a 4 del documento</small>","grid-row:2;grid-column:1"); add("pre","Antes del desarrollo empírico","grid-row:2");
+  add("lbl","Adquisición y trazabilidad de fuentes<small>Seis fuentes, manifiestos y verificación</small>","grid-row:3;grid-column:1"); add("pre","Antes del desarrollo empírico","grid-row:3");
+  const phases=[
+    ["Inventario, licencias y diagnóstico","Inventario y diagnóstico realizados",1,2,"now"],
+    ["Población elegible e indicadores","Primera versión construida",3,4,"now"],
+    ["Representaciones y modelos","Protocolo fijado antes de la evaluación",5,7,"next"],
+    ["Evaluación temporal, sensibilidad y casos","",8,9,"next"],
+    ["Análisis complementarios y propuesta de uso","Tracking y prototipo",10,10,"next"],
+    ["Integración de resultados y revisión del informe","",11,12,"next"]
+  ];
+  phases.forEach(([l,sm,a,b,st],i)=>{ const r=i+4; add("lbl",l+(sm?`<small>${sm}</small>`:""),`grid-row:${r};grid-column:1`); add("bar "+st,"",`grid-row:${r};grid-column:${a+1}/${b+2}`); });
+})();
+
+/* navegación entre páginas para la grabación */
+(function(){
+  const pages=[...document.querySelectorAll(".page")], pnum=document.getElementById("pnum");
+  const cur=()=>{ let i=0; pages.forEach((p,k)=>{ if(p.getBoundingClientRect().top<=innerHeight*0.4) i=k; }); return i; };
+  const go=d=>{ const i=Math.min(pages.length-1,Math.max(0,cur()+d)); pages[i].scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); };
+  const upd=()=>{ pnum.textContent=String(cur()+1).padStart(2,"0")+" / "+pages.length; };
+  document.getElementById("next").onclick=()=>go(1); document.getElementById("prev").onclick=()=>go(-1);
+  addEventListener("keydown",e=>{ if(["ArrowDown","ArrowRight","PageDown"," "].includes(e.key)){e.preventDefault();go(1);} if(["ArrowUp","ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();go(-1);} });
+  addEventListener("scroll",upd,{passive:true}); upd();
+})();
+</script>
+</body></html>

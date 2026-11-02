@@ -42,6 +42,13 @@ def _explorer():
     build_explorer.main()
 
 
+def _casebook():
+    from src.reports import build_casebook, export_casebook_data
+
+    export_casebook_data.main()
+    build_casebook.main()
+
+
 def _profiles_full():
     from src.models.profiles import main
 
@@ -82,7 +89,7 @@ STAGES = [
     ("profiles_final", "Perfiles finales en la temporada completa (D24)", _profiles_full),
     ("explorer", "Datos y página del explorador (prototipo)", _explorer),
     ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary")),
-    ("casebook", "Datos del casebook", _call("src.reports.export_casebook_data")),
+    ("casebook", "Datos y página del casebook de resultados", _casebook),
 ]
 
 

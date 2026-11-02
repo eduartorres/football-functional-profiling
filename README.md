@@ -17,7 +17,7 @@ manifests/              procedencia e integridad de las fuentes
 notebooks/              exploración (fuera del pipeline)
 reports/documento/      documento del trabajo de grado y su fuente (build/)
 reports/explorer/       explorador de perfiles (prototipo)
-reports/casebook/       casebook y guion del video de avances
+reports/casebook/       casebook de resultados, versión del video de avances y su guion
 reports/figures/        figuras
 src/ingestion/          adquisición de fuentes (se ejecuta una vez)
 src/harmonization/      extracción de Wyscout y homologación con StatsBomb
