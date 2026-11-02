@@ -24,3 +24,9 @@ Cada decisión indica fecha, si se tomó antes o después de ver resultados de e
 | D18 | 2026-11-02 | Antes | Mitades de temporada por jornada (19; 17 en Bundesliga) como desarrollo y reserva | El núcleo tiene una sola temporada |
 | D19 | 2026-11-02 | Antes | H4 evaluada de forma analítica, sin revisores deportivos | No hay revisores disponibles; protocolo en `docs/protocolo_modelado.md` |
 | D20 | 2026-11-02 | Antes | Protocolo de modelado v1.0 congelado | Separar decisiones previas de las tomadas tras ver resultados |
+| D21 | 2026-11-02 | Antes de seleccionar | V de Cramér con corrección de sesgo de Bergsma (2013) | Prueba de humo: sin corrección, el valor esperado bajo independencia con 98 equipos ronda 0,26 y el umbral de 0,20 rechazaría cualquier partición |
+| D22 | 2026-11-02 | Antes de seleccionar | Proporción máxima de jugadores sin grupo (ruido de HDBSCAN) de 20 % | Una solución que deja fuera a la mayoría de jugadores no sirve para la consulta; prueba de humo: HDBSCAN dejó 75 % como ruido |
+| D23 | 2026-11-02 | Antes de seleccionar | Tamizaje de la grilla con 50 réplicas bootstrap y confirmación con 200 réplicas para las candidatas | Costo de cómputo del análisis de arquetipos; la regla de selección se aplica sobre las 200 réplicas |
+| D24 | 2026-11-02 | Antes de seleccionar | Tras la evaluación, la configuración elegida se reajusta en la temporada completa para describir los perfiles finales | Los perfiles del producto deben usar toda la exposición disponible; la evaluación se hace con h1 y h2 |
+| D25 | 2026-11-02 | Después | Solución seleccionada por la regla del protocolo: K-means, k = 3, representación de composición | Silueta 0,422; ARI 0,969; Jaccard >= 0,975; NMI equipo 0,009. Sin cambios a la regla |
+| D26 | 2026-11-02 | Después | K-means k = 5 (composición) se reporta como sensibilidad de mayor resolución, sin reemplazar la selección | ARI 0,943 y Jaccard mínimo 0,935; la silueta favorece k pequeños |

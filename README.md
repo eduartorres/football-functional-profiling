@@ -21,6 +21,8 @@ tests/         verificaciones de las tablas derivadas
 ```
 pip install -r requirements.txt
 python -m src.pipeline --list
+python -m src.models.select_model --stage screen    # repetir hasta 'quedan 0'
+python -m src.models.select_model --stage confirm   # repetir hasta 'quedan 0'
 python -m src.pipeline
 python -m pytest tests
 ```

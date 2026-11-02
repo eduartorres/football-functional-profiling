@@ -99,3 +99,5 @@ modeling:
   k_range: [3, 12]
   algorithms: [kmeans, gmm, hierarchical_ward, archetypes, hdbscan]
   bootstrap_reps: 200
+  screening_reps: 50          # tamizaje de toda la grilla (D23)
+  max_noise_share: 0.20       # proporción máxima de jugadores sin grupo (D22)

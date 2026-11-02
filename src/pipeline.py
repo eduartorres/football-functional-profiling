@@ -8,7 +8,9 @@ Uso:
     python -m src.pipeline --list
 
 La adquisición de fuentes (src/ingestion) no forma parte del pipeline: se ejecuta una sola vez y su
-resultado queda fijado en manifests/.
+resultado queda fijado en manifests/. La grilla de modelos se ejecuta aparte, por etapas reanudables:
+    python -m src.models.select_model --stage screen   (repetir hasta 'quedan 0')
+    python -m src.models.select_model --stage confirm  (repetir hasta 'quedan 0')
 """
 from __future__ import annotations
 
@@ -21,6 +23,12 @@ def _audit():
     for name, fn in a.AUDITS.items():
         a._save(name, fn())
     a.combine()
+
+
+def _select():
+    # la grilla (screen/confirm) se ejecuta aparte por su costo; ver README
+    from src.models.select_model import select
+    select()
 
 
 def _call(module: str):
@@ -37,6 +45,8 @@ STAGES = [
     ("positions", "Enlace con Transfermarkt y posición fina", _call("src.features.position_reference")),
     ("features", "Representaciones de volumen, composición y localización", _call("src.features.player_features")),
     ("findings", "Hallazgos preliminares de la sección 5.7", _call("src.diagnostics.wyscout_findings")),
+    ("model_select", "Selección del modelo sobre la grilla confirmada", _select),
+    ("profiles", "Caracterización de perfiles en desarrollo", _call("src.models.profiles")),
     ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary")),
     ("casebook", "Datos del casebook", _call("src.reports.export_casebook_data")),
 ]
