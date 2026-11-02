@@ -1,0 +1,348 @@
+# -*- coding: utf-8 -*-
+# Contenido del documento revisado. Marcado mínimo: *texto* = cursiva, **texto** = negrita.
+
+TITLE = "Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal"
+
+C = []
+def h1(t): C.append(("h1", t))
+def h2(t): C.append(("h2", t))
+def h3(t): C.append(("h3", t))
+def p(t): C.append(("p", t))
+def bl(*items): C.append(("bullets", list(items)))
+def table(caption, headers, rows, widths, font=9, landscape=False, note=None):
+    C.append(("table", dict(caption=caption, headers=headers, rows=rows, widths=widths, font=font, landscape=landscape, note=note)))
+def ref(t): C.append(("ref", t))
+def pb(): C.append(("pagebreak", None))
+
+# ---------------------------------------------------------------- portada
+C.append(("subtitle", "Proyecto aplicado de analítica"))
+C.append(("meta", "Eduar Felipe Riaño Torres · Código 202423073"))
+C.append(("meta", "Asesor: Juan Pablo Gómez Bravo"))
+C.append(("meta", "Maestría en Inteligencia Analítica para la Toma de Decisiones · Universidad de los Andes"))
+
+# ---------------------------------------------------------------- resumen
+h1("Resumen")
+p("El proyecto construye y evalúa perfiles funcionales de futbolistas de campo a partir de su comportamiento observado en datos de partidos, como complemento de la posición nominal en la preselección de candidatos para scouting y recruitment. El núcleo empírico emplea los eventos públicos de Wyscout de las cinco grandes ligas europeas en la temporada 2017/18; StatsBomb permite replicar las dimensiones en los 64 partidos del Mundial 2018 y Transfermarkt aporta la posición fina utilizada como referencia externa. Siguiendo CRISP-DM, se construyen representaciones de volumen ajustado por posesión y de composición con transformación log-ratio centrada, se aplican reducción de dimensionalidad y técnicas de agrupamiento, y se evalúan separación, estabilidad, autoidentificación y asociación con posición y equipo. El producto esperado es una representación funcional reproducible y una consulta de jugadores similares evaluada frente a una búsqueda por posición.")
+p("**Palabras clave:** perfilamiento funcional, datos de eventos, aprendizaje no supervisado, scouting, analítica deportiva, CRISP-DM.")
+
+# ---------------------------------------------------------------- 1
+h1("1. Introducción")
+h2("1.1 Contexto de la organización y del mercado")
+p("La conformación de una plantilla exige comparar jugadores con características deportivas diversas y valorar su ajuste a las necesidades del equipo. En este proceso participan la dirección deportiva, el cuerpo técnico y el área de scouting, entendida como la búsqueda y observación de futbolistas; el recruitment comprende la evaluación y selección de candidatos para su incorporación.")
+p("El mercado en el que se toman estas decisiones es de gran escala y alta rotación. Según la FIFA, en 2025 se registraron 86.158 transferencias internacionales, máximo histórico, y el gasto en derechos de transferencia del fútbol profesional masculino alcanzó USD 13.080 millones; 1.214 clubes pagaron por al menos una incorporación internacional (FIFA, 2026). La rotación de plantillas es igualmente alta: en el censo de 31 primeras divisiones europeas del CIES Football Observatory, el 43,2 % de los jugadores registrados en octubre de 2019 había sido incorporado durante ese año, y la proporción fue de 40,7 % en 2020 (CIES Football Observatory, 2020).")
+p("Colombia ocupa una posición particular en este mercado como exportador de futbolistas. En 2024 se contabilizaron 433 jugadores de origen colombiano compitiendo en ligas extranjeras, séptimo lugar entre las asociaciones de origen dentro de 135 ligas analizadas (Poli et al., 2024). Para un club vendedor, cada venta abre una vacante que debe cubrirse en un plazo corto y con un presupuesto limitado, lo que convierte la búsqueda de reemplazos en una actividad recurrente.")
+p("Los datos de partidos amplían la descripción de los jugadores mediante acciones, localizaciones y secuencias de juego, y los conjuntos públicos de eventos ofrecen una base reproducible para estos análisis (Pappalardo, Cintia, Rossi et al., 2019). La disponibilidad de datos, sin embargo, no define por sí sola cómo comparar futbolistas: es necesario establecer qué comportamiento se representa y bajo qué condiciones una similitud es interpretable.")
+
+h2("1.2 Situación problemática")
+p("En la búsqueda de candidatos, la posición nominal suele ser el primer filtro. Dos mediocampistas pueden compartir esa etiqueta y diferir en su participación en la circulación, la progresión o la recuperación del balón, mientras que jugadores registrados en posiciones distintas pueden intervenir de forma semejante en determinadas zonas. Una búsqueda organizada principalmente por etiquetas posicionales produce listas que mezclan perfiles heterogéneos y que pueden omitir candidatos funcionalmente comparables, en particular los que juegan en ligas de menor visibilidad o están registrados en una posición diferente.")
+p("El problema aplicado consiste en disponer de una caracterización del comportamiento observado que permita reconocer esas diferencias y semejanzas. El proyecto propone construir perfiles funcionales a partir de datos de juego y medir qué información adicional aportan frente a la posición nominal.")
+
+h2("1.3 Justificación: valor para el negocio y pertinencia académica")
+p("La justificación se organiza según los criterios de necesidad, magnitud, trascendencia, vulnerabilidad y factibilidad.")
+p("**Necesidad.** La búsqueda de reemplazos es una tarea recurrente en clubes con alta rotación y con modelo de negocio vendedor. La posición nominal es un criterio de filtrado rápido, pero no describe la función que el jugador cumple en el campo; la comparación funcional suele depender de la observación de video, que es costosa en tiempo.")
+p("**Magnitud.** El volumen de transferencias internacionales y la proporción de jugadores incorporados cada año, descritos en la sección 1.1, indican que la búsqueda de candidatos es una actividad de gran escala. En el caso colombiano, la exportación de jugadores genera vacantes de manera continua.")
+p("**Trascendencia.** Una búsqueda que solo filtra por posición restringe el embudo de candidatos. Una representación funcional permite ampliar la búsqueda hacia jugadores de otras posiciones o ligas que cumplen una función comparable, lo que para un club con recursos limitados representa una ventaja concreta: identificar reemplazos que el mercado no ha valorado plenamente.")
+p("**Vulnerabilidad.** El problema es tratable con datos. Los eventos de partido registran las acciones de cada jugador con su localización, existen conjuntos públicos con cobertura de temporadas completas y la literatura ofrece métodos para representar el estilo de juego a partir de esos registros (Decroos & Davis, 2020; Plakias et al., 2023).")
+p("**Tesis de valor.** Un sistema de perfiles funcionales actúa sobre el embudo de búsqueda en tres puntos. Reduce el tamaño de la lista inicial que debe revisarse, aumenta la proporción de candidatos pertinentes dentro de una lista de tamaño fijo y disminuye las horas de video necesarias por candidato aceptado. Además, incorpora candidatos pertinentes que una búsqueda por posición no habría considerado. Estos cuatro indicadores definen cómo se evaluará el valor de la solución en el apartado 2.7.")
+p("**Pertinencia académica.** El proyecto aborda la construcción y evaluación de una representación del comportamiento a partir de datos heterogéneos, con tres aportes metodológicos: la comparación explícita frente a una línea base por posición fina, la evaluación de la estabilidad de los perfiles y la replicación de sus dimensiones con un segundo proveedor sobre los mismos partidos.")
+
+h2("1.4 Alcance y delimitación")
+p("El estudio se enfoca en futbolistas de campo; los porteros se excluyen porque requieren indicadores y criterios de comparación específicos. El alcance se organiza en tres niveles, definidos a partir de la auditoría de las fuentes descrita en el capítulo 5:")
+bl("**Núcleo.** Eventos de Wyscout de las cinco grandes ligas europeas en la temporada 2017/18 (1.826 partidos). La población elegible es de 1.500 jugadores-temporada de campo con al menos 900 minutos y posición fina disponible.",
+   "**Replicación.** Los 64 partidos del Mundial 2018, presentes tanto en Wyscout como en StatsBomb, permiten contrastar las dimensiones funcionales con un segundo proveedor sobre jugadores y partidos idénticos.",
+   "**Estudio complementario.** El Mundial 2022, con información espacial de StatsBomb 360 y tracking de PFF para los mismos 64 partidos, se reserva para un estudio de caso sobre comportamiento espacial, condicionado al avance del núcleo.")
+p("Transfermarkt proporciona la posición fina utilizada como referencia externa y el contexto del jugador; sus variables de mercado no intervienen en la construcción de los perfiles. SkillCorner y DFL se documentan en la auditoría y quedan fuera del núcleo. La solución comprende una representación de características, un análisis de agrupamiento y un procedimiento de consulta de similitud; no incluye predicción de resultados, valoración económica ni ejecución de contrataciones.")
+
+# ---------------------------------------------------------------- 2
+h1("2. Planteamiento del problema de negocio y del problema analítico")
+h2("2.1 Decisión de negocio que se busca mejorar (quién decide, qué, cuándo y con qué frecuencia)")
+p("Para orientar el diseño se define un usuario de referencia: el analista jefe de scouting de un club de la primera división colombiana con un equipo de búsqueda reducido, de dos o tres personas, que debe reemplazar a un jugador vendido al exterior. Este usuario es un constructo de diseño y no corresponde a un cliente específico.")
+p("La decisión que se busca apoyar es qué jugadores pasan a una revisión deportiva detallada, con video y seguimiento, cuando se requiere cubrir una función de la plantilla o reemplazar a un futbolista. La dirección deportiva y el cuerpo técnico definen la necesidad, el área de scouting construye y depura la lista de candidatos y la dirección deportiva decide qué candidatos avanzan a negociación. La consulta se concentra en la planificación previa a cada periodo de transferencias, que en Colombia ocurre dos veces al año, y en situaciones no previstas como una venta o una lesión de larga duración.")
+
+h2("2.2 Descomposición estructurada del problema (árbol de problema, árbol de valor, drivers)")
+p("El problema central es la dificultad para comparar funciones observadas cuando la búsqueda se organiza por posición nominal. Sus causas son la diversidad de comportamientos dentro de una misma posición, la influencia del estilo del equipo sobre los indicadores individuales, la desigual exposición de los jugadores y las diferencias de registro entre proveedores. Sus efectos son listas extensas y heterogéneas, mayor tiempo de revisión de video y omisión de candidatos comparables.")
+p("El árbol de valor parte de transformar acciones en indicadores comparables, construir una representación funcional y presentar consultas explicables. Los drivers de valor son el tamaño de la lista inicial, la proporción de candidatos pertinentes, las horas de video por candidato aceptado y el número de candidatos pertinentes que no habrían aparecido en una búsqueda por posición.")
+
+h2("2.3 Pregunta de negocio y preguntas analíticas derivadas")
+p("La pregunta de negocio es: ¿cómo apoyar la preselección de jugadores comparables con una necesidad deportiva o con un jugador de referencia a partir de su comportamiento observado en campo?")
+p("La pregunta de investigación es: ¿en qué medida es posible identificar perfiles funcionales de jugadores de fútbol a partir de sus patrones de comportamiento en campo, más allá de su posición nominal?")
+p("Se derivan cuatro preguntas analíticas: ¿qué dimensiones pueden medirse con suficiente cobertura y comparabilidad?; ¿se observan diferencias funcionales dentro de una misma posición fina y similitudes entre posiciones distintas?; ¿qué tan estables son los perfiles frente al remuestreo, el periodo observado y las decisiones de procesamiento?; y ¿qué características explican las similitudes recuperadas en un caso de reemplazo?")
+
+h2("2.4 Traducción a tarea analítica (clasificación, regresión, segmentación, inferencia causal, optimización)")
+p("La tarea principal es una segmentación no supervisada sobre una representación multidimensional del comportamiento, complementada con búsqueda de vecinos cercanos y con la descripción de las variables que distinguen cada grupo. Esta formulación se apoya en la literatura sobre identificación de estilos de juego: la revisión sistemática de Plakias et al. (2023) reúne doce estudios que identifican estilos de jugadores a partir de datos de partido, nueve de ellos con datos de eventos y la mayoría con técnicas de aprendizaje automático; Decroos y Davis (2020) representan el estilo mediante vectores construidos con la distribución espacial de las acciones; Pappalardo, Cintia, Ferragina et al. (2019) detectan roles mediante k-means sobre la posición media de las acciones; y Li et al. (2022) identifican dieciocho estilos de juego por posición a partir de vectores de jugador.")
+p("La posición fina se utiliza como referencia externa para medir la información adicional que aportan los perfiles y no como variable de entrada del agrupamiento. Dado que no existe una etiqueta verdadera de perfil funcional, la evaluación combina separación estadística, estabilidad, autoidentificación, interpretación deportiva y utilidad de las consultas.")
+
+h2("2.5 Objetivo general y objetivos específicos")
+p("El objetivo general es construir y evaluar perfiles funcionales de futbolistas de campo a partir de su comportamiento observado en datos de juego, para apoyar comparaciones de jugadores que aporten información adicional a la posición nominal.")
+p("Los objetivos específicos son:")
+C.append(("numbered", [
+ "Establecer una unidad de análisis, una población elegible y un conjunto de indicadores comparables, con reglas de operacionalización documentadas a partir de la auditoría de las fuentes.",
+ "Construir dos representaciones reproducibles del comportamiento, una de volumen ajustada por posesión y otra de composición de acciones, sobre las dimensiones de distribución, progresión, creación, finalización, recuperación y localización medibles en los eventos de Wyscout.",
+ "Comparar técnicas de agrupamiento y de representación de perfiles mixtos, y seleccionar una solución según su separación, estabilidad e interpretabilidad.",
+ "Evaluar la relación de los perfiles con la posición fina y con el equipo, y la replicación de sus dimensiones con StatsBomb en los partidos del Mundial 2018.",
+ "Evaluar consultas de similitud frente a una búsqueda por posición fina mediante casos documentados de reemplazo.",
+]))
+p("La propuesta de uso de la herramienta, con sus responsables, restricciones y necesidades de actualización, se formula como producto derivado del quinto objetivo y se desarrolla en el capítulo 8.")
+
+h2("2.6 Hipótesis de trabajo")
+p("Las hipótesis son proposiciones exploratorias. Cada una incluye un criterio tentativo de rechazo, que se fijará de manera definitiva en el protocolo de modelado antes de examinar la evaluación final.")
+p("**H1.** Los perfiles funcionales contienen información que la posición fina no captura. Se contrasta con la información mutua normalizada (NMI) entre la asignación a perfiles y la posición fina; H1 se rechaza si la NMI es igual o superior a 0,50, es decir, si los perfiles reproducen en lo fundamental la clasificación posicional.")
+p("**H2.** Existen jugadores registrados en posiciones finas distintas con proximidad funcional estable. Se contrasta con la proporción de los diez vecinos más cercanos de cada jugador que pertenecen a otra posición fina, condicionada a que la representación permita reconocer al propio jugador entre las dos mitades de la temporada. H2 se rechaza si menos del 20 % de los vecinos pertenece a otra posición fina, o si la tasa de autoidentificación (top-1) es inferior a 0,50, caso en el cual la proximidad no puede distinguirse del ruido.")
+p("**H3.** Los perfiles son estables frente al remuestreo. Se contrasta con el índice de Rand ajustado (ARI) promedio entre soluciones obtenidas con remuestreo bootstrap por jugador y con el índice de Jaccard bootstrap por grupo (Hennig, 2007). H3 se rechaza si el ARI promedio es inferior a 0,60 o si la mayoría de los grupos presenta un Jaccard promedio inferior a 0,60.")
+p("**H4.** La consulta funcional entrega candidatos pertinentes que la búsqueda por posición no incluye. En casos de reemplazo con listas de veinte candidatos, H4 se rechaza si la proporción de candidatos pertinentes de la consulta funcional es inferior a la de la búsqueda por posición, o si la consulta funcional no aporta al menos dos candidatos pertinentes ausentes de la lista posicional. La pertinencia se juzga con una pauta común por revisores deportivos cuando estén disponibles; en su ausencia, el contraste se limita a la coherencia analítica de las listas.")
+p("Como condición para interpretar los grupos como funcionales y no como estilos de equipo, la asociación entre perfil y equipo, medida con NMI o V de Cramér, deberá ser inferior a 0,20.")
+
+h2("2.7 Criterios de éxito: KPI de negocio, métricas técnicas y línea base actual")
+p("La línea base es una búsqueda por posición fina, acompañada de una comparación descriptiva de indicadores simples, sobre la misma población elegible, con los mismos filtros y con un número equivalente de candidatos. La Tabla 1 resume los criterios técnicos y de negocio.")
+table("Tabla 1. Criterios de éxito y umbrales tentativos",
+      ["Dimensión", "Medida", "Umbral tentativo o referencia"],
+      [["Separación", "Silueta y Davies-Bouldin (Rousseeuw, 1987; Davies & Bouldin, 1979)", "Comparación entre algoritmos y número de grupos; ninguna métrica decide por sí sola"],
+       ["Estabilidad", "ARI bajo remuestreo; Jaccard bootstrap por grupo", "ARI promedio ≥ 0,60; Jaccard ≥ 0,60 en la mayoría de los grupos"],
+       ["Comportamiento propio", "Autoidentificación top-1 y top-10 entre mitades de la temporada", "Top-1 ≥ 0,50 y superior a la línea base por posición"],
+       ["Información frente a la posición", "NMI entre perfiles y posición fina", "NMI < 0,50"],
+       ["Confusión por equipo", "NMI o V de Cramér entre perfiles y equipo", "< 0,20"],
+       ["Replicación", "Correlación de cargas y concordancia de dimensiones Wyscout–StatsBomb", "Mismos 64 partidos del Mundial 2018"],
+       ["Pertinencia de la lista", "Candidatos pertinentes / tamaño de la lista", "Igual o superior a la línea base"],
+       ["Amplitud del embudo", "Candidatos pertinentes ausentes de la lista posicional", "Al menos dos por caso"],
+       ["Costo de revisión", "Horas de video por candidato aceptado", "Inferior a la línea base, si se mide con usuarios"]],
+      [2000, 3600, 3800], font=9)
+p("Los indicadores de negocio de la Tabla 1 se miden en un ejercicio controlado con casos de reemplazo. Los ahorros monetarios y el retorno de inversión no se estiman, porque requieren datos de operación de una organización usuaria.")
+
+# ---------------------------------------------------------------- 3
+h1("3. Marco de referencia")
+h2("3.1 Marco conceptual del dominio de mercadeo de Sports Analytics")
+h3("3.1.1 Sports Analytics y análisis del rendimiento")
+p("La analítica deportiva utiliza datos y métodos cuantitativos para estudiar acciones, comportamientos y resultados. Este proyecto se ubica en la descripción del jugador y el apoyo a la evaluación deportiva, donde conviene distinguir frecuencia de participación, estilo y valor de una acción: intervenir más veces no equivale a intervenir mejor. La literatura sobre valoración contextual examina las acciones según su relación con las probabilidades de marcar o conceder, además de su recuento (Decroos et al., 2019), y la literatura metodológica del área subraya que la evaluación de indicadores deportivos exige particiones que respeten la dependencia de los datos y la consideración explícita del contexto (Davis et al., 2024).")
+h3("3.1.2 Posición, rol y perfil funcional del jugador")
+p("La posición nominal es la categoría con la que una fuente registra la demarcación del futbolista. El rol táctico corresponde a las responsabilidades que asume dentro del sistema de juego. El perfil funcional es, para este estudio, una representación de patrones observables de intervención en un periodo y contexto definidos. Un jugador puede presentar un comportamiento mixto o cambiar entre periodos, por lo que la representación se trata como continua y las etiquetas de grupo como descripciones de la muestra analizada.")
+p("La granularidad de la posición es una decisión de diseño central. El campo de rol del conjunto público de Wyscout tiene solo cuatro categorías (portero, defensa, mediocampista y delantero), con las cuales cualquier diferencia interna sería esperable. Por ello la referencia externa del proyecto es una posición fina, como la registrada por Transfermarkt o las posiciones de alineación de StatsBomb (sección 4.4).")
+h3("3.1.3 Datos de eventos y representación del comportamiento")
+p("Los eventos registran acciones discretas con información temporal, espacial y de sus participantes. El tracking registra posiciones sucesivas de jugadores y, según la fuente, del balón. StatsBomb 360 ofrece información espacial alrededor de eventos seleccionados y no constituye tracking continuo (StatsBomb, s. f.). La representación depende de la taxonomía de cada proveedor, su sistema de coordenadas y la exposición de cada jugador; por esta razón un dato no observado por la fuente se trata como faltante y no como cero.")
+h3("3.1.4 Scouting y player recruitment basado en datos")
+p("La consulta funcional se plantea como apoyo a la identificación y comparación de candidatos, previa a la revisión de video y a la evaluación de las condiciones tácticas y contractuales. Una distancia entre vectores expresa semejanza según las variables utilizadas; la adaptación de un jugador a otro equipo depende además de factores que los datos de eventos no registran.")
+
+h2("3.2 Estado del arte de las técnicas analíticas aplicables")
+h3("3.2.1 Aprendizaje no supervisado y perfilamiento de jugadores")
+p("La agrupación permite explorar semejanzas sin asignar perfiles de antemano. K-means ofrece una representación por centroides de fácil interpretación; las mezclas gaussianas producen pertenencias probabilísticas; y el agrupamiento jerárquico permite revisar relaciones a distintas escalas. La elección depende de los supuestos de cada método y de la geometría de los datos, pues el escalamiento afecta las distancias (scikit-learn developers, s. f.-a, s. f.-b).")
+p("Para los perfiles mixtos, frecuentes en jugadores polivalentes, se consideran dos alternativas. El análisis de arquetipos describe a cada observación como una combinación convexa de perfiles extremos (Cutler & Breiman, 1994), lo que permite expresar a un jugador como una mezcla de funciones, una lectura cercana a la práctica del scouting. HDBSCAN identifica grupos de densidad variable y aísla observaciones atípicas sin forzar su asignación (Campello et al., 2013). En la literatura del dominio, PlayeRank incorpora asignaciones a más de un rol cuando la posición media de un jugador está cerca de varios centroides (Pappalardo, Cintia, Ferragina et al., 2019), y Li et al. (2022) reportan estilos multifuncionales entre los jugadores mejor calificados.")
+h3("3.2.2 Reducción de dimensionalidad")
+p("La reducción de dimensionalidad limita redundancias y facilita la interpretación. PCA representa la variación lineal y permite revisar cargas y varianza retenida. Los vectores de jugador de Decroos y Davis (2020) emplean factorización matricial no negativa para comprimir la distribución espacial de las acciones. Las proyecciones no lineales, como UMAP, se emplean solo como apoyo visual, porque la separación aparente en un gráfico no constituye evidencia de perfiles distintos.")
+h3("3.2.3 Representación espacial y valoración contextual de las acciones")
+p("Existen alternativas para representar la dimensión espacial y el valor de las acciones. SoccerMix modela cada tipo de acción mediante mezclas de distribuciones gaussianas para la localización y de von Mises para la dirección, y obtiene acciones prototípicas con asignaciones suaves que describen el estilo de jugadores y equipos (Decroos, Van Roy & Davis, 2020). Expected Threat (xT) asigna a cada zona del campo un valor de amenaza, estimado como un proceso de Markov sobre la posesión, y valora las acciones que trasladan el balón entre zonas (Singh, 2018). VAEP estima el valor de una acción a partir del cambio en las probabilidades de marcar y conceder (Decroos et al., 2019). La comparación de Van Roy et al. (2020) muestra que xT favorece a jugadores creativos con muchos pases clave y conducciones, mientras que VAEP valora también acciones defensivas y el riesgo de pérdida.")
+p("El núcleo del proyecto no requiere estas representaciones por dos razones. Primero, xT y VAEP miden el valor de las acciones; incorporarlos al perfil mezclaría la descripción de la función con la calidad del desempeño, que el proyecto busca mantener separadas. Segundo, SoccerMix incrementa el número de parámetros y la complejidad de la estimación por tipo de acción, mientras que la pregunta de investigación puede contrastarse con indicadores de localización más simples. xT se evaluará como indicador opcional de la dimensión de creación y SoccerMix como representación alternativa si el avance del núcleo lo permite.")
+h3("3.2.4 Evaluación de los perfiles")
+p("Las métricas internas, como la silueta y el índice de Davies-Bouldin, describen cohesión y separación bajo una representación determinada (Rousseeuw, 1987; Davies & Bouldin, 1979). La estabilidad se examina con el ARI entre soluciones (Hubert & Arabie, 1985) y con el índice de Jaccard bootstrap por grupo, que identifica qué grupos se disuelven al remuestrear (Hennig, 2007). La asociación entre perfiles y variables externas, como la posición fina o el equipo, se mide con la información mutua normalizada (Vinh et al., 2010).")
+p("La autoidentificación evalúa si la representación captura un comportamiento propio del jugador: se divide su muestra de partidos en dos mitades y se verifica si su vecino más cercano en la segunda mitad es él mismo. Este criterio se ha utilizado para evaluar vectores de jugador (Decroos & Davis, 2020), representaciones de estilo de pase (Cho et al., 2022) y representaciones a partir de tracking (Kim et al., 2021).")
+
+h2("3.3 Antecedentes y casos aplicados en la industria")
+p("La Tabla 2 resume doce estudios relacionados con la representación del comportamiento de jugadores, la identificación de roles y estilos y la valoración de acciones.")
+SOTA = [
+ ["Taylor et al. (2004), citado en Plakias et al. (2023)", "Codificación manual", "Jugador-partido; 22 partidos de un equipo británico", "Frecuencias de acciones", "Chi-cuadrado", "Contraste estadístico", "Diferencias individuales dentro de una misma posición", "Un solo equipo; codificación manual"],
+ ["Bialkowski et al. (2014)", "Tracking óptico", "Jugador-instante", "Rol relativo por fotograma", "Partición por mínima entropía", "Detección de formaciones", "Los roles se descubren desde los datos sin predefinirlos", "Requiere tracking; no describe acciones con balón"],
+ ["Aalbers y Van Haaren (2018)", "Wyscout, siete ligas 2017/18", "Jugador-temporada (≥ 900 min)", "515 indicadores normalizados", "Clasificadores binarios por rol (SGD)", "Validación cruzada con 356 etiquetas expertas", "Los jugadores puntúan alto en varios roles", "Supervisado; evalúa 5 de 21 roles; sin línea base"],
+ ["Decroos et al. (2019)", "Eventos de ligas europeas", "Acción", "Estado de juego en SPADL", "Clasificadores de probabilidad de gol (VAEP)", "Predicción de goles futuros", "Valora acciones ofensivas y defensivas en contexto", "Mide valor, no estilo"],
+ ["Pappalardo, Cintia, Ferragina et al. (2019)", "Wyscout, 18 competiciones", "Jugador-partido", "Posición media de las acciones", "K-means (k = 8) con asignación a varios roles", "Silueta; juicio de scouts sobre rankings", "Ocho roles; cerca del 5 % de jugadores híbridos", "Rol basado solo en la posición media"],
+ ["Decroos y Davis (2020)", "Eventos de cinco ligas, 2012/13 a 2016/17", "Jugador-temporada", "Mapas de calor por tipo de acción comprimidos con NMF", "Factorización y distancias", "Autoidentificación entre temporadas", "Representación interpretable del estilo", "Sin contraste con posición ni con equipo"],
+ ["Decroos, Van Roy y Davis (2020)", "StatsBomb, Premier League", "Acción y jugador", "Mezclas de localización y dirección (SoccerMix)", "Modelos de mezcla", "Estudios de caso", "Acciones prototípicas con asignación suave", "Validación ilustrativa"],
+ ["Van Roy et al. (2020)", "Premier League 2018/19", "Jugador (≥ 900 min)", "xT y VAEP por 90", "Comparación de marcos de valoración", "Comparación de rankings", "xT favorece a creadores; VAEP a delanteros y acciones defensivas", "Valoración; no describe perfiles"],
+ ["Kim et al. (2021)", "GPS 10 Hz, K League 2019–2020", "Jugador-fase", "Mapas de localización y dirección", "Red triplete (6MapNet)", "Identificación de jugadores: 46,1 % top-1", "Representación estable desde tracking", "Requiere tracking; una liga"],
+ ["Cho et al. (2022)", "Wyscout público, cinco ligas 2017/18", "Jugador", "Mapas de pase", "Autocodificador convolucional (Pass2vec)", "Recuperación: 76,5 % en top-20", "Captura el estilo de pase", "Solo pases"],
+ ["Li et al. (2022)", "Eventos, Superliga china 2016–2019", "Jugador-partido por posición", "Vectores de jugador", "NMF en dos etapas", "Interpretación con indicadores", "Dieciocho estilos y jugadores multifuncionales", "Agrupa dentro de posiciones predefinidas"],
+ ["Plakias et al. (2023)", "Revisión de 12 estudios", "Varios", "Eventos, tracking, fichas", "Revisión sistemática (PRISMA)", "No aplica", "Marco de 26 estilos de jugador", "Señala ausencia de variables de contexto y de fiabilidad de proveedores"],
+]
+table("Tabla 2. Estado del arte sobre representación y perfilamiento de jugadores",
+      ["Autor y año", "Fuente de datos", "Unidad de análisis", "Representación", "Técnica", "Validación", "Hallazgo", "Limitación"],
+      SOTA, [1650, 1550, 1450, 1650, 1650, 1650, 1800, 1800], font=8, landscape=True)
+p("Los estudios revisados muestran que es posible representar el estilo de los jugadores con datos de eventos y que los jugadores presentan con frecuencia perfiles mixtos. Tres aspectos, sin embargo, no se abordan de forma conjunta. Ninguno compara la información de los perfiles frente a una línea base por posición fina, la mayoría no evalúa la estabilidad de los grupos bajo remuestreo y ninguno replica las dimensiones con un segundo proveedor sobre los mismos partidos. Además, la revisión de Plakias et al. (2023) señala que el efecto del contexto sobre el estilo individual no se ha examinado. El proyecto se ubica en ese vacío: incorpora la posición fina como referencia externa, controla el sesgo por estilo de equipo, evalúa la estabilidad con criterios explícitos y replica las dimensiones con StatsBomb en el Mundial 2018.")
+
+h2("3.4 Marco metodológico: CRISP-DM y su pertinencia para el problema")
+p("CRISP-DM organiza el trabajo en comprensión del negocio, comprensión de los datos, preparación, modelado, evaluación y despliegue (Chapman et al., 2000). Su pertinencia radica en conectar una necesidad de decisión con el desarrollo analítico y en permitir revisiones entre fases. En este proyecto la auditoría de las fuentes ya condujo a redefinir la estrategia de validación entre proveedores y a delimitar las dimensiones del perfil base.")
+
+h2("3.5 Marco ético y regulatorio (protección de datos personales, Ley 1581 de 2012, uso responsable de modelos)")
+p("La Ley 1581 de 2012 establece principios y obligaciones para el tratamiento de datos personales en Colombia, entre ellos finalidad, calidad, seguridad y acceso restringido (Congreso de Colombia, 2012). Que un archivo sea descargable no implica que sus datos sean de naturaleza pública ni que exista autorización para cualquier uso; por ello se revisan las condiciones de cada fuente antes de publicar datos o habilitar consultas.")
+p("El proyecto utiliza únicamente la información necesaria para el análisis deportivo y excluye datos sensibles, médicos y de contacto. Los identificadores se conservan en tablas controladas para trazabilidad, teniendo en cuenta que seudonimizar no equivale a anonimizar. Las publicaciones respetan las licencias y atribuciones de los proveedores. Las variables de mercado y demográficas no definen los perfiles, toda recomendación requiere revisión humana y no se emiten juicios sobre aptitud profesional a partir de una etiqueta estadística.")
+
+# ---------------------------------------------------------------- 4
+h1("4. Metodología")
+h2("4.1 Enfoque y tipo de estudio (descriptivo, predictivo, causal o prescriptivo)")
+p("El estudio es cuantitativo, aplicado, observacional y de alcance descriptivo-exploratorio. Utiliza registros históricos de partidos para construir indicadores y examinar patrones, sin intervención sobre jugadores o equipos. Los casos de consulta sirven para evaluar el procedimiento de comparación.")
+h2("4.2 Adaptación de CRISP-DM al proyecto")
+p("La comprensión del negocio define el usuario de referencia, la consulta y la línea base. La comprensión de los datos produce el inventario, el diagnóstico de calidad y la matriz de cobertura. La preparación establece las reglas de limpieza, exposición, coordenadas e indicadores. El modelado compara representaciones y técnicas de agrupamiento. La evaluación revisa estabilidad, interpretación e información adicional frente a la posición. La propuesta de despliegue describe cómo consultar, actualizar y supervisar el resultado.")
+p("Cada fase tiene un producto verificable y un registro de decisiones. La selección del modelo se realiza después de documentar la población elegible, las variables, los filtros y el protocolo de evaluación, y los cambios posteriores se distinguen de las decisiones fijadas antes de examinar los resultados finales.")
+
+h2("4.3 Fuentes de datos, unidad de análisis y horizonte temporal")
+p("Se seleccionaron seis fuentes de uso complementario. Wyscout es la base de construcción mediante eventos. StatsBomb permite replicar dimensiones equivalentes con otra taxonomía en el Mundial 2018. PFF y StatsBomb 360 sustentan el estudio espacial del Mundial 2022. Transfermarkt proporciona la posición fina y el contexto del jugador. SkillCorner y DFL se documentan en la auditoría y quedan fuera del núcleo. El modelo principal se construye con variables homogéneas de una sola fuente; solo se enlazan identidades cuando existe una correspondencia verificable, y la equivalencia de conceptos entre proveedores se establece en una matriz de definiciones.")
+p("La unidad principal es el jugador por temporada y competición, separando por equipo cuando un cambio de club altera el contexto. Los registros jugador-partido permiten construir los agregados y estudiar variación temporal. En torneos breves, como el Mundial, la unidad es el jugador por torneo. El horizonte es retrospectivo: temporada 2017/18 para el núcleo y Mundiales 2018 y 2022 para la replicación y el estudio complementario. Se aplica un umbral mínimo de 900 minutos, que se contrasta con umbrales alternativos de 450 y 1.350 minutos, y la población elegible exige además disponer de posición fina, con lo que queda en 1.500 jugadores-temporada.")
+
+h2("4.4 Decisiones de diseño críticas")
+h3("4.4.1 Granularidad de la posición de referencia")
+p("La línea base y la evaluación de H1 y H2 utilizan una posición fina. Para la temporada 2017/18 se toma la posición registrada por Transfermarkt en las alineaciones de cada partido, disponible para 1.825 de los 1.826 partidos de las cinco ligas, y se asigna a cada jugador su posición principal según los minutos jugados en cada posición. De los 2.493 jugadores enlazados, 2.485 tienen posición por alineaciones y 8 se completan con la sub-posición del registro; la mediana de la proporción de minutos en la posición principal es 92 %. Como los indicadores espaciales son simétricos respecto al eje longitudinal del campo, la referencia agrupa las posiciones sin distinguir el lado, en nueve categorías: defensa central, lateral, pivote, mediocentro, mediapunta, volante de banda, extremo, segundo delantero y delantero centro. En el Mundial 2018 se usan las posiciones de alineación de StatsBomb. El rol de cuatro categorías de Wyscout se conserva solo con fines descriptivos.")
+p("El diagnóstico respalda esta decisión: la posición de Wyscout explica en mediana el 36 % de la varianza de dieciocho indicadores, frente al 59 % de la posición fina (sección 5.7).")
+h3("4.4.2 Control del sesgo por estilo de equipo")
+p("Los indicadores por 90 minutos de jugadores de equipos con alta posesión tienden a estar inflados, de modo que los grupos podrían reflejar el estilo del equipo y no la función del jugador. Se construyen dos representaciones alternativas:")
+bl("**Volumen ajustado por posesión.** Las acciones con balón se expresan por 90 minutos de posesión del propio equipo y las acciones defensivas por 90 minutos de posesión del rival. La posesión se aproxima con la proporción de pases de cada equipo en el partido, porque Wyscout no la registra.",
+   "**Composición.** Proporción de cada una de trece categorías de acción en juego abierto sobre el total de esas acciones; las acciones a balón parado se excluyen porque dependen de asignaciones del entrenador. Como las proporciones suman uno, se aplica la transformación log-ratio centrada, en la que cada proporción x_j se reemplaza por ln(x_j / g(x)), donde g(x) es la media geométrica de las proporciones del jugador (Aitchison, 1982); los ceros se reemplazan de forma multiplicativa por el equivalente a medio conteo antes de la transformación.")
+p("En ambas representaciones se reporta la asociación entre perfil y equipo mediante NMI y V de Cramér como diagnóstico de confusión, con el umbral tentativo de 0,20 definido en la sección 2.6.")
+h3("4.4.3 Métrica de distancia, ponderación y escalamiento")
+p("Los indicadores se estandarizan con media y desviación estándar estimadas en la partición de desarrollo; se evaluará además un escalamiento robusto con mediana y rango intercuartílico. Para evitar que las dimensiones con más indicadores dominen la distancia, cada bloque de variables recibe un peso inversamente proporcional a la raíz cuadrada de su número de indicadores, de modo que las seis dimensiones contribuyan de forma comparable. La distancia principal es euclidiana sobre los componentes retenidos de PCA, y se contrastará con la distancia coseno. El efecto del escalamiento, la ponderación y la métrica se documenta comparando las soluciones resultantes mediante ARI y la superposición de las listas de vecinos.")
+
+h2("4.5 Operacionalización preliminar de variables")
+p("La Tabla 3 presenta la operacionalización preliminar de los indicadores construidos en el diagnóstico con los eventos de Wyscout. Las coordenadas de Wyscout van de 0 a 100 en ambos ejes y se expresan en la dirección de ataque del equipo que ejecuta la acción. Los minutos se reconstruyen con las alineaciones, sustituciones y expulsiones de cada partido. Las tasas se calculan por 90 minutos y las proporciones sobre el total de acciones del jugador. La lista se ajustará en la etapa de construcción de variables, en particular el umbral de progresión y el ajuste por posesión.")
+VARS = [
+ ["Pases por 90", "Distribución", "Tasa", "Razón", "Pass", "Pases", "Minutos / 90"],
+ ["Precisión de pase", "Distribución", "Proporción", "[0, 1]", "Pass, etiqueta 1801", "Pases precisos", "Pases"],
+ ["Pases progresivos por 90", "Progresión", "Tasa", "Razón", "Pass precisos", "Pases con avance ≥ 20 en x", "Minutos / 90"],
+ ["Entradas al último tercio por 90", "Progresión", "Tasa", "Razón", "Pass precisos", "Pases de x < 66,7 a x ≥ 66,7", "Minutos / 90"],
+ ["Conducciones por 90", "Progresión", "Tasa", "Razón", "Acceleration", "Conducciones", "Minutos / 90"],
+ ["Pases clave por 90", "Creación", "Tasa", "Razón", "Pass, etiqueta 302", "Pases clave", "Minutos / 90"],
+ ["Centros por 90", "Creación", "Tasa", "Razón", "Cross", "Centros", "Minutos / 90"],
+ ["Remates por 90", "Finalización", "Tasa", "Razón", "Shot", "Remates", "Minutos / 90"],
+ ["Acciones en el área por 90", "Finalización", "Tasa", "Razón", "Todos", "Acciones con x ≥ 84 e y entre 19 y 81", "Minutos / 90"],
+ ["Duelos por 90", "Recuperación", "Tasa", "Razón", "Duel", "Duelos", "Minutos / 90"],
+ ["Duelos aéreos por 90", "Recuperación", "Tasa", "Razón", "Air duel", "Duelos aéreos", "Minutos / 90"],
+ ["Intercepciones por 90", "Recuperación", "Tasa", "Razón", "Etiqueta 1401", "Intercepciones", "Minutos / 90"],
+ ["Regates ganados por 90", "Progresión", "Tasa", "Razón", "Ground attacking duel, etiqueta 703", "Duelos ofensivos ganados", "Minutos / 90"],
+ ["Profundidad media", "Localización", "Coordenada", "Intervalo, 0 a 100", "Todos", "Suma de x inicial", "Número de acciones"],
+ ["Distancia al eje central", "Localización", "Coordenada", "Intervalo, 0 a 50", "Todos", "Suma de |y − 50|", "Número de acciones"],
+ ["Proporción de pases", "Composición", "Proporción", "[0, 1], clr", "Pass", "Pases", "Acciones del jugador"],
+ ["Proporción de duelos", "Composición", "Proporción", "[0, 1], clr", "Duel", "Duelos", "Acciones del jugador"],
+ ["Proporción de remates", "Composición", "Proporción", "[0, 1], clr", "Shot", "Remates", "Acciones del jugador"],
+]
+table("Tabla 3. Operacionalización preliminar de indicadores (Wyscout)",
+      ["Indicador", "Dimensión", "Tipo", "Escala", "Evento de origen", "Numerador", "Denominador"],
+      VARS, [1750, 1150, 1000, 1050, 1500, 1750, 1200], font=8)
+p("Para cada indicador se registran además la dirección de ataque, el tratamiento de faltantes y la regla de exposición mínima. Las tasas solo se calculan con minutos válidos y un valor no observado por la fuente se registra como faltante y no como cero.")
+
+h2("4.6 Estrategia de validación (partición de datos, validación temporal, validación cruzada)")
+p("Se separa una fase de desarrollo de una evaluación final reservada. Como el núcleo cubre una sola temporada, la reserva temporal se construye con la segunda mitad de la temporada 2017/18, a partir de la jornada 20 (18 en la Bundesliga): los indicadores de cada ventana se calculan con los eventos de esa ventana, y la imputación, el escalamiento y la reducción dimensional se ajustan en desarrollo y se aplican sin reajuste a la reserva.")
+p("La consistencia temporal de un mismo jugador y la generalización a jugadores nuevos se evalúan por separado; para la segunda se utilizan particiones agrupadas por jugador. El remuestreo respeta la dependencia entre eventos, partidos y jugadores, y no trata cada evento como una observación independiente. En los métodos que admiten asignación de nuevas observaciones se aplica el modelo fijado a la reserva; en los demás se define una regla de asignación explícita.")
+p("La estabilidad se evalúa con el ARI entre soluciones bootstrap y con el índice de Jaccard por grupo (Hennig, 2007), y con la estabilidad de las listas de vecinos. La replicación entre proveedores se realiza en los 64 partidos del Mundial 2018 con indicadores construidos según la matriz de definiciones, comparando cargas de componentes, asignaciones y vecinos de los mismos jugadores. La evaluación de consultas emplea casos de reemplazo y tamaños de lista definidos antes de la revisión final; cuando participen revisores, recibirán una pauta común, se registrará su acuerdo y, cuando sea viable, desconocerán el método que produjo cada lista.")
+
+h2("4.7 Herramientas, reproducibilidad y control de versiones")
+p("El procesamiento se realiza con Python, DuckDB y Parquet. Los archivos originales permanecen inmutables en una capa de datos crudos, separada de las capas de datos intermedios y procesados. Cada fuente tiene un manifiesto con procedencia, versión o fecha de captura, archivos y verificación de integridad mediante SHA-256 o commit del repositorio de origen. Git registra código y documentación; la redistribución de datos depende de sus condiciones de uso. Los parámetros del proyecto se concentran en un archivo de configuración, un orquestador ejecuta todas las etapas desde los datos crudos y un conjunto de pruebas verifica la consistencia de las tablas derivadas. El protocolo de modelado y el registro de decisiones se mantienen en el repositorio, de modo que cada fila de características y cada cifra del documento pueden reconstruirse desde sus registros de origen.")
+
+h2("4.8 Cronograma y plan de trabajo")
+p("El plan se organiza en doce semanas desde el inicio del desarrollo empírico. Las semanas 1 y 2 se destinan a inventario, revisión de condiciones de uso y diagnóstico; las semanas 3 y 4, a la población elegible, la posición fina y los indicadores; las semanas 5 a 7, a las representaciones y modelos, con el protocolo fijado antes de evaluar la reserva; las semanas 8 y 9, a la evaluación temporal, la sensibilidad y la replicación con StatsBomb; la semana 10, a los casos de consulta y al estudio espacial complementario, si el avance lo permite; y las semanas 11 y 12, a la integración de resultados y la revisión del informe.")
+p("El cuerpo final se proyecta dentro de unas 30 páginas, con diccionarios completos, experimentos extensos y evidencia técnica en anexos.")
+
+h2("4.9 Supuestos, limitaciones y riesgos del diseño")
+p("Las limitaciones del diseño se concentran en este apartado:")
+bl("**Ausencia de una organización usuaria.** El usuario de referencia es un constructo de diseño. No se dispone de registros de decisiones de contratación, por lo que los ahorros, el retorno de inversión y el efecto sobre la calidad de las contrataciones no se estiman.",
+   "**Cobertura de los datos públicos.** El núcleo corresponde a ligas europeas en 2017/18; la liga colombiana no tiene cobertura en los conjuntos públicos de eventos. La aplicación en un club colombiano requiere datos con licencia de un proveedor, sobre los cuales el procedimiento es transferible.",
+   "**Observación parcial del comportamiento.** Los eventos registran acciones con balón y duelos; la presión y el movimiento sin balón no están en Wyscout. La ausencia de un evento no demuestra ausencia de actividad.",
+   "**Posición de referencia.** La sub-posición del registro de Transfermarkt corresponde al momento de la captura; por ello se prioriza la posición por partido de la temporada analizada.",
+   "**Reconstrucción de minutos.** Los minutos de Wyscout se derivan de alineaciones y sustituciones; las inconsistencias se documentan en el diagnóstico de calidad.",
+   "**Interpretación.** Un perfil estadístico no equivale a un rol asignado por el entrenador y una distancia entre vectores no garantiza la adaptación de un jugador a otro equipo. Las hipótesis son exploratorias y no autorizan conclusiones causales.",
+   "**Revisores deportivos.** Si no se cuenta con revisores, la evaluación de pertinencia se limita a un análisis de casos y la validación de utilidad queda pendiente.",
+   "**Alcance temporal.** El estudio espacial del Mundial 2022 depende del avance del núcleo y puede quedar como trabajo futuro sin afectar los objetivos.")
+
+# ---------------------------------------------------------------- 5
+h1("5. Comprensión y preparación de los datos")
+p("Este capítulo reporta el avance obtenido con la auditoría de las fuentes y el diagnóstico inicial de Wyscout. Los apartados 5.3 a 5.6 se completarán con el desarrollo empírico.")
+h2("5.1 Inventario y diccionario de datos")
+p("La Tabla 4 resume el inventario de las seis fuentes, obtenido de la inspección de los archivos descargados.")
+table("Tabla 4. Inventario de fuentes",
+      ["Fuente", "Rol en el proyecto", "Partidos", "Jugadores", "Registros de eventos", "Información espacial"],
+      [["Wyscout", "Núcleo de eventos", "1.941", "3.035", "3.251.294", "Coordenadas de evento"],
+       ["StatsBomb", "Replicación", "3.961", "11.889", "14.874.171", "360 en 426 partidos"],
+       ["PFF FC", "Estudio espacial, Mundial 2022", "64", "829", "144.541", "Tracking, 64 partidos"],
+       ["SkillCorner", "Documentada, fuera del núcleo", "20", "307", "94.361", "1.244.814 fotogramas a 10 Hz"],
+       ["DFL", "Documentada, fuera del núcleo", "7", "207", "10.498", "23.739.462 posiciones a 25 Hz"],
+       ["Transfermarkt", "Posición fina y contexto", "88.958", "50.149", "1.274.469", "No aplica"]],
+      [1500, 2300, 1000, 1100, 1500, 2000], font=9,
+      note="En Transfermarkt los registros corresponden a eventos de partido como goles, tarjetas y sustituciones. El diccionario completo y las versiones de cada fuente se incluyen en el anexo A.")
+p("Wyscout cubre las cinco grandes ligas europeas de la temporada 2017/18, la Eurocopa 2016 y el Mundial 2018. StatsBomb contiene las temporadas 2015/16 completas de cuatro de las cinco grandes ligas, 36 partidos de La Liga 2017/18 y los 64 partidos de los Mundiales 2018 y 2022, entre otras competiciones. La matriz de cobertura conceptual muestra que pases, remates y duelos están presentes en las cinco fuentes de partidos, mientras que la presión y las carreras sin balón no se registran en Wyscout.")
+h2("5.2 Diagnóstico de calidad de datos")
+p("La reconstrucción de minutos produce en promedio 10,97 jugadores en cancha por equipo y partido, valor coherente con once jugadores menos las expulsiones. El 0,09 % de las combinaciones jugador-partido con eventos no aparece en la alineación del partido. El 6,95 % de los eventos no tiene jugador asociado, en su mayoría interrupciones del juego, y el 0,02 % carece de coordenada final. En el archivo de jugadores, 1.152 de los 3.603 nombres presentaban caracteres sin decodificar y fueron corregidos. El enlace con Transfermarkt por fecha de nacimiento y similitud de nombre alcanzó al 97,0 % de los jugadores de las cinco ligas (2.493 de 2.570), tras impedir que un mismo jugador de Transfermarkt quedara asignado a dos registros de Wyscout.")
+h2("5.3 Análisis exploratorio orientado a las hipótesis")
+p("Los 1.500 jugadores-temporada elegibles se distribuyen por posición fina así: 320 defensas centrales, 260 laterales, 203 extremos, 201 delanteros centro, 198 mediocentros, 157 pivotes, 75 volantes de banda, 67 mediapuntas y 19 segundos delanteros. El tamaño reducido de esta última categoría se tendrá en cuenta al interpretar las medidas de asociación. Las comparaciones de indicadores por posición fina, equipo y competición orientadas a H1 y H2 se presentarán con la caracterización de perfiles.")
+h2("5.4 Limpieza, integración y transformación")
+p("Los eventos de Wyscout se transformaron a Parquet con coordenadas aplanadas y se construyó la tabla jugador-partido (53.791 registros) con minutos, posesión del equipo, conteos por indicador y por categoría de acción y sumas espaciales que permiten agregar sin sesgo a cualquier ventana. A partir de ella se construyeron tres tablas por jugador y competición: temporada completa (3.676 registros), primera mitad (2.297) y segunda mitad (2.343). Con un umbral de 900 minutos, 1.550 jugadores-temporada de campo superan la exposición mínima, el 64 % de los que registran minutos, y 1.500 de ellos cuentan con posición fina; en las mitades, con un umbral de 450 minutos, son elegibles 1.410 y 1.439 jugadores. La homologación de StatsBomb para el Mundial 2018 está pendiente.")
+h2("5.5 Ingeniería de variables")
+p("Se construyeron las dos representaciones definidas en la sección 4.4.2, ambas acompañadas de un bloque de localización (Tabla 5). Las acciones con balón se ajustan por la posesión propia y las acciones defensivas por la posesión rival; los duelos aéreos y la precisión de pase no se ajustan. Las variables de composición suman uno en cada jugador y sus transformaciones log-ratio centradas suman cero, condiciones que se verifican de forma automática en cada ejecución. El diccionario completo se genera desde los datos y se incluye en el anexo A.")
+table("Tabla 5. Representaciones construidas",
+      ["Bloque", "Variables", "Representación"],
+      [["Distribución", "Pases por 90 ajustados; precisión de pase", "Volumen"],
+       ["Progresión", "Pases progresivos, entradas al último tercio, conducciones y regates ganados por 90 ajustados", "Volumen"],
+       ["Creación", "Pases clave y centros por 90 ajustados", "Volumen"],
+       ["Finalización", "Remates y acciones en el área por 90 ajustados", "Volumen"],
+       ["Recuperación", "Intercepciones, duelos defensivos y despejes por 90 de posesión rival; duelos aéreos por 90", "Volumen"],
+       ["Composición", "Log-ratio centrado de 13 categorías: pase simple, pase largo, pase de cabeza, pase filtrado, centro, remate, conducción, toque, despeje, duelo ofensivo, duelo defensivo, duelo aéreo y balón dividido", "Composición"],
+       ["Localización", "Profundidad media, distancia media al eje central y dispersión en x e y", "Ambas"]],
+      [1700, 5900, 1800], font=9)
+h2("5.6 Riesgos de sesgo, fuga de información (data leakage) y desbalance de clases")
+p("Se identifican cuatro riesgos y su tratamiento. La fuga de información temporal se evita ajustando el escalamiento, la ponderación y la reducción dimensional en la primera mitad de la temporada y aplicándolos sin reajuste a la segunda. La dependencia entre observaciones, porque un mismo jugador aparece en ambas mitades, se controla con particiones agrupadas por jugador. El sesgo por estilo de equipo se trata con las dos representaciones y con el diagnóstico de asociación entre perfil y equipo. El sesgo de cobertura se declara: la población corresponde a cinco ligas europeas de una temporada y los jugadores con baja exposición quedan fuera. El desbalance de clases no aplica a la tarea no supervisada; el tamaño desigual de las posiciones finas se considera al interpretar las medidas de asociación.")
+h2("5.7 Hallazgos preliminares y ajustes al planteamiento")
+p("Se estimó la proporción de la varianza de dieciocho indicadores explicada por la posición mediante el coeficiente eta cuadrado de un análisis de varianza de una vía, sobre los 1.550 jugadores-temporada de campo con al menos 900 minutos. La posición de Wyscout explica en mediana el 36 % de la varianza, la sub-posición del registro de Transfermarkt el 56 % y la posición fina por minutos en 2017/18 el 59 %; en centros, conducciones y distancia al eje central la posición de Wyscout explica menos del 10 %. El equipo explica el 37 % de la varianza en pases por 90 minutos, frente a cerca del 6 % esperado sin efecto con 98 equipos, lo que confirma la necesidad del ajuste por posesión. Entre los 600 jugadores que Wyscout clasifica como mediocampistas, 120 aparecen en Transfermarkt como extremos, defensas o delanteros.")
+p("A partir de estos resultados se ajustó el planteamiento en tres aspectos: la posición fina se adoptó como referencia externa, la replicación entre proveedores se concentró en el Mundial 2018 y el componente espacial se restringió a un estudio complementario del Mundial 2022.")
+
+# ---------------------------------------------------------------- 6-9
+for chap, secs in [
+ ("6. Modelado", [("6.1 Modelo base (benchmark) y regla de negocio actual", "Pendiente. Se implementará la búsqueda por posición fina con los mismos filtros y tamaños de lista del método funcional."),
+                  ("6.2 Selección y justificación de técnicas candidatas", "Pendiente. Se justificarán K-means, mezclas gaussianas, agrupamiento jerárquico, análisis de arquetipos y HDBSCAN según la geometría y la interpretación de la matriz construida."),
+                  ("6.3 Entrenamiento y optimización de hiperparámetros", "Pendiente. Se registrarán configuraciones, número de grupos, semillas y reglas de selección en desarrollo. El detalle de experimentos irá al anexo C."),
+                  ("6.4 Interpretabilidad del modelo (importancia de variables, SHAP, efectos parciales)", "Pendiente. Los perfiles se explicarán mediante centroides o arquetipos, jugadores representativos e indicadores originales."),
+                  ("6.5 Comparación y selección del modelo final", "Pendiente. Se compararán separación, estabilidad, interpretación y asociación con equipo.")]),
+ ("7. Evaluación", [("7.1 Desempeño técnico en datos de prueba y fuera de tiempo", "Pendiente. Se reportará la evaluación sobre la segunda mitad de la temporada y la generalización a jugadores nuevos."),
+                    ("7.2 Traducción a métricas de negocio (lift, ganancia esperada, matriz de costo-beneficio, ROI)", "Pendiente. Se reportarán pertinencia de la lista, candidatos pertinentes adicionales y horas de revisión por candidato aceptado."),
+                    ("7.3 Evaluación de impacto (experimento A/B, diseño cuasiexperimental o simulación)", "Pendiente. Se documentará el ejercicio controlado con casos de reemplazo."),
+                    ("7.4 Análisis de sensibilidad y escenarios", "Pendiente. Se evaluarán umbrales de minutos, ventanas, escalamiento, ponderación, métrica y número de grupos."),
+                    ("7.5 Evaluación de equidad, sesgos y riesgos del modelo", "Pendiente. Se revisarán la asociación con equipo y competición y los riesgos de interpretación."),
+                    ("7.6 Contraste con los criterios de éxito definidos en el capítulo 2", "Pendiente. Se contrastarán H1 a H4 y los criterios de la Tabla 1.")]),
+ ("8. Propuesta de valor y plan de despliegue", [("8.1 Recomendaciones estratégicas accionables", "Pendiente."),
+                    ("8.2 Integración en los procesos de decisión (responsables, frecuencia, canales)", "Pendiente. Se describirá el uso por parte del usuario de referencia en cada periodo de transferencias."),
+                    ("8.3 Arquitectura de implementación y consumo (tablero, API, campañas)", "Pendiente. Se describirá un explorador de jugadores con perfil, percentiles y jugadores similares."),
+                    ("8.4 Caso de negocio: beneficios, costos y retorno esperado", "Pendiente."),
+                    ("8.5 Monitoreo, drift y reentrenamiento", "Pendiente."),
+                    ("8.6 Gestión del cambio, adopción y riesgos de implementación", "Pendiente.")]),
+ ("9. Conclusiones", [("9.1 Respuesta a la pregunta de negocio y a los objetivos", "Pendiente."),
+                      ("9.2 Aportes al negocio y aportes metodológicos", "Pendiente."),
+                      ("9.3 Limitaciones del estudio", "Pendiente."),
+                      ("9.4 Líneas de trabajo futuro", "Pendiente.")])]:
+    h1(chap)
+    for t, body in secs:
+        h2(t); p(body)
+
+# ---------------------------------------------------------------- referencias
+h1("Referencias (APA 7.ª edición)")
+for r in [
+ "Aalbers, B., & Van Haaren, J. (2018). *Distinguishing between roles of football players in play-by-play match event data* (arXiv:1809.05173). arXiv. https://doi.org/10.48550/arXiv.1809.05173",
+ "Aitchison, J. (1982). The statistical analysis of compositional data. *Journal of the Royal Statistical Society: Series B (Methodological)*, *44*(2), 139–177. https://doi.org/10.1111/j.2517-6161.1982.tb01195.x",
+ "Bialkowski, A., Lucey, P., Carr, P., Yue, Y., Sridharan, S., & Matthews, I. (2014). Large-scale analysis of soccer matches using spatiotemporal tracking data. En *2014 IEEE International Conference on Data Mining* (pp. 725–730). IEEE. https://doi.org/10.1109/ICDM.2014.133",
+ "Campello, R. J. G. B., Moulavi, D., & Sander, J. (2013). Density-based clustering based on hierarchical density estimates. En J. Pei, V. S. Tseng, L. Cao, H. Motoda, & G. Xu (Eds.), *Advances in knowledge discovery and data mining* (pp. 160–172). Springer. https://doi.org/10.1007/978-3-642-37456-2_14",
+ "Chapman, P., Clinton, J., Kerber, R., Khabaza, T., Reinartz, T., Shearer, C., & Wirth, R. (2000). *CRISP-DM 1.0: Step-by-step data mining guide*. SPSS. https://public.dhe.ibm.com/software/analytics/spss/documentation/modeler/14.2/es/CRISP-DM.pdf",
+ "Cho, H., Ryu, H., & Song, M. (2022). Pass2vec: Analyzing soccer players’ passing style using deep learning. *International Journal of Sports Science & Coaching*, *17*(2), 355–365. https://doi.org/10.1177/17479541211033078",
+ "CIES Football Observatory. (2020). *Monthly Report n.º 59* [Censo demográfico de jugadores de 31 primeras divisiones europeas]. https://football-observatory.com/IMG/sites/mr/mr59/en/",
+ "Congreso de Colombia. (2012, 17 de octubre). *Ley Estatutaria 1581 de 2012. Por la cual se dictan disposiciones generales para la protección de datos personales*. https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981",
+ "Cutler, A., & Breiman, L. (1994). Archetypal analysis. *Technometrics*, *36*(4), 338–347. https://doi.org/10.1080/00401706.1994.10485840",
+ "Davies, D. L., & Bouldin, D. W. (1979). A cluster separation measure. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, *PAMI-1*(2), 224–227. https://doi.org/10.1109/TPAMI.1979.4766909",
+ "Davis, J., Bransen, L., Devos, L., Jaspers, A., Meert, W., Robberechts, P., Van Haaren, J., & Van Roy, M. (2024). Methodology and evaluation in sports analytics: Challenges, approaches, and lessons learned. *Machine Learning*, *113*, 6977–7010. https://doi.org/10.1007/s10994-024-06585-0",
+ "Decroos, T., Bransen, L., Van Haaren, J., & Davis, J. (2019). Actions speak louder than goals: Valuing player actions in soccer. *Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining*, 1851–1861. https://doi.org/10.1145/3292500.3330758",
+ "Decroos, T., & Davis, J. (2020). Player vectors: Characterizing soccer players’ playing style from match event streams. En U. Brefeld, E. Fromont, A. Hotho, A. Knobbe, M. Maathuis, & C. Robardet (Eds.), *Machine learning and knowledge discovery in databases* (pp. 569–584). Springer. https://doi.org/10.1007/978-3-030-46133-1_34",
+ "Decroos, T., Van Roy, M., & Davis, J. (2020). SoccerMix: Representing soccer actions with mixture models. En *Machine learning and knowledge discovery in databases: Applied data science and demo track (ECML PKDD 2020)* (pp. 459–474). Springer. https://doi.org/10.1007/978-3-030-67670-4_28",
+ "FIFA. (2026, 28 de enero). *International transfers reach historic high in 2025* [Comunicado de prensa]. https://inside.fifa.com/transfer-system/media-releases/international-transfers-reach-historic-high-2025",
+ "Hennig, C. (2007). Cluster-wise assessment of cluster stability. *Computational Statistics & Data Analysis*, *52*(1), 258–271. https://doi.org/10.1016/j.csda.2006.11.025",
+ "Hubert, L., & Arabie, P. (1985). Comparing partitions. *Journal of Classification*, *2*(1), 193–218. https://doi.org/10.1007/BF01908075",
+ "Kim, H., Kim, J., Chung, D., Lee, J., Yoon, J., & Ko, S.-K. (2021). *6MapNet: Representing soccer players from tracking data by a triplet network* (arXiv:2109.04720). arXiv. https://doi.org/10.48550/arXiv.2109.04720",
+ "Li, Y., Zong, S., Shen, Y., Pu, Z., Gómez, M.-Á., & Cui, Y. (2022). Characterizing player’s playing styles based on player vectors for each playing position in the Chinese Football Super League. *Journal of Sports Sciences*. https://doi.org/10.1080/02640414.2022.2096771",
+ "Pappalardo, L., Cintia, P., Ferragina, P., Massucco, E., Pedreschi, D., & Giannotti, F. (2019). PlayeRank: Data-driven performance evaluation and player ranking in soccer via a machine learning approach. *ACM Transactions on Intelligent Systems and Technology*, *10*(5), 1–27. https://doi.org/10.1145/3343172",
+ "Pappalardo, L., Cintia, P., Rossi, A., Massucco, E., Ferragina, P., Pedreschi, D., & Giannotti, F. (2019). A public data set of spatio-temporal match events in soccer competitions. *Scientific Data*, *6*, Artículo 236. https://doi.org/10.1038/s41597-019-0247-7",
+ "Plakias, S., Moustakidis, S., Kokkotis, C., Papalexi, M., Tsatalas, T., Giakas, G., & Tsaopoulos, D. (2023). Identifying soccer players’ playing styles: A systematic review. *Journal of Functional Morphology and Kinesiology*, *8*(3), Artículo 104. https://doi.org/10.3390/jfmk8030104",
+ "Poli, R., Ravenel, L., & Besson, R. (2024). *Origins and destinations of football expatriates (2020-2024)* (CIES Football Observatory Monthly Report n.º 95). CIES. https://football-observatory.com/IMG/pdf/mr95en.pdf",
+ "Rousseeuw, P. J. (1987). Silhouettes: A graphical aid to the interpretation and validation of cluster analysis. *Journal of Computational and Applied Mathematics*, *20*, 53–65. https://doi.org/10.1016/0377-0427(87)90125-7",
+ "scikit-learn developers. (s. f.-a). Clustering. En *scikit-learn documentation*. Recuperado el 8 de octubre de 2026, de https://scikit-learn.org/stable/modules/clustering.html",
+ "scikit-learn developers. (s. f.-b). Gaussian mixture models. En *scikit-learn documentation*. Recuperado el 8 de octubre de 2026, de https://scikit-learn.org/stable/modules/mixture.html",
+ "Singh, K. (2018). *Introducing expected threat (xT)*. https://karun.in/blog/expected-threat.html",
+ "StatsBomb. (s. f.). *StatsBomb open data* [Conjunto de datos]. GitHub. Recuperado el 8 de octubre de 2026, de https://github.com/statsbomb/open-data",
+ "Van Roy, M., Robberechts, P., Decroos, T., & Davis, J. (2020). Valuing on-the-ball actions in soccer: A critical comparison of xT and VAEP. En *AAAI-20 Workshop on Artificial Intelligence in Team Sports*. https://lirias.kuleuven.be/retrieve/558069",
+ "Vinh, N. X., Epps, J., & Bailey, J. (2010). Information theoretic measures for clusterings comparison: Variants, properties, normalization and correction for chance. *Journal of Machine Learning Research*, *11*, 2837–2854.",
+]:
+    ref(r)
+
+h1("Anexos")
+for t, body in [("A. Diccionario de datos completo", "El diccionario de las tablas derivadas se genera desde los datos en docs/diccionario_datos.md del repositorio, con tipo, porcentaje de faltantes, rango y descripción de cada columna. Pendiente: matriz de equivalencias con StatsBomb y registro de exclusiones."),
+                ("B. Enlace al repositorio y notebooks", "El repositorio se organiza en configuración (config), capas de datos (data/raw, interim y processed), documentación (docs: contexto, protocolo de modelado, registro de decisiones y diccionario), manifiestos de procedencia (manifests), código por etapa (src: ingestion, harmonization, features, diagnostics, models, evaluation y reports), pruebas (tests) y productos (reports). El pipeline completo se ejecuta con python -m src.pipeline. Pendiente: enlace definitivo del repositorio publicado."),
+                ("C. Resultados complementarios de modelos", "Pendiente. Conservar experimentos, configuraciones, estabilidad, sensibilidad y análisis espaciales que sustenten el cuerpo principal."),
+                ("D. Acuerdos de confidencialidad o anonimización", "Pendiente cuando aplique. Incorporar condiciones de uso, permisos y medidas de protección pertinentes."),
+                ("E. Capturas del tablero o prototipo", "Pendiente si se desarrolla un prototipo.")]:
+    h2(t); p(body)

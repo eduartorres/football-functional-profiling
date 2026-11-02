@@ -11,7 +11,7 @@ data/          raw (inmutable), interim y processed; ver data/README.md
 docs/          contexto, protocolo de modelado, registro de decisiones, diccionario de datos
 manifests/     procedencia e integridad de las fuentes
 notebooks/     exploración (no forma parte del pipeline)
-reports/       documento, casebook y figuras
+reports/       documento (y su fuente en reports/documento/build), casebook y figuras
 src/           código: ingestion, harmonization, features, diagnostics, models, evaluation, reports
 tests/         verificaciones de las tablas derivadas
 ```
