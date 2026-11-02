@@ -416,6 +416,7 @@ for r in [
  "Aalbers, B., & Van Haaren, J. (2018). *Distinguishing between roles of football players in play-by-play match event data* (arXiv:1809.05173). arXiv. https://doi.org/10.48550/arXiv.1809.05173",
  "Aitchison, J. (1982). The statistical analysis of compositional data. *Journal of the Royal Statistical Society: Series B (Methodological)*, *44*(2), 139–177. https://doi.org/10.1111/j.2517-6161.1982.tb01195.x",
  "Bialkowski, A., Lucey, P., Carr, P., Yue, Y., Sridharan, S., & Matthews, I. (2014). Large-scale analysis of soccer matches using spatiotemporal tracking data. En *2014 IEEE International Conference on Data Mining* (pp. 725–730). IEEE. https://doi.org/10.1109/ICDM.2014.133",
+ "Bassek, M., Rein, R., Weber, H., & Memmert, D. (2025). An integrated dataset of spatiotemporal and event data in elite soccer. *Scientific Data*. https://doi.org/10.1038/s41597-025-04505-y",
  "Campello, R. J. G. B., Moulavi, D., & Sander, J. (2013). Density-based clustering based on hierarchical density estimates. En J. Pei, V. S. Tseng, L. Cao, H. Motoda, & G. Xu (Eds.), *Advances in knowledge discovery and data mining* (pp. 160–172). Springer. https://doi.org/10.1007/978-3-642-37456-2_14",
  "Chapman, P., Clinton, J., Kerber, R., Khabaza, T., Reinartz, T., Shearer, C., & Wirth, R. (2000). *CRISP-DM 1.0: Step-by-step data mining guide*. SPSS. https://public.dhe.ibm.com/software/analytics/spss/documentation/modeler/14.2/es/CRISP-DM.pdf",
  "Cho, H., Ryu, H., & Song, M. (2022). Pass2vec: Analyzing soccer players’ passing style using deep learning. *International Journal of Sports Science & Coaching*, *17*(2), 355–365. https://doi.org/10.1177/17479541211033078",
@@ -448,11 +449,42 @@ for r in [
     ref(r)
 
 h1("Anexos")
-for t, body in [("A. Diccionario de datos completo", "El diccionario de las tablas derivadas se genera desde los datos en docs/diccionario_datos.md del repositorio, con tipo, porcentaje de faltantes, rango y descripción de cada columna. Pendiente: matriz de equivalencias con StatsBomb y registro de exclusiones."),
-                ("B. Enlace al repositorio y notebooks", "El repositorio se organiza en configuración (config), capas de datos (data/raw, interim y processed), documentación (docs: contexto, protocolo de modelado, registro de decisiones y diccionario), manifiestos de procedencia (manifests), código por etapa (src: ingestion, harmonization, features, diagnostics, models, evaluation y reports), pruebas (tests) y productos (reports). El pipeline completo se ejecuta con python -m src.pipeline. Pendiente: enlace definitivo del repositorio publicado."),
-                ("C. Resultados complementarios de modelos", "Los resultados de las 108 configuraciones, las cargas de los componentes, la caracterización de perfiles, la evaluación, la sensibilidad, los casos de reemplazo y la replicación se conservan en data/processed/models y data/processed/evaluation del repositorio, y se reproducen con el pipeline."),
-                ("D. Acuerdos de confidencialidad o anonimización", "Pendiente cuando aplique. Incorporar condiciones de uso, permisos y medidas de protección pertinentes."),
-                ("E. Capturas del tablero o prototipo", "El explorador de perfiles funcionales se encuentra en reports/explorer/explorer.html del repositorio. La Figura 1 muestra una consulta de ejemplo.")]:
-    h2(t); p(body)
+h2("A. Diccionario de datos y matriz de equivalencias")
+p("El diccionario de las tablas derivadas se genera a partir de los datos en el archivo docs/diccionario_datos.md del repositorio, con el tipo, el porcentaje de faltantes, el rango y la descripción de cada columna, y se actualiza en cada ejecución del pipeline. La Tabla A1 presenta la matriz de equivalencias empleada para replicar las dimensiones con StatsBomb en el Mundial 2018. Solo se consideran acciones de juego abierto; en StatsBomb un pase sin tipo corresponde a juego abierto, y las reglas de pase se aplican en el orden en que aparecen en la tabla.")
+table("Tabla A1. Equivalencias entre Wyscout y StatsBomb",
+      ["Categoría", "Wyscout", "StatsBomb"],
+      [["Pase raso", "Subevento Simple pass", "Pass con altura Ground Pass o Low Pass, sin cabeza, centro ni pase filtrado"],
+       ["Pase largo", "Subeventos High pass y Launch", "Pass con altura High Pass, sin cabeza, centro ni pase filtrado"],
+       ["Pase de cabeza", "Subevento Head pass", "Pass con body_part Head"],
+       ["Pase filtrado", "Subevento Smart pass", "Pass con through_ball"],
+       ["Centro", "Subevento Cross", "Pass con cross"],
+       ["Remate", "Evento Shot", "Shot de tipo Open Play"],
+       ["Despeje", "Subevento Clearance", "Clearance"],
+       ["Duelo ofensivo", "Subevento Ground attacking duel", "Dribble"],
+       ["Duelo defensivo", "Subevento Ground defending duel", "Duel de tipo Tackle y Dribbled Past"],
+       ["Duelo aéreo", "Subevento Air duel", "Duel de tipo Aerial Lost y eventos con aerial_won"],
+       ["Coordenadas", "0 a 100 en ambos ejes, en la dirección de ataque", "120 x 80 yardas, reescaladas a 0 a 100"],
+       ["Minutos", "Alineaciones, cambios y expulsiones", "Tramos de posición de las alineaciones"]],
+      [1700, 3000, 4700], font=9,
+      note="Conducciones, toques y balones divididos se excluyeron de la replicación porque sus definiciones no son equivalentes entre proveedores; por ejemplo, Acceleration en Wyscout registra conducciones con aceleración, mientras que Carry en StatsBomb registra cualquier desplazamiento con el balón.")
+p("Las exclusiones de la población se registran en el pipeline: porteros, jugadores con menos minutos que el umbral de la ventana y jugadores sin posición fina, que en la temporada completa son 50.")
+h2("B. Enlace al repositorio y notebooks")
+p("El repositorio se organiza en configuración (config), capas de datos (data/raw, interim y processed), documentación (docs: contexto, protocolo de modelado, registro de decisiones y diccionario), manifiestos de procedencia (manifests), código por etapa (src: ingestion, harmonization, features, diagnostics, models, evaluation y reports), pruebas (tests) y productos (reports). El pipeline completo se ejecuta con python -m src.pipeline. Pendiente: enlace definitivo del repositorio publicado.")
+h2("C. Resultados complementarios de modelos")
+p("Los resultados de las 108 configuraciones, las cargas de los componentes, la caracterización de perfiles, la evaluación, la sensibilidad, los casos de reemplazo y la replicación se conservan en data/processed/models y data/processed/evaluation del repositorio, y se reproducen con el pipeline.")
+h2("D. Condiciones de uso de las fuentes y protección de datos")
+p("El proyecto no suscribió acuerdos de confidencialidad, porque todas las fuentes son de acceso público. Cada fuente tiene, sin embargo, condiciones de uso propias que determinan qué puede publicarse y redistribuirse (Tabla D1). Las condiciones se verificaron en los archivos de licencia de los repositorios descargados y en las páginas de publicación de cada conjunto de datos.")
+table("Tabla D1. Condiciones de uso de las fuentes",
+      ["Fuente", "Condición de uso", "Implicación para el proyecto"],
+      [["Wyscout (Pappalardo et al., 2019)", "Licencia Creative Commons Atribución 4.0 en figshare", "Uso y publicación de resultados con atribución"],
+       ["StatsBomb Open Data", "Acuerdo de usuario de datos públicos: uso para investigación, sin redistribución ni explotación comercial; toda publicación de análisis debe acreditar la fuente con el logo de StatsBomb", "Los datos y sus derivados no se redistribuyen; el documento final debe incluir el logo oficial en la sección de replicación"],
+       ["SkillCorner Open Data", "Repositorio publicado con licencia MIT", "Auditado; fuera del núcleo"],
+       ["DFL (Bassek et al., 2025)", "Licencia Creative Commons Atribución 4.0 en figshare", "Auditado; fuera del núcleo"],
+       ["PFF FC, Mundial 2022", "Acceso gratuito previo registro; la página de publicación no establece una licencia formal", "Uso académico sin redistribución de los archivos"],
+       ["Transfermarkt (transfermarkt-datasets)", "Licencia CC0 1.0 del proyecto que compila los datos", "Uso como posición de referencia y contexto; sin redistribución del archivo original"]],
+      [2400, 3700, 3300], font=9)
+p("Los datos crudos y las tablas derivadas no se incluyen en el control de versiones; el repositorio contiene el código, los manifiestos de procedencia y las instrucciones para reconstruirlos. En cuanto a la Ley 1581 de 2012, el proyecto trata nombres y fechas de nacimiento de futbolistas profesionales publicados por los proveedores, con fines exclusivamente académicos. La fecha de nacimiento se usa solo para enlazar fuentes y no aparece en el prototipo, que muestra únicamente nombre, club, posición y estadísticas de juego.")
+h2("E. Capturas del tablero o prototipo")
+p("El explorador de perfiles funcionales se encuentra en reports/explorer/explorer.html del repositorio. La Figura 1 muestra una consulta de ejemplo.")
 C.append(("image", {"path": "reports/figures/explorer_consulta.png", "width": 6.5,
                     "caption": "Figura 1. Consulta de M. Hamšík (Napoli, 2017/18) con el filtro de posiciones distintas: ficha, percentiles y jugadores más similares de otros clubes"}))

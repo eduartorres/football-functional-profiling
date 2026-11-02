@@ -73,7 +73,7 @@ def add_table(spec):
     if spec["landscape"]:
         sec = doc.add_section(WD_SECTION.NEW_PAGE); set_landscape(sec, True)
     cap = doc.add_paragraph(style="Normal")
-    m = re.match(r"(Tabla \d+\.)\s*(.*)", spec["caption"])
+    m = re.match(r"(Tabla [A-Z]?\d+\.)\s*(.*)", spec["caption"])
     r = cap.add_run(m.group(1) + " "); r.bold = True
     r = cap.add_run(m.group(2)); r.italic = True
     cap.paragraph_format.keep_with_next = True
