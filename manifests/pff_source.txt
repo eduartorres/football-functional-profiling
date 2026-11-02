@@ -1,0 +1,10 @@
+provider=PFF FC
+dataset=FIFA World Cup 2022
+source=Google Drive shared dataset
+acquisition_method=rclone
+remote=pff_drive:FIFA World Cup 2022
+local_path=data/raw/pff
+files=390
+size_bytes=5689003292
+manifest=manifests/pff_manifest.json
+recorded_at_utc=2026-10-06T05:03:31.394591+00:00

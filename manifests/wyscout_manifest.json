@@ -1,0 +1,361 @@
+{
+  "provider": "Wyscout",
+  "repository": "Figshare",
+  "collection_title": "Soccer match event dataset",
+  "collection_id": 4415000,
+  "collection_version": 5,
+  "collection_doi": "10.6084/m9.figshare.c.4415000.v5",
+  "retrieved_at_utc": "2026-10-06T03:45:57.503626+00:00",
+  "articles": [
+    {
+      "article_id": 11743836,
+      "title": "Mapping of event identifiers to event names",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.11743836.v1",
+      "published_date": "2020-01-28T14:23:20Z",
+      "modified_date": "2023-05-30T11:35:03Z",
+      "files": [
+        {
+          "file_id": 21385245,
+          "name": "eventid2name.csv",
+          "size": 1001,
+          "download_url": "https://ndownloader.figshare.com/files/21385245"
+        }
+      ]
+    },
+    {
+      "article_id": 11743818,
+      "title": "Mapping of tag identifiers to tag names",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.11743818.v1",
+      "published_date": "2020-01-28T14:20:18Z",
+      "modified_date": "2020-01-28T14:20:18Z",
+      "files": [
+        {
+          "file_id": 21385239,
+          "name": "tags2name.csv",
+          "size": 1754,
+          "download_url": "https://ndownloader.figshare.com/files/21385239"
+        }
+      ]
+    },
+    {
+      "article_id": 11473374,
+      "title": "Data paper on soccer-logs",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.11473374.v1",
+      "published_date": "2019-12-29T17:40:08Z",
+      "modified_date": "2023-05-31T17:45:23Z",
+      "files": [
+        {
+          "file_id": 20479902,
+          "name": "data_paper_soccer_nsd.pdf",
+          "size": 4594739,
+          "download_url": "https://ndownloader.figshare.com/files/20479902"
+        }
+      ]
+    },
+    {
+      "article_id": 11473365,
+      "title": "Plots replication code of Nature Scientific Data paper",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.11473365.v1",
+      "published_date": "2019-12-29T17:30:17Z",
+      "modified_date": "2023-05-30T13:34:22Z",
+      "files": [
+        {
+          "file_id": 20479890,
+          "name": "soccer_nsd_code.ipynb",
+          "size": 874788,
+          "download_url": "https://ndownloader.figshare.com/files/20479890"
+        }
+      ]
+    },
+    {
+      "article_id": 9361148,
+      "title": "PlayeRanks",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.9361148.v1",
+      "published_date": "2019-08-08T08:53:20Z",
+      "modified_date": "2023-05-30T11:36:37Z",
+      "files": [
+        {
+          "file_id": 16972010,
+          "name": "playerank.json",
+          "size": 6241757,
+          "download_url": "https://ndownloader.figshare.com/files/16972010"
+        }
+      ]
+    },
+    {
+      "article_id": 8082665,
+      "title": "Referees",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.8082665.v1",
+      "published_date": "2019-05-06T14:20:05Z",
+      "modified_date": "2019-10-28T13:20:32Z",
+      "files": [
+        {
+          "file_id": 15074030,
+          "name": "referees.json",
+          "size": 196709,
+          "download_url": "https://ndownloader.figshare.com/files/15074030"
+        }
+      ]
+    },
+    {
+      "article_id": 8082650,
+      "title": "Coaches",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.8082650.v1",
+      "published_date": "2019-05-06T14:14:40Z",
+      "modified_date": "2019-10-28T13:19:16Z",
+      "files": [
+        {
+          "file_id": 15073868,
+          "name": "coaches.json",
+          "size": 70664,
+          "download_url": "https://ndownloader.figshare.com/files/15073868"
+        }
+      ]
+    },
+    {
+      "article_id": 7765196,
+      "title": "Players",
+      "version": 3,
+      "doi": "10.6084/m9.figshare.7765196.v3",
+      "published_date": "2019-05-06T13:14:23Z",
+      "modified_date": "2019-10-28T13:20:59Z",
+      "files": [
+        {
+          "file_id": 15073721,
+          "name": "players.json",
+          "size": 1737347,
+          "download_url": "https://ndownloader.figshare.com/files/15073721"
+        }
+      ]
+    },
+    {
+      "article_id": 7765310,
+      "title": "Teams",
+      "version": 3,
+      "doi": "10.6084/m9.figshare.7765310.v3",
+      "published_date": "2019-05-06T13:08:43Z",
+      "modified_date": "2019-10-28T13:21:18Z",
+      "files": [
+        {
+          "file_id": 15073697,
+          "name": "teams.json",
+          "size": 27404,
+          "download_url": "https://ndownloader.figshare.com/files/15073697"
+        }
+      ]
+    },
+    {
+      "article_id": 7765316,
+      "title": "Competitions",
+      "version": 4,
+      "doi": "10.6084/m9.figshare.7765316.v4",
+      "published_date": "2019-05-06T13:02:17Z",
+      "modified_date": "2019-10-28T13:21:41Z",
+      "files": [
+        {
+          "file_id": 15073685,
+          "name": "competitions.json",
+          "size": 1209,
+          "download_url": "https://ndownloader.figshare.com/files/15073685"
+        }
+      ]
+    },
+    {
+      "article_id": 7770599,
+      "title": "Events",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.7770599.v1",
+      "published_date": "2019-02-26T12:27:22Z",
+      "modified_date": "2019-10-28T13:06:16Z",
+      "files": [
+        {
+          "file_id": 14464685,
+          "name": "events.zip",
+          "size": 77323413,
+          "download_url": "https://ndownloader.figshare.com/files/14464685"
+        }
+      ]
+    },
+    {
+      "article_id": 7770422,
+      "title": "Matches",
+      "version": 1,
+      "doi": "10.6084/m9.figshare.7770422.v1",
+      "published_date": "2019-02-26T12:15:54Z",
+      "modified_date": "2019-02-26T12:15:55Z",
+      "files": [
+        {
+          "file_id": 14464622,
+          "name": "matches.zip",
+          "size": 645097,
+          "download_url": "https://ndownloader.figshare.com/files/14464622"
+        }
+      ]
+    }
+  ],
+  "downloaded_files": [
+    {
+      "article_id": 11743836,
+      "article_title": "Mapping of event identifiers to event names",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.11743836.v1",
+      "file_id": 21385245,
+      "file_name": "eventid2name.csv",
+      "figshare_size_bytes": 1001,
+      "local_path": "data/raw/wyscout/mapping_of_event_identifiers_to_event_names__article_11743836/eventid2name.csv",
+      "local_size_bytes": 1001,
+      "sha256": "ce7bafb341b36ab4c6093bf1c09c967e9cea10d4223724a1fc679086e5d16842",
+      "download_url": "https://ndownloader.figshare.com/files/21385245"
+    },
+    {
+      "article_id": 11743818,
+      "article_title": "Mapping of tag identifiers to tag names",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.11743818.v1",
+      "file_id": 21385239,
+      "file_name": "tags2name.csv",
+      "figshare_size_bytes": 1754,
+      "local_path": "data/raw/wyscout/mapping_of_tag_identifiers_to_tag_names__article_11743818/tags2name.csv",
+      "local_size_bytes": 1754,
+      "sha256": "e0bc1bd8ff6ea5339586fdfc3e8e9b285a4a18f1ae2f5868ccc9ec9cecc8a922",
+      "download_url": "https://ndownloader.figshare.com/files/21385239"
+    },
+    {
+      "article_id": 11473374,
+      "article_title": "Data paper on soccer-logs",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.11473374.v1",
+      "file_id": 20479902,
+      "file_name": "data_paper_soccer_nsd.pdf",
+      "figshare_size_bytes": 4594739,
+      "local_path": "data/raw/wyscout/data_paper_on_soccer_logs__article_11473374/data_paper_soccer_nsd.pdf",
+      "local_size_bytes": 4594739,
+      "sha256": "ebeaf2a3a18a4c55877b6dd7f36a694d481e79522aa6929d27779d75788aa4b5",
+      "download_url": "https://ndownloader.figshare.com/files/20479902"
+    },
+    {
+      "article_id": 11473365,
+      "article_title": "Plots replication code of Nature Scientific Data paper",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.11473365.v1",
+      "file_id": 20479890,
+      "file_name": "soccer_nsd_code.ipynb",
+      "figshare_size_bytes": 874788,
+      "local_path": "data/raw/wyscout/plots_replication_code_of_nature_scientific_data_paper__article_11473365/soccer_nsd_code.ipynb",
+      "local_size_bytes": 874788,
+      "sha256": "e030ef113b830b8c19a5e564165208f24b870e5f5cf9edaf2668f64ad6648a90",
+      "download_url": "https://ndownloader.figshare.com/files/20479890"
+    },
+    {
+      "article_id": 9361148,
+      "article_title": "PlayeRanks",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.9361148.v1",
+      "file_id": 16972010,
+      "file_name": "playerank.json",
+      "figshare_size_bytes": 6241757,
+      "local_path": "data/raw/wyscout/playeranks__article_9361148/playerank.json",
+      "local_size_bytes": 6241757,
+      "sha256": "8f3ef4a2b2ffba2c88a041ae90a07c74080f7ae1bcf555b5d05c4992d5834acb",
+      "download_url": "https://ndownloader.figshare.com/files/16972010"
+    },
+    {
+      "article_id": 8082665,
+      "article_title": "Referees",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.8082665.v1",
+      "file_id": 15074030,
+      "file_name": "referees.json",
+      "figshare_size_bytes": 196709,
+      "local_path": "data/raw/wyscout/referees__article_8082665/referees.json",
+      "local_size_bytes": 196709,
+      "sha256": "616014a2cae374c32ab92b550a8452a8d4a345bf7b3ed513f5677355140d5752",
+      "download_url": "https://ndownloader.figshare.com/files/15074030"
+    },
+    {
+      "article_id": 8082650,
+      "article_title": "Coaches",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.8082650.v1",
+      "file_id": 15073868,
+      "file_name": "coaches.json",
+      "figshare_size_bytes": 70664,
+      "local_path": "data/raw/wyscout/coaches__article_8082650/coaches.json",
+      "local_size_bytes": 70664,
+      "sha256": "27fcc0dab9b0fbcdf9d4101813ec47810feb832ad0426a27d6cef7c1210ae636",
+      "download_url": "https://ndownloader.figshare.com/files/15073868"
+    },
+    {
+      "article_id": 7765196,
+      "article_title": "Players",
+      "article_version": 3,
+      "article_doi": "10.6084/m9.figshare.7765196.v3",
+      "file_id": 15073721,
+      "file_name": "players.json",
+      "figshare_size_bytes": 1737347,
+      "local_path": "data/raw/wyscout/players__article_7765196/players.json",
+      "local_size_bytes": 1737347,
+      "sha256": "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e",
+      "download_url": "https://ndownloader.figshare.com/files/15073721"
+    },
+    {
+      "article_id": 7765310,
+      "article_title": "Teams",
+      "article_version": 3,
+      "article_doi": "10.6084/m9.figshare.7765310.v3",
+      "file_id": 15073697,
+      "file_name": "teams.json",
+      "figshare_size_bytes": 27404,
+      "local_path": "data/raw/wyscout/teams__article_7765310/teams.json",
+      "local_size_bytes": 27404,
+      "sha256": "9f7a4a3b3d92c0be33f40613ad6e6eb4316c3b9771ec74c61a22c9b8ece23a4d",
+      "download_url": "https://ndownloader.figshare.com/files/15073697"
+    },
+    {
+      "article_id": 7765316,
+      "article_title": "Competitions",
+      "article_version": 4,
+      "article_doi": "10.6084/m9.figshare.7765316.v4",
+      "file_id": 15073685,
+      "file_name": "competitions.json",
+      "figshare_size_bytes": 1209,
+      "local_path": "data/raw/wyscout/competitions__article_7765316/competitions.json",
+      "local_size_bytes": 1209,
+      "sha256": "39a738d2bc97638502e1ead01d661b54c623d6d6b37f77de3846f9a94db7a3a1",
+      "download_url": "https://ndownloader.figshare.com/files/15073685"
+    },
+    {
+      "article_id": 7770599,
+      "article_title": "Events",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.7770599.v1",
+      "file_id": 14464685,
+      "file_name": "events.zip",
+      "figshare_size_bytes": 77323413,
+      "local_path": "data/raw/wyscout/events__article_7770599/events.zip",
+      "local_size_bytes": 77323413,
+      "sha256": "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
+      "download_url": "https://ndownloader.figshare.com/files/14464685"
+    },
+    {
+      "article_id": 7770422,
+      "article_title": "Matches",
+      "article_version": 1,
+      "article_doi": "10.6084/m9.figshare.7770422.v1",
+      "file_id": 14464622,
+      "file_name": "matches.zip",
+      "figshare_size_bytes": 645097,
+      "local_path": "data/raw/wyscout/matches__article_7770422/matches.zip",
+      "local_size_bytes": 645097,
+      "sha256": "c8f92bb7533e5c127e043cee764c991b5c25b4f5e70a65be931baae0b1765ce9",
+      "download_url": "https://ndownloader.figshare.com/files/14464622"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+provider=Transfermarkt
+dataset_project=dcaribou/transfermarkt-datasets
+snapshot_date=2026-07-06
+source_url=https://pub-e682421888d945d684bcae8890b0ec20.r2.dev/data/transfermarkt-datasets.duckdb
+local_path=data/raw/transfermarkt/transfermarkt-datasets.duckdb
+size_bytes=210776064
+sha256=ba1eff7337b8ca78cb533df0b6eba0d6fc58218e0767460f6770e0b37f5a2113

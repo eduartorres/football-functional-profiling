@@ -1,0 +1,724 @@
+<title>Casebook perfilamiento funcional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>
+/* Composición: páginas apiladas de lectura vertical, una idea por página, base blanca con negro y grises;
+   el amarillo Uniandes solo marca énfasis (cifras clave, categorías destacadas, estado "en curso"). */
+:root{
+  --paper:#FFFFFF;
+  --ink:#000000;
+  --ink-2:#333333;
+  --ink-3:#6E6E6E;
+  --rule:#D6D6D6;
+  --wash:#F3F3F1;
+  --mid:#9A9A9A;
+  --soft:#C9C9C9;
+  --yellow:#FFFF00;
+  --f-sans:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --f-mono:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
+  --s-title:clamp(1.6rem,1.1rem + 1.6vw,2.35rem);
+  --s-lead:clamp(1.05rem,.98rem + .3vw,1.22rem);
+  --s-body:1rem;
+  --s-note:.84rem;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);font-size:var(--s-body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{min-height:100vh;padding-block:56px 64px;padding-inline:max(20px,4vw);border-bottom:1px solid var(--rule);display:flex;flex-direction:column}
+.page>.inner{max-width:1180px;width:100%;margin-inline:auto;flex:1;display:flex;flex-direction:column;gap:28px}
+.kicker{font-size:var(--s-note);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:flex;gap:12px;align-items:baseline}
+.kicker b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+h1,h2{margin:0;font-weight:700;letter-spacing:-.01em;text-wrap:balance;line-height:1.15}
+h2{font-size:var(--s-title);max-width:28ch}
+.lead{font-size:var(--s-lead);color:var(--ink-2);max-width:62ch;margin:0;font-weight:300;line-height:1.55}
+p{margin:0}
+.note{font-size:var(--s-note);color:var(--ink-3);max-width:80ch}
+.mono{font-family:var(--f-mono);font-size:.86em}
+.mark{background:linear-gradient(transparent 58%,var(--yellow) 58%,var(--yellow) 92%,transparent 92%);padding-inline:2px}
+.chart-title{font-weight:500;font-size:var(--s-body);margin:0 0 4px;max-width:70ch}
+.chart-sub{font-size:var(--s-note);color:var(--ink-3);margin:0 0 10px}
+svg text{font-family:var(--f-sans)}
+.grid-2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:48px;align-items:start}
+.grid-2.rev{grid-template-columns:minmax(0,1fr) minmax(0,1.35fr)}
+@media (max-width:860px){.grid-2,.grid-2.rev{grid-template-columns:1fr;gap:28px}}
+.scroll-x{overflow-x:auto;max-width:100%}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:var(--s-note);color:var(--ink-2);white-space:nowrap}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex:none}
+.dot.done{background:var(--ink)}
+.dot.now{background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.dot.next{background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--mid)}
+
+/* portada */
+.cover .inner{justify-content:center;gap:40px}
+.cover h1{font-size:clamp(2.1rem,1.3rem + 3vw,3.6rem);max-width:20ch;border-left:10px solid var(--yellow);padding-left:24px;margin-left:-34px}
+@media (max-width:860px){.cover h1{margin-left:0;padding-left:16px;border-left-width:8px}}
+.cover dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 28px;margin:0;font-size:var(--s-body)}
+.cover dt{color:var(--ink-3);font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.cover dd{margin:0}
+
+/* pregunta */
+.question{font-size:clamp(1.35rem,1.05rem + 1.1vw,2rem);font-weight:400;line-height:1.3;max-width:34ch;margin:0;text-wrap:balance}
+.question .q{font-weight:700}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:2px solid var(--ink)}
+.trio>div{padding:14px 22px 0 0}
+.trio>div+div{padding-left:22px;border-left:1px solid var(--rule)}
+.trio h3,.scope h3{font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:500;margin:0 0 8px}
+@media (max-width:860px){.trio{grid-template-columns:1fr}.trio>div+div{padding-left:0;border-left:0;border-top:1px solid var(--rule)}}
+.scope{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr);gap:32px}
+@media (max-width:860px){.scope{grid-template-columns:1fr}}
+.scope ul{margin:0;padding-left:1.1em}
+.scope li{margin-bottom:4px}
+
+/* objetivos */
+.objectives{list-style:none;margin:0;padding:0;counter-reset:o}
+.objectives li{display:grid;grid-template-columns:2.2rem minmax(0,1fr) auto;gap:14px;padding:12px 0;border-top:1px solid var(--rule);align-items:baseline}
+.objectives li::before{counter-increment:o;content:counter(o);font-weight:700;font-variant-numeric:tabular-nums}
+.hyp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 36px}
+@media (max-width:760px){.hyp{grid-template-columns:1fr}.objectives li{grid-template-columns:1.6rem minmax(0,1fr)}.objectives .status{grid-column:2}}
+.hyp p{font-size:var(--s-note);color:var(--ink-2)}
+.hyp b{color:var(--ink)}
+
+/* tablas */
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th{font-weight:500;text-align:left;font-size:var(--s-note);color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;padding:6px 14px 6px 0;border-bottom:2px solid var(--ink);white-space:nowrap}
+td{padding:8px 14px 8px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.src{font-weight:500;white-space:nowrap}
+
+/* heatmap de cobertura */
+.cov{display:grid;grid-template-columns:minmax(190px,1.2fr) repeat(5,minmax(130px,1fr));gap:3px;min-width:860px}
+.cov .h{font-size:var(--s-note);font-weight:500;padding:6px 4px;align-self:end}
+.cov .r{font-size:.9rem;padding:8px 8px 8px 0;align-self:center}
+.cov .c{min-height:36px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--f-mono);font-size:.72rem;line-height:1.2;padding:4px}
+.cov .yes{background:var(--ink);color:var(--paper)}
+.cov .part{background:var(--mid);color:var(--ink)}
+.cov .no{background:var(--wash);color:var(--ink-3)}
+.cov .sep{grid-column:1/-1;height:10px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:var(--s-note);color:var(--ink-2);align-items:center}
+.legend i{display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px}
+.adjust{list-style:none;margin:0;padding:0;counter-reset:a}
+.adjust li{padding:12px 0 12px 2.2rem;border-top:1px solid var(--rule);position:relative}
+.adjust-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 32px}
+@media (max-width:860px){.adjust-row{grid-template-columns:1fr}}
+.adjust li::before{counter-increment:a;content:counter(a);position:absolute;left:0;top:10px;width:1.5rem;height:1.5rem;background:var(--yellow);color:var(--ink);font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+
+/* variables */
+.vars{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px 32px}
+.vars h3{font-size:var(--s-body);margin:0 0 6px;font-weight:700}
+.vars ul{list-style:none;margin:0;padding:0;font-size:.93rem;color:var(--ink-2)}
+.vars li{padding:3px 0}
+pre.frag{margin:0;font-family:var(--f-mono);font-size:.78rem;line-height:1.55;background:var(--wash);padding:16px 18px;overflow-x:auto;color:var(--ink-2)}
+pre.frag .k{color:var(--ink-3)}
+pre.frag .hl{background:var(--yellow);color:var(--ink)}
+.arrow-down{font-size:var(--s-note);color:var(--ink-3);padding:8px 0;display:flex;align-items:center;gap:8px}
+.arrow-down::before{content:"";width:1px;height:22px;background:var(--ink)}
+
+/* pipeline */
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));position:relative;min-width:860px}
+.flow .st{padding:0 16px 0 0;position:relative}
+.flow .st::before{content:"";position:absolute;top:6px;left:14px;right:0;height:2px;background:var(--ink)}
+.flow .st:last-child::before{display:none}
+.flow .st .dot{position:relative;z-index:1;width:14px;height:14px}
+.flow h3{font-size:.95rem;margin:14px 0 4px;font-weight:700}
+.flow .n{font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums;margin:2px 0 4px;display:inline-block}
+.flow p{font-size:var(--s-note);color:var(--ink-2)}
+.flow-next{display:flex;flex-wrap:wrap;gap:10px 0;align-items:center;font-size:.92rem;color:var(--ink-2)}
+.flow-next span{padding:6px 14px;border:1px dashed var(--mid)}
+.flow-next em{font-style:normal;color:var(--mid);padding:0 8px}
+
+/* cifra destacada */
+.big{font-size:clamp(3rem,2rem + 3vw,4.6rem);font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.facts{display:grid;gap:0}
+.facts div{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:14px;padding:11px 0;border-top:1px solid var(--rule);align-items:baseline}
+.facts b{font-variant-numeric:tabular-nums;font-size:1.05rem}
+.facts span{font-size:.92rem;color:var(--ink-2)}
+
+/* metodología */
+.method{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:0;border-top:2px solid var(--ink)}
+.method .ph{padding:12px 16px 12px 0;font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+.method .acts{padding:10px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:7px}
+.method .acts div{display:flex;gap:10px;align-items:baseline;font-size:.95rem}
+.method .acts .dot{transform:translateY(1px)}
+.method .acts small{color:var(--ink-3);font-size:var(--s-note)}
+@media (max-width:640px){.method{grid-template-columns:1fr}.method .ph{border-bottom:0;padding-bottom:0}}
+.principle{border-left:4px solid var(--ink);padding:4px 0 4px 18px;max-width:46ch}
+.principle p{font-size:var(--s-lead);font-weight:300}
+
+/* cronograma */
+.gantt{display:grid;grid-template-columns:minmax(240px,1.6fr) repeat(12,minmax(34px,1fr));align-items:center;min-width:820px;row-gap:10px}
+.gantt .wk{font-size:var(--s-note);color:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums;border-bottom:1px solid var(--rule);padding-bottom:6px}
+.gantt .lbl{font-size:.92rem;padding-right:14px}
+.gantt .lbl small{display:block;color:var(--ink-3);font-size:var(--s-note)}
+.gantt .bar{height:22px}
+.gantt .bar.done{background:var(--ink)}
+.gantt .bar.now{background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.gantt .bar.next{background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)}
+.gantt .pre{grid-column:2/-1;height:22px;background:var(--ink);display:flex;align-items:center;padding-left:10px;color:var(--paper);font-size:var(--s-note)}
+
+/* retos */
+.challenges{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);border-top:2px solid var(--ink)}
+.challenges>div{padding:13px 24px 13px 0;border-bottom:1px solid var(--rule)}
+.challenges .rt{font-weight:500}
+.challenges .rs{color:var(--ink-2);font-size:.95rem}
+@media (max-width:700px){.challenges{grid-template-columns:1fr}.challenges .rt{border-bottom:0;padding-bottom:0}}
+
+/* resultados */
+.expected{list-style:none;margin:0;padding:0;max-width:72ch}
+.expected li{padding:14px 0;border-top:1px solid var(--rule);font-size:1.02rem}
+.expected li b{display:block;font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:500;margin-bottom:2px}
+
+/* navegación */
+.pager{position:fixed;right:max(16px,2vw);bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;align-items:center;z-index:5}
+.pager button{font:inherit;font-size:var(--s-note);border:1px solid var(--ink);background:var(--paper);color:var(--ink);width:34px;height:34px;cursor:pointer}
+.pager button:focus-visible{outline:3px solid var(--yellow);outline-offset:1px}
+.pager span{font-size:var(--s-note);font-variant-numeric:tabular-nums;background:var(--yellow);color:var(--ink);padding:8px 10px;font-weight:500}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--paper);font-size:.8rem;padding:7px 10px;line-height:1.35;z-index:10;max-width:240px}
+.tip b{color:var(--yellow);font-weight:500}
+.foot{font-size:var(--s-note);color:var(--ink-3);margin-top:auto;padding-top:10px}
+</style>
+
+<!-- 01 Portada -->
+<section class="page cover" id="p1"><div class="inner">
+  <div class="kicker">Universidad de los Andes · Facultad de Ingeniería · Departamento de Ingeniería Industrial</div>
+  <h1>Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal</h1>
+  <p class="lead">Presentación de avances. Trabajo Práctico de Grado II (MIIA4005), Maestría en Inteligencia Analítica para la Toma de Decisiones. 11 de octubre de 2026.</p>
+  <dl>
+    <dt>Autor</dt><dd>Eduar Felipe Riaño Torres · código 202423073 · <span class="mono">e.rianot@uniandes.edu.co</span></dd>
+    <dt>Asesor</dt><dd>Juan Pablo Gómez Bravo</dd>
+    <dt>Preasesor</dt><dd>No aplica</dd>
+  </dl>
+</div></section>
+
+<!-- 02 Problema -->
+<section class="page" id="p2"><div class="inner">
+  <div class="kicker"><b>02</b> Descripción del problema</div>
+  <h2>Situación problemática</h2>
+  <div class="grid-2 rev">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <p class="lead">En los procesos de scouting y recruitment la búsqueda de candidatos suele empezar por la posición nominal. Esa etiqueta indica la demarcación registrada del jugador, pero no describe cómo participa en el juego.</p>
+      <p>Dos mediocampistas pueden diferir en la circulación del balón, la progresión o la recuperación, y jugadores registrados en posiciones distintas pueden intervenir de forma parecida. Cuando la comparación depende principalmente de la etiqueta, la preselección puede incluir perfiles poco pertinentes u omitir candidatos comparables.</p>
+      <p>El proyecto propone describir a cada jugador por su comportamiento observado en datos de partidos y evaluar qué información agrega esa descripción frente a la posición.</p>
+    </div>
+    <figure style="margin:0">
+      <p class="chart-title">Hamšík y Diamé tienen la misma etiqueta de mediocampista central y difieren en más de 50 puntos de percentil en cinco de seis indicadores</p>
+      <p class="chart-sub">Percentil dentro de 600 mediocampistas de Wyscout, cinco grandes ligas 2017/18, con al menos 900 minutos</p>
+      <div id="butterfly"></div>
+      <p class="note">Sub-posición en Transfermarkt: Central Midfield para ambos. Hamšík, Serie A, 2.448 minutos; Diamé, Premier League, 2.165 minutos.</p>
+    </figure>
+  </div>
+</div></section>
+
+<!-- 03 Pregunta de negocio -->
+<section class="page" id="p3"><div class="inner">
+  <div class="kicker"><b>03</b> Pregunta de negocio</div>
+  <p class="question"><span class="q">¿Cómo apoyar la preselección de jugadores comparables</span> con una necesidad deportiva o con un jugador de referencia a partir de su comportamiento observado en campo?</p>
+  <div class="trio">
+    <div><h3>Decisión que se apoya</h3><p>Qué jugadores pasan a una revisión deportiva detallada cuando se busca cubrir una función de la plantilla o reemplazar a un futbolista.</p></div>
+    <div><h3>Quién decide y cuándo</h3><p>La dirección deportiva y el cuerpo técnico definen la necesidad; el equipo de scouting prepara la lista. Ocurre en la planificación de plantilla y en las ventanas de transferencias.</p></div>
+    <div><h3>Por qué se requiere una metodología</h3><p>No existe una etiqueta correcta de perfil funcional. La representación debe construirse con datos de eventos heterogéneos, controlar minutos y contexto, y evaluarse sin una verdad de referencia.</p></div>
+  </div>
+  <div class="scope">
+    <div><h3>Dentro del alcance</h3><ul><li>Jugadores de campo</li><li>Eventos de Wyscout como base</li><li>Replicación con StatsBomb</li><li>Tracking como estudio complementario</li><li>Transfermarkt como contexto posterior</li></ul></div>
+    <div><h3>Fuera del alcance</h3><ul><li>Porteros</li><li>Predicción de resultados</li><li>Valoración económica</li><li>Decisión automática de contratación</li></ul></div>
+    <div><h3>Pregunta de investigación</h3><p>¿En qué medida es posible identificar perfiles funcionales de jugadores a partir de sus patrones de comportamiento en campo, más allá de su posición nominal?</p></div>
+  </div>
+</div></section>
+
+<!-- 04 Objetivos -->
+<section class="page" id="p4"><div class="inner">
+  <div class="kicker"><b>04</b> Objetivos</div>
+  <h2>Objetivo general</h2>
+  <p class="lead" style="max-width:70ch">Construir y evaluar perfiles funcionales de futbolistas de campo a partir de su comportamiento observado en datos de juego, para apoyar comparaciones de jugadores que aporten información adicional a la posición nominal.</p>
+  <div>
+    <h3 class="chart-title" style="margin-bottom:8px">Objetivos específicos</h3>
+    <ol class="objectives">
+      <li><span>Auditar las fuentes y definir la unidad de análisis, los indicadores y las reglas de comparabilidad acordes con su cobertura.</span><span class="status"><i class="dot now"></i>En curso</span></li>
+      <li><span>Construir una representación reproducible de distribución, progresión, creación, finalización, recuperación y participación espacial.</span><span class="status"><i class="dot now"></i>Iniciado</span></li>
+      <li><span>Comparar técnicas de agrupación y seleccionar una solución según separación, estabilidad e interpretación.</span><span class="status"><i class="dot next"></i>Previsto</span></li>
+      <li><span>Evaluar la relación entre perfiles y posición nominal, y la sensibilidad a la exposición, el contexto y el proveedor.</span><span class="status"><i class="dot next"></i>Previsto</span></li>
+      <li><span>Diseñar y evaluar consultas de similitud mediante casos documentados, con una propuesta de uso y sus restricciones.</span><span class="status"><i class="dot next"></i>Previsto</span></li>
+    </ol>
+  </div>
+  <div class="hyp">
+    <p><b>H1.</b> Dentro de una misma posición nominal hay diferencias de comportamiento que permiten describir perfiles distintos. <span class="mark">Con evidencia preliminar (página 11).</span></p>
+    <p><b>H2.</b> Algunos jugadores registrados en posiciones diferentes muestran proximidad funcional.</p>
+    <p><b>H3.</b> Las dimensiones principales se mantienen al cambiar la muestra y decisiones razonables de procesamiento.</p>
+    <p><b>H4.</b> La consulta funcional entrega candidatos pertinentes adicionales a una búsqueda restringida por posición.</p>
+  </div>
+</div></section>
+
+<!-- 05 Fuentes -->
+<section class="page" id="p5"><div class="inner">
+  <div class="kicker"><b>05</b> Uso y análisis de la información · fuentes</div>
+  <h2>Información disponible</h2>
+  <figure style="margin:0">
+    <p class="chart-title">Las fuentes cubren periodos distintos y coinciden en dos torneos: el Mundial 2018 y el Mundial 2022</p>
+    <p class="chart-sub">Periodo cubierto por cada fuente. Para StatsBomb se muestran las competiciones relevantes para el proyecto de un total de 80 competiciones-temporada</p>
+    <div class="scroll-x"><div id="timeline" style="min-width:760px"></div></div>
+  </figure>
+  <div class="scroll-x">
+    <table id="inv">
+      <thead><tr><th>Fuente</th><th>Rol en el proyecto</th><th class="num">Partidos</th><th class="num">Jugadores</th><th class="num">Registros de eventos</th><th>Seguimiento espacial</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="note">Cifras obtenidas de la auditoría de los archivos descargados (src/diagnostics/audit_sources.py). En Transfermarkt los registros corresponden a eventos de partido como goles, tarjetas y cambios.</p>
+</div></section>
+
+<!-- 06 Cobertura -->
+<section class="page" id="p6"><div class="inner">
+  <div class="kicker"><b>06</b> Uso y análisis de la información · relaciones entre fuentes</div>
+  <h2>Cobertura de las dimensiones funcionales</h2>
+  <div style="display:flex;flex-direction:column;gap:30px">
+    <figure style="margin:0;min-width:0">
+      <p class="chart-title">Pases, remates y duelos aparecen en las cinco fuentes; la presión y las carreras sin balón no están en Wyscout</p>
+      <p class="chart-sub">Cada celda muestra el campo o tipo de evento encontrado al inspeccionar los archivos</p>
+      <div class="scroll-x"><div class="cov" id="cov"></div></div>
+      <div class="legend" style="margin-top:12px"><span><i style="background:var(--ink)"></i>Observado</span><span><i style="background:var(--mid)"></i>Parcial</span><span><i style="background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)"></i>No observado</span></div>
+    </figure>
+    <div>
+      <h3 class="chart-title" style="margin-bottom:6px">Ajustes al planteamiento a partir de la auditoría</h3>
+      <ol class="adjust adjust-row">
+        <li>La comparación entre proveedores se hará sobre el Mundial 2018, que está en Wyscout y StatsBomb con los mismos 64 partidos. Así se comparan jugadores y partidos idénticos y no temporadas distintas.</li>
+        <li>El componente espacial se concentrará en el Mundial 2022, que tiene StatsBomb 360 y tracking de PFF para los mismos 64 partidos.</li>
+        <li>El perfil base se construye con acciones con balón y duelos. La presión y el movimiento sin balón se estudiarán donde existen: StatsBomb y SkillCorner.</li>
+      </ol>
+    </div>
+  </div>
+</div></section>
+
+<!-- 07 Variables -->
+<section class="page" id="p7"><div class="inner">
+  <div class="kicker"><b>07</b> Uso y análisis de la información · variables relevantes</div>
+  <h2>Variables relevantes</h2>
+  <div class="grid-2">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <p>Para el diagnóstico se construyeron 18 indicadores por jugador y temporada a partir de los eventos de Wyscout. Las tasas se calculan por 90 minutos jugados y las proporciones sobre el total de acciones del jugador, que dependen menos del volumen de juego del equipo.</p>
+      <div class="vars">
+        <div><h3>Distribución</h3><ul><li>Pases por 90</li><li>Precisión de pase</li><li>Proporción de pases</li></ul></div>
+        <div><h3>Progresión</h3><ul><li>Pases progresivos por 90</li><li>Entradas al último tercio</li><li>Conducciones por 90</li></ul></div>
+        <div><h3>Creación</h3><ul><li>Pases clave por 90</li><li>Centros por 90</li></ul></div>
+        <div><h3>Finalización</h3><ul><li>Remates por 90</li><li>Acciones en el área</li><li>Proporción de remates</li></ul></div>
+        <div><h3>Recuperación y duelo</h3><ul><li>Intercepciones por 90</li><li>Duelos y duelos aéreos</li><li>Regates ganados</li><li>Proporción de duelos</li></ul></div>
+        <div><h3>Ocupación espacial</h3><ul><li>Profundidad media (eje x)</li><li>Distancia al eje central (eje y)</li></ul></div>
+      </div>
+      <p class="note">La posición nominal no se usa como variable del perfil y las variables de Transfermarkt no intervienen en su construcción. Las definiciones son una primera versión; el umbral de progresión y el ajuste por posesión se fijarán en la etapa de construcción de variables.</p>
+    </div>
+    <div style="min-width:0">
+      <p class="chart-sub" style="margin-bottom:6px">Un evento de Wyscout tal como llega en el archivo original</p>
+<pre class="frag">{ <span class="k">"eventName"</span>: <span class="hl">"Pass"</span>, <span class="k">"subEventName"</span>: "Simple pass",
+  <span class="k">"playerId"</span>: 122671, <span class="k">"teamId"</span>: 16521,
+  <span class="k">"matchId"</span>: 2057954, <span class="k">"matchPeriod"</span>: "1H",
+  <span class="k">"eventSec"</span>: 1.656,
+  <span class="k">"positions"</span>: [{"x": <span class="hl">50</span>, "y": 50}, {"x": <span class="hl">35</span>, "y": 53}],
+  <span class="k">"tags"</span>: [{"id": <span class="hl">1801</span>}] }</pre>
+      <div class="arrow-down">las coordenadas van de 0 a 100 en la dirección de ataque; el tag 1801 indica pase preciso</div>
+      <p class="chart-sub" style="margin-bottom:6px">El mismo tipo de evento agregado en la tabla jugador-temporada</p>
+<pre class="frag"><span class="k">jugador</span>            M. Hamšík      <span class="k">competición</span>  Italia 2017/18
+<span class="k">minutos</span>            2.448          <span class="k">rol Wyscout</span>  MD
+<span class="k">pases_p90</span>          91,52          <span class="k">profundidad</span>  57,85
+<span class="k">progresivos_p90</span>     5,59          <span class="k">remates_p90</span>   3,05</pre>
+    </div>
+  </div>
+</div></section>
+
+<!-- 08 Transformación -->
+<section class="page" id="p8"><div class="inner">
+  <div class="kicker"><b>08</b> Uso y análisis de la información · transformación de los datos</div>
+  <h2>Proceso de transformación de los datos</h2>
+  <p class="lead">Recorrido de los datos de Wyscout desde los archivos originales hasta la población que se usará en el modelado. Los archivos de <span class="mono">data/raw</span> no se modifican; cada etapa escribe en una capa propia.</p>
+  <div class="scroll-x" style="padding-top:6px">
+    <div class="flow">
+      <div class="st"><i class="dot done"></i><h3>Archivos originales</h3><span class="n">956 MB</span><p>7 archivos JSON de eventos y 7 de partidos, extraídos de los ZIP descargados de figshare.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Eventos en Parquet</h3><span class="n">3.251.294</span><p>Eventos con coordenadas aplanadas y tags como lista. Ocupan 51 MB en la capa interim.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Jugador-partido</h3><span class="n">53.791</span><p>Minutos reconstruidos con alineaciones, cambios y expulsiones, más los conteos de acciones.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Jugador-temporada</h3><span class="n">3.676</span><p>Agregación por jugador y competición, con promedios espaciales ponderados por acciones.</p></div>
+      <div class="st"><i class="dot now"></i><h3>Población elegible</h3><span class="n mark">1.550</span><p>Jugadores de campo de las cinco ligas con al menos 900 minutos. Umbral provisional.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Enlace Transfermarkt</h3><span class="n">97,0 %</span><p>2.494 de 2.570 jugadores enlazados por fecha de nacimiento y similitud de nombre.</p></div>
+    </div>
+  </div>
+  <div>
+    <p class="chart-sub" style="margin-bottom:8px">Etapas siguientes</p>
+    <div class="flow-next"><span>Homologación de StatsBomb, Mundial 2018</span><em>→</em><span>Variables definitivas</span><em>→</em><span>Estandarización</span><em>→</em><span>Matriz para el modelado</span></div>
+  </div>
+  <div class="legend"><span><i class="dot done" style="width:12px;height:12px"></i>Realizado</span><span><i class="dot now" style="width:12px;height:12px"></i>En curso</span><span><i class="dot next" style="width:12px;height:12px"></i>Previsto</span></div>
+  <p class="note">Código: <span class="mono">src/harmonization/wyscout_to_parquet.py</span>, <span class="mono">src/features/wyscout_player_tables.py</span>, <span class="mono">src/diagnostics/wyscout_findings.py</span>.</p>
+</div></section>
+
+<!-- 09 Hallazgos: calidad -->
+<section class="page" id="p9"><div class="inner">
+  <div class="kicker"><b>09</b> Hallazgos después de la depuración · calidad</div>
+  <h2>Exploración inicial de los datos de Wyscout</h2>
+  <div class="grid-2 rev">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div>
+        <div class="big"><span class="mark">10,97</span></div>
+        <p style="margin-top:8px;max-width:38ch">jugadores en cancha por equipo y partido, en promedio, al sumar los minutos reconstruidos. El valor esperado es 11 menos las expulsiones, lo que respalda la reconstrucción.</p>
+      </div>
+      <div class="facts">
+        <div><b>6,95 %</b><span>de los eventos no tiene jugador asociado; en su mayoría son interrupciones del juego.</span></div>
+        <div><b>0,09 %</b><span>de las combinaciones jugador-partido con eventos no aparece en la alineación del partido.</span></div>
+        <div><b>0,02 %</b><span>de los eventos no tiene coordenada final.</span></div>
+        <div><b>1.152</b><span>de los 3.603 nombres de jugadores venían con caracteres sin decodificar en el archivo original; se corrigieron.</span></div>
+      </div>
+    </div>
+    <figure style="margin:0">
+      <p class="chart-title">Con un umbral de 900 minutos quedan 1.550 jugadores-temporada de campo, el 64 % de los que tienen minutos</p>
+      <p class="chart-sub">Jugadores-temporada de campo en las cinco ligas 2017/18 según el mínimo de minutos exigido</p>
+      <div id="elig"></div>
+      <p class="note">El umbral es provisional. Se revisará con la estabilidad de los indicadores y se compararán umbrales alternativos. Los porteros se excluyen del perfilamiento.</p>
+    </figure>
+  </div>
+</div></section>
+
+<!-- 10 Hallazgos: posición -->
+<section class="page" id="p10"><div class="inner">
+  <div class="kicker"><b>10</b> Hallazgos preliminares · posición y comportamiento</div>
+  <h2>¿Cuánto del comportamiento explica la posición?</h2>
+  <div class="grid-2">
+    <figure style="margin:0;min-width:0">
+      <p class="chart-title">La posición de Wyscout explica en mediana el 36 % de la variación entre jugadores; la sub-posición de Transfermarkt, el 56 %</p>
+      <p class="chart-sub">Proporción de la varianza de cada indicador explicada por la posición (eta cuadrado de un ANOVA de una vía)</p>
+      <div id="dumb"></div>
+    </figure>
+    <div style="display:flex;flex-direction:column;gap:18px;padding-top:6px">
+      <p>Incluso con trece sub-posiciones queda cerca del 44 % de la variación sin explicar. En los indicadores resaltados la posición gruesa casi no informa: centros, conducciones y distancia al eje central.</p>
+      <p>El equipo, por sí solo, explica el 37 % de la variación en pases por 90 minutos. Sin ningún efecto se esperaría cerca del 6 % con 98 equipos, lo que indica que el volumen de pases depende de la posesión del equipo y debe ajustarse.</p>
+      <p class="note">Universo: 1.550 jugadores-temporada de campo con al menos 900 minutos en las cinco ligas 2017/18 (1.500 con sub-posición enlazada). La sub-posición de Transfermarkt corresponde al registro de 2026. Es un resultado descriptivo y preliminar; todavía no corresponde a perfiles funcionales.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 11 Hallazgos: mediocampistas -->
+<section class="page" id="p11"><div class="inner">
+  <div class="kicker"><b>11</b> Hallazgos preliminares · mediocampistas</div>
+  <h2>Los mediocampistas de Wyscout no forman un grupo homogéneo</h2>
+  <figure style="margin:0">
+    <p class="chart-title">120 de los 600 mediocampistas de Wyscout aparecen en Transfermarkt como extremos, defensas o delanteros</p>
+    <p class="chart-sub">Sub-posición en Transfermarkt de los jugadores que Wyscout clasifica como mediocampistas (MD)</p>
+    <div id="stack"></div>
+  </figure>
+  <figure style="margin:0">
+    <p class="chart-title">Dentro de cada sub-posición la profundidad media y la progresión varían ampliamente</p>
+    <p class="chart-sub">Eje horizontal: profundidad media de las acciones (0 a 100). Eje vertical: pases progresivos por 90. En gris, los 600 mediocampistas; en negro, los de la sub-posición del panel</p>
+    <div class="scroll-x"><div id="panels" style="min-width:760px"></div></div>
+  </figure>
+</div></section>
+
+<!-- 12 Metodología -->
+<section class="page" id="p12"><div class="inner">
+  <div class="kicker"><b>12</b> Metodología específica</div>
+  <h2>Metodología analítica</h2>
+  <div class="grid-2">
+    <div class="method">
+      <div class="ph">Comprensión del negocio</div>
+      <div class="acts"><div><i class="dot done"></i>Problema, pregunta, alcance e hipótesis</div></div>
+      <div class="ph">Comprensión de los datos</div>
+      <div class="acts"><div><i class="dot done"></i>Adquisición y trazabilidad de seis fuentes <small>manifiestos, hashes y commits</small></div><div><i class="dot done"></i>Auditoría y matriz de cobertura</div></div>
+      <div class="ph">Preparación</div>
+      <div class="acts"><div><i class="dot done"></i>Tablas jugador-partido y jugador-temporada de Wyscout</div><div><i class="dot done"></i>Enlace con Transfermarkt</div><div><i class="dot now"></i>Indicadores, umbral de minutos y reglas de comparabilidad</div><div><i class="dot next"></i>Estandarización <small>por 90, composición y ajuste por posesión</small></div></div>
+      <div class="ph">Modelado</div>
+      <div class="acts"><div><i class="dot next"></i>Reducción de dimensionalidad <small>PCA; UMAP solo como apoyo visual</small></div><div><i class="dot next"></i>Agrupación <small>K-means, mezclas gaussianas y jerárquico</small></div><div><i class="dot next"></i>Caracterización de perfiles y jugadores representativos</div></div>
+      <div class="ph">Evaluación</div>
+      <div class="acts"><div><i class="dot next"></i>Separación, estabilidad y autoidentificación</div><div><i class="dot next"></i>Contraste con la posición nominal</div><div><i class="dot next"></i>Replicación con StatsBomb en el Mundial 2018</div></div>
+      <div class="ph">Despliegue</div>
+      <div class="acts"><div><i class="dot next"></i>Consulta de jugadores similares y prototipo</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:26px">
+      <div class="principle"><p>La posición nominal no entra como variable del agrupamiento. Se usa después, como referencia externa, para medir qué información adicional aportan los perfiles.</p></div>
+      <p>El trabajo sigue CRISP-DM. La auditoría ya obligó a volver sobre el planteamiento: cambió la estrategia de validación entre proveedores y delimitó las dimensiones del perfil base.</p>
+      <p>Si los grupos no resultan estables, el proyecto conservará una representación continua y la consulta de similitud seguirá siendo posible sin etiquetas discretas.</p>
+      <div class="legend"><span><i class="dot done" style="width:12px;height:12px"></i>Realizado</span><span><i class="dot now" style="width:12px;height:12px"></i>En curso</span><span><i class="dot next" style="width:12px;height:12px"></i>Previsto</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 13 Criterios de éxito -->
+<section class="page" id="p13"><div class="inner">
+  <div class="kicker"><b>13</b> Criterios de éxito</div>
+  <h2>Cómo se medirá la efectividad de la solución</h2>
+  <p class="lead">No existe una etiqueta correcta de perfil funcional, por eso ningún indicador decide por sí solo. La línea base es una búsqueda por posición nominal con los mismos filtros, la misma población y el mismo tamaño de lista.</p>
+  <div class="scroll-x">
+    <table>
+      <thead><tr><th>Aspecto</th><th>Medida</th><th>Cómo se aplica</th></tr></thead>
+      <tbody>
+        <tr><td class="src">Separación</td><td>Silueta y Davies-Bouldin</td><td>Comparación entre algoritmos y número de grupos</td></tr>
+        <tr><td class="src">Estabilidad</td><td>Índice de Rand ajustado; cambio en los vecinos recuperados</td><td>Remuestreo por jugador y primera frente a segunda mitad de la temporada</td></tr>
+        <tr><td class="src">Comportamiento propio</td><td>Autoidentificación: proporción de jugadores cuyo vecino más cercano en la otra mitad de la temporada es él mismo</td><td>Frente a la línea base por posición. Criterio incorporado en esta etapa</td></tr>
+        <tr><td class="src">Aporte frente a la posición</td><td>Diferencias dentro de una posición y similitudes entre posiciones</td><td>Deben ser interpretables y mantenerse en los análisis de sensibilidad</td></tr>
+        <tr><td class="src">Replicación</td><td>Concordancia de dimensiones entre Wyscout y StatsBomb</td><td>Mismos 64 partidos del Mundial 2018</td></tr>
+        <tr><td class="src">Uso</td><td>Candidatos pertinentes en una lista de tamaño fijo y tiempo de revisión</td><td>Solo con revisores deportivos. Sin datos de operación no se estima ahorro ni retorno</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Los rangos aceptables de estabilidad y los criterios de descarte se fijarán en el protocolo de modelado antes de revisar la evaluación final.</p>
+</div></section>
+
+<!-- 14 Cronograma -->
+<section class="page" id="p14"><div class="inner">
+  <div class="kicker"><b>14</b> Avance en el cronograma</div>
+  <h2>Estado actual</h2>
+  <p class="lead">El plan de trabajo tiene doce semanas desde el inicio del desarrollo empírico. El planteamiento y la adquisición de datos están terminados; el diagnóstico avanzó y ya se inició la construcción de la población elegible y los indicadores.</p>
+  <div class="scroll-x">
+    <div class="gantt" id="gantt"></div>
+  </div>
+  <div class="legend"><span><i style="background:var(--ink)"></i>Realizado</span><span><i style="background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)"></i>En curso</span><span><i style="background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)"></i>Previsto</span></div>
+  <p class="note">Pendiente dentro de la fase en curso: revisión de condiciones de uso de cada fuente y homologación de StatsBomb. El cronograma se ajusta con la auditoría y mantiene como prioridad el modelo principal de eventos.</p>
+</div></section>
+
+<!-- 15 Retos -->
+<section class="page" id="p15"><div class="inner">
+  <div class="kicker"><b>15</b> Retos del proyecto</div>
+  <h2>Retos identificados</h2>
+  <div class="challenges">
+    <div class="rt">Proveedores con taxonomías y coordenadas distintas</div><div class="rs">Wyscout usa una escala de 0 a 100, StatsBomb de 120 por 80 yardas y el tracking usa metros. Se trabaja con una matriz de definiciones y la comparación se hará en los mismos partidos.</div>
+    <div class="rt">Identidad de los jugadores entre fuentes</div><div class="rs">El enlace Wyscout y Transfermarkt alcanza 97,0 %. Falta construir el enlace con StatsBomb para el Mundial 2018.</div>
+    <div class="rt">Posición de referencia en el tiempo</div><div class="rs">La sub-posición de Transfermarkt es la registrada en 2026. Sus alineaciones traen la posición por partido en 1.825 partidos de las cinco ligas 2017/18, que se usarán como referencia de la temporada.</div>
+    <div class="rt">Efecto del equipo y la posesión</div><div class="rs">El equipo explica parte importante del volumen de pases. Se usarán proporciones de acciones y ajuste por posesión.</div>
+    <div class="rt">Ausencia de una verdad de referencia</div><div class="rs">La validación combina separación, estabilidad, autoidentificación e interpretación deportiva.</div>
+    <div class="rt">Volumen de información</div><div class="rs">34 GB en total. El tracking se procesa por partido y los datos intermedios se guardan en Parquet por capas.</div>
+  </div>
+</div></section>
+
+<!-- 16 Resultados esperados -->
+<section class="page" id="p16"><div class="inner">
+  <div class="kicker"><b>16</b> Resultados esperados</div>
+  <h2>Resultados esperados</h2>
+  <ol class="expected">
+    <li><b>Representación</b>Una descripción reproducible del comportamiento de los jugadores de campo de las cinco ligas 2017/18, con indicadores documentados desde el evento de origen.</li>
+    <li><b>Perfiles</b>Perfiles funcionales interpretables, con sus variables distintivas, jugadores representativos y su relación con la posición nominal.</li>
+    <li><b>Consulta</b>Una consulta de jugadores similares evaluada frente a la búsqueda por posición, con sus límites de comparación explícitos.</li>
+    <li><b>Validación</b>Evidencia de replicación con StatsBomb en el Mundial 2018 y un estudio espacial complementario en el Mundial 2022.</li>
+    <li><b>Prototipo</b>Un explorador que permita consultar el perfil de un jugador, sus percentiles y los jugadores con comportamiento similar.</li>
+  </ol>
+  <p class="note">Estos son resultados esperados, no resultados obtenidos. Próximo paso: fijar las definiciones de los indicadores y el protocolo de modelado antes de entrenar los primeros modelos.</p>
+  <p class="foot">Eduar Felipe Riaño Torres · MIIA, Universidad de los Andes · Asesor: Juan Pablo Gómez Bravo</p>
+</div></section>
+
+<nav class="pager" aria-label="Navegación entre páginas">
+  <button id="prev" aria-label="Página anterior">↑</button>
+  <span id="pnum">01 / 16</span>
+  <button id="next" aria-label="Página siguiente">↓</button>
+</nav>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const DATA = /*__DATA__*/;
+const NS = "http://www.w3.org/2000/svg";
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C = {ink:css("--ink"), ink2:css("--ink-2"), ink3:css("--ink-3"), rule:css("--rule"), wash:css("--wash"), mid:css("--mid"), soft:css("--soft"), yellow:css("--yellow"), paper:css("--paper")};
+const fmt = (v, d=0) => v.toLocaleString("es-CO", {minimumFractionDigits:d, maximumFractionDigits:d});
+function el(tag, attrs={}, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k, attrs[k]); if(parent) parent.appendChild(e); return e; }
+function txt(parent, x, y, s, attrs={}){ const t=el("text",{x,y,fill:C.ink2,...attrs},parent); t.textContent=s; return t; }
+function svg(host, w, h){ const s=el("svg",{viewBox:`0 0 ${w} ${h}`,width:"100%",role:"img"}); s.style.display="block"; document.getElementById(host).appendChild(s); return s; }
+const tip = document.getElementById("tip");
+function showTip(ev, html){ tip.innerHTML=html; tip.hidden=false; const pad=14; let x=ev.clientX+pad, y=ev.clientY+pad; const r=tip.getBoundingClientRect(); if(x+r.width>innerWidth-8) x=ev.clientX-r.width-pad; if(y+r.height>innerHeight-8) y=ev.clientY-r.height-pad; tip.style.left=x+"px"; tip.style.top=y+"px"; }
+function hideTip(){ tip.hidden=true; }
+const LABEL = {
+  pases_p90:"Pases por 90", precision_pase:"Precisión de pase", pases_progresivos_p90:"Pases progresivos por 90",
+  entradas_ultimo_tercio_p90:"Entradas al último tercio", pases_clave_p90:"Pases clave por 90", centros_p90:"Centros por 90",
+  conducciones_p90:"Conducciones por 90", remates_p90:"Remates por 90", acciones_area_p90:"Acciones en el área",
+  duelos_p90:"Duelos por 90", duelos_aereos_p90:"Duelos aéreos por 90", intercepciones_p90:"Intercepciones por 90",
+  regates_ganados_p90:"Regates ganados por 90", profundidad_media_x:"Profundidad media", distancia_al_centro_y:"Distancia al eje central",
+  share_pases:"Proporción de pases", share_duelos:"Proporción de duelos", share_remates:"Proporción de remates"
+};
+
+/* 02 mariposa: percentiles de dos jugadores */
+(function(){
+  const [a,b] = DATA.pair; const keys = Object.keys(a.percentiles);
+  const W=600, rowH=44, top=40, H=top+keys.length*rowH+8, mid=W/2, lab=118, span=mid-lab/2-40;
+  const s=svg("butterfly",W,H);
+  txt(s, mid-lab/2-4, 18, a.name, {"text-anchor":"end","font-weight":"700","font-size":"14",fill:C.ink});
+  txt(s, mid+lab/2+4, 18, b.name, {"font-weight":"700","font-size":"14",fill:C.ink});
+  keys.forEach((k,i)=>{
+    const y=top+i*rowH, cy=y+rowH/2;
+    const pa=a.percentiles[k], pb=b.percentiles[k];
+    el("line",{x1:mid-lab/2-span-4,x2:mid-lab/2-4,y1:cy,y2:cy,stroke:C.rule},s);
+    el("line",{x1:mid+lab/2+4,x2:mid+lab/2+span+4,y1:cy,y2:cy,stroke:C.rule},s);
+    const wa=span*pa/100, wb=span*pb/100;
+    const ra=el("rect",{x:mid-lab/2-4-wa,y:cy-10,width:Math.max(wa,1),height:20,fill:C.ink},s);
+    const rb=el("rect",{x:mid+lab/2+4,y:cy-10,width:Math.max(wb,1),height:20,fill:C.yellow,stroke:C.ink,"stroke-width":"1"},s);
+    txt(s, mid-lab/2-10-wa, cy+4, pa, {"text-anchor":"end","font-size":"12",fill:C.ink2});
+    txt(s, mid+lab/2+10+wb, cy+4, pb, {"font-size":"12",fill:C.ink2});
+    const L=LABEL[k].replace(" por 90",""); txt(s, mid, cy+4, L, {"text-anchor":"middle","font-size":"12",fill:C.ink});
+    [[ra,a,pa],[rb,b,pb]].forEach(([r,p,pc])=>{ r.addEventListener("mousemove",e=>showTip(e,`<b>${p.name}</b><br>${LABEL[k]}: ${fmt(p.values[k],2)}<br>Percentil ${pc}`)); r.addEventListener("mouseleave",hideTip); });
+  });
+  txt(s, mid-lab/2-4, H-2, "100 ← percentil", {"text-anchor":"end","font-size":"10",fill:C.ink3});
+  txt(s, mid+lab/2+4, H-2, "percentil → 100", {"font-size":"10",fill:C.ink3});
+})();
+
+/* 05 línea de tiempo de fuentes */
+(function(){
+  const W=1100, left=150, right=20, rowH=52, top=44, rows=["Wyscout","StatsBomb","SkillCorner","DFL","PFF FC","Transfermarkt"];
+  const H=top+rows.length*rowH+26, x0=2015.0, x1=2026.0, X=v=>left+(v-x0)/(x1-x0)*(W-left-right);
+  const s=svg("timeline",W,H);
+  const d=(y,m)=>y+(m-1)/12;
+  // bandas de coincidencia
+  [[d(2018,6),d(2018,8),"Mundial 2018",2],[d(2022,11),d(2023,1),"Mundial 2022",5]].forEach(([a,b,l,nr])=>{
+    el("rect",{x:X(a)-3,y:top-24,width:X(b)-X(a)+6,height:nr*rowH+24,fill:C.yellow,opacity:"0.5"},s);
+    txt(s,(X(a)+X(b))/2,top-30,l,{"text-anchor":"middle","font-size":"12","font-weight":"700",fill:C.ink});
+  });
+  for(let y=2015;y<=2026;y++){ el("line",{x1:X(y),x2:X(y),y1:top-4,y2:top+rows.length*rowH,stroke:C.rule,"stroke-width":"1"},s); if(y<2026) txt(s,X(y)+4,H-10,y,{"font-size":"11",fill:C.ink3}); }
+  rows.forEach((r,i)=>txt(s,0,top+i*rowH+rowH/2+4,r,{"font-size":"13","font-weight":"500",fill:C.ink}));
+  const seg=[
+    [0,d(2016,6),d(2016,8),"Euro 2016"],[0,d(2017,8),d(2018,6),"5 ligas 2017/18"],[0,d(2018,6),d(2018,8),""],
+    [1,d(2015,8),d(2016,6),"4 ligas 2015/16"],[1,d(2017,8),d(2018,6),"La Liga 2017/18 · 36 partidos"],[1,d(2018,6),d(2018,8),""],[1,d(2021,6),d(2021,8),"Euro 2020 · 360"],[1,d(2022,11),d(2023,1),"Mundial 2022 · 360"],[1,d(2024,6),d(2024,8),"Euro 2024 · 360"],
+    [2,d(2024,11),d(2025,6),"A-League 2024/25 · 20"],
+    [3,d(2022,8),d(2023,6),"Bundesliga y 2. Bundesliga · 7"],
+    [4,d(2022,11),d(2023,1),"Mundial 2022 · 64"],
+    [5,d(2015,1),d(2026,1),"temporadas 2005 a 2025 · contexto"]
+  ];
+  seg.forEach(([r,a,b,l])=>{
+    const y=top+r*rowH+rowH/2;
+    el("rect",{x:X(a),y:y-8,width:Math.max(X(b)-X(a),5),height:16,fill:r===5?C.mid:C.ink},s);
+    if(l){ if(r===5) txt(s, X(a)+8, y+4, l, {"font-size":"11",fill:C.ink}); else if(r===2) txt(s, X(b), y-12, l, {"font-size":"11",fill:C.ink2,"text-anchor":"end"}); else txt(s, X(a), y-12, l, {"font-size":"11",fill:C.ink2}); }
+  });
+  txt(s,X(2015)-6,top+5*rowH+rowH/2+4,"…",{"text-anchor":"end","font-size":"12",fill:C.ink3});
+})();
+
+/* 05 tabla de inventario */
+(function(){
+  const tb=document.querySelector("#inv tbody");
+  const rolMap={"núcleo eventos":"Construcción del perfil con eventos","validación":"Replicación con otro proveedor","tracking / sin balón":"Movimiento sin balón","eventos + tracking":"Eventos y tracking sincronizados","tracking internacional":"Estudio espacial, Mundial 2022","contexto externo":"Contexto del jugador, posterior"};
+  const trk={"Wyscout":"No","StatsBomb":"360 en 426 partidos","SkillCorner":"1.244.814 frames a 10 Hz","DFL":"23.739.462 posiciones a 25 Hz","PFF FC":"64 partidos","Transfermarkt":"No"};
+  DATA.inventory.forEach(r=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="src">${r.fuente}</td><td>${rolMap[r.rol]||r.rol}</td><td class="num">${fmt(r.partidos)}</td><td class="num">${fmt(r.jugadores)}</td><td class="num">${fmt(r.eventos)}</td><td>${trk[r.fuente]}</td>`;
+    tb.appendChild(tr);
+  });
+})();
+
+/* 06 matriz de cobertura */
+(function(){
+  const host=document.getElementById("cov");
+  const prov=[["wyscout","Wyscout"],["statsbomb","StatsBomb"],["skillcorner","SkillCorner"],["dfl","DFL"],["pff","PFF"]];
+  const add=(cls,html)=>{const d=document.createElement("div"); d.className=cls; d.innerHTML=html; host.appendChild(d); return d;};
+  add("h",""); prov.forEach(p=>add("h",p[1]));
+  const rows=DATA.coverage.filter(r=>!["Minutos jugados","Posición nominal"].includes(r.dimension));
+  rows.forEach((r,i)=>{
+    if(r.dimension==="Coordenadas de evento") add("sep","");
+    const name={"Recuperaciones/intercep.":"Recuperaciones e intercepciones","Valor de acción (xG/xT)":"Valor de la acción (xG, xT)"}[r.dimension]||r.dimension;
+    add("r",name);
+    prov.forEach(([k])=>{
+      const v=String(r[k]); let cls="no", label="no observado";
+      if(v.startsWith("sí")){cls="yes"; label=v.includes(":")?v.split(":").slice(1).join(":").trim():"sí";}
+      else if(v.startsWith("parcial")){cls="part"; label=v.split(":").slice(1).join(":").trim();}
+      else if(v==="no"){label="no";}
+      add("c "+cls,label);
+    });
+  });
+})();
+
+/* 09 elegibilidad por umbral */
+(function(){
+  const E=DATA.elig, W=520, H=300, left=12, bottom=46, top=26, bw=64;
+  const s=svg("elig",W,H), max=2600, Y=v=>H-bottom-(v/max)*(H-bottom-top);
+  const step=(W-left*2)/E.length;
+  el("line",{x1:left,x2:W-left,y1:H-bottom,y2:H-bottom,stroke:C.ink},s);
+  E.forEach((r,i)=>{
+    const x=left+i*step+(step-bw)/2, v=r.outfield, hi=r.min_minutes===900;
+    const rect=el("rect",{x,y:Y(v),width:bw,height:H-bottom-Y(v),fill:hi?C.yellow:C.soft,stroke:hi?C.ink:"none","stroke-width":"1.2"},s);
+    txt(s,x+bw/2,Y(v)-8,fmt(v),{"text-anchor":"middle","font-size":"13","font-weight":hi?"700":"400",fill:C.ink});
+    txt(s,x+bw/2,H-bottom+18,r.min_minutes===0?"sin mínimo":"≥ "+fmt(r.min_minutes),{"text-anchor":"middle","font-size":"12",fill:C.ink2});
+    rect.addEventListener("mousemove",e=>showTip(e,`<b>${r.min_minutes===0?"Sin mínimo":"Al menos "+fmt(r.min_minutes)+" min"}</b><br>Defensas ${r.role_DF} · Medios ${r.role_MD} · Delanteros ${r.role_FW}`)); rect.addEventListener("mouseleave",hideTip);
+  });
+  txt(s,W/2,H-6,"minutos jugados en la temporada",{"text-anchor":"middle","font-size":"11",fill:C.ink3});
+})();
+
+/* 10 dumbbell eta cuadrado */
+(function(){
+  const V=[...DATA.variance].sort((a,b)=>b.eta2_wyscout_role-a.eta2_wyscout_role);
+  const W=640, left=190, right=24, top=40, rowH=24, H=top+V.length*rowH+30, X=v=>left+v*(W-left-right);
+  const s=svg("dumb",W,H);
+  [0,.25,.5,.75,1].forEach(t=>{ el("line",{x1:X(t),x2:X(t),y1:top-8,y2:H-26,stroke:C.rule},s); txt(s,X(t),H-10,fmt(t*100)+" %",{"text-anchor":"middle","font-size":"11",fill:C.ink3}); });
+  // leyenda
+  el("circle",{cx:left,cy:14,r:5,fill:C.paper,stroke:C.ink2,"stroke-width":"1.8"},s); txt(s,left+10,18,"Posición Wyscout (3 categorías)",{"font-size":"12",fill:C.ink2});
+  el("circle",{cx:left+230,cy:14,r:5.5,fill:C.ink},s); txt(s,left+240,18,"Sub-posición Transfermarkt (13)",{"font-size":"12",fill:C.ink2});
+  V.forEach((r,i)=>{
+    const cy=top+i*rowH+rowH/2, low=r.eta2_wyscout_role<0.1;
+    if(low) el("rect",{x:0,y:cy-10,width:left-12,height:20,fill:C.yellow},s);
+    txt(s,left-18,cy+4,LABEL[r.feature],{"text-anchor":"end","font-size":"12.5",fill:C.ink,"font-weight":low?"500":"400"});
+    el("line",{x1:X(r.eta2_wyscout_role),x2:X(r.eta2_tm_subposition),y1:cy,y2:cy,stroke:C.mid,"stroke-width":"2"},s);
+    const c1=el("circle",{cx:X(r.eta2_wyscout_role),cy,r:5,fill:C.paper,stroke:C.ink2,"stroke-width":"1.8"},s);
+    const c2=el("circle",{cx:X(r.eta2_tm_subposition),cy,r:5.5,fill:C.ink},s);
+    const hit=el("rect",{x:0,y:cy-rowH/2,width:W,height:rowH,fill:"transparent"},s);
+    hit.addEventListener("mousemove",e=>showTip(e,`<b>${LABEL[r.feature]}</b><br>Posición Wyscout: ${fmt(r.eta2_wyscout_role*100,1)} %<br>Sub-posición TM: ${fmt(r.eta2_tm_subposition*100,1)} %<br>Equipo: ${fmt(r.eta2_team*100,1)} %`)); hit.addEventListener("mouseleave",hideTip);
+  });
+})();
+
+/* 11 barra apilada de sub-posiciones */
+(function(){
+  const groups=[
+    ["Central","Mediocentro",["Central Midfield"],false],["Defensivo","Pivote",["Defensive Midfield"],false],["Ofensivo","Mediapunta",["Attacking Midfield"],false],["Volante lateral","",["Left Midfield","Right Midfield"],false],
+    ["Extremo","",["Left Winger","Right Winger"],true],["Defensa","",["Centre-Back","Left-Back","Right-Back"],true],["Delantero","",["Centre-Forward","Second Striker"],true],["Sin enlace","",[null],false]
+  ];
+  const n=g=>DATA.md.filter(m=>g[2].includes(m.s)).length;
+  const W=1100, H=98, s=svg("stack",W,H), tot=DATA.md.length; let x=0;
+  const shades=[C.ink,C.ink2,"#5a5a5a",C.mid,C.yellow,C.yellow,C.yellow,C.wash], small=[];
+  groups.forEach((g,i)=>{
+    const v=n(g), w=v/tot*W;
+    const r=el("rect",{x:x+1,y:8,width:Math.max(w-2,1),height:34,fill:shades[i],stroke:g[3]?C.ink:(i===7?C.soft:"none"),"stroke-width":"1"},s);
+    const dark=i<3;
+    if(w>58){ txt(s,x+8,30,fmt(v),{"font-size":"14","font-weight":"700",fill:dark?C.paper:C.ink}); txt(s,x+2,62,g[0],{"font-size":"12",fill:C.ink2}); }
+    else small.push(`${g[0]} ${v}`);
+    r.addEventListener("mousemove",e=>showTip(e,`<b>${g[0]}</b><br>${v} jugadores-temporada (${fmt(v/tot*100,1)} %)`)); r.addEventListener("mouseleave",hideTip);
+    x+=w;
+  });
+  txt(s,W,90,"Segmentos menores: "+small.join(" · "),{"text-anchor":"end","font-size":"12",fill:C.ink2});
+})();
+
+/* 11 paneles pequeños: profundidad frente a progresión */
+(function(){
+  const P=[["Pivote (Defensive Midfield)",["Defensive Midfield"]],["Mediocentro (Central Midfield)",["Central Midfield"]],["Mediapunta (Attacking Midfield)",["Attacking Midfield"]],["Extremo (Left/Right Winger)",["Left Winger","Right Winger"]]];
+  const W=1100, H=300, gap=26, pw=(W-gap*3)/4, top=30, bottom=44, left=34;
+  const xs=[30,72], ys=[0,10.5];
+  const s=svg("panels",W,H);
+  P.forEach(([title,subs],k)=>{
+    const ox=k*(pw+gap), X=v=>ox+left+(v-xs[0])/(xs[1]-xs[0])*(pw-left-6), Y=v=>H-bottom-(v-ys[0])/(ys[1]-ys[0])*(H-bottom-top);
+    const own=DATA.md.filter(m=>subs.includes(m.s));
+    txt(s,ox,16,`${title} · ${own.length}`,{"font-size":"12.5","font-weight":"700",fill:C.ink});
+    [0,5,10].forEach(t=>{ el("line",{x1:ox+left,x2:ox+pw-6,y1:Y(t),y2:Y(t),stroke:C.rule},s); if(k===0||true) txt(s,ox+left-6,Y(t)+4,t,{"text-anchor":"end","font-size":"10.5",fill:C.ink3}); });
+    [35,50,65].forEach(t=>txt(s,X(t),H-bottom+16,t,{"text-anchor":"middle","font-size":"10.5",fill:C.ink3}));
+    DATA.md.forEach(m=>el("circle",{cx:X(m.x),cy:Y(m.p),r:2.4,fill:C.soft},s));
+    own.forEach(m=>{ const c=el("circle",{cx:X(m.x),cy:Y(m.p),r:3.4,fill:C.ink,stroke:C.paper,"stroke-width":"1"},s);
+      c.addEventListener("mousemove",e=>showTip(e,`<b>${m.n}</b><br>${m.c} · ${fmt(m.m)} min<br>Profundidad ${fmt(m.x,1)} · Progresivos ${fmt(m.p,2)}`)); c.addEventListener("mouseleave",hideTip); });
+    if(k===1){ DATA.pair.forEach(p=>{ const m=DATA.md.find(q=>q.n===p.name); const cx=X(m.x), cy=Y(m.p);
+      el("circle",{cx,cy,r:6.5,fill:C.yellow,stroke:C.ink,"stroke-width":"1.6"},s);
+      txt(s,cx+9,cy-8,m.n,{"font-size":"12","font-weight":"700",fill:C.ink,stroke:C.paper,"stroke-width":"4","paint-order":"stroke"}); }); }
+    txt(s,ox+left+(pw-left)/2,H-8,"profundidad media (0 a 100)",{"text-anchor":"middle","font-size":"10.5",fill:C.ink3});
+  });
+
+})();
+
+/* 14 cronograma */
+(function(){
+  const g=document.getElementById("gantt");
+  const add=(cls,html,style)=>{const d=document.createElement("div"); d.className=cls; if(html) d.innerHTML=html; if(style) d.style.cssText=style; g.appendChild(d); return d;};
+  add("lbl","","grid-row:1;grid-column:1"); for(let w=1;w<=12;w++) add("wk","S"+w,`grid-row:1;grid-column:${w+1}`);
+  add("lbl","Planteamiento y marco de referencia<small>Capítulos 1 a 4 del documento</small>","grid-row:2;grid-column:1"); add("pre","Antes del desarrollo empírico","grid-row:2");
+  add("lbl","Adquisición y trazabilidad de fuentes<small>Seis fuentes, manifiestos y verificación</small>","grid-row:3;grid-column:1"); add("pre","Antes del desarrollo empírico","grid-row:3");
+  const phases=[
+    ["Inventario, licencias y diagnóstico","Inventario y diagnóstico realizados",1,2,"now"],
+    ["Población elegible e indicadores","Primera versión construida",3,4,"now"],
+    ["Representaciones y modelos","Protocolo fijado antes de la evaluación",5,7,"next"],
+    ["Evaluación temporal, sensibilidad y casos","",8,9,"next"],
+    ["Análisis complementarios y propuesta de uso","Tracking y prototipo",10,10,"next"],
+    ["Integración de resultados y revisión del informe","",11,12,"next"]
+  ];
+  phases.forEach(([l,sm,a,b,st],i)=>{ const r=i+4; add("lbl",l+(sm?`<small>${sm}</small>`:""),`grid-row:${r};grid-column:1`); add("bar "+st,"",`grid-row:${r};grid-column:${a+1}/${b+2}`); });
+})();
+
+/* navegación entre páginas para la grabación */
+(function(){
+  const pages=[...document.querySelectorAll(".page")], pnum=document.getElementById("pnum");
+  const cur=()=>{ let i=0; pages.forEach((p,k)=>{ if(p.getBoundingClientRect().top<=innerHeight*0.4) i=k; }); return i; };
+  const go=d=>{ const i=Math.min(pages.length-1,Math.max(0,cur()+d)); pages[i].scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); };
+  const upd=()=>{ pnum.textContent=String(cur()+1).padStart(2,"0")+" / "+pages.length; };
+  document.getElementById("next").onclick=()=>go(1); document.getElementById("prev").onclick=()=>go(-1);
+  addEventListener("keydown",e=>{ if(["ArrowDown","ArrowRight","PageDown"," "].includes(e.key)){e.preventDefault();go(1);} if(["ArrowUp","ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();go(-1);} });
+  addEventListener("scroll",upd,{passive:true}); upd();
+})();
+</script>

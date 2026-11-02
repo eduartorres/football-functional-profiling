@@ -1,0 +1,201 @@
+{
+  "provider": "DFL / Sportec Solutions",
+  "repository": "Springer Nature Figshare",
+  "dataset_title": "An integrated dataset of spatiotemporal and event data in elite soccer",
+  "article_id": 28196177,
+  "article_version": 1,
+  "doi": "10.6084/m9.figshare.28196177.v1",
+  "retrieved_at_utc": "2026-10-06T04:04:50.525937+00:00",
+  "number_of_files": 21,
+  "downloaded_files": [
+    {
+      "file_id": 51643472,
+      "file_name": "DFL_02_01_matchinformation_DFL-COM-000001_DFL-MAT-J03WN1.xml",
+      "figshare_size_bytes": 11722,
+      "local_size_bytes": 11722,
+      "local_path": "data/raw/dfl/DFL_02_01_matchinformation_DFL-COM-000001_DFL-MAT-J03WN1.xml",
+      "sha256": "5490286436c86e6f80a538d2b1b379d0efd016e0defcaf594bc59d9ef5079f4c",
+      "download_url": "https://ndownloader.figshare.com/files/51643472"
+    },
+    {
+      "file_id": 51643475,
+      "file_name": "DFL_02_01_matchinformation_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+      "figshare_size_bytes": 11930,
+      "local_size_bytes": 11930,
+      "local_path": "data/raw/dfl/DFL_02_01_matchinformation_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+      "sha256": "a884728647a564cf8b20e5223a1d04a5da6f6725e1e506c8651505327c197ba9",
+      "download_url": "https://ndownloader.figshare.com/files/51643475"
+    },
+    {
+      "file_id": 51643478,
+      "file_name": "DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+      "figshare_size_bytes": 11745,
+      "local_size_bytes": 11745,
+      "local_path": "data/raw/dfl/DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+      "sha256": "f23b3ee13b988b1ff9a0bce438c416dac47e71355bbc7ee1dab21aaf3e33c18c",
+      "download_url": "https://ndownloader.figshare.com/files/51643478"
+    },
+    {
+      "file_id": 51643490,
+      "file_name": "DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+      "figshare_size_bytes": 11823,
+      "local_size_bytes": 11823,
+      "local_path": "data/raw/dfl/DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+      "sha256": "429b584e89df3e3e8b81f4bd0d004b38bd0b4298bb390b8fb43efccb60963e01",
+      "download_url": "https://ndownloader.figshare.com/files/51643490"
+    },
+    {
+      "file_id": 51643487,
+      "file_name": "DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WPY.xml",
+      "figshare_size_bytes": 11922,
+      "local_size_bytes": 11922,
+      "local_path": "data/raw/dfl/DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WPY.xml",
+      "sha256": "566dd5e4c86e124ab90fcdba51100881f0436e22afa71832945a451a2d95a420",
+      "download_url": "https://ndownloader.figshare.com/files/51643487"
+    },
+    {
+      "file_id": 51643484,
+      "file_name": "DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WQQ.xml",
+      "figshare_size_bytes": 11932,
+      "local_size_bytes": 11932,
+      "local_path": "data/raw/dfl/DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WQQ.xml",
+      "sha256": "e976aa0c5dba862cfa898ea57ec226efce9d1bc04b23b8d775908db86aa6fa41",
+      "download_url": "https://ndownloader.figshare.com/files/51643484"
+    },
+    {
+      "file_id": 51643481,
+      "file_name": "DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WOY.xml",
+      "figshare_size_bytes": 11952,
+      "local_size_bytes": 11952,
+      "local_path": "data/raw/dfl/DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WOY.xml",
+      "sha256": "4c497fac683eee8292901c18ca02c0be1d9609d0b9d4bd8aa092c61f9e0b19e9",
+      "download_url": "https://ndownloader.figshare.com/files/51643481"
+    },
+    {
+      "file_id": 51643493,
+      "file_name": "DFL_03_02_events_raw_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+      "figshare_size_bytes": 776578,
+      "local_size_bytes": 776578,
+      "local_path": "data/raw/dfl/DFL_03_02_events_raw_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+      "sha256": "6f9741ea62e9dee35b604942e1dad2ac0a4dc3fce14ef2f3858aa12b74dafe00",
+      "download_url": "https://ndownloader.figshare.com/files/51643493"
+    },
+    {
+      "file_id": 51643496,
+      "file_name": "DFL_03_02_events_raw_DFL-COM-000001_DFL-MAT-J03WN1.xml",
+      "figshare_size_bytes": 612114,
+      "local_size_bytes": 612114,
+      "local_path": "data/raw/dfl/DFL_03_02_events_raw_DFL-COM-000001_DFL-MAT-J03WN1.xml",
+      "sha256": "d7fa1d4445e3215eb79ec62fabefa4779b4974e496195c2fdc25624c375a9b9b",
+      "download_url": "https://ndownloader.figshare.com/files/51643496"
+    },
+    {
+      "file_id": 51643499,
+      "file_name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+      "figshare_size_bytes": 635747,
+      "local_size_bytes": 635747,
+      "local_path": "data/raw/dfl/DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+      "sha256": "abc27e3268e6126fb3e6e90bff5cca8d4586a5e0cefe9bd59bf32871e89d8544",
+      "download_url": "https://ndownloader.figshare.com/files/51643499"
+    },
+    {
+      "file_id": 51643502,
+      "file_name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WOY.xml",
+      "figshare_size_bytes": 683018,
+      "local_size_bytes": 683018,
+      "local_path": "data/raw/dfl/DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WOY.xml",
+      "sha256": "dbb014df1b80d5c99b7fb806a278432c445a5fdd99f59d379d601f20eaf7e142",
+      "download_url": "https://ndownloader.figshare.com/files/51643502"
+    },
+    {
+      "file_id": 51643505,
+      "file_name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WPY.xml",
+      "figshare_size_bytes": 698898,
+      "local_size_bytes": 698898,
+      "local_path": "data/raw/dfl/DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WPY.xml",
+      "sha256": "e440a3adf9a38d3e4ce4289343a59a3b5f76018a78e97c765114f7817591fb3c",
+      "download_url": "https://ndownloader.figshare.com/files/51643505"
+    },
+    {
+      "file_id": 51643508,
+      "file_name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WQQ.xml",
+      "figshare_size_bytes": 732186,
+      "local_size_bytes": 732186,
+      "local_path": "data/raw/dfl/DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WQQ.xml",
+      "sha256": "b79ccc1ee3de5ba662546a9a21304784642d00a791ccc1175550eaa463ea0074",
+      "download_url": "https://ndownloader.figshare.com/files/51643508"
+    },
+    {
+      "file_id": 51643511,
+      "file_name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+      "figshare_size_bytes": 681050,
+      "local_size_bytes": 681050,
+      "local_path": "data/raw/dfl/DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+      "sha256": "31735a2d7b9008c44cae9b6ac43ab38ddeaa435d0416265ec0ebfebf53b3c982",
+      "download_url": "https://ndownloader.figshare.com/files/51643511"
+    },
+    {
+      "file_id": 51643514,
+      "file_name": "DFL_04_03_positions_raw_observed_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+      "figshare_size_bytes": 418524833,
+      "local_size_bytes": 418524833,
+      "local_path": "data/raw/dfl/DFL_04_03_positions_raw_observed_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+      "sha256": "d3dd92e509421a6466acb0a083c009035f1751bc5fd9ef42ffa8f20d01cf7d49",
+      "download_url": "https://ndownloader.figshare.com/files/51643514"
+    },
+    {
+      "file_id": 51643517,
+      "file_name": "DFL_04_03_positions_raw_observed_DFL-COM-000001_DFL-MAT-J03WN1.xml",
+      "figshare_size_bytes": 391722803,
+      "local_size_bytes": 391722803,
+      "local_path": "data/raw/dfl/DFL_04_03_positions_raw_observed_DFL-COM-000001_DFL-MAT-J03WN1.xml",
+      "sha256": "56ef948961a18e150dba0b7b16869d0008ff66f3050a0c355d31fa5b8ec2fcec",
+      "download_url": "https://ndownloader.figshare.com/files/51643517"
+    },
+    {
+      "file_id": 51643520,
+      "file_name": "DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+      "figshare_size_bytes": 348945715,
+      "local_size_bytes": 348945715,
+      "local_path": "data/raw/dfl/DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+      "sha256": "ec4dcf30200aad694dea263d5289485fcd0ca42badddaeb7c81f5cd5a4229d4f",
+      "download_url": "https://ndownloader.figshare.com/files/51643520"
+    },
+    {
+      "file_id": 51643523,
+      "file_name": "DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WOY.xml",
+      "figshare_size_bytes": 362567859,
+      "local_size_bytes": 362567859,
+      "local_path": "data/raw/dfl/DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WOY.xml",
+      "sha256": "a228ef0e676d009cefff1580fcb721b53f598454eb120ec347e0a628a3a4646b",
+      "download_url": "https://ndownloader.figshare.com/files/51643523"
+    },
+    {
+      "file_id": 51643526,
+      "file_name": "DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WPY.xml",
+      "figshare_size_bytes": 371688499,
+      "local_size_bytes": 371688499,
+      "local_path": "data/raw/dfl/DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WPY.xml",
+      "sha256": "845202c29ad93d696653436da426a7cdaefb848298e07b7343de6529581671e1",
+      "download_url": "https://ndownloader.figshare.com/files/51643526"
+    },
+    {
+      "file_id": 51643529,
+      "file_name": "DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WQQ.xml",
+      "figshare_size_bytes": 356219423,
+      "local_size_bytes": 356219423,
+      "local_path": "data/raw/dfl/DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WQQ.xml",
+      "sha256": "cbefcb0bd7f39f3b94ee69a7bc97aac0f936425062c1cc1b144733df36804d6f",
+      "download_url": "https://ndownloader.figshare.com/files/51643529"
+    },
+    {
+      "file_id": 51643532,
+      "file_name": "DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+      "figshare_size_bytes": 372934140,
+      "local_size_bytes": 372934140,
+      "local_path": "data/raw/dfl/DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+      "sha256": "70b63069189019066fb7e3d9db891122edfe787f3a43ba522ebe45ed89ea0269",
+      "download_url": "https://ndownloader.figshare.com/files/51643532"
+    }
+  ]
+}

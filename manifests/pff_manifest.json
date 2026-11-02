@@ -1,0 +1,3554 @@
+{
+  "provider": "PFF FC",
+  "dataset": "FIFA World Cup 2022",
+  "source_type": "Google Drive shared dataset",
+  "acquisition_method": "rclone",
+  "remote_name": "pff_drive",
+  "remote_path": "FIFA World Cup 2022",
+  "local_raw_path": "data/raw/pff",
+  "retrieved_and_manifested_at_utc": "2026-10-06T05:03:31.391684+00:00",
+  "integrity_algorithm": "SHA-256",
+  "total_files": 390,
+  "total_size_bytes": 5689003292,
+  "total_size_human": "5.30 GB",
+  "groups": {
+    "ROOT": {
+      "file_count": 3,
+      "size_bytes": 787265,
+      "size_human": "768.81 KB"
+    },
+    "Event Data": {
+      "file_count": 194,
+      "size_bytes": 2911412461,
+      "size_human": "2.71 GB"
+    },
+    "Metadata": {
+      "file_count": 64,
+      "size_bytes": 63141,
+      "size_human": "61.66 KB"
+    },
+    "Rosters": {
+      "file_count": 64,
+      "size_bytes": 483962,
+      "size_human": "472.62 KB"
+    },
+    "Tracking Data": {
+      "file_count": 65,
+      "size_bytes": 2776256463,
+      "size_human": "2.59 GB"
+    }
+  },
+  "ignored_local_files": [],
+  "files": [
+    {
+      "relative_path": "competitions.csv",
+      "file_name": "competitions.csv",
+      "top_level_group": "ROOT",
+      "extension": ".csv",
+      "size_bytes": 2233,
+      "sha256": "c096fd3c51efc219b56f6058a78a8c3f2342fd4d666804dbb482ee47e7534077",
+      "local_modified_at_utc": "2024-02-05T12:46:18+00:00"
+    },
+    {
+      "relative_path": "Event Data/10502.json",
+      "file_name": "10502.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17807857,
+      "sha256": "e10ae7aa7f4c232e58e991c55a0d3e4359fea337503e283aa4d4fad2922d9336",
+      "local_modified_at_utc": "2025-06-03T08:09:46+00:00"
+    },
+    {
+      "relative_path": "Event Data/10503.json",
+      "file_name": "10503.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 20386618,
+      "sha256": "bf713e2d20fdcf1c885b5698a9876428cc264a848c758b61280b961cf68e8c9a",
+      "local_modified_at_utc": "2025-06-03T08:10:15+00:00"
+    },
+    {
+      "relative_path": "Event Data/10504.json",
+      "file_name": "10504.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18256888,
+      "sha256": "f6b55632f30caec5c630194d9f2fbbf7397cdaff10d8e0b60ad81762b2547d23",
+      "local_modified_at_utc": "2025-06-03T08:10:42+00:00"
+    },
+    {
+      "relative_path": "Event Data/10505.json",
+      "file_name": "10505.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16719232,
+      "sha256": "16d81e967ad98f8625e867b67315fb29d119b350d7ae1c89406aaaf3753f1f1b",
+      "local_modified_at_utc": "2025-06-03T08:11:05+00:00"
+    },
+    {
+      "relative_path": "Event Data/10506.json",
+      "file_name": "10506.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 23605422,
+      "sha256": "4bce67048937e482304cb0ca0b19c52617a31853f9ccdde4be015d470467a449",
+      "local_modified_at_utc": "2025-06-03T08:11:43+00:00"
+    },
+    {
+      "relative_path": "Event Data/10507.json",
+      "file_name": "10507.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 19670744,
+      "sha256": "df95ecba371ac1ba18426f636e4c3c443a2e0a2fc80ebe78c296d4d3f3cb9df6",
+      "local_modified_at_utc": "2025-06-03T08:12:13+00:00"
+    },
+    {
+      "relative_path": "Event Data/10508.json",
+      "file_name": "10508.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 24819083,
+      "sha256": "2227ebae11ade44ca0a9d4ccda7bcde9055b268fa8fce2b5a1b57289a956cd23",
+      "local_modified_at_utc": "2025-06-03T08:12:49+00:00"
+    },
+    {
+      "relative_path": "Event Data/10509.json",
+      "file_name": "10509.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16141704,
+      "sha256": "eba8e3c367fdd5e9cc824d746d9bfa32d49e5eb03b9ab5cf81947cf17510197d",
+      "local_modified_at_utc": "2025-06-03T08:13:14+00:00"
+    },
+    {
+      "relative_path": "Event Data/10510.json",
+      "file_name": "10510.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 25601808,
+      "sha256": "d18887b5f87e0d96454fa40bb0ef1a137c16786eea4eb26463335328a2aec2de",
+      "local_modified_at_utc": "2025-06-03T08:13:51+00:00"
+    },
+    {
+      "relative_path": "Event Data/10511.json",
+      "file_name": "10511.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 23811209,
+      "sha256": "29ae98a24ecf7542264ec264cd6fb050ba5466b9dc2b627fb8fdca3c69fb70b5",
+      "local_modified_at_utc": "2025-06-03T08:14:30+00:00"
+    },
+    {
+      "relative_path": "Event Data/10512.json",
+      "file_name": "10512.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16937171,
+      "sha256": "a1c7f19b8d6c81a68b5177e6d703587d62ecb29582bc5583be1eafa5ca712a38",
+      "local_modified_at_utc": "2025-06-03T08:14:55+00:00"
+    },
+    {
+      "relative_path": "Event Data/10513.json",
+      "file_name": "10513.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15512260,
+      "sha256": "7a2466fb386aa62972de8605e4610f9a0e149f67a20ef19ca0aff23828e8a2a8",
+      "local_modified_at_utc": "2025-06-03T08:15:19+00:00"
+    },
+    {
+      "relative_path": "Event Data/10514.json",
+      "file_name": "10514.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17810765,
+      "sha256": "71a17efc9bc28ecd6b595bc0a9b83484e89724bdf5cd4bc006301857fe806f1c",
+      "local_modified_at_utc": "2025-06-03T08:15:43+00:00"
+    },
+    {
+      "relative_path": "Event Data/10515.json",
+      "file_name": "10515.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16937027,
+      "sha256": "c93e031e805823834129b0a63aebbc66536de5caa2ca1025492282d92adbcf64",
+      "local_modified_at_utc": "2025-06-03T08:16:09+00:00"
+    },
+    {
+      "relative_path": "Event Data/10516.json",
+      "file_name": "10516.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17314463,
+      "sha256": "97df599dbd93b31c914a11e4ed2fb5e11d903b5908158c79fb18c42cbd063a51",
+      "local_modified_at_utc": "2025-06-03T08:16:33+00:00"
+    },
+    {
+      "relative_path": "Event Data/10517.json",
+      "file_name": "10517.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 22818080,
+      "sha256": "d571475b7f733c93b1161f39aa0bb2119a14ca15c74b064029e102ff1ad99c99",
+      "local_modified_at_utc": "2025-06-03T08:17:13+00:00"
+    },
+    {
+      "relative_path": "Event Data/3812.json",
+      "file_name": "3812.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16594172,
+      "sha256": "bb8e2899caf276a443f6f3b11b52e808b3663c0076062649ccb0ca3113d344a8",
+      "local_modified_at_utc": "2025-06-03T07:48:25+00:00"
+    },
+    {
+      "relative_path": "Event Data/3813.json",
+      "file_name": "3813.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17552413,
+      "sha256": "eb45e7685ffb2a577466efd2384355edc7145f7f879a34cc9448ea7d18f16d4e",
+      "local_modified_at_utc": "2025-06-03T07:48:53+00:00"
+    },
+    {
+      "relative_path": "Event Data/3814.json",
+      "file_name": "3814.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15948398,
+      "sha256": "bdb661a76c4e6eaa80d84687291da85b897e8723c84fab6849c329432881db27",
+      "local_modified_at_utc": "2025-06-03T07:49:16+00:00"
+    },
+    {
+      "relative_path": "Event Data/3815.json",
+      "file_name": "3815.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18099017,
+      "sha256": "88d896774264c4cf03cd30105b14617757325ebe037ebc74661732935fbcf5fd",
+      "local_modified_at_utc": "2025-06-03T07:49:43+00:00"
+    },
+    {
+      "relative_path": "Event Data/3816.json",
+      "file_name": "3816.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17325373,
+      "sha256": "130cf266b72b5d4328ea77956db26b5c400f630d1c378a11abb6cdd36237886a",
+      "local_modified_at_utc": "2025-06-03T07:50:13+00:00"
+    },
+    {
+      "relative_path": "Event Data/3817.json",
+      "file_name": "3817.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18087425,
+      "sha256": "a1c0a967b50b7ba9f0b35ef2b6bf898d253cf42acbfb415c88bbbd75d4de4266",
+      "local_modified_at_utc": "2025-06-03T07:50:41+00:00"
+    },
+    {
+      "relative_path": "Event Data/3818.json",
+      "file_name": "3818.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15416551,
+      "sha256": "88fe52dde57be5704146e714bd7bbc20f203cea17969edd9144c5377ce40d6d1",
+      "local_modified_at_utc": "2025-06-03T07:51:04+00:00"
+    },
+    {
+      "relative_path": "Event Data/3819.json",
+      "file_name": "3819.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 20187753,
+      "sha256": "234bf068c1502f126f8352cfc86ecba3d97f7a84e6d2f0a06ff6f2d8f5f72a4f",
+      "local_modified_at_utc": "2025-06-03T07:51:36+00:00"
+    },
+    {
+      "relative_path": "Event Data/3820.json",
+      "file_name": "3820.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17763445,
+      "sha256": "658964d1f6eee9c552cb1ce2a1d7215e54fc09151075f5dc86f6bce30eeb3de4",
+      "local_modified_at_utc": "2025-06-03T07:52:02+00:00"
+    },
+    {
+      "relative_path": "Event Data/3821.json",
+      "file_name": "3821.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17795030,
+      "sha256": "68957b263bbdf1e16ea12f7bfbf017b90f9c111821f7c245f35a36b202b74fb7",
+      "local_modified_at_utc": "2025-06-03T07:52:28+00:00"
+    },
+    {
+      "relative_path": "Event Data/3822.json",
+      "file_name": "3822.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 20995299,
+      "sha256": "e55fdb7090d553944d8bae0bcfdcb66ec709f3be0e7aecae63f97d8824d30f86",
+      "local_modified_at_utc": "2025-06-03T07:52:56+00:00"
+    },
+    {
+      "relative_path": "Event Data/3823.json",
+      "file_name": "3823.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16996022,
+      "sha256": "c3b3eac760afafcbd0588669e30d0f231e5e00cec7fa8e48a43063d527cd8e1f",
+      "local_modified_at_utc": "2025-06-03T07:53:22+00:00"
+    },
+    {
+      "relative_path": "Event Data/3824.json",
+      "file_name": "3824.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17369601,
+      "sha256": "ef0923ab2ddfc3f9391079d84278fde8ef4cd3642835f324a29da95e0f74d31a",
+      "local_modified_at_utc": "2025-06-03T07:53:49+00:00"
+    },
+    {
+      "relative_path": "Event Data/3825.json",
+      "file_name": "3825.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17005488,
+      "sha256": "c5359ef4d0324a9c2fd91f95ac942a36d52a1d8ab726bcb949849db17895fa03",
+      "local_modified_at_utc": "2025-06-03T07:54:13+00:00"
+    },
+    {
+      "relative_path": "Event Data/3826.json",
+      "file_name": "3826.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17479711,
+      "sha256": "a2eb6f2f9c46a6c328bb0502b035b1cd46075eaaea56d2bffc58f88d02d43230",
+      "local_modified_at_utc": "2025-06-03T07:54:38+00:00"
+    },
+    {
+      "relative_path": "Event Data/3827.json",
+      "file_name": "3827.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18541776,
+      "sha256": "3021f987eae22d9a19d51168479fa554023866aef1f207241c772fba9b5fa43e",
+      "local_modified_at_utc": "2025-06-03T07:55:09+00:00"
+    },
+    {
+      "relative_path": "Event Data/3828.json",
+      "file_name": "3828.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15715769,
+      "sha256": "31ba4fa77df9e7015d378e1acbc7275b5342ec92cbc4844fa85c1812f99b62e2",
+      "local_modified_at_utc": "2025-06-03T07:55:32+00:00"
+    },
+    {
+      "relative_path": "Event Data/3829.json",
+      "file_name": "3829.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17894305,
+      "sha256": "c5e359254ca6ec70fd75110907d4b91e5c8ce95b8bdf9df02d985e9812f3da2c",
+      "local_modified_at_utc": "2025-06-03T07:55:59+00:00"
+    },
+    {
+      "relative_path": "Event Data/3830.json",
+      "file_name": "3830.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16232281,
+      "sha256": "bbd24f3cf466d8eabd533bbab54d3a9c02d8dc6a2c6eff941dec0aaab45433d9",
+      "local_modified_at_utc": "2025-06-03T07:56:24+00:00"
+    },
+    {
+      "relative_path": "Event Data/3831.json",
+      "file_name": "3831.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17126016,
+      "sha256": "cad1cb750b193d9aacef009a0ca5a94763ce26eaf668d707685a64963aaa3ed1",
+      "local_modified_at_utc": "2025-06-03T07:56:47+00:00"
+    },
+    {
+      "relative_path": "Event Data/3832.json",
+      "file_name": "3832.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15781529,
+      "sha256": "a8a428d81e36576fd39e681c6c52205306ac34376cb813288e3b94ea5287f366",
+      "local_modified_at_utc": "2025-06-03T07:57:12+00:00"
+    },
+    {
+      "relative_path": "Event Data/3833.json",
+      "file_name": "3833.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15936626,
+      "sha256": "156231775bc63cd4678e92b28ce7243cb73c1b759e8a9bc7cbfe0e5997e883cf",
+      "local_modified_at_utc": "2025-06-03T07:57:38+00:00"
+    },
+    {
+      "relative_path": "Event Data/3834.json",
+      "file_name": "3834.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18942869,
+      "sha256": "f18931f8ae60cfc4611156c3696dc5a99ed24beed9824e1d53f975ceff6e25e6",
+      "local_modified_at_utc": "2025-06-03T07:58:06+00:00"
+    },
+    {
+      "relative_path": "Event Data/3835.json",
+      "file_name": "3835.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16167739,
+      "sha256": "c9bc976bf39f02d5c0424f256c0fa4dc9e3b8e98d2534f0cb621a80566dc5a0c",
+      "local_modified_at_utc": "2025-06-03T07:58:34+00:00"
+    },
+    {
+      "relative_path": "Event Data/3836.json",
+      "file_name": "3836.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17452038,
+      "sha256": "ed3ab0fe73e37bdbe31e6915a22ad8594f63ffe320ad0048178214c6b6eb0c72",
+      "local_modified_at_utc": "2025-06-03T07:58:59+00:00"
+    },
+    {
+      "relative_path": "Event Data/3837.json",
+      "file_name": "3837.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17244115,
+      "sha256": "cf263db0f7e7bc0b33267827611a2b204aae40fc9db7f045cb25a332c660b7a6",
+      "local_modified_at_utc": "2025-06-03T07:59:24+00:00"
+    },
+    {
+      "relative_path": "Event Data/3838.json",
+      "file_name": "3838.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18007262,
+      "sha256": "4fc86c50abf62510eeb9dd773123489b06e4df5ce8c2fad5f0d094ea24e80828",
+      "local_modified_at_utc": "2025-06-03T07:59:52+00:00"
+    },
+    {
+      "relative_path": "Event Data/3839.json",
+      "file_name": "3839.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16792841,
+      "sha256": "872df536145574a6e487630d9b35b2efe469bbccbf88573347b09708b3cfdc71",
+      "local_modified_at_utc": "2025-06-03T08:00:16+00:00"
+    },
+    {
+      "relative_path": "Event Data/3840.json",
+      "file_name": "3840.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15816649,
+      "sha256": "092c6d88ef76fc43ea89b5c06967cadb167902364cae408a3b1dfa84ac98cc20",
+      "local_modified_at_utc": "2025-06-03T08:00:42+00:00"
+    },
+    {
+      "relative_path": "Event Data/3841.json",
+      "file_name": "3841.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16811409,
+      "sha256": "dce1800e29a3614720705a3dc9a66ff10e53fea0d8d664be6e20f42cc57740dc",
+      "local_modified_at_utc": "2025-06-03T08:01:13+00:00"
+    },
+    {
+      "relative_path": "Event Data/3842.json",
+      "file_name": "3842.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18319796,
+      "sha256": "fef0e9795195c7ea18e50dc17ff866928f981dd9c47f15be11b543c77ec34c4a",
+      "local_modified_at_utc": "2025-06-03T08:01:38+00:00"
+    },
+    {
+      "relative_path": "Event Data/3843.json",
+      "file_name": "3843.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16985685,
+      "sha256": "e32cc787b7bc830ff981a6adc78ceff969cb18218a63ba41ad2ee719ad1424c9",
+      "local_modified_at_utc": "2025-06-03T08:02:04+00:00"
+    },
+    {
+      "relative_path": "Event Data/3844.json",
+      "file_name": "3844.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 13799661,
+      "sha256": "8f249b8aa326180365b91340b480608e0b34cc6110bdf108bb7b8e1f88c36f78",
+      "local_modified_at_utc": "2025-06-03T08:02:28+00:00"
+    },
+    {
+      "relative_path": "Event Data/3845.json",
+      "file_name": "3845.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 21051554,
+      "sha256": "6cade210e0aad81553a7046499d060767cf98453bc2108c8f61085bf65b0ba8a",
+      "local_modified_at_utc": "2025-06-03T08:02:58+00:00"
+    },
+    {
+      "relative_path": "Event Data/3846.json",
+      "file_name": "3846.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15068782,
+      "sha256": "bea7ce5b440985192f4e95d717e5c9ddd2bf02d6717a5fbc777906155ab62561",
+      "local_modified_at_utc": "2025-06-03T08:03:27+00:00"
+    },
+    {
+      "relative_path": "Event Data/3847.json",
+      "file_name": "3847.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17070904,
+      "sha256": "2b375b7d79b3c42a9ac2ec3f06b8271a96a23c2264e34b4240f26713390532ba",
+      "local_modified_at_utc": "2025-06-03T08:03:53+00:00"
+    },
+    {
+      "relative_path": "Event Data/3848.json",
+      "file_name": "3848.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17662725,
+      "sha256": "199362d1060562a8f90bab490c5b03de310afb2dda0d90428987626a5e923887",
+      "local_modified_at_utc": "2025-06-03T08:04:20+00:00"
+    },
+    {
+      "relative_path": "Event Data/3849.json",
+      "file_name": "3849.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18305503,
+      "sha256": "0b6b0c428cbb6b567d78455e25d690677e5ee13120ab3fcb07b42c7e1f1fb5ce",
+      "local_modified_at_utc": "2025-06-03T08:04:46+00:00"
+    },
+    {
+      "relative_path": "Event Data/3850.json",
+      "file_name": "3850.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 20047608,
+      "sha256": "a712002f3e2a3de6f66cab121e823b41743a7d37235192615a064a49d9e82250",
+      "local_modified_at_utc": "2025-06-03T08:05:13+00:00"
+    },
+    {
+      "relative_path": "Event Data/3851.json",
+      "file_name": "3851.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14869300,
+      "sha256": "440d1317de107a9422b05ac6e5266f7f0a65352863ae28551b6f7a2472eb09c6",
+      "local_modified_at_utc": "2025-06-03T08:05:41+00:00"
+    },
+    {
+      "relative_path": "Event Data/3852.json",
+      "file_name": "3852.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 20266164,
+      "sha256": "eed6a16bf86c61b0084d23ff2f2ccb15de7b7f667f9b5293fa25634d3350a143",
+      "local_modified_at_utc": "2025-06-03T08:06:07+00:00"
+    },
+    {
+      "relative_path": "Event Data/3853.json",
+      "file_name": "3853.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15980318,
+      "sha256": "f635a46b6d63b9bf293f5bed9d683905594b6713d06a1358d6d1d3ad5d5b250f",
+      "local_modified_at_utc": "2025-06-03T08:06:33+00:00"
+    },
+    {
+      "relative_path": "Event Data/3854.json",
+      "file_name": "3854.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 20556087,
+      "sha256": "6f1760548b0f843b076a59716d98a263a38d076612827c5258673f910ea0746c",
+      "local_modified_at_utc": "2025-06-03T08:07:01+00:00"
+    },
+    {
+      "relative_path": "Event Data/3855.json",
+      "file_name": "3855.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 19659517,
+      "sha256": "846aff6e1c8b72c930f9316382c9a40759b40e0af4e5276c01a96168e5cda186",
+      "local_modified_at_utc": "2025-06-03T08:07:29+00:00"
+    },
+    {
+      "relative_path": "Event Data/3856.json",
+      "file_name": "3856.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16645221,
+      "sha256": "5e0c66bb4bffd50d02a21912aa0277c0b93624107bae00425e67ebd2f38dc07b",
+      "local_modified_at_utc": "2025-06-03T08:07:56+00:00"
+    },
+    {
+      "relative_path": "Event Data/3857.json",
+      "file_name": "3857.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16976388,
+      "sha256": "c1b77d5a07e88b1a28bbafcbaa2d6845540604f8f7ffac99bf617a4a80e37188",
+      "local_modified_at_utc": "2025-06-03T08:08:22+00:00"
+    },
+    {
+      "relative_path": "Event Data/3858.json",
+      "file_name": "3858.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16170442,
+      "sha256": "dfb150df5f94ddfc33b0a55ce947cd5aff9b3e08c39f5447e0b53b2dddd8b5f6",
+      "local_modified_at_utc": "2025-06-03T08:08:48+00:00"
+    },
+    {
+      "relative_path": "Event Data/3859.json",
+      "file_name": "3859.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16455973,
+      "sha256": "35916ec6ee26d621deabdd79614c999f695a988749f01d8c1b8734154868e9da",
+      "local_modified_at_utc": "2025-06-03T08:09:17+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10502.json",
+      "file_name": "10502.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10386537,
+      "sha256": "b236e5e867be65e240ce7c67049a93bab5656d559ade8a42799c7acd39744ca9",
+      "local_modified_at_utc": "2025-03-14T10:39:53+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10503.json",
+      "file_name": "10503.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 12272909,
+      "sha256": "3c336e4f243793c9226c2a933406c9813c20918fd5968b9eca57b8e49c7c491c",
+      "local_modified_at_utc": "2025-03-14T10:40:41+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10504.json",
+      "file_name": "10504.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10762373,
+      "sha256": "3e21a98f2174d77b071349c6c653587861404cbb125f725f7bd33b96ef4dee1f",
+      "local_modified_at_utc": "2025-03-14T10:41:25+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10505.json",
+      "file_name": "10505.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10240161,
+      "sha256": "32860352dfd3b2e458195f3776637a201927d0cf005a37466c668f762494b425",
+      "local_modified_at_utc": "2025-03-14T10:42:06+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10506.json",
+      "file_name": "10506.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14564228,
+      "sha256": "bc9e687297636f69848526f0d1de24777f533af02bd17aa107412e489532cf6e",
+      "local_modified_at_utc": "2025-03-14T10:43:05+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10507.json",
+      "file_name": "10507.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11646245,
+      "sha256": "41dd73bb344ddb71c713ee2983994c6b2fdac0b88c41ec928356770660c3fa2c",
+      "local_modified_at_utc": "2025-03-14T10:43:50+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10508.json",
+      "file_name": "10508.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14651726,
+      "sha256": "540bd337faa8990f9ee67895e009d867ec6104a73501a48722f14cea46ebb824",
+      "local_modified_at_utc": "2025-03-14T10:44:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10509.json",
+      "file_name": "10509.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9777599,
+      "sha256": "42bb3788e0ce3d0fcf2ce3fe924bd9f81d503a95edef82a159e10e2e029104ac",
+      "local_modified_at_utc": "2025-03-14T10:45:27+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10510.json",
+      "file_name": "10510.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15103517,
+      "sha256": "3e8e5409112ab0b17a21b6e4384d8ce1edf8cdf25edd7f5b8665d60743f190df",
+      "local_modified_at_utc": "2025-03-14T10:46:16+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10511.json",
+      "file_name": "10511.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14450297,
+      "sha256": "5fb4703ad892c6850d38c1dbf771f2a3839370d00e84810cfb0ed97f514487c7",
+      "local_modified_at_utc": "2025-03-14T10:47:06+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10512.json",
+      "file_name": "10512.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10036869,
+      "sha256": "a5b50893d1e3638ceb5ca64ea81aae397dfe3de5587d6e6d5ff380debb763f14",
+      "local_modified_at_utc": "2025-03-14T10:47:48+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10513.json",
+      "file_name": "10513.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9332917,
+      "sha256": "f861c1c8822e2862dbe57ab9ec0eb588652e4282dc7109461f1ec5622ab25d3c",
+      "local_modified_at_utc": "2025-03-14T10:48:29+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10514.json",
+      "file_name": "10514.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10730982,
+      "sha256": "c18a17594169b674b06a9c44ca6b201a0d4efc7a87d580649f9c32a51d205329",
+      "local_modified_at_utc": "2025-03-14T10:49:10+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10515.json",
+      "file_name": "10515.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10169896,
+      "sha256": "4fe31631fc59a62e3a9e5e135a6253ff645fb5baa9e32a46a922015da59b2ed4",
+      "local_modified_at_utc": "2025-03-14T10:49:51+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10516.json",
+      "file_name": "10516.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10390792,
+      "sha256": "3c972cae6960d6fc996447f2cbb880667f6fe9bfe3c178e1e3ab003842974443",
+      "local_modified_at_utc": "2025-03-14T10:50:32+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/10517.json",
+      "file_name": "10517.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14361759,
+      "sha256": "458f07146d22d88a273f8e47a66f47d118db400010d4d57f8c7ae1ddad53ee04",
+      "local_modified_at_utc": "2025-03-14T10:51:34+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3812.json",
+      "file_name": "3812.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10289127,
+      "sha256": "480dfef9e0f23261a7cd09bf126fa8404fb7cbcda85b1dfd43d8001bf9524153",
+      "local_modified_at_utc": "2025-03-14T10:04:53+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3813.json",
+      "file_name": "3813.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10873399,
+      "sha256": "b62e2ba6f0c3e12d3539edd91fc1409729de83ccd959b775b0846330c9863bd5",
+      "local_modified_at_utc": "2025-03-14T10:05:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3814.json",
+      "file_name": "3814.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9805612,
+      "sha256": "d8679df9fe89050ab0f9e16be317424b41dfca0c2a048ad27150bf06898ce451",
+      "local_modified_at_utc": "2025-03-14T10:06:23+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3815.json",
+      "file_name": "3815.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11124069,
+      "sha256": "79d4ca17a8ad95d5905c88d060e4ae46345df655eafa602cecef158d8837e938",
+      "local_modified_at_utc": "2025-03-14T10:07:01+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3816.json",
+      "file_name": "3816.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10397591,
+      "sha256": "a99a282d8b73513234553102ff5f78a4170ec8347aa7172d5f98c409ced48dda",
+      "local_modified_at_utc": "2025-03-14T10:07:43+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3817.json",
+      "file_name": "3817.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10803618,
+      "sha256": "c2981c937f493d05ebf19f0bd7eb46cc5f0a0c15f862053dc452275d63cc5496",
+      "local_modified_at_utc": "2025-03-14T10:08:21+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3818.json",
+      "file_name": "3818.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9697512,
+      "sha256": "837f230d50ebbf733129a4e56025ddae7da7299ef5ceabfda3971d74a8e1b558",
+      "local_modified_at_utc": "2025-03-14T10:08:57+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3819.json",
+      "file_name": "3819.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11789864,
+      "sha256": "3fcccc5b86a6466ff350141d89050c025a60fadf6261ff4eac283a3cfe5b21f3",
+      "local_modified_at_utc": "2025-03-14T10:09:39+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3820.json",
+      "file_name": "3820.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10632454,
+      "sha256": "71bd244673ae1b32fc5442b648320acf05b509bef400313ceb621e6adef9f374",
+      "local_modified_at_utc": "2025-03-14T10:10:16+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3821.json",
+      "file_name": "3821.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10978661,
+      "sha256": "d1f1f104af8c081cc569f24c562710ae640691af166c9f79a9ab642b97873cdf",
+      "local_modified_at_utc": "2025-03-14T10:10:54+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3822.json",
+      "file_name": "3822.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 12167591,
+      "sha256": "3317ab4515b421ab7b229430a5708bed56de740fcc46be1dfb8062e330b5cba4",
+      "local_modified_at_utc": "2025-03-14T10:11:35+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3823.json",
+      "file_name": "3823.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10126393,
+      "sha256": "4d06246f057679262a1bceadb3bac94f1b8d9bbbd873c7166ec9ac3b9854156a",
+      "local_modified_at_utc": "2025-03-14T10:12:12+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3824.json",
+      "file_name": "3824.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10406302,
+      "sha256": "7d107c93ae983abfbe0e1bd4c3e69a278147f178fd57642c9ae9bd21700708dd",
+      "local_modified_at_utc": "2025-03-14T10:12:49+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3825.json",
+      "file_name": "3825.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10395927,
+      "sha256": "1731e883789eea40668b04fedb4be15a9449d24275c0c3680ba019e05ca984a0",
+      "local_modified_at_utc": "2025-03-14T10:13:25+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3826.json",
+      "file_name": "3826.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10383257,
+      "sha256": "d6b76f9262b4a0cd68688a81bb73aea0ca52dcf5bf0615efd5824470e70289f7",
+      "local_modified_at_utc": "2025-03-14T10:14:03+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3827.json",
+      "file_name": "3827.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11389311,
+      "sha256": "42d2b84f906196c2c96ccbd9cb446bb0cc79ec17a08f19944c6cd04cbca56eb0",
+      "local_modified_at_utc": "2025-03-14T10:14:43+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3828.json",
+      "file_name": "3828.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10144064,
+      "sha256": "d079b380c680bda34144f043b2d718e0b946b0db57b621d6df852bd4668448ca",
+      "local_modified_at_utc": "2025-03-14T10:15:21+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3829.json",
+      "file_name": "3829.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10380097,
+      "sha256": "d1b19317b81a90c6bdb08d5f6b3d8fb7c4d9e3847952789f5bf8cd51aef78a8f",
+      "local_modified_at_utc": "2025-03-14T10:15:59+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3830.json",
+      "file_name": "3830.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10135905,
+      "sha256": "aadd484ea2ab57ad0f73bb781869a8e43dcb78cd708c1808213f57826e9f34d0",
+      "local_modified_at_utc": "2025-03-14T10:16:36+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3831.json",
+      "file_name": "3831.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9951495,
+      "sha256": "d56900415ad125b4fe131dd0ce60f2638cb7679a1ac69494b44d8557d9acb2bb",
+      "local_modified_at_utc": "2025-03-14T10:17:12+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3832.json",
+      "file_name": "3832.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10408950,
+      "sha256": "026273b2287f1caba99f767baf538b8ec759672582492de75c80a88f2569fc08",
+      "local_modified_at_utc": "2025-03-14T10:17:49+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3833.json",
+      "file_name": "3833.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10118372,
+      "sha256": "67b13aa3f56750f92109e326e71bce5e09594eba5c5b5be5712a09ff451279f2",
+      "local_modified_at_utc": "2025-03-14T10:18:27+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3834.json",
+      "file_name": "3834.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11435666,
+      "sha256": "523cc1d44cee05ba8cb61373f04e449b1ffe8e443e31effd15d4c3f601e893e5",
+      "local_modified_at_utc": "2025-03-14T10:19:07+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3835.json",
+      "file_name": "3835.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9612156,
+      "sha256": "b7127a1169112068c4b9a886c2291004ec255095b6146a0c3b54230af6f12561",
+      "local_modified_at_utc": "2025-03-14T10:19:44+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3836.json",
+      "file_name": "3836.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10479458,
+      "sha256": "4c058166aace537b80a5ed486f868a19513c692bd528495dba7825cca738987d",
+      "local_modified_at_utc": "2025-03-14T10:20:23+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3837.json",
+      "file_name": "3837.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10310663,
+      "sha256": "4233bf5ca7a84567bd8272dcc5fe6d90e382e05de739b99757ad2d5c9f8e6cf5",
+      "local_modified_at_utc": "2025-03-14T10:21:18+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3838.json",
+      "file_name": "3838.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11023714,
+      "sha256": "3d8f42e34ade0bd4d25d5e83c3775be8d9fd5d46488215c8bd3fea0db3382057",
+      "local_modified_at_utc": "2025-03-14T10:21:57+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3839.json",
+      "file_name": "3839.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10281753,
+      "sha256": "1d8e5461087cc32f38deccf1f52fdffb29b199de7be37baa87dde5f99a8ee09f",
+      "local_modified_at_utc": "2025-03-14T10:22:36+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3840.json",
+      "file_name": "3840.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10046943,
+      "sha256": "f385e28a3eb8dcd463462d5388f27e4b6db5cab08117f3eb5daca688dc6c291f",
+      "local_modified_at_utc": "2025-03-14T10:23:14+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3841.json",
+      "file_name": "3841.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10092527,
+      "sha256": "a80e89670a41d6ed92421608fda534ceab3ca0ac3b79f988b35b1b0a21bc1d75",
+      "local_modified_at_utc": "2025-03-14T10:23:53+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3842.json",
+      "file_name": "3842.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10942595,
+      "sha256": "72a38bd2827b8155fcc17fba2f90b1289d48a46672e01ebeaf950cd4760411ca",
+      "local_modified_at_utc": "2025-03-14T10:24:34+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3843.json",
+      "file_name": "3843.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10601402,
+      "sha256": "87b1e0ff1af443e28b6b3be36bf6a8146a39412ce0a6d37ce843cb372ed35393",
+      "local_modified_at_utc": "2025-03-14T10:25:13+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3844.json",
+      "file_name": "3844.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 8802457,
+      "sha256": "76e011675b43f8de03366227d1b64a76b792c2a17fe919a975d1126fa63ad980",
+      "local_modified_at_utc": "2025-03-14T10:25:50+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3845.json",
+      "file_name": "3845.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11809281,
+      "sha256": "3187eec03403747553ecdce4b360cd2b6c671c73eae27236b223a48a36ec6da1",
+      "local_modified_at_utc": "2025-03-14T10:26:30+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3846.json",
+      "file_name": "3846.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9281468,
+      "sha256": "be3b06b72d1f20db135294bdf66d2ffeb8ab026bc7baf9ae23db1b5a02574294",
+      "local_modified_at_utc": "2025-03-14T10:27:08+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3847.json",
+      "file_name": "3847.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10526971,
+      "sha256": "f1b9b52f779ee7145b662e75a55f7aa4f8b1fa17fbc5f3898346b45c1848ea7c",
+      "local_modified_at_utc": "2025-03-14T10:27:48+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3848.json",
+      "file_name": "3848.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11234871,
+      "sha256": "3005e6197351b75b035e5b53e8905fcc2ba6a5b66d428d37f0e50f777be0613a",
+      "local_modified_at_utc": "2025-03-14T10:28:27+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3849.json",
+      "file_name": "3849.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11102597,
+      "sha256": "3b9b81363714a875b50704069514c49a44e7a7c2d37928f2b546c1ec28fd49ac",
+      "local_modified_at_utc": "2025-03-14T10:29:07+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3850.json",
+      "file_name": "3850.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11588174,
+      "sha256": "6bacc067ab2902b6bef182d09eb61b7979284884ce880f4bc5ff84630822902e",
+      "local_modified_at_utc": "2025-03-14T10:29:46+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3851.json",
+      "file_name": "3851.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9877106,
+      "sha256": "d8e68636a4852b22fac93f2948fbdc643f97f8eb127eaea76583d3454265aecb",
+      "local_modified_at_utc": "2025-03-14T10:31:09+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3852.json",
+      "file_name": "3852.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11322710,
+      "sha256": "db0154fcc56621ede99ab45f109f5909179af5587716640bca0f116bf5ca806f",
+      "local_modified_at_utc": "2025-03-14T10:34:03+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3853.json",
+      "file_name": "3853.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9926710,
+      "sha256": "2a745dceff0f24222e5591951465a2a0b0b7f0f8959620d072a9d390b21c0851",
+      "local_modified_at_utc": "2025-03-14T10:34:47+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3854.json",
+      "file_name": "3854.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 11582780,
+      "sha256": "126064ab2138eec29e482a3e2b2cd5489386354f03841c7db92827a587a95c1f",
+      "local_modified_at_utc": "2025-03-14T10:35:33+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3855.json",
+      "file_name": "3855.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 12176293,
+      "sha256": "7b508199d9e0c7c10003c4f9f28aed5ae5625cdb06b810b5e262e10f539877de",
+      "local_modified_at_utc": "2025-03-14T10:36:20+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3856.json",
+      "file_name": "3856.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10640888,
+      "sha256": "2ebbea1b06577d7ac1efe4d71b9a307795a64eeda04ef892dca5402afd871b12",
+      "local_modified_at_utc": "2025-03-14T10:37:07+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3857.json",
+      "file_name": "3857.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10205805,
+      "sha256": "9a51e6abc7049e5c63282153e5dbcbf602c3e576ada1539a1b540f3658b71f2b",
+      "local_modified_at_utc": "2025-03-14T10:37:48+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3858.json",
+      "file_name": "3858.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 10148031,
+      "sha256": "727c43b4be9683dda915fad4bc1480c1654ababb39ad60d1612eff46f1f43183",
+      "local_modified_at_utc": "2025-03-14T10:38:29+00:00"
+    },
+    {
+      "relative_path": "Event Data/March 14, 2025/3859.json",
+      "file_name": "3859.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 9739768,
+      "sha256": "8ff9633265a1a9f670a3e8d17d65c9c36afe335b6ecc9757c234bcab27fc7288",
+      "local_modified_at_utc": "2025-03-14T10:39:11+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10502.json",
+      "file_name": "10502.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16494697,
+      "sha256": "36abe5f69005ca5c05d5c6c8ef8a4af45841c0f6f6ee1f445f310b4f41ec14ba",
+      "local_modified_at_utc": "2025-05-01T11:52:57+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10503.json",
+      "file_name": "10503.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18932087,
+      "sha256": "801f7e5e663840ae001e2e534c8c6cb7f22be34ba9927088d8e929a04581eee3",
+      "local_modified_at_utc": "2025-05-01T11:53:37+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10504.json",
+      "file_name": "10504.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16938139,
+      "sha256": "914822383ee8b732103a331d72253ff826a9e6dc47cd5483cde7a794e86c7676",
+      "local_modified_at_utc": "2025-05-01T11:54:15+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10505.json",
+      "file_name": "10505.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15496805,
+      "sha256": "9a4c48127b7a68815e0c58e01eb5cd693568d4d22080503707f018d3b82c12dd",
+      "local_modified_at_utc": "2025-05-01T11:54:51+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10506.json",
+      "file_name": "10506.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 21917730,
+      "sha256": "0b328e772257569f78cb0220b7a84c836e710e1217980822c8adabc5fa39daca",
+      "local_modified_at_utc": "2025-05-01T11:55:40+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10507.json",
+      "file_name": "10507.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18251848,
+      "sha256": "829cdeeb0dd5a39c173a559e1b363a716b65b5a239354b4e4ab7dd34b4a690c6",
+      "local_modified_at_utc": "2025-05-01T11:56:19+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10508.json",
+      "file_name": "10508.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 23043489,
+      "sha256": "ecf6b49871d2a96324569f7aec94db1aeba57ac8cdc4f8906a082a7968157e73",
+      "local_modified_at_utc": "2025-05-01T11:57:09+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10509.json",
+      "file_name": "10509.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14919980,
+      "sha256": "9936fe78940079fb6dd9a8eb8d655e10334b20758cdff77322a5791c5f5d2bfe",
+      "local_modified_at_utc": "2025-05-01T11:57:43+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10510.json",
+      "file_name": "10510.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 23727850,
+      "sha256": "d16f34d8474664a68bc71e3e65cf343ad1ce7a5d92c791fb3db01102b194468a",
+      "local_modified_at_utc": "2025-05-01T11:58:25+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10511.json",
+      "file_name": "10511.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 22138816,
+      "sha256": "bf539879c4b4fb387a4a95aee01b6d99f1da0e51d2de38627623df95d857839e",
+      "local_modified_at_utc": "2025-05-01T11:59:08+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10512.json",
+      "file_name": "10512.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15712244,
+      "sha256": "07f687dccd0d133eed189e5189eb6cb3f909945db325c4f9ea3d80f331f2da78",
+      "local_modified_at_utc": "2025-05-01T11:59:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10513.json",
+      "file_name": "10513.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14341803,
+      "sha256": "77c5df18f3b0132680dffd1c447440c5d52da1a6a8e606ce2c4f39ea237d1dc5",
+      "local_modified_at_utc": "2025-05-01T12:00:22+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10514.json",
+      "file_name": "10514.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16485563,
+      "sha256": "b7d7489ab2d0b18a19f6af832496f5f2f62efd3159f5e2d2572b899f7ea72bf3",
+      "local_modified_at_utc": "2025-05-01T12:00:57+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10515.json",
+      "file_name": "10515.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15665387,
+      "sha256": "9b1760d121668d2d3bf1af5ba31e3c658ab8e8839058b96b4b446452290239f3",
+      "local_modified_at_utc": "2025-05-01T12:01:32+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10516.json",
+      "file_name": "10516.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16032533,
+      "sha256": "5dd0bb521687c497d4a0a21f81aea732930d986ed75d8c59e4e3762d5978e506",
+      "local_modified_at_utc": "2025-05-01T12:02:08+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/10517.json",
+      "file_name": "10517.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 21176417,
+      "sha256": "24e8100a1d762ad4141ef20276cc2ddbfc359b0a7f4d070289d3320639a5b2a2",
+      "local_modified_at_utc": "2025-05-01T12:02:59+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3812.json",
+      "file_name": "3812.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15415751,
+      "sha256": "7e6cadce4fd429c5407a453c497026a6685fa0b3ed70e49677c3264b21bf1bd0",
+      "local_modified_at_utc": "2025-05-01T11:23:02+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3813.json",
+      "file_name": "3813.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16252881,
+      "sha256": "b98cc2fbd13af8c16b963cdba87df2e89172d1154878859b0eb9f6da09cfab38",
+      "local_modified_at_utc": "2025-05-01T11:23:41+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3814.json",
+      "file_name": "3814.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14756046,
+      "sha256": "e223c31ba062dc846a2b2064d023aa9abffecddacfaeb2403bd49363e66ad39e",
+      "local_modified_at_utc": "2025-05-01T11:24:16+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3815.json",
+      "file_name": "3815.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16766891,
+      "sha256": "414be5069a2bbd07489e4d89105767eada74d1b45f0c0e67cf83d53445b00e59",
+      "local_modified_at_utc": "2025-05-01T11:24:53+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3816.json",
+      "file_name": "3816.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16100825,
+      "sha256": "8379b66f0e193632fcd3422e6ec4089ceb67628d00c8fe327d8672e567819f4f",
+      "local_modified_at_utc": "2025-05-01T11:25:33+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3817.json",
+      "file_name": "3817.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16780048,
+      "sha256": "ae15dd37004d8272d5fd538ab8e99dc0aa2a791dfbf7d76f43074b1e6eafa08f",
+      "local_modified_at_utc": "2025-05-01T11:26:12+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3818.json",
+      "file_name": "3818.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14264599,
+      "sha256": "0abf0a2531bbc88212ab15942e5dbfebdf21d1d0b5e77e249768a8fc891f56aa",
+      "local_modified_at_utc": "2025-05-01T11:26:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3819.json",
+      "file_name": "3819.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18717504,
+      "sha256": "413a90c5ee34bce1db82167680cffd15b3d3bb1b44a123941bc941f0e47f5772",
+      "local_modified_at_utc": "2025-05-01T11:27:25+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3820.json",
+      "file_name": "3820.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16432558,
+      "sha256": "b95917fdbeac330214e371cca44fdb2a6d04eb24575c295513de83aa2b1e4e2f",
+      "local_modified_at_utc": "2025-05-01T11:28:00+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3821.json",
+      "file_name": "3821.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16455894,
+      "sha256": "e9c498a544fd09165a0f224561339ec77adfd3835673824d0ea83f9d49a40e79",
+      "local_modified_at_utc": "2025-05-01T11:28:37+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3822.json",
+      "file_name": "3822.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 19421151,
+      "sha256": "8d6227499ce511e632bad5b4802fa0f6274f0bed2111eb1b7e5e837196281099",
+      "local_modified_at_utc": "2025-05-01T11:29:16+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3823.json",
+      "file_name": "3823.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15699901,
+      "sha256": "da3a035d30db4cd9a34e14c7b56510d81d681384c1528ce63a0713a0cf8faa34",
+      "local_modified_at_utc": "2025-05-01T11:29:51+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3824.json",
+      "file_name": "3824.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16066514,
+      "sha256": "9bc54adbe7f720c87714b9547898806bc7d88c309d653a90a939610fb69eabe6",
+      "local_modified_at_utc": "2025-05-01T11:30:27+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3825.json",
+      "file_name": "3825.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15745094,
+      "sha256": "860cc1ac135d3ac5ef9ce91c83465edf63898f02f05c814fbce74e3ab8346d27",
+      "local_modified_at_utc": "2025-05-01T11:31:02+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3826.json",
+      "file_name": "3826.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16167406,
+      "sha256": "37a60d07c57022040249f0d0725b83f49e2cbf3aec6a994a2ed463c2a40906a3",
+      "local_modified_at_utc": "2025-05-01T11:31:39+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3827.json",
+      "file_name": "3827.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17235350,
+      "sha256": "30cadd4a9bed8c3ff311212698acd1f9dda18d23e4bac48f2db7a37f82203682",
+      "local_modified_at_utc": "2025-05-01T11:32:31+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3828.json",
+      "file_name": "3828.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14554981,
+      "sha256": "2d44405a9e6c2a1adcf5c3741e71d4f9ee868645fd3f5c3f3543833f3589a521",
+      "local_modified_at_utc": "2025-05-01T11:33:07+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3829.json",
+      "file_name": "3829.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16628485,
+      "sha256": "bbdc57fbf522d892f7e4057d79a1796b82c29f5b80981c800b6744301a83d384",
+      "local_modified_at_utc": "2025-05-01T11:33:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3830.json",
+      "file_name": "3830.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14984292,
+      "sha256": "48c7c284d51a808b94a46d16e3953ba8c21307ab2134b6a401d83ef54bd1692f",
+      "local_modified_at_utc": "2025-05-01T11:34:21+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3831.json",
+      "file_name": "3831.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15858710,
+      "sha256": "896de9f3158d1bd65d7836545bcb2dc89cc451d1eac666647186b1780a4f3db9",
+      "local_modified_at_utc": "2025-05-01T11:34:56+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3832.json",
+      "file_name": "3832.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14570158,
+      "sha256": "c0d3db165f35641b762e6b07b6d8be5670856ba4f76ac574590aa63c18f0db15",
+      "local_modified_at_utc": "2025-05-01T11:35:31+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3833.json",
+      "file_name": "3833.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14752599,
+      "sha256": "9e70be2a76ae42ed8d317237d143652fd96d4e1a23cc6bdbb7460e99b032ef2d",
+      "local_modified_at_utc": "2025-05-01T11:36:07+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3834.json",
+      "file_name": "3834.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 17592387,
+      "sha256": "d5295c8392d80a675914f990803d6644e31de080986d3bf417946414f4b38a89",
+      "local_modified_at_utc": "2025-05-01T11:36:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3835.json",
+      "file_name": "3835.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14959987,
+      "sha256": "1aca7cad0a2c9dbb4fd8617adb40ae00a5bcae16623580148dfc33be0b9b3843",
+      "local_modified_at_utc": "2025-05-01T11:37:22+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3836.json",
+      "file_name": "3836.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16120264,
+      "sha256": "0b64bb737ce22b16963cc1956d942965b50b010d0602e93cbc75b7f0b32da7fa",
+      "local_modified_at_utc": "2025-05-01T11:37:57+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3837.json",
+      "file_name": "3837.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15961202,
+      "sha256": "28086e6efeae23c9223261f48b343540649ee1d547bd2886cccb296bcdab49f1",
+      "local_modified_at_utc": "2025-05-01T11:38:32+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3838.json",
+      "file_name": "3838.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16696726,
+      "sha256": "db3245e262ced314a29713121ff4a02344e85cdd94521bbee7de4df147123da4",
+      "local_modified_at_utc": "2025-05-01T11:39:09+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3839.json",
+      "file_name": "3839.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15514213,
+      "sha256": "51d7cf4f73db9505bdc98b158a2d997ca1b461e508d12dd2292fd29bd2509431",
+      "local_modified_at_utc": "2025-05-01T11:39:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3840.json",
+      "file_name": "3840.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14649779,
+      "sha256": "d472adf0613e6054e13a909710c3bf58fd42f26fbc4265d78a0824409badeb83",
+      "local_modified_at_utc": "2025-05-01T11:40:23+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3841.json",
+      "file_name": "3841.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15586183,
+      "sha256": "0595652cbd5f7a387cf0c34a71a0f70e8af6d87be411a6153ba2b6e6d867bcde",
+      "local_modified_at_utc": "2025-05-01T11:41:03+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3842.json",
+      "file_name": "3842.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16975441,
+      "sha256": "b23fc39898c1ce44ad021ce905bc514d786639819ab6162196b4b38a0f4440b6",
+      "local_modified_at_utc": "2025-05-01T11:41:41+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3843.json",
+      "file_name": "3843.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15704499,
+      "sha256": "61564eb6b0c69848d0a2be597a02cd4384e4eabe50e4312318181a73b9ed1f5f",
+      "local_modified_at_utc": "2025-05-01T11:42:18+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3844.json",
+      "file_name": "3844.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 12755945,
+      "sha256": "ca077270dcff048f7b3599e4ad3649ac3f24319bcc37b530a7576c83bfee7dc6",
+      "local_modified_at_utc": "2025-05-01T11:42:53+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3845.json",
+      "file_name": "3845.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 19534000,
+      "sha256": "fd6ffa2b84ce3d80bafcb085c2b292c6db79467afb743def11961e0db3a132bf",
+      "local_modified_at_utc": "2025-05-01T11:43:32+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3846.json",
+      "file_name": "3846.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 13915685,
+      "sha256": "c229d9082bcf5e272e6d48047fbb954cfb180883d733dc828c47559dab2f6052",
+      "local_modified_at_utc": "2025-05-01T11:44:07+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3847.json",
+      "file_name": "3847.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15787375,
+      "sha256": "33130e881fc6ccaa55e2b69758ec1435ba3dddb420a99623f62fda80b799972f",
+      "local_modified_at_utc": "2025-05-01T11:44:45+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3848.json",
+      "file_name": "3848.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16377902,
+      "sha256": "84e1597d2ea52ec5f0440e006ce7c9743dd69d52afdd05fcb9407c3e6f62ac11",
+      "local_modified_at_utc": "2025-05-01T11:45:23+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3849.json",
+      "file_name": "3849.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 16974710,
+      "sha256": "6b802dfd24f042b2b5d6b03e52d370d7fe2ecffcb1bad275af0debee10428545",
+      "local_modified_at_utc": "2025-05-01T11:46:02+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3850.json",
+      "file_name": "3850.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18556979,
+      "sha256": "0193b104f27b2ba94267daffbaa957f8beb6c9bf86fe7e1eac3f5178efce7e3f",
+      "local_modified_at_utc": "2025-05-01T11:46:40+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3851.json",
+      "file_name": "3851.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 13785663,
+      "sha256": "e78e89fcee57d12eb4885e0a72b1a0dc64564d9f0f559128250c7dc85c3a198b",
+      "local_modified_at_utc": "2025-05-01T11:47:17+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3852.json",
+      "file_name": "3852.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18785437,
+      "sha256": "2e51e002656064e3e5595ae1c0d7220632e203f535ef8f8f0c0aca7fe8c65996",
+      "local_modified_at_utc": "2025-05-01T11:47:57+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3853.json",
+      "file_name": "3853.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14783665,
+      "sha256": "8d52dda95ff3d02a9e022ae381f7ccd5df9a9eab1348b39e1f4914be1cef4506",
+      "local_modified_at_utc": "2025-05-01T11:48:32+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3854.json",
+      "file_name": "3854.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18995252,
+      "sha256": "a0b2c7d34d8458989e13a6193d6f299f3bbfac718d0f2237453722d31cfa964a",
+      "local_modified_at_utc": "2025-05-01T11:49:09+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3855.json",
+      "file_name": "3855.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 18242195,
+      "sha256": "a50128abf745bce53ec056d974e14135840906c1c3fac842a9ef1fe8aef89b11",
+      "local_modified_at_utc": "2025-05-01T11:49:48+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3856.json",
+      "file_name": "3856.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15412730,
+      "sha256": "d23531ccb75b71a1206d0267e3a920d8cc2eb8481122bfc6ecf78e0dea28249b",
+      "local_modified_at_utc": "2025-05-01T11:50:26+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3857.json",
+      "file_name": "3857.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15741306,
+      "sha256": "9d8d189731f45a4eae1c410abe377c957c8b61e82bf57be88da7f70529c8a210",
+      "local_modified_at_utc": "2025-05-01T11:51:02+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3858.json",
+      "file_name": "3858.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 14997407,
+      "sha256": "505f66195a594ac4913e8c90416b92a94ab9a00cf0480df50fe73da8e88431bc",
+      "local_modified_at_utc": "2025-05-01T11:51:39+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/3859.json",
+      "file_name": "3859.json",
+      "top_level_group": "Event Data",
+      "extension": ".json",
+      "size_bytes": 15265165,
+      "sha256": "6efaf96ae9c7f83d88fee3d2f9bc63a7b28ddc452fcdffcff6557fcc17cc8a97",
+      "local_modified_at_utc": "2025-05-01T11:52:19+00:00"
+    },
+    {
+      "relative_path": "Event Data/May 1, 2025/PFF FC Event Data Specification v2.4.pdf",
+      "file_name": "PFF FC Event Data Specification v2.4.pdf",
+      "top_level_group": "Event Data",
+      "extension": ".pdf",
+      "size_bytes": 821126,
+      "sha256": "dcfb2aea85a19e4573da4378f762dc16e4841a91f012924802acdf11a5f31a7a",
+      "local_modified_at_utc": "2025-05-01T09:59:01+00:00"
+    },
+    {
+      "relative_path": "Event Data/PFF FC Event Data Specification v2.5.pdf",
+      "file_name": "PFF FC Event Data Specification v2.5.pdf",
+      "top_level_group": "Event Data",
+      "extension": ".pdf",
+      "size_bytes": 824166,
+      "sha256": "90b34f6b7e0401a0ab4c9f1328ef8e10a8f7237e4461359ee8c292d8fa9e0246",
+      "local_modified_at_utc": "2025-06-03T11:14:04+00:00"
+    },
+    {
+      "relative_path": "Metadata/10502.json",
+      "file_name": "10502.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 1013,
+      "sha256": "b4b121e8e81c8c25bfb985e70c11ba43512f33a8d49df643c4aef9b9523e1e46",
+      "local_modified_at_utc": "2025-02-05T18:26:39+00:00"
+    },
+    {
+      "relative_path": "Metadata/10503.json",
+      "file_name": "10503.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 990,
+      "sha256": "589c3998594bb59dd5dd80c12f45e1d801209085a48b3a7f926d0661b266c460",
+      "local_modified_at_utc": "2025-02-05T18:26:42+00:00"
+    },
+    {
+      "relative_path": "Metadata/10504.json",
+      "file_name": "10504.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 985,
+      "sha256": "27c93c1fe35b370e130806f8b8a973e012692cd16bed11b0fc9901eda317b3c4",
+      "local_modified_at_utc": "2025-02-05T18:26:44+00:00"
+    },
+    {
+      "relative_path": "Metadata/10505.json",
+      "file_name": "10505.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 983,
+      "sha256": "ad5df7809235696008727f431161f8ac2bc86ede452a6b1bb32a8adeada26ff7",
+      "local_modified_at_utc": "2025-02-05T18:26:45+00:00"
+    },
+    {
+      "relative_path": "Metadata/10506.json",
+      "file_name": "10506.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 955,
+      "sha256": "94c37503e2c329f1f33aef3130e508ddb38b2d88d575b7cf280562802513ce11",
+      "local_modified_at_utc": "2025-02-05T18:26:48+00:00"
+    },
+    {
+      "relative_path": "Metadata/10507.json",
+      "file_name": "10507.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 989,
+      "sha256": "097d70bd7b3dca46d0ad18f3f8c291ca17bbc578a28042bb9cd8351c8ac1aeef",
+      "local_modified_at_utc": "2025-02-05T18:26:50+00:00"
+    },
+    {
+      "relative_path": "Metadata/10508.json",
+      "file_name": "10508.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 960,
+      "sha256": "8586c7242dde72efb3c60a1a25e00ad56e01278c56e0d4fc98e99a430d6a56c8",
+      "local_modified_at_utc": "2025-02-05T18:26:52+00:00"
+    },
+    {
+      "relative_path": "Metadata/10509.json",
+      "file_name": "10509.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 988,
+      "sha256": "2b47197f7925e1408d396c49a779986b5aee02ac8c2777bfead34c3de09b9198",
+      "local_modified_at_utc": "2025-02-05T18:26:54+00:00"
+    },
+    {
+      "relative_path": "Metadata/10510.json",
+      "file_name": "10510.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 961,
+      "sha256": "4ae9d5cde65ec4e26738f9f66f04982e0d9d2e97a0cfbd819425f00ff3e91eaa",
+      "local_modified_at_utc": "2025-02-05T18:26:56+00:00"
+    },
+    {
+      "relative_path": "Metadata/10511.json",
+      "file_name": "10511.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 960,
+      "sha256": "ce8cb53e1999e862f2949f875e4e036b49fd2099765240376ab577a7553352e6",
+      "local_modified_at_utc": "2025-02-05T18:26:58+00:00"
+    },
+    {
+      "relative_path": "Metadata/10512.json",
+      "file_name": "10512.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 982,
+      "sha256": "df97043d3ad1d1e3ddbf31589b1312759ee711414297f750b3d7cc5ae1476927",
+      "local_modified_at_utc": "2025-02-05T18:27:00+00:00"
+    },
+    {
+      "relative_path": "Metadata/10513.json",
+      "file_name": "10513.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 982,
+      "sha256": "d4dda4248b2e88257431faf90d58fe593ec14a31394798e1c5e3f9c8a46a1fc9",
+      "local_modified_at_utc": "2025-02-05T18:27:06+00:00"
+    },
+    {
+      "relative_path": "Metadata/10514.json",
+      "file_name": "10514.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 983,
+      "sha256": "a84474d6bb7df1f565030c24a55224d7d929be6fcac29be292cb97b875e223c7",
+      "local_modified_at_utc": "2025-02-05T18:27:10+00:00"
+    },
+    {
+      "relative_path": "Metadata/10515.json",
+      "file_name": "10515.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 990,
+      "sha256": "2e7f76327b64a149edf37bf93d44e76eabf890356ce1d397447bb3992eeb9bb7",
+      "local_modified_at_utc": "2025-02-05T18:27:11+00:00"
+    },
+    {
+      "relative_path": "Metadata/10516.json",
+      "file_name": "10516.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 1004,
+      "sha256": "d0f3c85fc79d576e47f1ce44de2ea98f9aa7f1ad8ada003422b29546a3836edf",
+      "local_modified_at_utc": "2025-02-05T18:27:13+00:00"
+    },
+    {
+      "relative_path": "Metadata/10517.json",
+      "file_name": "10517.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 955,
+      "sha256": "9416812b85807dc9c02a2e86e6269a5ef9def47d7ca353c70994626bcc5d417a",
+      "local_modified_at_utc": "2025-02-05T18:27:14+00:00"
+    },
+    {
+      "relative_path": "Metadata/3812.json",
+      "file_name": "3812.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 992,
+      "sha256": "fc3789d268e7c3e418980e234079f7a595bb30cde7089b30b2d5e91eaae7836c",
+      "local_modified_at_utc": "2025-02-05T18:25:13+00:00"
+    },
+    {
+      "relative_path": "Metadata/3813.json",
+      "file_name": "3813.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 993,
+      "sha256": "a71afff466ac489108dbd773c260b58a504b86c0a2e12a677077025cd4b46ead",
+      "local_modified_at_utc": "2025-02-05T18:25:18+00:00"
+    },
+    {
+      "relative_path": "Metadata/3814.json",
+      "file_name": "3814.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 987,
+      "sha256": "0105fe2f7971c19bb9f04e7aa04dcba73f851e2e09778d05f3791089559758b2",
+      "local_modified_at_utc": "2025-02-05T18:25:19+00:00"
+    },
+    {
+      "relative_path": "Metadata/3815.json",
+      "file_name": "3815.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 998,
+      "sha256": "0da996e2ca7dbc873e43df24cd8ddff94e8c43a70432138c7c27275b7e801de1",
+      "local_modified_at_utc": "2025-02-05T18:25:22+00:00"
+    },
+    {
+      "relative_path": "Metadata/3816.json",
+      "file_name": "3816.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 982,
+      "sha256": "991040955ce536a7c22c20ff597f360f1402db945e1941320ba66806ed74794d",
+      "local_modified_at_utc": "2025-02-05T18:25:23+00:00"
+    },
+    {
+      "relative_path": "Metadata/3817.json",
+      "file_name": "3817.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 987,
+      "sha256": "de78e952d80d325109596ddae41c04a7597fd177fd1bedb9086e64eeab04a951",
+      "local_modified_at_utc": "2025-02-05T18:25:25+00:00"
+    },
+    {
+      "relative_path": "Metadata/3818.json",
+      "file_name": "3818.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 983,
+      "sha256": "5edda42ffd3853d2fdd2ba15e6fff54691b8be230367d9273f116864644d62e3",
+      "local_modified_at_utc": "2025-02-05T18:25:27+00:00"
+    },
+    {
+      "relative_path": "Metadata/3819.json",
+      "file_name": "3819.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 992,
+      "sha256": "19d6c414653bcf8851dce5962d463e70a4e1421b387751eed9998dca768d5eaf",
+      "local_modified_at_utc": "2025-02-05T18:25:28+00:00"
+    },
+    {
+      "relative_path": "Metadata/3820.json",
+      "file_name": "3820.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 985,
+      "sha256": "7f5bb9cd1159103a82fbf2b6f9a5dbe9bc28eb9afaa8c58fb5179a4bf606c7c2",
+      "local_modified_at_utc": "2025-02-05T18:25:30+00:00"
+    },
+    {
+      "relative_path": "Metadata/3821.json",
+      "file_name": "3821.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 1001,
+      "sha256": "9ac48e5e6f8c6c25deb15a8883c16430d516b5760ec3500d32de1a560152ddb7",
+      "local_modified_at_utc": "2025-02-05T18:25:31+00:00"
+    },
+    {
+      "relative_path": "Metadata/3822.json",
+      "file_name": "3822.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 986,
+      "sha256": "69a78c4e1fbf368bd06f5685182eb85fa4710259be6ae570966fb5b2f152c95e",
+      "local_modified_at_utc": "2025-02-05T18:25:33+00:00"
+    },
+    {
+      "relative_path": "Metadata/3823.json",
+      "file_name": "3823.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 995,
+      "sha256": "c258c9428e3ec596e4e8c09f21f04e29eb880a0053384bf9b294939951ce4296",
+      "local_modified_at_utc": "2025-02-05T18:25:34+00:00"
+    },
+    {
+      "relative_path": "Metadata/3824.json",
+      "file_name": "3824.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 997,
+      "sha256": "da7116270916ed18bea8f58756d2bc54cd629d3da3405a98586211b46fd3e316",
+      "local_modified_at_utc": "2025-02-05T18:25:37+00:00"
+    },
+    {
+      "relative_path": "Metadata/3825.json",
+      "file_name": "3825.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 1000,
+      "sha256": "7697c957c6fa4dbe1a2c9c28c26ae2cc127f24ab320143f7d58d2a016c1b4f18",
+      "local_modified_at_utc": "2025-02-05T18:25:39+00:00"
+    },
+    {
+      "relative_path": "Metadata/3826.json",
+      "file_name": "3826.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 978,
+      "sha256": "7f5231a80bd845f240b352c90658f6eac64c1349b69de57515b9fe7d4ce59074",
+      "local_modified_at_utc": "2025-02-05T18:25:40+00:00"
+    },
+    {
+      "relative_path": "Metadata/3827.json",
+      "file_name": "3827.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 981,
+      "sha256": "d52868be3f95526c3aaacbdf08619e4028baf72db99a6585e10246f3281cab80",
+      "local_modified_at_utc": "2025-02-05T18:25:42+00:00"
+    },
+    {
+      "relative_path": "Metadata/3828.json",
+      "file_name": "3828.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 986,
+      "sha256": "8cf369595a3d2d1cd99d3dd79408c71224fc61a1458a5ff4d46f3cd9da35c962",
+      "local_modified_at_utc": "2025-02-05T18:25:43+00:00"
+    },
+    {
+      "relative_path": "Metadata/3829.json",
+      "file_name": "3829.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 986,
+      "sha256": "624669a61a4e14efb9c576f877d23ed87dbcf2a40196d22c372ecc984d9525a2",
+      "local_modified_at_utc": "2025-02-05T18:25:45+00:00"
+    },
+    {
+      "relative_path": "Metadata/3830.json",
+      "file_name": "3830.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 1007,
+      "sha256": "5697de3f4447bbef90c31e1e2ce2cd2fb7b5def214483285e92dce0988e28919",
+      "local_modified_at_utc": "2025-02-05T18:25:46+00:00"
+    },
+    {
+      "relative_path": "Metadata/3831.json",
+      "file_name": "3831.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 987,
+      "sha256": "05a72fac3fe52bb7ce3d87926f8f9e087aa2ed7599eb0af253bb5005e773b72b",
+      "local_modified_at_utc": "2025-02-05T18:25:48+00:00"
+    },
+    {
+      "relative_path": "Metadata/3832.json",
+      "file_name": "3832.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 985,
+      "sha256": "cad63a885b0d5f5dac2ac766df1ed1074ff87c802fb37367fb2a0cb25eb87734",
+      "local_modified_at_utc": "2025-02-05T18:25:49+00:00"
+    },
+    {
+      "relative_path": "Metadata/3833.json",
+      "file_name": "3833.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 995,
+      "sha256": "3b26840fd9bdd6df25833e034f684eb7ff964a26e292ad3d98c03e231293e31f",
+      "local_modified_at_utc": "2025-02-05T18:25:50+00:00"
+    },
+    {
+      "relative_path": "Metadata/3834.json",
+      "file_name": "3834.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 984,
+      "sha256": "0678a253b5111fe1037c374f0781ae2e096ad562635d0a2f9c4f55c5db356989",
+      "local_modified_at_utc": "2025-02-05T18:25:52+00:00"
+    },
+    {
+      "relative_path": "Metadata/3835.json",
+      "file_name": "3835.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 988,
+      "sha256": "e5170a0b7b918f519a66031aec7f856738ca9c3320313cb12ccc7910645e7c63",
+      "local_modified_at_utc": "2025-02-05T18:25:54+00:00"
+    },
+    {
+      "relative_path": "Metadata/3836.json",
+      "file_name": "3836.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 995,
+      "sha256": "bb3d0a42379fa4e65cded6e17969c47a338c3821068a83cf1442123aa5a2d65e",
+      "local_modified_at_utc": "2025-02-05T18:25:55+00:00"
+    },
+    {
+      "relative_path": "Metadata/3837.json",
+      "file_name": "3837.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 985,
+      "sha256": "0994fa90559465994d788410d44ca6c18cac097a17c34653e571f8649f3b182d",
+      "local_modified_at_utc": "2025-02-05T18:25:57+00:00"
+    },
+    {
+      "relative_path": "Metadata/3838.json",
+      "file_name": "3838.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 995,
+      "sha256": "2b6c4c6a3581f681a7e5176a58084a7cb433f20a451ac6d018e15e7782793866",
+      "local_modified_at_utc": "2025-02-05T18:25:58+00:00"
+    },
+    {
+      "relative_path": "Metadata/3839.json",
+      "file_name": "3839.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 974,
+      "sha256": "83456f051fa78f88837704bfd7a0360b405b4c5a5cd303be1924c57b1b87d43a",
+      "local_modified_at_utc": "2025-02-05T18:25:59+00:00"
+    },
+    {
+      "relative_path": "Metadata/3840.json",
+      "file_name": "3840.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 993,
+      "sha256": "b98faec64855cdb41371fa7368ce24369610cc1eae6d57b0a853a6e4cb1597d6",
+      "local_modified_at_utc": "2025-02-05T18:26:01+00:00"
+    },
+    {
+      "relative_path": "Metadata/3841.json",
+      "file_name": "3841.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 988,
+      "sha256": "8bdebe6064d825d999004de76692686f436a307cca4db487281a4af765d89eed",
+      "local_modified_at_utc": "2025-02-05T18:26:02+00:00"
+    },
+    {
+      "relative_path": "Metadata/3842.json",
+      "file_name": "3842.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 987,
+      "sha256": "63ec5ef6852c0900ff27c107756bb4c0e9dc5bb1a46a3c8734e03a9b0b4bef16",
+      "local_modified_at_utc": "2025-02-05T18:26:04+00:00"
+    },
+    {
+      "relative_path": "Metadata/3843.json",
+      "file_name": "3843.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 988,
+      "sha256": "57f8998a8339f4d5b6acab6a89fa12e1e309e933c14e96c3d444f44f41430521",
+      "local_modified_at_utc": "2025-02-05T18:26:06+00:00"
+    },
+    {
+      "relative_path": "Metadata/3844.json",
+      "file_name": "3844.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 992,
+      "sha256": "df55c810f7a0e4e8052fc22496822b29ef9d6192121da8bca0ac3692ed3929e2",
+      "local_modified_at_utc": "2025-02-05T18:26:09+00:00"
+    },
+    {
+      "relative_path": "Metadata/3845.json",
+      "file_name": "3845.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 990,
+      "sha256": "ddd2dd89fb0df273482264bd68b19532fd233fded4ed76f687d7e9ec8972c5fd",
+      "local_modified_at_utc": "2025-02-05T18:26:11+00:00"
+    },
+    {
+      "relative_path": "Metadata/3846.json",
+      "file_name": "3846.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 985,
+      "sha256": "71cd908951545244fe37c2fbc8b3f209e7e8b599d8bbdcad2effd435e6677394",
+      "local_modified_at_utc": "2025-02-05T18:26:16+00:00"
+    },
+    {
+      "relative_path": "Metadata/3847.json",
+      "file_name": "3847.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 990,
+      "sha256": "8b12b8da5e92e628c913e3127455d6dfb9d7f1c8ec83bc98d489b7dd4d4a7bef",
+      "local_modified_at_utc": "2025-02-05T18:26:21+00:00"
+    },
+    {
+      "relative_path": "Metadata/3848.json",
+      "file_name": "3848.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 987,
+      "sha256": "3a6a3f8adc0deee7bc640217c43cbc0901103d8dbfa697282e6a11ec8736fec1",
+      "local_modified_at_utc": "2025-02-05T18:26:23+00:00"
+    },
+    {
+      "relative_path": "Metadata/3849.json",
+      "file_name": "3849.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 989,
+      "sha256": "5cba97ea553cfe46a9fc851071cc21efca5944547011600f216ab33946792529",
+      "local_modified_at_utc": "2025-02-05T18:26:24+00:00"
+    },
+    {
+      "relative_path": "Metadata/3850.json",
+      "file_name": "3850.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 986,
+      "sha256": "69df22d9710cb879be09b599754e9e2310d8a7330ceeb096a24e7bd2f54ce6ad",
+      "local_modified_at_utc": "2025-02-05T18:26:26+00:00"
+    },
+    {
+      "relative_path": "Metadata/3851.json",
+      "file_name": "3851.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 989,
+      "sha256": "fe2c960b23225be049c8fd093dd64dfa8313f8d2ebf23e62e6aa14e642fe6a27",
+      "local_modified_at_utc": "2025-02-05T18:26:27+00:00"
+    },
+    {
+      "relative_path": "Metadata/3852.json",
+      "file_name": "3852.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 989,
+      "sha256": "a62536f0f00c88ad72c28f77cfdc7fc0113b393cc40e6482dd93443a5bf4e2b7",
+      "local_modified_at_utc": "2025-02-05T18:26:28+00:00"
+    },
+    {
+      "relative_path": "Metadata/3853.json",
+      "file_name": "3853.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 991,
+      "sha256": "baf8f30d6bd07014f241d644101317f63252a3f90aab69c40d771ab8b8a384fc",
+      "local_modified_at_utc": "2025-02-05T18:26:30+00:00"
+    },
+    {
+      "relative_path": "Metadata/3854.json",
+      "file_name": "3854.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 991,
+      "sha256": "96128da72d8f727b44c1e206858b5aa8a01f3a37cdfdc5b8d458102198a001be",
+      "local_modified_at_utc": "2025-02-05T18:26:31+00:00"
+    },
+    {
+      "relative_path": "Metadata/3855.json",
+      "file_name": "3855.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 982,
+      "sha256": "c54f155039a43a45f361c8705ad4c8f8f61b7cb876d4147632ded49c4bebf054",
+      "local_modified_at_utc": "2025-02-05T18:26:31+00:00"
+    },
+    {
+      "relative_path": "Metadata/3856.json",
+      "file_name": "3856.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 988,
+      "sha256": "e06e341d6f1f228068a101b5d0f906a652e7d6650eadf62e4319184b692a4604",
+      "local_modified_at_utc": "2025-02-05T18:26:32+00:00"
+    },
+    {
+      "relative_path": "Metadata/3857.json",
+      "file_name": "3857.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 994,
+      "sha256": "7e9254ee5306c9417294d6a325c06fa4ffea8ef753d98f48077b5bf062d1eb91",
+      "local_modified_at_utc": "2025-02-05T18:26:34+00:00"
+    },
+    {
+      "relative_path": "Metadata/3858.json",
+      "file_name": "3858.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 975,
+      "sha256": "6d093858986add1a4ba949f4b5b5d3facd0101f55a3084fa5114cc070fe43219",
+      "local_modified_at_utc": "2025-02-05T18:26:35+00:00"
+    },
+    {
+      "relative_path": "Metadata/3859.json",
+      "file_name": "3859.json",
+      "top_level_group": "Metadata",
+      "extension": ".json",
+      "size_bytes": 983,
+      "sha256": "080065929986102fcfd986a0b2a1d5da95ab834a318b36b79eeedb171c75fe1d",
+      "local_modified_at_utc": "2025-02-05T18:26:36+00:00"
+    },
+    {
+      "relative_path": "PFF FC Change Log.docx",
+      "file_name": "PFF FC Change Log.docx",
+      "top_level_group": "ROOT",
+      "extension": ".docx",
+      "size_bytes": 660329,
+      "sha256": "66c35f5be69398ae25f5be670ca4260eaaafa5633ea0cd614d5e21bf9c9cc143",
+      "local_modified_at_utc": "2025-06-03T11:35:03.682000+00:00"
+    },
+    {
+      "relative_path": "players.csv",
+      "file_name": "players.csv",
+      "top_level_group": "ROOT",
+      "extension": ".csv",
+      "size_bytes": 124703,
+      "sha256": "919bcaaf569d60a047d2932de52cac794b605bf347ddda71d6be32628612be18",
+      "local_modified_at_utc": "2024-02-05T12:46:18+00:00"
+    },
+    {
+      "relative_path": "Rosters/10502.json",
+      "file_name": "10502.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7830,
+      "sha256": "3cf5165b553ea3a07bc2ba0a0017d2c79becf6b6c2747430e8e05870a959f9ca",
+      "local_modified_at_utc": "2025-01-31T13:53:49+00:00"
+    },
+    {
+      "relative_path": "Rosters/10503.json",
+      "file_name": "10503.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7889,
+      "sha256": "23e1f6b1c422088ac1845e143e7960b8816b43401ba5300ed647e9b9d4781679",
+      "local_modified_at_utc": "2025-01-31T13:53:50+00:00"
+    },
+    {
+      "relative_path": "Rosters/10504.json",
+      "file_name": "10504.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7497,
+      "sha256": "569b934d9d8f9e0ad20214285ea584f099a2a1c6110f81f01003f4bced1f747c",
+      "local_modified_at_utc": "2025-01-31T13:53:50+00:00"
+    },
+    {
+      "relative_path": "Rosters/10505.json",
+      "file_name": "10505.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7086,
+      "sha256": "38b791fa2d176bf4a0dcd7789fac67ff6920b92f01a684bc8b9b8eeb99f2cd24",
+      "local_modified_at_utc": "2025-01-31T13:53:50+00:00"
+    },
+    {
+      "relative_path": "Rosters/10506.json",
+      "file_name": "10506.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7046,
+      "sha256": "e38979566818cdbb180c82addbb89218dfb802cd72dfade08842cbbe4d74bd41",
+      "local_modified_at_utc": "2025-01-31T13:53:56+00:00"
+    },
+    {
+      "relative_path": "Rosters/10507.json",
+      "file_name": "10507.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7273,
+      "sha256": "e27385e17e5a50e6b67fa4e9545760cf193819ad7cc5a3bae1b41aa4d2ac8ed9",
+      "local_modified_at_utc": "2025-01-31T13:53:51+00:00"
+    },
+    {
+      "relative_path": "Rosters/10508.json",
+      "file_name": "10508.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7638,
+      "sha256": "8bb2b673e721e5d0a80bb0443cb50b1f8b1020bd2c086ac683aed505fa557351",
+      "local_modified_at_utc": "2025-01-31T13:53:51+00:00"
+    },
+    {
+      "relative_path": "Rosters/10509.json",
+      "file_name": "10509.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7404,
+      "sha256": "91418bb8430b56e038603801db6782a0d7b3221a62c54b0b0d1ff5015981596b",
+      "local_modified_at_utc": "2025-01-31T13:53:51+00:00"
+    },
+    {
+      "relative_path": "Rosters/10510.json",
+      "file_name": "10510.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7318,
+      "sha256": "efccd29f528f5249aa0a5321f9125d449eddb6d588cfcc7edae1239fc5137cb8",
+      "local_modified_at_utc": "2025-01-31T13:53:52+00:00"
+    },
+    {
+      "relative_path": "Rosters/10511.json",
+      "file_name": "10511.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7963,
+      "sha256": "2a8454c2eb104961241669b71e566c0c4f2c3795b17f31a433e3ec0b5749c5c1",
+      "local_modified_at_utc": "2025-01-31T13:53:52+00:00"
+    },
+    {
+      "relative_path": "Rosters/10512.json",
+      "file_name": "10512.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7176,
+      "sha256": "cedfa69e27559936e1d2afcf690ce3801c39b07cac65d784bbbf0644469a630f",
+      "local_modified_at_utc": "2025-01-31T13:53:53+00:00"
+    },
+    {
+      "relative_path": "Rosters/10513.json",
+      "file_name": "10513.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7248,
+      "sha256": "72968c25869b8171fa633608bea400f9bfadb3ad3c47086a099e9a167553fec8",
+      "local_modified_at_utc": "2025-01-31T13:53:53+00:00"
+    },
+    {
+      "relative_path": "Rosters/10514.json",
+      "file_name": "10514.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7379,
+      "sha256": "9f0c1810e1ec5a7da59a3b2e73d79eb1198f055f4304e56fac3a35e317013d4e",
+      "local_modified_at_utc": "2025-01-31T13:53:54+00:00"
+    },
+    {
+      "relative_path": "Rosters/10515.json",
+      "file_name": "10515.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7049,
+      "sha256": "57b0e39e2f36e70be3f2d2c430378db65c128280a895102e81442de15fd8e7db",
+      "local_modified_at_utc": "2025-01-31T13:53:54+00:00"
+    },
+    {
+      "relative_path": "Rosters/10516.json",
+      "file_name": "10516.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7605,
+      "sha256": "e5eb536e8996e781fe2eb0658bfe380ab1d270c64f04395cacdad8f4f6346fc6",
+      "local_modified_at_utc": "2025-01-31T13:53:55+00:00"
+    },
+    {
+      "relative_path": "Rosters/10517.json",
+      "file_name": "10517.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7575,
+      "sha256": "e7053ba5aa8d626a41dd725edc2e9d867fa283d3fdf138ab22918f3692bc0057",
+      "local_modified_at_utc": "2025-01-31T13:53:55+00:00"
+    },
+    {
+      "relative_path": "Rosters/3812.json",
+      "file_name": "3812.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7865,
+      "sha256": "1063d8087e5b00d5e034a270d82723015d4d6c86be64af32fb1ab7a4b7412441",
+      "local_modified_at_utc": "2025-01-31T13:53:27+00:00"
+    },
+    {
+      "relative_path": "Rosters/3813.json",
+      "file_name": "3813.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7349,
+      "sha256": "07453fd7f1b7f369b56235f6fac2a9cb12be8a875678827934eaaa3af5400964",
+      "local_modified_at_utc": "2025-01-31T13:53:27+00:00"
+    },
+    {
+      "relative_path": "Rosters/3814.json",
+      "file_name": "3814.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7785,
+      "sha256": "ce6ce1b29f21a0da1b74deb86b88b45bb7388708187915e48b2982284f5c7dda",
+      "local_modified_at_utc": "2025-01-31T13:53:28+00:00"
+    },
+    {
+      "relative_path": "Rosters/3815.json",
+      "file_name": "3815.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7779,
+      "sha256": "3c0286e130dec2ba73dbb518d83434ea4071b48f3583217b56387beb3d3447e8",
+      "local_modified_at_utc": "2025-01-31T13:53:28+00:00"
+    },
+    {
+      "relative_path": "Rosters/3816.json",
+      "file_name": "3816.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7901,
+      "sha256": "197e62127728780a91cfc5f6aab0b5e8f7bf4b51c7abe10f53675527009e4b91",
+      "local_modified_at_utc": "2025-01-31T13:53:29+00:00"
+    },
+    {
+      "relative_path": "Rosters/3817.json",
+      "file_name": "3817.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7842,
+      "sha256": "57d06598ecba555b783d3fa6917b108f510eadd7656d86981efb370dbc52bd0f",
+      "local_modified_at_utc": "2025-01-31T13:53:29+00:00"
+    },
+    {
+      "relative_path": "Rosters/3818.json",
+      "file_name": "3818.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7782,
+      "sha256": "0a53884d9fcb1498d493225dadfc507e21cfb9ce61ee5d3cd4037e76748ffd16",
+      "local_modified_at_utc": "2025-01-31T13:53:30+00:00"
+    },
+    {
+      "relative_path": "Rosters/3819.json",
+      "file_name": "3819.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7662,
+      "sha256": "88d47cf641d55fac38c4da711f7fafea0c631fa9af86223c64028cf2da828d3a",
+      "local_modified_at_utc": "2025-01-31T13:53:30+00:00"
+    },
+    {
+      "relative_path": "Rosters/3820.json",
+      "file_name": "3820.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7757,
+      "sha256": "470ceee270c0a1cebbd1e7237128c13478974bd80e52d6fc5e8fe34ed7de1f00",
+      "local_modified_at_utc": "2025-01-31T13:53:31+00:00"
+    },
+    {
+      "relative_path": "Rosters/3821.json",
+      "file_name": "3821.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7679,
+      "sha256": "bb40bf1213136b3f6d9f7eb5f00e21ffbfad11d3f17ab9acc7c286d10ac40e3f",
+      "local_modified_at_utc": "2025-01-31T13:53:32+00:00"
+    },
+    {
+      "relative_path": "Rosters/3822.json",
+      "file_name": "3822.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7723,
+      "sha256": "47df56a2bc8e072a49204e377c23f5cf2bf0b8ec09627de070f83a9efbea7b14",
+      "local_modified_at_utc": "2025-01-31T13:53:32+00:00"
+    },
+    {
+      "relative_path": "Rosters/3823.json",
+      "file_name": "3823.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7595,
+      "sha256": "fa4cfd40dd7d82382a3239626cdcfc59d208a9dd1591383080ca436744dcca55",
+      "local_modified_at_utc": "2025-01-31T13:53:33+00:00"
+    },
+    {
+      "relative_path": "Rosters/3824.json",
+      "file_name": "3824.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7784,
+      "sha256": "2ef1e5177accb46c3eef328ef9dddf2fa1b8816389ff797644bbc010f8247e88",
+      "local_modified_at_utc": "2025-01-31T13:53:33+00:00"
+    },
+    {
+      "relative_path": "Rosters/3825.json",
+      "file_name": "3825.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7749,
+      "sha256": "4ca4bafe36932a070b13f9df3628d760a5d95ccbf3ded064c6ddba2e51787401",
+      "local_modified_at_utc": "2025-01-31T13:53:34+00:00"
+    },
+    {
+      "relative_path": "Rosters/3826.json",
+      "file_name": "3826.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7563,
+      "sha256": "baa94339d22d2e2642c4c340cc471a7966911692b2562e652fbbcdb94a5dad64",
+      "local_modified_at_utc": "2025-01-31T13:53:34+00:00"
+    },
+    {
+      "relative_path": "Rosters/3827.json",
+      "file_name": "3827.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7708,
+      "sha256": "793bc4b3b2451bd8f0d27b35a978a40997bef8dc5a3333bae39841184c89647d",
+      "local_modified_at_utc": "2025-01-31T13:53:35+00:00"
+    },
+    {
+      "relative_path": "Rosters/3828.json",
+      "file_name": "3828.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7323,
+      "sha256": "1ebbf10b28cb28e768675b3bbbb2edab3385392ce020049521b3e033b0e930ac",
+      "local_modified_at_utc": "2025-01-31T13:53:35+00:00"
+    },
+    {
+      "relative_path": "Rosters/3829.json",
+      "file_name": "3829.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7292,
+      "sha256": "d145528b27da4a3a823c9a644e66401c44311fbc88a9dc50c08cfcc9b6010aba",
+      "local_modified_at_utc": "2025-01-31T13:53:36+00:00"
+    },
+    {
+      "relative_path": "Rosters/3830.json",
+      "file_name": "3830.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7905,
+      "sha256": "6b580d58609dd0b1f56ebd07da592cd5c5a88d7c82959a7401a3e8695ab815aa",
+      "local_modified_at_utc": "2025-01-31T13:53:36+00:00"
+    },
+    {
+      "relative_path": "Rosters/3831.json",
+      "file_name": "3831.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7651,
+      "sha256": "70be0f43d4595f96d513cf0bb9b328deb830bc973c8f93dea46bd531ee2af8bc",
+      "local_modified_at_utc": "2025-01-31T13:53:37+00:00"
+    },
+    {
+      "relative_path": "Rosters/3832.json",
+      "file_name": "3832.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7652,
+      "sha256": "dfeef8745e3bbebddac23f8e015e24de04f8ef034c271eba9638625842de6dd9",
+      "local_modified_at_utc": "2025-01-31T13:53:37+00:00"
+    },
+    {
+      "relative_path": "Rosters/3833.json",
+      "file_name": "3833.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7507,
+      "sha256": "c3c4ff09ebe779bb14129015dda4915f35605cfffffc5b57441fb5a3e57df3c6",
+      "local_modified_at_utc": "2025-01-31T13:53:38+00:00"
+    },
+    {
+      "relative_path": "Rosters/3834.json",
+      "file_name": "3834.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7391,
+      "sha256": "0aef02ab2ef6ca228fbb72367ab0add28f498b169419c18a53cb774fb4e5d4c3",
+      "local_modified_at_utc": "2025-01-31T13:53:38+00:00"
+    },
+    {
+      "relative_path": "Rosters/3835.json",
+      "file_name": "3835.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7862,
+      "sha256": "8feca90975b1b65e3a190f1f5897aee3ec9385db306c2f520baeded30c4d5261",
+      "local_modified_at_utc": "2025-01-31T13:53:39+00:00"
+    },
+    {
+      "relative_path": "Rosters/3836.json",
+      "file_name": "3836.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7754,
+      "sha256": "56b7695ad29b3d77657a3ebc9c772914337bd48570be98c8b74f368dac2628e0",
+      "local_modified_at_utc": "2025-01-31T13:53:40+00:00"
+    },
+    {
+      "relative_path": "Rosters/3837.json",
+      "file_name": "3837.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7643,
+      "sha256": "626d0ac19e1d1d07c843880083a88f356034c3b96e2daea6c18d95662842603d",
+      "local_modified_at_utc": "2025-01-31T13:53:40+00:00"
+    },
+    {
+      "relative_path": "Rosters/3838.json",
+      "file_name": "3838.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7563,
+      "sha256": "bf5d843bafd4d460375a5a04400f003831a8b5b1aed791e101e711e2986efbe1",
+      "local_modified_at_utc": "2025-01-31T13:53:40+00:00"
+    },
+    {
+      "relative_path": "Rosters/3839.json",
+      "file_name": "3839.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7650,
+      "sha256": "f85f7205e6ae5cfa6f665797dc890da9131f495c18ec50befce7b0e19749ca6e",
+      "local_modified_at_utc": "2025-01-31T13:53:41+00:00"
+    },
+    {
+      "relative_path": "Rosters/3840.json",
+      "file_name": "3840.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7770,
+      "sha256": "ca9575e3d78acdef2ee9c090e58ae1431d29ca3f2b3a1391074189507a755a88",
+      "local_modified_at_utc": "2025-01-31T13:53:41+00:00"
+    },
+    {
+      "relative_path": "Rosters/3841.json",
+      "file_name": "3841.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7791,
+      "sha256": "6d1661372c538d01b0f8e8c0623c1bc251a903fba9f127db3b767c2dbb8017cb",
+      "local_modified_at_utc": "2025-01-31T13:53:42+00:00"
+    },
+    {
+      "relative_path": "Rosters/3842.json",
+      "file_name": "3842.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7295,
+      "sha256": "aad552179898e991aab2968c549131f4249ec95cab81df040fc905de823b7dce",
+      "local_modified_at_utc": "2025-01-31T13:53:43+00:00"
+    },
+    {
+      "relative_path": "Rosters/3843.json",
+      "file_name": "3843.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7376,
+      "sha256": "70f0149a853a202567c353a7ec29780b60da664ac89b9b7103c23e3dc72222e1",
+      "local_modified_at_utc": "2025-01-31T13:53:43+00:00"
+    },
+    {
+      "relative_path": "Rosters/3844.json",
+      "file_name": "3844.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7496,
+      "sha256": "3a987fdb86cf815bd2d4dc99db4e7bc753640655eab2bc6941965081f8da9978",
+      "local_modified_at_utc": "2025-01-31T13:53:43+00:00"
+    },
+    {
+      "relative_path": "Rosters/3845.json",
+      "file_name": "3845.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7696,
+      "sha256": "e5b12c3456e1f2c69a451aa1306cec8aae7f48d775f853d8f77e0e6a49c94910",
+      "local_modified_at_utc": "2025-01-31T13:53:44+00:00"
+    },
+    {
+      "relative_path": "Rosters/3846.json",
+      "file_name": "3846.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7280,
+      "sha256": "f388717ef75fc1b2458cd61c222fd6e9dee9044baafa244f6cbaa730f6178a98",
+      "local_modified_at_utc": "2025-01-31T13:53:44+00:00"
+    },
+    {
+      "relative_path": "Rosters/3847.json",
+      "file_name": "3847.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7548,
+      "sha256": "db68768f9e5ae0f631ffc08884177269bf67e9b402d8d6431f04d6cc59527515",
+      "local_modified_at_utc": "2025-01-31T13:53:45+00:00"
+    },
+    {
+      "relative_path": "Rosters/3848.json",
+      "file_name": "3848.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7703,
+      "sha256": "bb40b3865c9e0cc32cc3a6e1d22ec35f5cf8487f118da9dbee8b5252da6ce1c6",
+      "local_modified_at_utc": "2025-01-31T13:53:45+00:00"
+    },
+    {
+      "relative_path": "Rosters/3849.json",
+      "file_name": "3849.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7493,
+      "sha256": "1072dbc18e341c7ea46e8f0646aab6463eb33cdfb946603d77f713ee4e8f9ab7",
+      "local_modified_at_utc": "2025-01-31T13:53:45+00:00"
+    },
+    {
+      "relative_path": "Rosters/3850.json",
+      "file_name": "3850.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7881,
+      "sha256": "cf07b026d234290e4e95c8098e29e2a3fc3e9c3e4bbdc3c48e00d2ff0f607ce6",
+      "local_modified_at_utc": "2025-01-31T13:53:46+00:00"
+    },
+    {
+      "relative_path": "Rosters/3851.json",
+      "file_name": "3851.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7323,
+      "sha256": "10b339a273ad17673179f925992628c15ab6d1a60093e1f976f39cdf1de10523",
+      "local_modified_at_utc": "2025-01-31T13:53:46+00:00"
+    },
+    {
+      "relative_path": "Rosters/3852.json",
+      "file_name": "3852.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7594,
+      "sha256": "df246c14b5416e3447d1afcbd2ec9ecddaf1376b882c3fece08bc57d27e4637a",
+      "local_modified_at_utc": "2025-01-31T13:53:46+00:00"
+    },
+    {
+      "relative_path": "Rosters/3853.json",
+      "file_name": "3853.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7601,
+      "sha256": "4d71e2b0c09b85f8ffec42e91f2e1aec495115aed13ef203f19730b5af1394cc",
+      "local_modified_at_utc": "2025-01-31T13:53:47+00:00"
+    },
+    {
+      "relative_path": "Rosters/3854.json",
+      "file_name": "3854.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7510,
+      "sha256": "39ab66abf84bab0be2254fa577d531db4bebf3d20160a3d0cfd2331095fd0743",
+      "local_modified_at_utc": "2025-01-31T13:53:47+00:00"
+    },
+    {
+      "relative_path": "Rosters/3855.json",
+      "file_name": "3855.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7743,
+      "sha256": "15be5b354781b970a683c79658ee7ddcbf118240be7674045413962a98775272",
+      "local_modified_at_utc": "2025-01-31T13:53:47+00:00"
+    },
+    {
+      "relative_path": "Rosters/3856.json",
+      "file_name": "3856.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7623,
+      "sha256": "7f38e861171aa92aeab0fd07c46b27a7f64e84b761432dac1de68a24d99dbe41",
+      "local_modified_at_utc": "2025-01-31T13:53:48+00:00"
+    },
+    {
+      "relative_path": "Rosters/3857.json",
+      "file_name": "3857.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7393,
+      "sha256": "bd86b75a905c0f0ab183256b235b8c1ff757af6708013abaf0512eebefebd2a0",
+      "local_modified_at_utc": "2025-01-31T13:53:48+00:00"
+    },
+    {
+      "relative_path": "Rosters/3858.json",
+      "file_name": "3858.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 7478,
+      "sha256": "feffd058269fa94798c583c5e2a020de4240902e596bc1829a9aef27251d39bb",
+      "local_modified_at_utc": "2025-01-31T13:53:49+00:00"
+    },
+    {
+      "relative_path": "Rosters/3859.json",
+      "file_name": "3859.json",
+      "top_level_group": "Rosters",
+      "extension": ".json",
+      "size_bytes": 6676,
+      "sha256": "0f816d22b57dacca5ebb84ad9f7fd7a8b0ad550acda7f7b950b4bf7fe2d55a5e",
+      "local_modified_at_utc": "2025-01-31T13:53:49+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10502.jsonl.bz2",
+      "file_name": "10502.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39967342,
+      "sha256": "9ce40889d587737a16e701d9f1474e57b9926a074e50ffe245165fb5cf1e3f19",
+      "local_modified_at_utc": "2024-02-03T07:44:30+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10503.jsonl.bz2",
+      "file_name": "10503.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 47867512,
+      "sha256": "c0bfe17968ade6bd1ee5388c9eeb0def2651d5bbe2cec2fc15387afcbe391893",
+      "local_modified_at_utc": "2024-08-28T11:29:48+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10504.jsonl.bz2",
+      "file_name": "10504.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41203859,
+      "sha256": "1616d31b957fc7e43e8ed097aeafc868130d0867f29c0e453b5ed6c8d9850844",
+      "local_modified_at_utc": "2024-02-03T07:48:16+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10505.jsonl.bz2",
+      "file_name": "10505.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39817067,
+      "sha256": "46b5d55556fb2f37d730e47d4470d710315a52b995103496a924c6b3b52b01e8",
+      "local_modified_at_utc": "2024-02-03T07:50:09+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10506.jsonl.bz2",
+      "file_name": "10506.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 61910213,
+      "sha256": "43d9d915009b41ab580335eeaf432f09bc98c2e95100c72742cc4664b2246b03",
+      "local_modified_at_utc": "2024-01-30T19:16:00+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10507.jsonl.bz2",
+      "file_name": "10507.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 46996047,
+      "sha256": "41cd9896ef663fbcb811c2f97fd9bc7c5fdb92dcf75e1d66ff748a2ddba4acbe",
+      "local_modified_at_utc": "2024-08-28T11:31:28+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10508.jsonl.bz2",
+      "file_name": "10508.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 62248967,
+      "sha256": "559da14ae0e1c9de23197618909f0b519789eb0b90dc132d20c17137edcb03a3",
+      "local_modified_at_utc": "2024-01-30T19:18:35+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10509.jsonl.bz2",
+      "file_name": "10509.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39908943,
+      "sha256": "bee42c9a50257327833ada4fd2280a336b0d661c0418ad68c8af6ce5ef399388",
+      "local_modified_at_utc": "2024-02-03T07:53:46+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10510.jsonl.bz2",
+      "file_name": "10510.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 45444285,
+      "sha256": "3ec85fb616794da6bfeccf9972d40a09a56409edc60b7d16cbd6a9751d86963a",
+      "local_modified_at_utc": "2024-08-28T11:33:04+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10511.jsonl.bz2",
+      "file_name": "10511.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 51200035,
+      "sha256": "7bf1753dc849ad526aac078d60eb72878077978dfdda2a399ad223f8a506f5bc",
+      "local_modified_at_utc": "2024-08-28T11:34:54+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10512.jsonl.bz2",
+      "file_name": "10512.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40666271,
+      "sha256": "610852a02058302b2c91b4440b8ec1d67c1ec91c60d9876e0c3241b0c64e6b4a",
+      "local_modified_at_utc": "2024-02-03T07:55:40+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10513.jsonl.bz2",
+      "file_name": "10513.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42090106,
+      "sha256": "2cea80c7d5cc86a9782ec053f519c0cffda8c222c84e84ff9cf82e2c68e4b543",
+      "local_modified_at_utc": "2024-02-03T07:57:38+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10514.jsonl.bz2",
+      "file_name": "10514.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40448557,
+      "sha256": "b40db6bc9ae1747566f171f2f712021ffee50a152cc71ace0c45e5e8ebb88990",
+      "local_modified_at_utc": "2024-02-03T07:59:31+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10515.jsonl.bz2",
+      "file_name": "10515.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40559377,
+      "sha256": "4256d04560d53bd71536f279234b73bbdbb2d3231c57a02f7a9466110372a19b",
+      "local_modified_at_utc": "2024-02-03T08:01:14+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10516.jsonl.bz2",
+      "file_name": "10516.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40026340,
+      "sha256": "11f49b3e09f15f2fc623791cf2595592f7e60da631bd93d3a451e12e5cf8a09c",
+      "local_modified_at_utc": "2024-02-03T08:03:05+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/10517.jsonl.bz2",
+      "file_name": "10517.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 66646392,
+      "sha256": "3c899b41eb5fcf4c74bf62c83853910a24098eb4b2485cc799fab6fce622a72c",
+      "local_modified_at_utc": "2024-01-30T19:26:13+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3812.jsonl.bz2",
+      "file_name": "3812.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 48498962,
+      "sha256": "0a127c9e30d08c81087e73eb8fdbbe271cb6f4d06c6200beef3561fa294ec107",
+      "local_modified_at_utc": "2024-08-28T11:19:36+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3813.jsonl.bz2",
+      "file_name": "3813.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 45539933,
+      "sha256": "e47f6f3e76bc6222dfefb0bc635370b154841bb9ee791132a4583ab043b005a7",
+      "local_modified_at_utc": "2024-01-02T10:07:47+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3814.jsonl.bz2",
+      "file_name": "3814.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40165119,
+      "sha256": "6b4c7c86b1cb19e33656aa1ed6019f3572f6d76786477ff43eeece31ea2178e9",
+      "local_modified_at_utc": "2024-01-02T10:09:34+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3815.jsonl.bz2",
+      "file_name": "3815.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42505638,
+      "sha256": "291ad87d4250848524c2e234738249551dd1a777883e56f6bca08c7c80c28824",
+      "local_modified_at_utc": "2023-10-25T08:56:28+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3816.jsonl.bz2",
+      "file_name": "3816.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 44082883,
+      "sha256": "0c45a695b45eba9b11ed3e20f5b5e0dec6aeebfe32032efe8aa0ecbb94c255d4",
+      "local_modified_at_utc": "2024-01-02T10:11:50+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3817.jsonl.bz2",
+      "file_name": "3817.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41416991,
+      "sha256": "3b1028f44f6b083645785bb7e74a4a23f625837a3225e4c3b45669bad069961d",
+      "local_modified_at_utc": "2023-10-25T08:58:35+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3818.jsonl.bz2",
+      "file_name": "3818.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40266839,
+      "sha256": "5975297ab6e381412f84b0c971bd4c169ac66da667e544a13f886ad044c96e6c",
+      "local_modified_at_utc": "2024-01-02T10:13:37+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3819.jsonl.bz2",
+      "file_name": "3819.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 49036820,
+      "sha256": "66fc17c0e0c6eb600db509a75dc666c747521ecbce0ce416187e32b6cd7d54bf",
+      "local_modified_at_utc": "2024-08-28T11:17:51+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3820.jsonl.bz2",
+      "file_name": "3820.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39639162,
+      "sha256": "df1e79f674f7db65a72b6deba2720a79c44620c5f6749da66e28695d0331a71e",
+      "local_modified_at_utc": "2024-01-02T10:17:21+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3821.jsonl.bz2",
+      "file_name": "3821.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42212790,
+      "sha256": "4245b0ddf5e1f4f7ac96b0dcf5138a694fcf393d3962eca2671d4af4c24233ec",
+      "local_modified_at_utc": "2023-10-25T09:00:39+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3822.jsonl.bz2",
+      "file_name": "3822.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42560268,
+      "sha256": "b5c5078ca3c4de9cbfae1ecf4b5f4355a4407034fdd0fda51ac0dccbc7605512",
+      "local_modified_at_utc": "2024-01-02T10:19:24+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3823.jsonl.bz2",
+      "file_name": "3823.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40898735,
+      "sha256": "be45b1c86708df15fb69c52b08f751c3655447fcf49f557797966dd69939a8d8",
+      "local_modified_at_utc": "2024-01-02T10:21:10+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3824.jsonl.bz2",
+      "file_name": "3824.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40573798,
+      "sha256": "145b3b4e6b331f7835c4d81349e8a5e99dc7f9e43baa759a05fe85233cbd0bcb",
+      "local_modified_at_utc": "2024-01-02T10:23:03+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3825.jsonl.bz2",
+      "file_name": "3825.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40162268,
+      "sha256": "7bec35ae1f4a48db9a1637bf598bd09323b1ab8c1c96036dcab9d282acee604f",
+      "local_modified_at_utc": "2024-01-02T10:25:01+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3826.jsonl.bz2",
+      "file_name": "3826.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41376312,
+      "sha256": "36ed88922f4e5a06c2f9a8e000c6646f7feccaaceeccd02bf90acd5a170ddc15",
+      "local_modified_at_utc": "2024-01-02T10:27:07+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3827.jsonl.bz2",
+      "file_name": "3827.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 46816975,
+      "sha256": "2efcdf10c55a5998eac96a11722565194ff75a27f2fbe86a70fed78a89eca522",
+      "local_modified_at_utc": "2024-08-28T11:21:19+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3828.jsonl.bz2",
+      "file_name": "3828.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42859033,
+      "sha256": "ef67aa11ad5b12be63e8b0925272e7440b228ae258f75d2966ba45eb1b55ee2c",
+      "local_modified_at_utc": "2024-01-02T10:31:06+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3829.jsonl.bz2",
+      "file_name": "3829.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42102666,
+      "sha256": "c1bb8db0c08cada3cd3444113383d9ca55f74cf5eedc710f6ceecf1830cfbd86",
+      "local_modified_at_utc": "2024-01-02T10:33:06+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3830.jsonl.bz2",
+      "file_name": "3830.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40621027,
+      "sha256": "5d1cd0d2728c8a2dc25f1a225bd0e3fe9ef25b4bd9cd8dd4a73e4c669c339a3c",
+      "local_modified_at_utc": "2024-01-02T10:34:51+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3831.jsonl.bz2",
+      "file_name": "3831.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39308786,
+      "sha256": "5c462263c76bd5f651e11904b7a8e557c57e281cb8397acbaf8eceffeba3ef6e",
+      "local_modified_at_utc": "2024-01-02T10:36:40+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3832.jsonl.bz2",
+      "file_name": "3832.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41249125,
+      "sha256": "36f866427b7ff951eabf28c08ea47601b94ea98fbdf0c1df272e7f004034a6af",
+      "local_modified_at_utc": "2024-01-02T10:38:36+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3833.jsonl.bz2",
+      "file_name": "3833.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42777385,
+      "sha256": "f9dac7e96691a4be9127469d12bfdcf7292d1fadaebb8d085e8ddff11e0a859d",
+      "local_modified_at_utc": "2024-01-02T10:40:35+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3834.jsonl.bz2",
+      "file_name": "3834.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 47718225,
+      "sha256": "3cca88b3957a8d1fbd475e944ca3e2d11b5fa9332079340d4c4bda043147563c",
+      "local_modified_at_utc": "2024-08-28T11:23:00+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3835.jsonl.bz2",
+      "file_name": "3835.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41255439,
+      "sha256": "9ac782759d7db724a670809755e17ac25ed53750a248064c90e481557d8a5c3f",
+      "local_modified_at_utc": "2024-01-02T10:44:26+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3836.jsonl.bz2",
+      "file_name": "3836.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39724395,
+      "sha256": "8f2b89b28350b34745ba5498b5e4f21ebcb3cbc5404454c0050e90bdd0ec1d61",
+      "local_modified_at_utc": "2024-01-02T10:46:17+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3837.jsonl.bz2",
+      "file_name": "3837.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40283111,
+      "sha256": "03626200a5789d825bacb94f2a92b791ef24a0c4951dbab3745247c3da258c4c",
+      "local_modified_at_utc": "2024-01-02T10:48:08+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3838.jsonl.bz2",
+      "file_name": "3838.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41297162,
+      "sha256": "05d87e04fbb3c6de1ca8a274a13806342a34bc685e486229002f396017aa7535",
+      "local_modified_at_utc": "2024-01-02T10:50:05+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3839.jsonl.bz2",
+      "file_name": "3839.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39940794,
+      "sha256": "9659e3bc94f0445413a443601da62100224b0f7f0d7fcd464fada12968fc2bf4",
+      "local_modified_at_utc": "2024-01-02T10:51:47+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3840.jsonl.bz2",
+      "file_name": "3840.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41761141,
+      "sha256": "342ae91055f1f41115246ea8e4a66c724c450abda41b795bff1cb9c23ad4de8d",
+      "local_modified_at_utc": "2024-01-02T10:53:45+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3841.jsonl.bz2",
+      "file_name": "3841.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42553940,
+      "sha256": "a728e471d1a7ab593fc2f3d1cac787ca29610749c0d1e2d033fccbfeaba502e9",
+      "local_modified_at_utc": "2024-01-02T10:55:46+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3842.jsonl.bz2",
+      "file_name": "3842.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 46046775,
+      "sha256": "fa9d57d6c924318b472b06ce191c4c40ee33f23c1841eeaecbae0e6712b5db8a",
+      "local_modified_at_utc": "2024-08-28T11:24:39+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3843.jsonl.bz2",
+      "file_name": "3843.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41693352,
+      "sha256": "beac8b624a7248dea820979a2aa0e9474513caa98034636e5481829710acf538",
+      "local_modified_at_utc": "2023-10-25T09:02:44+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3844.jsonl.bz2",
+      "file_name": "3844.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40897190,
+      "sha256": "e3b5989df13b3aaef9077e7c8f0743dd08260d50787738dfa53dcba0739f4e1b",
+      "local_modified_at_utc": "2023-10-25T09:04:47+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3845.jsonl.bz2",
+      "file_name": "3845.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40096802,
+      "sha256": "f6edc0433f6261600fe294b27774aab2ec91bc87242fe2e4ae23e42f8c426f25",
+      "local_modified_at_utc": "2024-01-02T10:59:23+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3846.jsonl.bz2",
+      "file_name": "3846.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 39667746,
+      "sha256": "a22ccc0f070cf8572a5c01508b85508e70eacffc1b1e85e54749640881f6ae10",
+      "local_modified_at_utc": "2024-01-02T11:01:18+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3847.jsonl.bz2",
+      "file_name": "3847.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 43605752,
+      "sha256": "d48183354814ac01ef934afe1487b4d1ee3d34aa361fe0a1091567178139d321",
+      "local_modified_at_utc": "2024-01-02T11:03:13+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3848.jsonl.bz2",
+      "file_name": "3848.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 47112319,
+      "sha256": "dcfb3bde33659b07321390bd63263fda0343a6ff5b46761527ba3b1e00c1aff3",
+      "local_modified_at_utc": "2024-08-28T11:26:18+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3849.jsonl.bz2",
+      "file_name": "3849.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42069563,
+      "sha256": "795cc4d0ad1dc866c998b2321c7457c0dd7a0cc88ca7cf29b3fb97d78856defa",
+      "local_modified_at_utc": "2024-01-02T11:07:08+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3850.jsonl.bz2",
+      "file_name": "3850.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40541916,
+      "sha256": "a2fdd69c780c374ff3dd8ecec17af843b15d09c5fadf0a5ec33d5ae81d8d81b0",
+      "local_modified_at_utc": "2024-01-02T11:09:04+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3851.jsonl.bz2",
+      "file_name": "3851.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 48909410,
+      "sha256": "9041305fc5665aa4554125f3561c6280229cbbe06d5c1bb53731486a79253484",
+      "local_modified_at_utc": "2024-08-28T11:28:04+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3852.jsonl.bz2",
+      "file_name": "3852.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40302598,
+      "sha256": "ddfb342a41bbce1fe35d1424a2cc928114adf51c33706156331002612096b12f",
+      "local_modified_at_utc": "2024-01-02T11:12:55+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3853.jsonl.bz2",
+      "file_name": "3853.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40244294,
+      "sha256": "0d6296eb34a0f38c3abc4c6de467c4dd3f8a102590a5c719d14887f46c0d0fb5",
+      "local_modified_at_utc": "2024-01-02T11:14:49+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3854.jsonl.bz2",
+      "file_name": "3854.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40376238,
+      "sha256": "ba148c83ce469e34f7c03124c4116e11df1021ce77765b02a00e6c9c0ce14917",
+      "local_modified_at_utc": "2024-01-02T11:16:44+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3855.jsonl.bz2",
+      "file_name": "3855.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41158209,
+      "sha256": "761225ecbe88491cfb60caf0ba97e6378b4cfa9dae5067c2f8d12c1c26e095b6",
+      "local_modified_at_utc": "2024-01-02T11:18:43+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3856.jsonl.bz2",
+      "file_name": "3856.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42781732,
+      "sha256": "32cb650315d4f03c09a51eea6dd612e30cb8419b83e08357ee5869c7c6a42762",
+      "local_modified_at_utc": "2024-01-02T11:20:44+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3857.jsonl.bz2",
+      "file_name": "3857.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 40392472,
+      "sha256": "fdb32802ccb0d8eecae0f67c91d1a03b3690ca4275fcd1e8bc97fca836660f9e",
+      "local_modified_at_utc": "2024-01-02T11:22:41+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3858.jsonl.bz2",
+      "file_name": "3858.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 42001570,
+      "sha256": "be77cacd80e666fe6eb1ef6d982f5a556ae46a50343de14d61401e76a3a6cc7d",
+      "local_modified_at_utc": "2024-01-02T11:24:37+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/3859.jsonl.bz2",
+      "file_name": "3859.jsonl.bz2",
+      "top_level_group": "Tracking Data",
+      "extension": ".bz2",
+      "size_bytes": 41965190,
+      "sha256": "723e716003d819fd38222fd10096e061e0f4f6362012964f740b2cb7bde23e36",
+      "local_modified_at_utc": "2024-01-02T11:26:28+00:00"
+    },
+    {
+      "relative_path": "Tracking Data/PFF FC Tracking Data Specification v2.2.pdf",
+      "file_name": "PFF FC Tracking Data Specification v2.2.pdf",
+      "top_level_group": "Tracking Data",
+      "extension": ".pdf",
+      "size_bytes": 186300,
+      "sha256": "d6d2ab083f864e749c951a3256f6d3415eba7bd5f67eea6025403eaa59838f49",
+      "local_modified_at_utc": "2024-09-13T11:55:27.563000+00:00"
+    }
+  ]
+}

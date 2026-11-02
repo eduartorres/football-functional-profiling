@@ -1,0 +1,15 @@
+{
+  "provider": "Transfermarkt",
+  "dataset_project": "dcaribou/transfermarkt-datasets",
+  "dataset_format": "DuckDB",
+  "snapshot_date": "2026-07-06",
+  "source_url": "https://pub-e682421888d945d684bcae8890b0ec20.r2.dev/data/transfermarkt-datasets.duckdb",
+  "retrieved_at_utc": "2026-10-09T02:00:56.030101+00:00",
+  "local_path": "data/raw/transfermarkt/transfermarkt-datasets.duckdb",
+  "size_bytes": 210776064,
+  "size_human": "201.01 MB",
+  "sha256": "ba1eff7337b8ca78cb533df0b6eba0d6fc58218e0767460f6770e0b37f5a2113",
+  "remote_etag": "\"4037c0a1e71ea019e2ce1b05916a38d9-26\"",
+  "remote_last_modified": "Sat, 05 Sep 2026 09:12:34 GMT",
+  "purpose": "Contextual enrichment: player attributes, clubs, career history, transfers and market valuations."
+}

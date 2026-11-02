@@ -1,0 +1,13 @@
+# datos: se reconstruyen con src/ingestion y src/pipeline
+data/raw/
+data/interim/
+data/processed/
+!data/README.md
+# sistema y entornos
+.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv*/
+# temporales de Office
+~$*

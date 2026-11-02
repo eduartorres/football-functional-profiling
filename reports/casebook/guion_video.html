@@ -1,0 +1,81 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<title>Guion video de avances</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+<style>
+/* Guion de lectura: cada bloque abre con la pestaña amarilla de la página del casebook que debe estar en pantalla;
+   las indicaciones de qué señalar van en banda negra para distinguirlas del texto que se lee. */
+:root{--paper:#FFFFFF;--ink:#000000;--ink-2:#2E2E2E;--ink-3:#6E6E6E;--rule:#D6D6D6;--yellow:#FFFF00;
+  --f-sans:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);margin:0}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:max(16px,4vw);padding-block:28px 120px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);border-bottom:2px solid var(--ink);padding:12px 0;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;z-index:2}
+.top h1{font-size:1.15rem;margin:0}
+.top .meta{font-size:.85rem;color:var(--ink-3)}
+.top .meta b{color:var(--ink);background:var(--yellow);padding:2px 6px}
+.how{font-size:.9rem;color:var(--ink-2);margin:18px 0 8px;max-width:70ch;line-height:1.5}
+.blk{display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;padding:30px 0;border-bottom:1px solid var(--rule)}
+.tab{position:sticky;top:64px;align-self:start;display:flex;gap:12px;align-items:flex-start}
+.pg{background:var(--yellow);color:var(--ink);font-weight:700;font-size:2.1rem;line-height:1;padding:10px 12px;box-shadow:inset 0 0 0 2px var(--ink);font-variant-numeric:tabular-nums}
+.pt{font-weight:700;font-size:1rem;line-height:1.25}
+.tm{font-size:.82rem;color:var(--ink-3);margin-top:4px;font-variant-numeric:tabular-nums}
+.txt{display:flex;flex-direction:column;gap:14px;min-width:0}
+.say{margin:0;font-size:1.32rem;line-height:1.6;color:var(--ink);max-width:62ch}
+.cue{margin:0;background:var(--ink);color:var(--yellow);font-size:.98rem;font-weight:500;padding:9px 14px;display:flex;gap:12px;align-items:baseline;max-width:62ch}
+.cue span{color:var(--paper);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:400}
+@media (max-width:700px){.blk{grid-template-columns:1fr;gap:12px}.tab{position:static}.say{font-size:1.15rem}}
+</style>
+<div class="wrap">
+  <div class="top"><h1>Guion · Perfilamiento funcional de jugadores</h1><div class="meta">16 páginas · duración estimada <b>8:45</b> · límite 10:00</div></div>
+  <p class="how">El número amarillo indica la página del casebook que debe estar en pantalla. Las bandas negras indican qué señalar y no se leen. El tiempo está estimado a unas 140 palabras por minuto, más unos segundos para cambiar de página.</p>
+  <section class="blk" id="g01">
+  <header class="tab"><div class="pg">01</div><div><div class="pt">Portada</div><div class="tm">25 s · inicia en 0:00</div></div></header>
+  <div class="txt"><p class="say">Hola, mi nombre es Eduar Felipe Riaño Torres, estudiante de la Maestría en Inteligencia Analítica para la Toma de Decisiones. Presento el avance de mi Trabajo Práctico de Grado II: perfilamiento funcional de jugadores de fútbol más allá de la posición nominal. El trabajo es individual y mi asesor es Juan Pablo Gómez Bravo.</p></div>
+</section><section class="blk" id="g02">
+  <header class="tab"><div class="pg">02</div><div><div class="pt">Situación problemática</div><div class="tm">45 s · inicia en 0:25</div></div></header>
+  <div class="txt"><p class="say">En scouting y recruitment la búsqueda de jugadores suele empezar por la posición nominal. El problema es que esa etiqueta dice dónde está registrado el jugador, pero no cómo participa en el juego.</p><p class="cue"><span>Mostrar</span>Señalar el gráfico de barras</p><p class="say">Por ejemplo, Hamšík y Diamé aparecen como mediocampistas centrales en Wyscout y en Transfermarkt. Pero Hamšík está en el percentil 100 en pases y remates, y Diamé en el 94 en duelos; en cinco de seis indicadores difieren en más de 50 puntos. Si la búsqueda depende de la etiqueta, la lista puede mezclar perfiles muy distintos u omitir jugadores comparables.</p></div>
+</section><section class="blk" id="g03">
+  <header class="tab"><div class="pg">03</div><div><div class="pt">Pregunta de negocio</div><div class="tm">45 s · inicia en 1:10</div></div></header>
+  <div class="txt"><p class="say">De ahí sale la pregunta de negocio: ¿cómo apoyar la preselección de jugadores comparables con una necesidad deportiva o con un jugador de referencia, a partir de su comportamiento observado en campo?</p><p class="cue"><span>Mostrar</span>Señalar la fila de tres columnas debajo de la pregunta</p><p class="say">La pregunta empezó siendo más general; se concretó en la decisión de preselección y, con los datos, en una población y una forma de validación definidas. La decisión la toman la dirección deportiva y el cuerpo técnico, con listas que prepara scouting. Hace falta una metodología porque no existe una etiqueta correcta de perfil funcional: hay que construirla y evaluarla.</p></div>
+</section><section class="blk" id="g04">
+  <header class="tab"><div class="pg">04</div><div><div class="pt">Objetivos</div><div class="tm">35 s · inicia en 1:55</div></div></header>
+  <div class="txt"><p class="say">El objetivo general es construir y evaluar perfiles funcionales de jugadores de campo a partir de su comportamiento en datos de juego, para compararlos con información adicional a la posición.</p><p class="cue"><span>Mostrar</span>Recorrer la lista de objetivos y su estado</p><p class="say">Los cinco objetivos específicos van desde auditar las fuentes, que está en curso, hasta diseñar consultas de similitud. Trabajo con cuatro hipótesis; la primera, que dentro de una misma posición hay comportamientos distintos, ya tiene evidencia preliminar.</p></div>
+</section><section class="blk" id="g05">
+  <header class="tab"><div class="pg">05</div><div><div class="pt">Información disponible</div><div class="tm">40 s · inicia en 2:30</div></div></header>
+  <div class="txt"><p class="say">Para esto reuní seis fuentes. Wyscout es la base: 1.941 partidos y más de 3,2 millones de eventos de las cinco grandes ligas en 2017/18, la Eurocopa 2016 y el Mundial 2018. StatsBomb sirve para replicar con otro proveedor; SkillCorner, DFL y PFF aportan tracking, y Transfermarkt da el contexto del jugador.</p><p class="cue"><span>Mostrar</span>Señalar las dos bandas amarillas de la línea de tiempo</p><p class="say">Al cruzarlas encontré que coinciden en dos torneos: el Mundial 2018 está completo en Wyscout y en StatsBomb, y el Mundial 2022 en StatsBomb 360 y en el tracking de PFF.</p></div>
+</section><section class="blk" id="g06">
+  <header class="tab"><div class="pg">06</div><div><div class="pt">Cobertura de las dimensiones</div><div class="tm">35 s · inicia en 3:10</div></div></header>
+  <div class="txt"><p class="say">Luego revisé qué dimensiones existen realmente en cada fuente, inspeccionando los archivos y no solo la documentación.</p><p class="cue"><span>Mostrar</span>Señalar la matriz: primero las filas negras completas, luego la columna de Wyscout</p><p class="say">Pases, remates y duelos están en las cinco. La presión y las carreras sin balón no están en Wyscout.</p><p class="cue"><span>Mostrar</span>Bajar a los tres ajustes numerados</p><p class="say">Esto cambió el planteamiento: la validación entre proveedores se hará sobre los mismos 64 partidos del Mundial 2018, el estudio espacial se concentrará en el Mundial 2022 y el perfil base usa acciones con balón y duelos.</p></div>
+</section><section class="blk" id="g07">
+  <header class="tab"><div class="pg">07</div><div><div class="pt">Variables relevantes</div><div class="tm">30 s · inicia en 3:45</div></div></header>
+  <div class="txt"><p class="say">Con los eventos de Wyscout construí una primera versión de 18 indicadores por jugador y temporada, agrupados en distribución, progresión, creación, finalización, recuperación y ocupación espacial.</p><p class="cue"><span>Mostrar</span>Señalar los dos fragmentos de datos a la derecha</p><p class="say">A la derecha se ve un evento tal como llega en el archivo original y la fila que resulta al agregarlo. La posición nominal no entra como variable del perfil.</p></div>
+</section><section class="blk" id="g08">
+  <header class="tab"><div class="pg">08</div><div><div class="pt">Transformación de los datos</div><div class="tm">30 s · inicia en 4:15</div></div></header>
+  <div class="txt"><p class="cue"><span>Mostrar</span>Recorrer el flujo de izquierda a derecha</p><p class="say">Los 956 megas de JSON originales se pasaron a Parquet, con 3.251.294 eventos. Luego se construyó la tabla jugador-partido, con 53.791 filas, reconstruyendo los minutos con alineaciones, cambios y expulsiones, porque Wyscout no los trae. Después se agregó por jugador y temporada, y la población elegible quedó en 1.550 jugadores de campo con al menos 900 minutos. El 97 % se enlazó con Transfermarkt.</p></div>
+</section><section class="blk" id="g09">
+  <header class="tab"><div class="pg">09</div><div><div class="pt">Exploración inicial de los datos</div><div class="tm">30 s · inicia en 4:45</div></div></header>
+  <div class="txt"><p class="cue"><span>Mostrar</span>Señalar la cifra 10,97</p><p class="say">En la depuración, la reconstrucción de minutos da en promedio 10,97 jugadores en cancha por equipo y partido, lo esperado al descontar expulsiones. El 6,95 % de los eventos no tiene jugador, sobre todo interrupciones del juego, y se corrigieron 1.152 nombres mal codificados.</p><p class="cue"><span>Mostrar</span>Señalar la barra amarilla</p><p class="say">Con 900 minutos se conserva el 64 % de los jugadores. Es un umbral provisional.</p></div>
+</section><section class="blk" id="g10">
+  <header class="tab"><div class="pg">10</div><div><div class="pt">Posición y comportamiento</div><div class="tm">45 s · inicia en 5:15</div></div></header>
+  <div class="txt"><p class="say">Este es el hallazgo principal hasta ahora. Medí qué parte de la variación de cada indicador explica la posición.</p><p class="cue"><span>Mostrar</span>Señalar los puntos blancos</p><p class="say">La posición de Wyscout, con tres categorías, explica en mediana el 36 %.</p><p class="cue"><span>Mostrar</span>Señalar los puntos negros</p><p class="say">Con las trece sub-posiciones de Transfermarkt sube al 56 %, pero sigue quedando cerca del 44 % sin explicar.</p><p class="cue"><span>Mostrar</span>Señalar las tres filas resaltadas en amarillo</p><p class="say">En centros, conducciones y amplitud la posición casi no informa. Además, el equipo explica el 37 % del volumen de pases, cuando sin efecto se esperaría un 6 %; eso hay que controlarlo. Es un resultado descriptivo, todavía no son perfiles.</p></div>
+</section><section class="blk" id="g11">
+  <header class="tab"><div class="pg">11</div><div><div class="pt">Mediocampistas</div><div class="tm">25 s · inicia en 6:00</div></div></header>
+  <div class="txt"><p class="cue"><span>Mostrar</span>Señalar la barra horizontal, segmentos amarillos</p><p class="say">Si miro solo a los mediocampistas de Wyscout, 120 de 600 aparecen en Transfermarkt como extremos, defensas o delanteros, así que la etiqueta tampoco coincide entre fuentes.</p><p class="cue"><span>Mostrar</span>Señalar los cuatro paneles y luego los puntos amarillos del segundo</p><p class="say">Además, dentro de cada sub-posición la profundidad y la progresión cambian bastante. En el panel de mediocentros, Hamšík y Diamé quedan en zonas muy distintas del gráfico.</p></div>
+</section><section class="blk" id="g12">
+  <header class="tab"><div class="pg">12</div><div><div class="pt">Metodología analítica</div><div class="tm">35 s · inicia en 6:25</div></div></header>
+  <div class="txt"><p class="say">La metodología sigue CRISP-DM.</p><p class="cue"><span>Mostrar</span>Señalar los puntos negros</p><p class="say">Ya están hechas la comprensión del negocio, la adquisición y auditoría de las fuentes y la primera preparación de Wyscout.</p><p class="cue"><span>Mostrar</span>Señalar el punto amarillo</p><p class="say">Ahora estoy definiendo indicadores y reglas de comparabilidad. Después vienen la estandarización, la reducción de dimensionalidad con PCA, el agrupamiento comparando K-means, mezclas gaussianas y clustering jerárquico, y la evaluación.</p><p class="cue"><span>Mostrar</span>Señalar el texto de la derecha con la línea negra</p><p class="say">Un principio del proyecto es que la posición no entra al agrupamiento; se usa después como referencia para medir qué aportan los perfiles.</p></div>
+</section><section class="blk" id="g13">
+  <header class="tab"><div class="pg">13</div><div><div class="pt">Criterios de éxito</div><div class="tm">35 s · inicia en 7:00</div></div></header>
+  <div class="txt"><p class="say">Como no hay una etiqueta correcta de perfil, la evaluación combina varios criterios y la línea base es una búsqueda por posición.</p><p class="cue"><span>Mostrar</span>Recorrer la tabla de arriba abajo</p><p class="say">Se medirá separación con silueta y Davies-Bouldin, estabilidad con el índice de Rand ajustado y autoidentificación: si al dividir la temporada en dos mitades el vecino más cercano de un jugador es él mismo. También la replicación en el Mundial 2018. La utilidad para el negocio solo puede medirse con revisores deportivos.</p></div>
+</section><section class="blk" id="g14">
+  <header class="tab"><div class="pg">14</div><div><div class="pt">Avance en el cronograma</div><div class="tm">20 s · inicia en 7:35</div></div></header>
+  <div class="txt"><p class="cue"><span>Mostrar</span>Señalar barras negras y luego las amarillas</p><p class="say">El planteamiento y la adquisición de datos están terminados. El inventario y el diagnóstico están hechos y ya empezó la construcción de la población elegible y los indicadores. Siguen los modelos, la evaluación y la integración del informe.</p></div>
+</section><section class="blk" id="g15">
+  <header class="tab"><div class="pg">15</div><div><div class="pt">Retos</div><div class="tm">25 s · inicia en 7:55</div></div></header>
+  <div class="txt"><p class="say">Los principales retos son la diferencia de taxonomías y coordenadas entre proveedores; el enlace de jugadores entre fuentes, que con Transfermarkt ya llega al 97 %; que la sub-posición de Transfermarkt corresponda a 2026; el efecto del equipo en el volumen de juego, y la ausencia de una verdad de referencia.</p></div>
+</section><section class="blk" id="g16">
+  <header class="tab"><div class="pg">16</div><div><div class="pt">Resultados esperados</div><div class="tm">25 s · inicia en 8:20</div></div></header>
+  <div class="txt"><p class="say">Como resultados espero una representación reproducible del comportamiento, perfiles interpretables, una consulta de jugadores similares evaluada frente a la búsqueda por posición, la validación en el Mundial 2018 y un prototipo de consulta. El próximo paso es fijar las definiciones de los indicadores y el protocolo de modelado. Muchas gracias.</p></div>
+</section>
+</div>
+</body></html>

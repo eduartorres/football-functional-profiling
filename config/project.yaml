@@ -1,0 +1,101 @@
+# Configuración central del proyecto. Todos los scripts leen sus parámetros desde aquí.
+# Cambiar un valor de esta sección es una decisión metodológica: registrarla en docs/decisiones.md.
+
+project:
+  name: football-functional-profiling
+  seed: 2026
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  diagnostics: data/processed/diagnostics
+  features: data/processed/features
+  models: data/processed/models
+  evaluation: data/processed/evaluation
+  figures: reports/figures
+  transfermarkt_db: data/raw/transfermarkt/transfermarkt-datasets.duckdb
+
+# Núcleo empírico: Wyscout, cinco grandes ligas, temporada 2017/18
+core:
+  provider: wyscout
+  competitions: [England, France, Germany, Italy, Spain]
+  transfermarkt_competition_ids: [GB1, FR1, L1, IT1, ES1]
+  transfermarkt_season: "2017"
+  exclude_roles: [GK]
+
+# Replicación con StatsBomb sobre los mismos partidos
+replication:
+  wyscout_competition: World_Cup
+  statsbomb_competition: FIFA World Cup
+  statsbomb_season: "2018"
+
+exposure:
+  min_minutes: 900            # umbral principal
+  alt_min_minutes: [450, 1350] # sensibilidad
+  min_minutes_half: 450        # umbral por mitad de temporada (autoidentificación)
+
+windows:
+  # mitad de temporada por jornada; Bundesliga tiene 34 jornadas, las demás 38
+  half_split_gameweek: {England: 19, France: 19, Germany: 17, Italy: 19, Spain: 19}
+
+possession:
+  method: pass_share          # proporción de pases del equipo en el partido
+  reference_share: 0.5        # las tasas ajustadas se expresan a 50 % de posesión
+
+composition:
+  # categorías de acción en juego abierto; las acciones a balón parado se excluyen
+  categories:
+    pase_simple: [Simple pass]
+    pase_largo: [High pass, Launch]
+    pase_cabeza: [Head pass]
+    pase_filtrado: [Smart pass]
+    centro: [Cross]
+    remate: [Shot]
+    conduccion: [Acceleration]
+    toque: [Touch]
+    despeje: [Clearance]
+    duelo_ofensivo: [Ground attacking duel]
+    duelo_defensivo: [Ground defending duel]
+    duelo_aereo: [Air duel]
+    balon_dividido: [Ground loose ball duel]
+  zero_replacement_counts: 0.5  # reemplazo multiplicativo: medio conteo antes de clr
+
+position_reference:
+  # la representación es simétrica en el eje y, así que la referencia agrupa los lados
+  fine_groups:
+    Centre-Back: defensa_central
+    Sweeper: defensa_central
+    Left-Back: lateral
+    Right-Back: lateral
+    Defensive Midfield: pivote
+    Central Midfield: mediocentro
+    Attacking Midfield: mediapunta
+    Left Midfield: volante_banda
+    Right Midfield: volante_banda
+    Left Winger: extremo
+    Right Winger: extremo
+    Second Striker: segundo_delantero
+    Centre-Forward: delantero_centro
+  linkage_min_name_score: 0.75
+
+# Umbrales tentativos de las hipótesis (sección 2.6 del documento). Congelados en docs/protocolo_modelado.md
+hypotheses:
+  h1_max_nmi_fine_position: 0.50
+  h2_min_share_neighbors_other_position: 0.20
+  h2_neighbors_k: 10
+  h2_min_self_identification_top1: 0.50
+  h3_min_mean_ari: 0.60
+  h3_min_cluster_jaccard: 0.60
+  h4_list_size: 20
+  h4_min_new_relevant: 2
+  max_nmi_team: 0.20
+
+modeling:
+  scaler: standard            # alternativa evaluada: robust
+  block_weighting: inverse_sqrt_block_size
+  distance: euclidean         # alternativa evaluada: cosine
+  pca_variance_retained: 0.80
+  k_range: [3, 12]
+  algorithms: [kmeans, gmm, hierarchical_ward, archetypes, hdbscan]
+  bootstrap_reps: 200

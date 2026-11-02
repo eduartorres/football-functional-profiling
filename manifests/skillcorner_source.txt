@@ -1,0 +1,6 @@
+provider=SkillCorner
+source=https://github.com/SkillCorner/opendata.git
+retrieved_at=2026-10-06T03:33:47Z
+commit=4340d274572876239c154c90bc507a9b3250a656
+git_lfs=true
+matches=20

@@ -1,0 +1,69 @@
+"""
+Orquestador del pipeline. Ejecuta las etapas en orden desde los datos crudos.
+
+Uso:
+    python -m src.pipeline                 # todas las etapas
+    python -m src.pipeline --from features # desde una etapa en adelante
+    python -m src.pipeline --only audit    # una sola etapa
+    python -m src.pipeline --list
+
+La adquisición de fuentes (src/ingestion) no forma parte del pipeline: se ejecuta una sola vez y su
+resultado queda fijado en manifests/.
+"""
+from __future__ import annotations
+
+import argparse
+import time
+
+
+def _audit():
+    from src.diagnostics import audit_sources as a
+    for name, fn in a.AUDITS.items():
+        a._save(name, fn())
+    a.combine()
+
+
+def _call(module: str):
+    def run():
+        import importlib
+        importlib.import_module(module).main()
+    return run
+
+
+STAGES = [
+    ("extract", "Extracción de ZIP y eventos Wyscout a Parquet", _call("src.harmonization.wyscout_to_parquet")),
+    ("audit", "Auditoría de las seis fuentes", _audit),
+    ("player_match", "Tabla jugador-partido, minutos y posesión", _call("src.features.player_match")),
+    ("positions", "Enlace con Transfermarkt y posición fina", _call("src.features.position_reference")),
+    ("features", "Representaciones de volumen, composición y localización", _call("src.features.player_features")),
+    ("findings", "Hallazgos preliminares de la sección 5.7", _call("src.diagnostics.wyscout_findings")),
+    ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary")),
+    ("casebook", "Datos del casebook", _call("src.reports.export_casebook_data")),
+]
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--from", dest="start")
+    ap.add_argument("--only")
+    ap.add_argument("--list", action="store_true")
+    a = ap.parse_args()
+    names = [s[0] for s in STAGES]
+    if a.list:
+        for n, desc, _ in STAGES:
+            print(f"{n:14s} {desc}")
+        return
+    sel = STAGES
+    if a.only:
+        sel = [s for s in STAGES if s[0] == a.only]
+    elif a.start:
+        sel = STAGES[names.index(a.start):]
+    for n, desc, fn in sel:
+        t = time.time()
+        print(f"\n=== {n}: {desc}")
+        fn()
+        print(f"--- {n} terminado en {time.time() - t:.1f} s")
+
+
+if __name__ == "__main__":
+    main()
