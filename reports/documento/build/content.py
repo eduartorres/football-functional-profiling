@@ -342,7 +342,7 @@ table("Tabla 9. Sensibilidad de la solución seleccionada (temporada completa)",
        ["Cuatro grupos", "1.500", "4", "0,376", "0,524", "0,014", "0,689"],
        ["Cinco grupos", "1.500", "5", "0,370", "0,609", "0,019", "0,451"],
        ["Representación de volumen", "1.500", "3", "0,344", "0,478", "0,010", "0,516"]],
-      [2600, 1000, 500, 1000, 1500, 1100, 1700], font=9)
+      [2400, 1150, 450, 1000, 1500, 1100, 1800], font=9)
 p("La replicación con StatsBomb se realizó en el Mundial 2018 con 213 jugadores de campo enlazados entre proveedores y con al menos 270 minutos en ambos, sobre diez categorías de acción homologadas y el bloque de localización (Tabla 10). La correlación de Spearman entre proveedores fue de 0,93 en la mediana de las variables y superior a 0,98 en la profundidad y la amplitud de la ocupación; las categorías con menor acuerdo fueron los pases de cabeza (0,36) y los pases filtrados (0,35), cuyas definiciones difieren entre proveedores. Los componentes principales ajustados por separado tuvieron congruencias de Tucker entre 0,86 y 0,97, y las particiones obtenidas en cada proveedor coincidieron con un ARI de 0,943.")
 table("Tabla 10. Replicación de las dimensiones con StatsBomb en el Mundial 2018",
       ["Medida", "Resultado", "Referencia"],
