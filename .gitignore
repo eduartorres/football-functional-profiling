@@ -11,3 +11,4 @@ __pycache__/
 .venv*/
 # temporales de Office
 ~$*
+.pytest_cache/

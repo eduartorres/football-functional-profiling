@@ -74,6 +74,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--from", dest="start")
     ap.add_argument("--only")
+    ap.add_argument("--until")
     ap.add_argument("--list", action="store_true")
     a = ap.parse_args()
     names = [s[0] for s in STAGES]
@@ -84,8 +85,10 @@ def main() -> None:
     sel = STAGES
     if a.only:
         sel = [s for s in STAGES if s[0] == a.only]
-    elif a.start:
-        sel = STAGES[names.index(a.start):]
+    elif a.start or a.until:
+        i = names.index(a.start) if a.start else 0
+        j = names.index(a.until) + 1 if a.until else len(STAGES)
+        sel = STAGES[i:j]
     for n, desc, fn in sel:
         t = time.time()
         print(f"\n=== {n}: {desc}")

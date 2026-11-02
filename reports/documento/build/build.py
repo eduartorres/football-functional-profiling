@@ -146,6 +146,13 @@ for kind, val in C:
         par = para(val)
         par.paragraph_format.left_indent = Emu(274320)
         par.paragraph_format.first_line_indent = Emu(-274320)
+    elif kind == "image":
+        from docx.shared import Inches
+        img = HERE.parents[2] / val["path"]
+        doc.add_paragraph(style="Normal").add_run().add_picture(str(img), width=Inches(val.get("width", 6.5)))
+        cap = doc.add_paragraph(style="Normal")
+        r = cap.add_run(val["caption"].split(".")[0] + ". "); r.bold = True
+        r = cap.add_run(".".join(val["caption"].split(".")[1:]).strip()); r.italic = True
     elif kind == "pagebreak":
         doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
 
