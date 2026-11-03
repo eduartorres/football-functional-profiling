@@ -183,5 +183,8 @@ for kind, val in C:
         doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
 
 out = str(HERE.parent / "Perfilamiento funcional de jugadores - revisado v3.docx")
+props = doc.core_properties
+props.author = props.last_modified_by = "Eduar Felipe Riaño Torres"
+props.comments = ""
 doc.save(out)
 print("ok", out)
