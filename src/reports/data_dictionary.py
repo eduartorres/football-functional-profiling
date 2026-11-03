@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from src.common.config import ROOT, load_config
+from src.config import ROOT, load_config
 
 TABLES = {
     "data/interim/wyscout/player_match.parquet": "Una fila por jugador y partido (Wyscout, todas las competiciones).",

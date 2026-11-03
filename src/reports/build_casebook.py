@@ -12,7 +12,7 @@ from __future__ import annotations
 import base64
 import json
 
-from src.common.config import ROOT
+from src.config import ROOT
 
 D = ROOT / "reports" / "casebook"
 SCREENSHOT = ROOT / "reports" / "figures" / "explorer_consulta.png"

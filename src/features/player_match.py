@@ -22,7 +22,7 @@ import json
 import duckdb
 import pandas as pd
 
-from src.common.config import ROOT, load_config, path
+from src.config import ROOT, load_config, path
 
 EV = str(path("interim") / "wyscout" / "events_parquet" / "*.parquet")
 OUT = path("interim") / "wyscout"

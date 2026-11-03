@@ -22,7 +22,7 @@ Cada decisión indica fecha, si se tomó antes o después de ver resultados de e
 | D16 | 2026-11-02 | Antes | Composición en juego abierto con 13 categorías; balón parado excluido | Los lanzamientos de banda, córners y tiros libres dependen de asignaciones del entrenador |
 | D17 | 2026-11-02 | Antes | Reemplazo multiplicativo de ceros con medio conteo; clr solo si la masa reemplazada es menor que 1 | Requisito de la transformación log-ratio |
 | D18 | 2026-11-02 | Antes | Mitades de temporada por jornada (19; 17 en Bundesliga) como desarrollo y reserva | El núcleo tiene una sola temporada |
-| D19 | 2026-11-02 | Antes | H4 evaluada de forma analítica, sin revisores deportivos | No hay revisores disponibles; protocolo en `docs/protocolo_modelado.md` |
+| D19 | 2026-11-02 | Antes | H4 evaluada con un criterio analítico de pertinencia | La evaluación de la consulta se diseña con datos históricos, sin participación de usuarios; protocolo en `docs/protocolo_modelado.md` |
 | D20 | 2026-11-02 | Antes | Protocolo de modelado v1.0 congelado | Separar decisiones previas de las tomadas tras ver resultados |
 | D21 | 2026-11-02 | Antes de seleccionar | V de Cramér con corrección de sesgo de Bergsma (2013) | Prueba de humo: sin corrección, el valor esperado bajo independencia con 98 equipos ronda 0,26 y el umbral de 0,20 rechazaría cualquier partición |
 | D22 | 2026-11-02 | Antes de seleccionar | Proporción máxima de jugadores sin grupo (ruido de HDBSCAN) de 20 % | Una solución que deja fuera a la mayoría de jugadores no sirve para la consulta; prueba de humo: HDBSCAN dejó 75 % como ruido |

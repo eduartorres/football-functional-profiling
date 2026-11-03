@@ -15,7 +15,7 @@ import json
 import numpy as np
 import pandas as pd
 
-from src.common.config import ROOT, path
+from src.config import ROOT, path
 from src.evaluation.common import selected, window
 from src.features.player_match import fix_escapes
 from src.models.representation import Transformer

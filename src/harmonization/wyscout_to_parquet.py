@@ -15,7 +15,7 @@ import zipfile
 
 import duckdb
 
-from src.common.config import ROOT, path
+from src.config import ROOT, path
 
 RAW = ROOT / "data/raw/wyscout"
 

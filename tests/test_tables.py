@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 
 PM = path("interim") / "wyscout" / "player_match.parquet"
 FULL = path("features") / "player_features_full.parquet"

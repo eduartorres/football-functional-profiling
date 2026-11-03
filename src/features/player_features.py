@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 
 ON_BALL = [
     "passes",

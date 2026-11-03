@@ -19,7 +19,7 @@ import unicodedata
 import duckdb
 import pandas as pd
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 
 
 def norm(s) -> str:

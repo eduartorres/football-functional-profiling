@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import pytest
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 
 EV = path("evaluation")
 

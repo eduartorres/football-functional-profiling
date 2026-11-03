@@ -82,7 +82,7 @@ Autoidentificación: para cada jugador elegible en ambas mitades se calcula su r
 (transformaciones ajustadas en `h1`) y se mide si su vecino más cercano en `h2` es él mismo (top-1) o está
 entre los 10 primeros (top-10). La línea base es la misma medida con indicadores `p90_*`.
 
-### H4 sin revisores deportivos (evaluación analítica)
+### H4: evaluación analítica de las consultas
 
 - Casos: jugadores elegibles de las cinco ligas que Transfermarkt registra como transferidos fuera de su club
   entre el 1 de junio y el 31 de agosto de 2018; se toman 30 casos con muestreo estratificado por `fine_group`

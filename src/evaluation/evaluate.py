@@ -20,7 +20,7 @@ import pandas as pd
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score, silhouette_score
 from sklearn.model_selection import GroupKFold
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 from src.evaluation.common import baseline_space, fitted_model, selected, transformer, window
 from src.models import clustering as cl
 from src.models.representation import Transformer

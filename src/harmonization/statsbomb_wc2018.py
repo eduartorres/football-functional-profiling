@@ -33,7 +33,7 @@ import duckdb
 import numpy as np
 import pandas as pd
 
-from src.common.config import ROOT, path
+from src.config import ROOT, path
 from src.features.player_match import fix_escapes
 
 CATS = [

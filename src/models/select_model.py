@@ -26,7 +26,7 @@ import numpy as np
 import pandas as pd
 from joblib import Parallel, delayed
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 from src.models import clustering as cl
 from src.models.representation import Transformer
 

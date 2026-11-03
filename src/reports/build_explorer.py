@@ -6,7 +6,7 @@ Salida: reports/explorer/explorer.html (abre directamente en el navegador, sin s
 
 from __future__ import annotations
 
-from src.common.config import ROOT
+from src.config import ROOT
 
 HEAD = (
     '<!doctype html><html lang="es"><head><meta charset="utf-8">'

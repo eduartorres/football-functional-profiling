@@ -27,7 +27,7 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.metrics import adjusted_rand_score
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 from src.evaluation.common import selected
 from src.features.player_features import clr, multiplicative_replacement
 from src.harmonization.statsbomb_wc2018 import CATS

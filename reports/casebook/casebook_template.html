@@ -308,7 +308,7 @@ pre.frag .hl{background:var(--yellow);color:var(--ink)}
       <tbody></tbody>
     </table>
   </div>
-  <p class="note">Cifras obtenidas de la auditoría de los archivos descargados (src/diagnostics/audit_sources.py). En Transfermarkt los registros corresponden a eventos de partido como goles, tarjetas y cambios.</p>
+  <p class="note">Cifras obtenidas de la auditoría de los archivos descargados (src/diagnostics/audit_sources.py). En Transfermarkt los registros corresponden a eventos de partido como goles, tarjetas y cambios. Fuentes: Wyscout (Pappalardo et al., 2019), StatsBomb Open Data, PFF FC, SkillCorner Open Data, DFL (Bassek et al., 2025) y transfermarkt-datasets.</p>
 </div></section>
 
 <!-- 06 Cobertura -->
@@ -496,7 +496,7 @@ pre.frag .hl{background:var(--yellow);color:var(--ink)}
       </tbody>
     </table>
   </div>
-  <p class="note">Los umbrales quedaron fijados en el protocolo de modelado (versión 1.0) antes del ajuste de los modelos. Sin revisores deportivos ni datos de operación, no se estiman horas de revisión, ahorro ni retorno.</p>
+  <p class="note">Los umbrales quedaron fijados en el protocolo de modelado (versión 1.0) antes del ajuste de los modelos. La evaluación usa datos históricos; sin datos de operación de un área de scouting no se estiman horas de revisión, ahorro ni retorno.</p>
 </div></section>
 
 <!-- 14 Selección del modelo -->
@@ -574,7 +574,7 @@ pre.frag .hl{background:var(--yellow);color:var(--ink)}
   <div class="grid-2 rev">
     <figure style="margin:0;min-width:0">
       <p class="chart-title">Las cuatro dimensiones de composición se recuperan con StatsBomb en los mismos partidos</p>
-      <p class="chart-sub">Congruencia de Tucker entre los componentes ajustados en cada proveedor; 213 jugadores del Mundial 2018 con al menos 270 minutos en ambos</p>
+      <p class="chart-sub">Congruencia de Tucker entre los componentes ajustados en cada proveedor; 213 jugadores del Mundial 2018 con al menos 270 minutos en ambos. Datos: StatsBomb Open Data y Wyscout</p>
       <div id="tucker"></div>
       <div class="facts" style="margin-top:14px">
         <div><b>0,943</b><span>ARI entre las particiones ajustadas en cada proveedor.</span></div>
@@ -632,7 +632,7 @@ pre.frag .hl{background:var(--yellow);color:var(--ink)}
     <div class="rt">Posición de referencia en el tiempo</div><div class="rs">La posición fina se tomó de los minutos por posición en las alineaciones de 2017/18 y no del registro actual de Transfermarkt.</div>
     <div class="rt">Efecto del equipo y la posesión</div><div class="rs">Volumen ajustado por posesión y composición con log-ratio centrada. La asociación entre perfil y equipo quedó en una NMI de 0,009.</div>
     <div class="rt">Ausencia de una verdad de referencia</div><div class="rs">Protocolo fijado antes del modelado, estabilidad bootstrap, reserva temporal, replicación con otro proveedor y casos de reemplazo con línea base por posición.</div>
-    <div class="rt">Sin revisores deportivos</div><div class="rs">La pertinencia se evaluó con un criterio analítico. La validación de utilidad con usuarios queda pendiente.</div>
+    <div class="rt">Evaluar la consulta sin usuarios</div><div class="rs">Casos de reemplazo históricos con un criterio analítico de pertinencia medido en la segunda mitad de la temporada, frente a una línea base por posición.</div>
   </div>
 </div></section>
 
@@ -647,7 +647,7 @@ pre.frag .hl{background:var(--yellow);color:var(--ink)}
     <li><b>Validación</b>Replicación de las dimensiones con StatsBomb en los 64 partidos del Mundial 2018 y análisis de sensibilidad a la exposición, el escalado y la distancia.</li>
     <li><b>Prototipo</b>Un explorador que permite consultar el perfil de un jugador, sus percentiles y los jugadores con comportamiento similar.</li>
   </ol>
-  <p class="note">Limitaciones: una sola temporada de ligas europeas, sin cobertura de la liga colombiana en datos públicos de eventos; pertinencia evaluada sin revisores; la representación de cuatro componentes no reconoce el patrón individual de cada jugador entre mitades de la temporada.</p>
+  <p class="note">Limitaciones: una sola temporada de ligas europeas, sin cobertura de la liga colombiana en datos públicos de eventos; pertinencia medida con un criterio analítico sobre datos históricos; la representación de cuatro componentes no reconoce el patrón individual de cada jugador entre mitades de la temporada.</p>
   <p class="foot">Eduar Felipe Riaño Torres · MIIA, Universidad de los Andes · Asesor: Juan Pablo Gómez Bravo</p>
 </div></section>
 

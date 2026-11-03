@@ -16,7 +16,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 
 THRESHOLDS = [0, 450, 900, 1350, 1800]
 

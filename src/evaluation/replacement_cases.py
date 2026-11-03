@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import wilcoxon
 
-from src.common.config import load_config, path
+from src.config import load_config, path
 from src.evaluation.common import baseline_space, selected, transformer, window
 from src.models.representation import Transformer
 
