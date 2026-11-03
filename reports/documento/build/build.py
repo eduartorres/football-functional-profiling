@@ -1,19 +1,25 @@
-# Construye el documento del trabajo de grado desde content.py, con estilos, márgenes y página de plantilla.docx.
-# Uso: python reports/documento/build/build.py  (requiere python-docx)
-import copy, re, sys
+"""
+Construye el documento del trabajo de grado a partir de content.py.
+
+Reutiliza estilos, márgenes y tamaño de página de plantilla.docx y reemplaza todo su contenido.
+Uso: python reports/documento/build/build.py
+"""
+
+import re
+import sys
+from pathlib import Path
+
 import docx
 from docx.enum.section import WD_ORIENT, WD_SECTION
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.oxml.ns import qn
+from docx.enum.text import WD_BREAK
 from docx.oxml import OxmlElement
-from docx.shared import Pt, Emu, Twips
-
-from pathlib import Path
+from docx.oxml.ns import qn
+from docx.shared import Emu, Pt, Twips
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from content import C, TITLE
+from content import TITLE, C  # noqa: E402
 
 doc = docx.Document(str(HERE / "plantilla.docx"))
 body = doc.element.body

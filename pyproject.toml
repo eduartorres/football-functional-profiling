@@ -9,6 +9,10 @@ authors = [{ name = "Eduar Felipe Riaño Torres", email = "e.rianot@uniandes.edu
 line-length = 110
 target-version = "py310"
 
+[tool.ruff.format]
+# el contenido del documento es texto largo con marcado propio; se mantiene sin reformatear
+exclude = ["reports/documento/build/content.py"]
+
 [tool.ruff.lint]
 select = ["F", "E", "W", "I", "B", "UP"]
 ignore = ["B905", "E501"]  # el formateador controla el ancho; se toleran líneas largas en docstrings y tablas

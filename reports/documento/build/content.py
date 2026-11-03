@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Contenido del documento revisado. Marcado mínimo: *texto* = cursiva, **texto** = negrita.
+# Contenido del documento, en orden de aparición. Marcado: *texto* = cursiva, **texto** = negrita.
 
 TITLE = "Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal"
 
