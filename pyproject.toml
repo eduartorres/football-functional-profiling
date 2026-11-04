@@ -5,6 +5,9 @@ description = "Perfilamiento funcional de jugadores de fútbol más allá de la 
 requires-python = ">=3.10"
 authors = [{ name = "Eduar Felipe Riaño Torres", email = "e.rianot@uniandes.edu.co" }]
 
+[project.urls]
+Repository = "https://github.com/eduartorres/football-functional-profiling"
+
 [tool.ruff]
 line-length = 110
 target-version = "py310"

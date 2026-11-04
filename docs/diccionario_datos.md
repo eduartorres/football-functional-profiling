@@ -91,6 +91,19 @@ Filas: 3,882
 | `passes` | int64 | 0.0 | 121 a 1078 | Pases |
 | `possession_share` | float64 | 0.0 | 0.152 a 0.848 | Proporción de pases del equipo en el partido |
 
+## `data/interim/wyscout/teams.parquet`
+
+Una fila por equipo de Wyscout con su nombre decodificado.
+
+Filas: 142
+
+| Columna | Tipo | % faltante | Rango | Descripción |
+|---|---|---|---|---|
+| `team_id` | int64 | 0.0 | 674 a 1.983e+04 | Identificador de equipo de Wyscout |
+| `team_name` | object | 0.0 |  | Nombre del equipo en Wyscout |
+| `area` | object | 0.0 |  | País o región del equipo |
+| `team_type` | object | 0.0 |  | Tipo de equipo (club o selección) |
+
 ## `data/processed/features/position_reference.parquet`
 
 Enlace Wyscout-Transfermarkt y posición fina de referencia (cinco ligas 2017/18).

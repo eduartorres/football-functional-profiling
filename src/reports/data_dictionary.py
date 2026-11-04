@@ -16,11 +16,15 @@ from src.config import ROOT, load_config
 TABLES = {
     "data/interim/wyscout/player_match.parquet": "Una fila por jugador y partido (Wyscout, todas las competiciones).",
     "data/interim/wyscout/team_match.parquet": "Una fila por equipo y partido con la posesión aproximada.",
+    "data/interim/wyscout/teams.parquet": "Una fila por equipo de Wyscout con su nombre decodificado.",
     "data/processed/features/position_reference.parquet": "Enlace Wyscout-Transfermarkt y posición fina de referencia (cinco ligas 2017/18).",
     "data/processed/features/player_features_full.parquet": "Representaciones por jugador y competición, temporada completa. Las tablas _h1 y _h2 tienen las mismas columnas por mitad de temporada.",
 }
 
 DESCRIPTIONS = {
+    "team_name": "Nombre del equipo en Wyscout",
+    "area": "País o región del equipo",
+    "team_type": "Tipo de equipo (club o selección)",
     "match_id": "Identificador de partido de Wyscout",
     "player_id": "Identificador de jugador de Wyscout",
     "team_id": "Identificador de equipo de Wyscout",
