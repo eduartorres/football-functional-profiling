@@ -17,7 +17,6 @@ import pandas as pd
 
 from src.config import ROOT, path
 from src.evaluation.common import selected, window
-from src.features.player_match import fix_escapes
 from src.models.representation import Transformer
 
 PROFILE_NAMES = {1: "Construcción y defensa posicional", 2: "Carril lateral", 3: "Ataque y finalización"}
@@ -81,10 +80,7 @@ def main() -> None:
         ["player_id", "competition_file", "profile"]
     ]
     d = d.merge(prof, on=["player_id", "competition_file"], how="left").reset_index(drop=True)
-    teams = {
-        t["wyId"]: fix_escapes(t["name"])
-        for t in json.loads(next((ROOT / "data/raw/wyscout").glob("teams__*/teams.json")).read_text())
-    }
+    teams = pd.read_parquet(path("interim") / "wyscout" / "teams.parquet").set_index("team_id").team_name
 
     Tfull = Transformer(rep).fit(d, use_pca=False)  # consulta de similitud (D27)
     Z = Tfull.weighted(d)

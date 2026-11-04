@@ -1,0 +1,23 @@
+{
+  "n_players": 213,
+  "min_minutes": 270,
+  "k": 3,
+  "spearman_median": 0.9260834242262612,
+  "spearman_min": 0.3533743672595676,
+  "pca_components": {
+    "wyscout": 4,
+    "statsbomb": 5
+  },
+  "tucker_congruence": [
+    0.8615882264435607,
+    0.9680004887978594,
+    0.9231900083837119,
+    0.9548392493807726
+  ],
+  "ari_own_clusterings": 0.9432067017035513,
+  "ari_statsbomb_projected_on_wyscout_model": 0.8655313731832986,
+  "knn_jaccard_mean": 0.38299211709799075,
+  "knn_jaccard_chance": 0.02415458937198068,
+  "cross_identification_top1": 0.323943661971831,
+  "cross_identification_top10": 0.8873239436619719
+}

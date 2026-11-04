@@ -1,0 +1,165 @@
+{
+  "source": "Transfermarkt (dcaribou/transfermarkt-datasets, snapshot 2026-07-06)",
+  "tables": {
+    "appearances": 1894350,
+    "clubs": 796,
+    "club_games": 177916,
+    "competitions": 65,
+    "countries": 124,
+    "games": 88958,
+    "game_events": 1274469,
+    "game_lineups": 3179016,
+    "national_teams": 124,
+    "players": 50149,
+    "player_valuations": 656301,
+    "transfers": 175165,
+    "version": 1
+  },
+  "games_season_range": {
+    "min_season": "2005",
+    "max_season": "2025"
+  },
+  "big5_games_2015_2017": [
+    {
+      "competition_id": "ES1",
+      "name": "laliga",
+      "season": "2015",
+      "n_games": 380
+    },
+    {
+      "competition_id": "ES1",
+      "name": "laliga",
+      "season": "2017",
+      "n_games": 380
+    },
+    {
+      "competition_id": "FR1",
+      "name": "ligue-1",
+      "season": "2015",
+      "n_games": 380
+    },
+    {
+      "competition_id": "FR1",
+      "name": "ligue-1",
+      "season": "2017",
+      "n_games": 380
+    },
+    {
+      "competition_id": "GB1",
+      "name": "premier-league",
+      "season": "2015",
+      "n_games": 380
+    },
+    {
+      "competition_id": "GB1",
+      "name": "premier-league",
+      "season": "2017",
+      "n_games": 380
+    },
+    {
+      "competition_id": "IT1",
+      "name": "serie-a",
+      "season": "2015",
+      "n_games": 380
+    },
+    {
+      "competition_id": "IT1",
+      "name": "serie-a",
+      "season": "2017",
+      "n_games": 380
+    },
+    {
+      "competition_id": "L1",
+      "name": "bundesliga",
+      "season": "2015",
+      "n_games": 306
+    },
+    {
+      "competition_id": "L1",
+      "name": "bundesliga",
+      "season": "2017",
+      "n_games": 306
+    }
+  ],
+  "positions": [
+    {
+      "position": "Attack",
+      "sub_position": "Centre-Forward",
+      "n": 6749
+    },
+    {
+      "position": "Attack",
+      "sub_position": "Left Winger",
+      "n": 3297
+    },
+    {
+      "position": "Attack",
+      "sub_position": "Right Winger",
+      "n": 3170
+    },
+    {
+      "position": "Attack",
+      "sub_position": "Second Striker",
+      "n": 286
+    },
+    {
+      "position": "Defender",
+      "sub_position": "Centre-Back",
+      "n": 8766
+    },
+    {
+      "position": "Defender",
+      "sub_position": "Right-Back",
+      "n": 3700
+    },
+    {
+      "position": "Defender",
+      "sub_position": "Left-Back",
+      "n": 3495
+    },
+    {
+      "position": "Goalkeeper",
+      "sub_position": "Goalkeeper",
+      "n": 5828
+    },
+    {
+      "position": "Midfield",
+      "sub_position": "Central Midfield",
+      "n": 5498
+    },
+    {
+      "position": "Midfield",
+      "sub_position": "Defensive Midfield",
+      "n": 4123
+    },
+    {
+      "position": "Midfield",
+      "sub_position": "Attacking Midfield",
+      "n": 3520
+    },
+    {
+      "position": "Midfield",
+      "sub_position": "Left Midfield",
+      "n": 566
+    },
+    {
+      "position": "Midfield",
+      "sub_position": "Right Midfield",
+      "n": 565
+    },
+    {
+      "position": "Missing",
+      "sub_position": null,
+      "n": 586
+    }
+  ],
+  "missing": {
+    "share_missing_dob": 0.0009770882769347346,
+    "share_missing_subpos": 0.011685178169056213
+  },
+  "vocab": [],
+  "tracking": false,
+  "minutes_field": "appearances.minutes_played (por partido)",
+  "position_field": "players.position / sub_position; game_lineups.position por partido",
+  "_audited_at_utc": "2026-11-02T23:12:02+00:00"
+}

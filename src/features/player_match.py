@@ -3,10 +3,12 @@ Tabla jugador-partido de Wyscout: minutos, posesión del equipo, conteos por ind
 de acción, y sumas espaciales que permiten agregar sin sesgo a cualquier ventana.
 
 Entrada : data/interim/wyscout/events_parquet/*.parquet, data/interim/wyscout/matches/*.json,
-          data/raw/wyscout/players__*/players.json
+          data/raw/wyscout/players__*/players.json, data/raw/wyscout/teams__*/teams.json
 Salida  : data/interim/wyscout/player_match.parquet
           data/interim/wyscout/team_match.parquet  (posesión por equipo y partido)
-          data/interim/wyscout/players.parquet     (atributos del jugador con nombres decodificados)
+          data/interim/wyscout/teams.parquet       (nombre decodificado de cada equipo)
+          data/interim/wyscout/players.parquet     (atributos del jugador; incluye fecha de nacimiento,
+                                                    se usa solo para enlazar fuentes y no se publica)
 
 Minutos. Wyscout no los registra; se reconstruyen con la alineación y los cambios de cada partido:
 la duración es la suma, por periodo, del último eventSec observado; los titulares entran en 0, los
@@ -162,6 +164,22 @@ def players_table() -> pd.DataFrame:
     )
 
 
+def teams_table() -> pd.DataFrame:
+    """Nombre y país de cada equipo, con nombres decodificados."""
+    teams = json.loads(next((ROOT / "data/raw/wyscout").glob("teams__*/teams.json")).read_text())
+    return pd.DataFrame(
+        [
+            {
+                "team_id": t["wyId"],
+                "team_name": fix_escapes(t["name"]),
+                "area": fix_escapes(t["area"]["name"]),
+                "team_type": t["type"],
+            }
+            for t in teams
+        ]
+    )
+
+
 def main() -> None:
     cfg = load_config()
     con = duckdb.connect()
@@ -182,8 +200,10 @@ def main() -> None:
     pl = players_table()
     pm = pm.merge(pl[["player_id", "role"]], on="player_id", how="left")
     pm.to_parquet(OUT / "player_match.parquet", index=False)
-    tm.to_parquet(OUT / "team_match.parquet", index=False)
+    # orden fijo para que la tabla versionada no cambie entre ejecuciones
+    tm.sort_values(["match_id", "team_id"]).to_parquet(OUT / "team_match.parquet", index=False)
     pl.to_parquet(OUT / "players.parquet", index=False)
+    teams_table().to_parquet(OUT / "teams.parquet", index=False)
     ratio = (
         pm.groupby(["match_id", "team_id"]).minutes.sum()
         / pm.groupby(["match_id", "team_id"]).match_minutes.first()

@@ -34,7 +34,6 @@ import numpy as np
 import pandas as pd
 
 from src.config import ROOT, path
-from src.features.player_match import fix_escapes
 
 CATS = [
     "pase_raso",
@@ -164,10 +163,7 @@ def wyscout() -> pd.DataFrame:
     pm = pd.read_parquet(path("interim") / "wyscout" / "player_match.parquet")
     pm = pm[pm.competition_file == "World_Cup"]
     pl = pd.read_parquet(path("interim") / "wyscout" / "players.parquet")
-    teams = {
-        t["wyId"]: fix_escapes(t["name"])
-        for t in json.loads(next((ROOT / "data/raw/wyscout").glob("teams__*/teams.json")).read_text())
-    }
+    teams = pd.read_parquet(path("interim") / "wyscout" / "teams.parquet").set_index("team_id").team_name
     players = (
         pm.groupby("player_id")
         .agg(minutes=("minutes", "sum"), matches=("match_id", "nunique"), team_id=("team_id", "first"))

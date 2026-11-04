@@ -1,0 +1,7 @@
+fuente,rol,competiciones,temporadas,partidos,jugadores,eventos,tracking,periodo
+Wyscout,núcleo eventos,7,7,1941.0,3035.0,3251294.0,no,2016-06-10 a 2018-07-15
+StatsBomb,validación,24,80,3961.0,11889.0,14874171.0,360 en 426 partidos,1958-06-24 a 2025-07-27
+SkillCorner,tracking / sin balón,1,1,20.0,307.0,94361.0,"sí, 1,244,814 frames (10 Hz)",2024-11-23 a 2025-05-17
+DFL,eventos + tracking,2,1,7.0,207.0,10498.0,"sí, 23,739,462 filas (25 Hz)",2022/2023
+PFF FC,tracking internacional,1,1,64.0,829.0,144541.0,"sí, 64 archivos (2.78 GB bz2)",Mundial 2022
+Transfermarkt,contexto externo,65,21,88958.0,50149.0,1274469.0,no,2005 a 2025

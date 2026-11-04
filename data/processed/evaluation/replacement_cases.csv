@@ -1,0 +1,31 @@
+player_id,short_name,fine_group,to_club,list_size_baseline,pertinent_share_functional,pertinent_share_baseline,new_pertinent,overlap,functional_other_position_share
+341973,N. Mukiele,defensa_central,Leipzig,20,0.55,0.3,11,0,1.0
+25524,P. Djilobodji,defensa_central,Sunderland,20,0.6,0.7,10,3,0.05
+38532,E. Zukanović,defensa_central,Genoa,20,0.65,0.6,13,0,0.3
+20635,F. Acerbi,defensa_central,Lazio,20,0.3,0.65,5,2,0.1
+234533,S. Perica,delantero_centro,Frosinone,20,0.95,0.95,12,7,0.0
+115933,G. Lapadula,delantero_centro,Genoa,20,1.0,1.0,12,8,0.0
+25745,A. Delort,delantero_centro,Montpellier,20,0.5,0.75,7,6,0.0
+5400,Gerard Moreno,delantero_centro,Villarreal,20,0.8,0.8,11,5,0.05
+105541,Lucas Pérez,delantero_centro,West Ham,20,0.45,0.55,6,4,0.65
+207001,J. Correa,extremo,Lazio,20,0.35,0.35,4,3,0.65
+49872,X. Shaqiri,extremo,Liverpool,20,0.7,0.45,12,3,0.5
+276944,J. Bamba,extremo,Lille,20,0.45,0.45,7,7,0.15
+276983,I. Mbenza,extremo,Huddersfield,20,0.7,0.6,13,1,0.25
+4452,Yuri Berchiche,lateral,Athletic Club,20,0.7,0.8,8,6,0.15
+284960,L. Venuti,lateral,Lecce,20,0.5,0.3,5,6,0.25
+282550,F. Hadergjonaj,lateral,Huddersfield,20,0.55,0.7,7,4,0.1
+258253,B. Henrichs,lateral,Monaco,20,0.6,0.35,12,0,0.6
+43051,Gabriel,mediapunta,Benfica,20,0.35,0.3,6,3,0.85
+20941,A. Ljajić,mediapunta,Besiktas,20,0.8,0.5,14,2,0.65
+302600,S. Serdar,mediocentro,FC Schalke 04,20,0.45,0.65,7,5,0.4
+289359,Y. Aït Bennasser,mediocentro,Monaco,20,0.55,0.6,11,1,0.9
+70093,João Moutinho,mediocentro,Wolves,20,0.8,0.8,11,5,0.2
+20475,A. Vidal,mediocentro,Barcelona,20,0.75,0.7,14,1,0.75
+286448,M. Arambarri,mediocentro,Getafe,20,0.5,0.8,10,0,0.7
+69400,M. Badelj,pivote,Lazio,20,0.75,0.95,14,1,0.25
+302799,R. Mandragora,pivote,Udinese,20,0.4,0.75,5,6,0.55
+37725,C. Kouyaté,pivote,Crystal Palace,20,0.8,0.7,11,7,0.65
+94831,Y. Ōsako,segundo_delantero,Werder Bremen,14,0.6,0.21428571428571427,10,2,0.9
+263105,Pablo Maffeo,volante_banda,Stuttgart,20,0.8,0.45,11,5,0.55
+190167,L. Spinazzola,volante_banda,Juventus,20,0.7,0.55,9,6,0.65

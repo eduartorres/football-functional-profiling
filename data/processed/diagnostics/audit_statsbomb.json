@@ -1,0 +1,850 @@
+{
+  "source": "StatsBomb Open Data (git commit en manifests/statsbomb_commit.txt)",
+  "n_competition_seasons": 80,
+  "n_competitions": 24,
+  "n_matches": 3961,
+  "n_matches_male": 2651,
+  "n_event_files": 4235,
+  "n_events_total": 14874171,
+  "n_matches_with_360": 426,
+  "n_players_lineups": 11889,
+  "lineup_positions": {
+    "Center Forward": 11875,
+    "Right Wing": 11320,
+    "Right Center Back": 11271,
+    "Left Center Back": 11080,
+    "Left Wing": 11078,
+    "Right Back": 10556,
+    "Left Back": 10097,
+    "Goalkeeper": 8595,
+    "Right Defensive Midfield": 8578,
+    "Left Defensive Midfield": 8483,
+    "Left Center Midfield": 8445,
+    "Right Center Midfield": 8434,
+    "Center Attacking Midfield": 8412,
+    "Center Defensive Midfield": 6137,
+    "Left Midfield": 5925,
+    "Right Midfield": 5869,
+    "Right Center Forward": 5771,
+    "Left Center Forward": 5698,
+    "Right Wing Back": 2661,
+    "Left Wing Back": 2560,
+    "Center Back": 2166,
+    "Left Attacking Midfield": 638,
+    "Right Attacking Midfield": 633,
+    "Center Midfield": 102,
+    "Secondary Striker": 40
+  },
+  "period": {
+    "min_date": "1958-06-24",
+    "max_date": "2025-07-27"
+  },
+  "big5_2015_16": [
+    {
+      "competition": "Serie A",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 380,
+      "n_events": 1353739,
+      "n_360": 0
+    },
+    {
+      "competition": "Premier League",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 380,
+      "n_events": 1313773,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 380,
+      "n_events": 1295354,
+      "n_360": 0
+    },
+    {
+      "competition": "Ligue 1",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 377,
+      "n_events": 1358593,
+      "n_360": 0
+    },
+    {
+      "competition": "1. Bundesliga",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 34,
+      "n_events": 115240,
+      "n_360": 0
+    }
+  ],
+  "by_competition_season": [
+    {
+      "competition": "Serie A",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 380,
+      "n_events": 1353739,
+      "n_360": 0
+    },
+    {
+      "competition": "Premier League",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 380,
+      "n_events": 1313773,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 380,
+      "n_events": 1295354,
+      "n_360": 0
+    },
+    {
+      "competition": "Ligue 1",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 377,
+      "n_events": 1358593,
+      "n_360": 0
+    },
+    {
+      "competition": "Liga F",
+      "season": "2023/2024",
+      "gender": "female",
+      "n_matches": 240,
+      "n_events": 835429,
+      "n_360": 0
+    },
+    {
+      "competition": "NWSL",
+      "season": "2023",
+      "gender": "female",
+      "n_matches": 137,
+      "n_events": 462436,
+      "n_360": 0
+    },
+    {
+      "competition": "FA Women's Super League",
+      "season": "2023/2024",
+      "gender": "female",
+      "n_matches": 132,
+      "n_events": 495189,
+      "n_360": 0
+    },
+    {
+      "competition": "Frauen Bundesliga",
+      "season": "2023/2024",
+      "gender": "female",
+      "n_matches": 132,
+      "n_events": 459696,
+      "n_360": 0
+    },
+    {
+      "competition": "FA Women's Super League",
+      "season": "2020/2021",
+      "gender": "female",
+      "n_matches": 131,
+      "n_events": 443295,
+      "n_360": 0
+    },
+    {
+      "competition": "Serie A Women",
+      "season": "2023/2024",
+      "gender": "female",
+      "n_matches": 130,
+      "n_events": 432487,
+      "n_360": 0
+    },
+    {
+      "competition": "Indian Super league",
+      "season": "2021/2022",
+      "gender": "male",
+      "n_matches": 115,
+      "n_events": 344667,
+      "n_360": 0
+    },
+    {
+      "competition": "FA Women's Super League",
+      "season": "2018/2019",
+      "gender": "female",
+      "n_matches": 107,
+      "n_events": 356568,
+      "n_360": 0
+    },
+    {
+      "competition": "FA Women's Super League",
+      "season": "2019/2020",
+      "gender": "female",
+      "n_matches": 87,
+      "n_events": 292253,
+      "n_360": 0
+    },
+    {
+      "competition": "Women's World Cup",
+      "season": "2023",
+      "gender": "female",
+      "n_matches": 64,
+      "n_events": 226118,
+      "n_360": 64
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "2018",
+      "gender": "male",
+      "n_matches": 64,
+      "n_events": 227825,
+      "n_360": 0
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "2022",
+      "gender": "male",
+      "n_matches": 64,
+      "n_events": 234637,
+      "n_360": 64
+    },
+    {
+      "competition": "Women's World Cup",
+      "season": "2019",
+      "gender": "female",
+      "n_matches": 52,
+      "n_events": 176442,
+      "n_360": 0
+    },
+    {
+      "competition": "African Cup of Nations",
+      "season": "2023",
+      "gender": "male",
+      "n_matches": 52,
+      "n_events": 162903,
+      "n_360": 1
+    },
+    {
+      "competition": "UEFA Euro",
+      "season": "2020",
+      "gender": "male",
+      "n_matches": 51,
+      "n_events": 192664,
+      "n_360": 51
+    },
+    {
+      "competition": "UEFA Euro",
+      "season": "2024",
+      "gender": "male",
+      "n_matches": 51,
+      "n_events": 187924,
+      "n_360": 51
+    },
+    {
+      "competition": "La Liga",
+      "season": "2014/2015",
+      "gender": "male",
+      "n_matches": 38,
+      "n_events": 142957,
+      "n_360": 0
+    },
+    {
+      "competition": "Premier League",
+      "season": "2003/2004",
+      "gender": "male",
+      "n_matches": 38,
+      "n_events": 129401,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2011/2012",
+      "gender": "male",
+      "n_matches": 37,
+      "n_events": 145993,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2017/2018",
+      "gender": "male",
+      "n_matches": 36,
+      "n_events": 136538,
+      "n_360": 0
+    },
+    {
+      "competition": "NWSL",
+      "season": "2018",
+      "gender": "female",
+      "n_matches": 36,
+      "n_events": 114163,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2020/2021",
+      "gender": "male",
+      "n_matches": 35,
+      "n_events": 139030,
+      "n_360": 35
+    },
+    {
+      "competition": "La Liga",
+      "season": "2009/2010",
+      "gender": "male",
+      "n_matches": 35,
+      "n_events": 128395,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2016/2017",
+      "gender": "male",
+      "n_matches": 34,
+      "n_events": 124813,
+      "n_360": 0
+    },
+    {
+      "competition": "1. Bundesliga",
+      "season": "2023/2024",
+      "gender": "male",
+      "n_matches": 34,
+      "n_events": 137765,
+      "n_360": 34
+    },
+    {
+      "competition": "La Liga",
+      "season": "2018/2019",
+      "gender": "male",
+      "n_matches": 34,
+      "n_events": 131702,
+      "n_360": 0
+    },
+    {
+      "competition": "1. Bundesliga",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 34,
+      "n_events": 115240,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2010/2011",
+      "gender": "male",
+      "n_matches": 33,
+      "n_events": 130899,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2019/2020",
+      "gender": "male",
+      "n_matches": 33,
+      "n_events": 129058,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2012/2013",
+      "gender": "male",
+      "n_matches": 32,
+      "n_events": 130457,
+      "n_360": 0
+    },
+    {
+      "competition": "Ligue 1",
+      "season": "2022/2023",
+      "gender": "male",
+      "n_matches": 32,
+      "n_events": 129490,
+      "n_360": 32
+    },
+    {
+      "competition": "Copa America",
+      "season": "2024",
+      "gender": "male",
+      "n_matches": 32,
+      "n_events": 100324,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2013/2014",
+      "gender": "male",
+      "n_matches": 31,
+      "n_events": 118016,
+      "n_360": 0
+    },
+    {
+      "competition": "UEFA Women's Euro",
+      "season": "2025",
+      "gender": "female",
+      "n_matches": 31,
+      "n_events": 105658,
+      "n_360": 31
+    },
+    {
+      "competition": "UEFA Women's Euro",
+      "season": "2022",
+      "gender": "female",
+      "n_matches": 31,
+      "n_events": 105141,
+      "n_360": 31
+    },
+    {
+      "competition": "La Liga",
+      "season": "2008/2009",
+      "gender": "male",
+      "n_matches": 31,
+      "n_events": 107089,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2007/2008",
+      "gender": "male",
+      "n_matches": 27,
+      "n_events": 96913,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2006/2007",
+      "gender": "male",
+      "n_matches": 26,
+      "n_events": 92656,
+      "n_360": 0
+    },
+    {
+      "competition": "Ligue 1",
+      "season": "2021/2022",
+      "gender": "male",
+      "n_matches": 26,
+      "n_events": 101766,
+      "n_360": 26
+    },
+    {
+      "competition": "La Liga",
+      "season": "2005/2006",
+      "gender": "male",
+      "n_matches": 17,
+      "n_events": 57668,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "2004/2005",
+      "gender": "male",
+      "n_matches": 7,
+      "n_events": 22204,
+      "n_360": 0
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "1970",
+      "gender": "male",
+      "n_matches": 6,
+      "n_events": 20030,
+      "n_360": 0
+    },
+    {
+      "competition": "Major League Soccer",
+      "season": "2023",
+      "gender": "male",
+      "n_matches": 6,
+      "n_events": 21786,
+      "n_360": 6
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "1974",
+      "gender": "male",
+      "n_matches": 6,
+      "n_events": 19259,
+      "n_360": 0
+    },
+    {
+      "competition": "UEFA Europa League",
+      "season": "1988/1989",
+      "gender": "male",
+      "n_matches": 3,
+      "n_events": 10086,
+      "n_360": 0
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "1986",
+      "gender": "male",
+      "n_matches": 3,
+      "n_events": 8471,
+      "n_360": 0
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "1958",
+      "gender": "male",
+      "n_matches": 2,
+      "n_events": 7341,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2009/2010",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3410,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2008/2009",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3329,
+      "n_360": 0
+    },
+    {
+      "competition": "North American League",
+      "season": "1977",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3205,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2006/2007",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3064,
+      "n_360": 0
+    },
+    {
+      "competition": "Serie A",
+      "season": "1986/1987",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3005,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2004/2005",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 4648,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2003/2004",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3223,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "1999/2000",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3384,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "1970/1971",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3529,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "1972/1973",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3195,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "1971/1972",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3027,
+      "n_360": 0
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "1962",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3754,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2013/2014",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 4263,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2010/2011",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 4326,
+      "n_360": 0
+    },
+    {
+      "competition": "Liga Profesional",
+      "season": "1997/1998",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3572,
+      "n_360": 0
+    },
+    {
+      "competition": "Liga Profesional",
+      "season": "1981",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3086,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2011/2012",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 4695,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2012/2013",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3338,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2014/2015",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3433,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2015/2016",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 4708,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2016/2017",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3400,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2017/2018",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3497,
+      "n_360": 0
+    },
+    {
+      "competition": "Champions League",
+      "season": "2018/2019",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3165,
+      "n_360": 0
+    },
+    {
+      "competition": "Copa del Rey",
+      "season": "1977/1978",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 2917,
+      "n_360": 0
+    },
+    {
+      "competition": "Copa del Rey",
+      "season": "1982/1983",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 2557,
+      "n_360": 0
+    },
+    {
+      "competition": "Copa del Rey",
+      "season": "1983/1984",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 2596,
+      "n_360": 0
+    },
+    {
+      "competition": "FIFA U20 World Cup",
+      "season": "1979",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3245,
+      "n_360": 0
+    },
+    {
+      "competition": "FIFA World Cup",
+      "season": "1990",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 3140,
+      "n_360": 0
+    },
+    {
+      "competition": "La Liga",
+      "season": "1973/1974",
+      "gender": "male",
+      "n_matches": 1,
+      "n_events": 2974,
+      "n_360": 0
+    }
+  ],
+  "event_types_sample": {
+    "Pass": 117353,
+    "Ball Receipt*": 110078,
+    "Carry": 92208,
+    "Pressure": 39195,
+    "Ball Recovery": 13215,
+    "Duel": 8661,
+    "Clearance": 5519,
+    "Block": 4844,
+    "Dribble": 4124,
+    "Goal Keeper": 3820,
+    "Miscontrol": 3535,
+    "Foul Committed": 3186,
+    "Shot": 3166,
+    "Dispossessed": 3159,
+    "Foul Won": 3019,
+    "Interception": 2702,
+    "Dribbled Past": 2558,
+    "Substitution": 774,
+    "Half Start": 482,
+    "Half End": 482,
+    "50/50": 449,
+    "Injury Stoppage": 448,
+    "Tactical Shift": 342,
+    "Starting XI": 240,
+    "Referee Ball-Drop": 189,
+    "Shield": 152,
+    "Camera On": 128,
+    "Player Off": 94,
+    "Player On": 94,
+    "Error": 62,
+    "Bad Behaviour": 56,
+    "Offside": 41,
+    "Camera off": 31,
+    "Own Goal For": 6,
+    "Own Goal Against": 6
+  },
+  "event_keys_sample": {
+    "id": 424418,
+    "index": 424418,
+    "period": 424418,
+    "timestamp": 424418,
+    "minute": 424418,
+    "second": 424418,
+    "type": 424418,
+    "possession": 424418,
+    "possession_team": 424418,
+    "play_pattern": 424418,
+    "team": 424418,
+    "player": 422515,
+    "position": 422515,
+    "location": 421241,
+    "related_events": 406157,
+    "duration": 312977,
+    "pass": 117353,
+    "carry": 92208,
+    "under_pressure": 88731,
+    "ball_receipt": 18668,
+    "counterpress": 13509,
+    "duel": 8661,
+    "off_camera": 5313,
+    "clearance": 5250,
+    "dribble": 4124,
+    "goalkeeper": 3820,
+    "out": 3513,
+    "shot": 3166,
+    "interception": 2702,
+    "foul_won": 1197,
+    "ball_recovery": 1109,
+    "foul_committed": 895,
+    "substitution": 774,
+    "tactics": 582,
+    "50_50": 449,
+    "block": 240,
+    "miscontrol": 152,
+    "injury_stoppage": 77,
+    "bad_behaviour": 56,
+    "half_start": 2
+  },
+  "sample_n_matches": 120,
+  "shots_with_xg_in_sample": 3166,
+  "vocab": [
+    "50/50",
+    "Bad Behaviour",
+    "Ball Receipt*",
+    "Ball Recovery",
+    "Block",
+    "Camera On",
+    "Camera off",
+    "Carry",
+    "Clearance",
+    "Dispossessed",
+    "Dribble",
+    "Dribbled Past",
+    "Duel",
+    "Error",
+    "Foul Committed",
+    "Foul Won",
+    "Goal Keeper",
+    "Half End",
+    "Half Start",
+    "Injury Stoppage",
+    "Interception",
+    "Miscontrol",
+    "Offside",
+    "Own Goal Against",
+    "Own Goal For",
+    "Pass",
+    "Player Off",
+    "Player On",
+    "Pressure",
+    "Referee Ball-Drop",
+    "Shield",
+    "Shot",
+    "Starting XI",
+    "Substitution",
+    "Tactical Shift",
+    "statsbomb_xg"
+  ],
+  "coordinates": "120 x 80 yardas, dirección de ataque del equipo en posesión",
+  "tracking": "no continuo; 360 = freeze frames por evento en un subconjunto",
+  "minutes_field": "reconstruible con lineups.positions[from/to] y eventos de sustitución",
+  "position_field": "posición detallada por partido y tramo (lineups.positions)",
+  "_audited_at_utc": "2026-11-02T23:11:34+00:00"
+}

@@ -1,0 +1,75 @@
+{
+  "representation": "composition",
+  "algorithm": "kmeans",
+  "k": 3,
+  "n_h1": 1410,
+  "n_h2": 1439,
+  "reserve": {
+    "silhouette_h2_assigned": 0.4196453473448293,
+    "ari_assigned_vs_refit_h2": 0.9703328874685759,
+    "cluster_sizes_h1": [
+      463,
+      292,
+      655
+    ],
+    "cluster_sizes_h2": [
+      469,
+      303,
+      667
+    ],
+    "nmi_team_h2": 0.00783955828801194,
+    "cramers_v_team_h2": 0.0
+  },
+  "H1": {
+    "nmi_fine_group_h1": 0.4750120947055802,
+    "nmi_fine_group_h2": 0.49481552412008234,
+    "threshold": 0.5,
+    "rejected": false
+  },
+  "H2": {
+    "share_neighbors_other_position": {
+      "functional": 0.3088255733148019,
+      "baseline_p90": 0.3720639332870049,
+      "functional_volume": 0.3343293954134816
+    },
+    "self_identification": {
+      "functional": {
+        "top1": 0.0987012987012987,
+        "top10": 0.38441558441558443,
+        "mrr": 0.1939512403271504,
+        "n": 1155
+      },
+      "baseline_p90": {
+        "top1": 0.18354978354978355,
+        "top10": 0.5246753246753246,
+        "mrr": 0.2958815244081711,
+        "n": 1155
+      },
+      "functional_volume": {
+        "top1": 0.09004329004329005,
+        "top10": 0.3619047619047619,
+        "mrr": 0.18436639296545568,
+        "n": 1155
+      }
+    },
+    "thresholds": {
+      "min_share": 0.2,
+      "min_top1": 0.5
+    },
+    "rejected": true
+  },
+  "H3": {
+    "ari_bootstrap_mean": 0.9686624880327888,
+    "jaccard_by_cluster": "0:0.983;1:0.975;2:0.980",
+    "temporal_same_profile_share": 0.9177489177489178,
+    "temporal_chance_share": 0.36650973291081934,
+    "temporal_ari_players": 0.7733873917137067,
+    "n_players_both_halves": 1155,
+    "rejected": false
+  },
+  "generalization": {
+    "ari_heldout_mean": 0.9867979042893988,
+    "ari_heldout_min": 0.9787934977725165,
+    "folds": 5
+  }
+}

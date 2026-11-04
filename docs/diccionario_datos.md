@@ -230,7 +230,6 @@ Filas: 3,676
 | `n_open_play_actions` | float64 | 0.0 | 0 a 3877 | Acciones de juego abierto usadas en la composición |
 | `short_name` | object | 0.0 |  | Nombre corto (decodificado) |
 | `role` | object | 0.0 |  | Rol de Wyscout (GK, DF, MD, FW) |
-| `birth_date` | object | 0.0 |  | Fecha de nacimiento |
 | `tm_id` | float64 | 13.8 | 26 a 7.244e+05 | Identificador de jugador en Transfermarkt |
 | `linked` | object | 13.7 |  | Enlace aceptado con Transfermarkt |
 | `fine_position` | object | 16.1 |  | Posición fina: principal por minutos en 2017/18 (alineaciones de Transfermarkt) |

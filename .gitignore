@@ -1,15 +1,28 @@
-# datos: se reconstruyen con src/ingestion y src/pipeline
+# Datos que no se versionan. El resto de data/ (tablas intermedias livianas y data/processed) sí se versiona.
+# Ver data/README.md para obtener las fuentes y reconstruir lo excluido.
+
+# fuentes originales (34 GB): se descargan con src/ingestion y se verifican con manifests/
 data/raw/
-data/interim/
-data/processed/
-!data/README.md
-# sistema y entornos
+
+# eventos completos de Wyscout: se regeneran con la etapa extract del pipeline
+data/interim/wyscout/events/
+data/interim/wyscout/events_parquet/
+data/interim/wyscout/matches/
+
+# atributos personales de los jugadores (fecha de nacimiento, pie, estatura); solo sirven para enlazar fuentes
+data/interim/wyscout/players.parquet
+
+# tablas derivadas de StatsBomb: su acuerdo de uso no permite redistribuirlas
+data/interim/replication/
+
+# sistema, entornos y cachés
 .DS_Store
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .venv*/
-# temporales de Office
-~$*
 .pytest_cache/
 .ruff_cache/
+
+# temporales de Office
+~$*

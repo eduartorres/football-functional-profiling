@@ -1,0 +1,9 @@
+{
+  "players_in_pool": 2570,
+  "linked": 2493,
+  "linked_share": 0.97,
+  "position_from_lineups": 2485,
+  "position_from_snapshot": 8,
+  "main_share_median": 0.92,
+  "rule": "misma fecha de nacimiento y similitud de nombre >= umbral; tm_id \u00fanico"
+}

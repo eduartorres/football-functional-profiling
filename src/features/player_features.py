@@ -151,7 +151,7 @@ def main() -> None:
     windows = {"full": pm, "h1": pm[pm.half == "h1"], "h2": pm[pm.half == "h2"]}
     for w, d in windows.items():
         a = aggregate(d, cfg)
-        a = a.merge(pl[["player_id", "short_name", "role", "birth_date"]], on="player_id", how="left")
+        a = a.merge(pl[["player_id", "short_name", "role"]], on="player_id", how="left")
         a = a.merge(
             pref[
                 [

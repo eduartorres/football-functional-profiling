@@ -1,0 +1,136 @@
+{
+  "source": "PFF FC FIFA World Cup 2022 (rclone desde Google Drive)",
+  "competition": [
+    "FIFA Men's World Cup"
+  ],
+  "n_matches_metadata": 64,
+  "event_folders": {
+    "root": 64,
+    "March 14, 2025": 64,
+    "May 1, 2025": 64
+  },
+  "event_folders_ids": {
+    "root": [
+      "10502",
+      "10503",
+      "10504",
+      "..."
+    ],
+    "March 14, 2025": [
+      "10502",
+      "10503",
+      "10504",
+      "..."
+    ],
+    "May 1, 2025": [
+      "10502",
+      "10503",
+      "10504",
+      "..."
+    ]
+  },
+  "n_events_root": 144541,
+  "n_games_root": 64,
+  "events_with_pressure_on_touch": 26597,
+  "game_event_types": {
+    "FIRSTKICKOFF": 64,
+    "OTB": 137087,
+    "OUT": 6389,
+    "END": 138,
+    "SUB": 587,
+    "SECONDKICKOFF": 64,
+    "THIRDKICKOFF": 5,
+    "OFF": 84,
+    "ON": 67,
+    "FOURTHKICKOFF": 5,
+    "G": 23,
+    "FOUL": 28
+  },
+  "possession_event_types": {
+    "PA": 66715,
+    "IT": 47097,
+    "null": 7530,
+    "CH": 11555,
+    "RE": 2544,
+    "CL": 2956,
+    "CR": 2412,
+    "SH": 1559,
+    "TC": 1290,
+    "BC": 855,
+    "FO": 28
+  },
+  "event_keys": {
+    "gameId": 144541,
+    "gameEventId": 144541,
+    "possessionEventId": 144541,
+    "startTime": 144541,
+    "endTime": 144541,
+    "duration": 144541,
+    "eventTime": 144541,
+    "sequence": 144541,
+    "gameEvents": 144541,
+    "initialTouch": 144541,
+    "possessionEvents": 144541,
+    "fouls": 144541,
+    "grades": 144541,
+    "stadiumMetadata": 144541,
+    "homePlayers": 144541,
+    "awayPlayers": 144541,
+    "ball": 144541
+  },
+  "n_players_rosters": 829,
+  "roster_positions": {
+    "RCB": 360,
+    "GK": 387,
+    "RB": 226,
+    "RWB": 32,
+    "RW": 197,
+    "CF": 430,
+    "CM": 515,
+    "LW": 242,
+    "LB": 177,
+    "MCB": 32,
+    "AM": 188,
+    "LWB": 32,
+    "LCB": 171,
+    "DM": 168,
+    "RM": 35,
+    "LM": 38
+  },
+  "n_tracking_files": 64,
+  "tracking_gb_compressed": 2.78,
+  "tracking_frames_sample": {
+    "10517.jsonl.bz2": 255182
+  },
+  "frame_rate_hz": 30,
+  "vocab": [
+    "BC",
+    "CH",
+    "CL",
+    "CR",
+    "END",
+    "FIRSTKICKOFF",
+    "FO",
+    "FOUL",
+    "FOURTHKICKOFF",
+    "G",
+    "IT",
+    "OFF",
+    "ON",
+    "OTB",
+    "OUT",
+    "PA",
+    "RE",
+    "SECONDKICKOFF",
+    "SH",
+    "SUB",
+    "TC",
+    "THIRDKICKOFF",
+    "initialPressureType"
+  ],
+  "coordinates": "metros, centro en (0,0); eventos incluyen posiciones de los 22 jugadores",
+  "tracking": true,
+  "minutes_field": "derivable de eventos SUB y metadatos de periodos",
+  "position_field": "positionGroupType por partido (Rosters)",
+  "_audited_at_utc": "2026-11-02T23:12:02+00:00"
+}

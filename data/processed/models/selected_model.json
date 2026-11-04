@@ -1,0 +1,23 @@
+{
+  "n_confirmed": 54,
+  "n_passing": 53,
+  "decision": "solución seleccionada",
+  "representation": "composition",
+  "algorithm": "kmeans",
+  "k": 3,
+  "n_clusters": 3,
+  "noise_share": 0.0,
+  "min_cluster_size": 292,
+  "silhouette": 0.4218344342746062,
+  "davies_bouldin": 0.8843115854633417,
+  "calinski_harabasz": 1115.1087866110263,
+  "nmi_fine_group": 0.4750120947055802,
+  "nmi_team": 0.0088223472446013,
+  "cramers_v_team": 0.0,
+  "ari_mean": 0.9686624880327888,
+  "ari_sd": 0.0211890915440691,
+  "jaccard_min": 0.9754739772681577,
+  "jaccard_median": 0.979511920108935,
+  "share_clusters_jaccard_ok": 1.0,
+  "jaccard_by_cluster": "0:0.983;1:0.975;2:0.980"
+}

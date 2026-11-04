@@ -1,0 +1,766 @@
+{
+  "source": "Wyscout (Pappalardo et al., 2019; figshare c.4415000.v5)",
+  "competitions": [
+    "Italian first division",
+    "English first division",
+    "Spanish first division",
+    "French first division",
+    "German first division",
+    "European Championship",
+    "World Cup"
+  ],
+  "n_competitions": 7,
+  "n_seasons": 7,
+  "season_ids": [
+    9291,
+    10078,
+    181137,
+    181144,
+    181150,
+    181189,
+    181248
+  ],
+  "period": {
+    "min_date": "2016-06-10 19:00:00",
+    "max_date": "2018-07-15 15:00:00"
+  },
+  "n_matches_metadata": 1941,
+  "n_teams_metadata": 142,
+  "n_players_metadata": 3603,
+  "player_roles_metadata": {
+    "GK": 426,
+    "DF": 1200,
+    "MD": 1257,
+    "FW": 720
+  },
+  "totals": {
+    "n_events": 3251294.0,
+    "n_matches": 1941.0,
+    "n_players_with_events": 3035.0,
+    "n_teams": 142.0,
+    "share_events_without_player": 0.06952247320605273,
+    "share_missing_start_xy": 0.0,
+    "share_missing_end_xy": 0.00022790925705273038,
+    "min_x": -1.0,
+    "max_x": 100.0,
+    "min_y": 0.0,
+    "max_y": 101.0
+  },
+  "by_competition": [
+    {
+      "competition_file": "England",
+      "n_events": 643150,
+      "n_matches": 380,
+      "n_players": 514
+    },
+    {
+      "competition_file": "European_Championship",
+      "n_events": 78140,
+      "n_matches": 51,
+      "n_players": 452
+    },
+    {
+      "competition_file": "France",
+      "n_events": 632807,
+      "n_matches": 380,
+      "n_players": 541
+    },
+    {
+      "competition_file": "Germany",
+      "n_events": 519407,
+      "n_matches": 306,
+      "n_players": 473
+    },
+    {
+      "competition_file": "Italy",
+      "n_events": 647372,
+      "n_matches": 380,
+      "n_players": 533
+    },
+    {
+      "competition_file": "Spain",
+      "n_events": 628659,
+      "n_matches": 380,
+      "n_players": 557
+    },
+    {
+      "competition_file": "World_Cup",
+      "n_events": 101759,
+      "n_matches": 64,
+      "n_players": 602
+    }
+  ],
+  "event_types": [
+    {
+      "event_name": "Pass",
+      "n": 1665508
+    },
+    {
+      "event_name": "Duel",
+      "n": 879083
+    },
+    {
+      "event_name": "Others on the ball",
+      "n": 257240
+    },
+    {
+      "event_name": "Free Kick",
+      "n": 193273
+    },
+    {
+      "event_name": "Interruption",
+      "n": 130097
+    },
+    {
+      "event_name": "Foul",
+      "n": 51049
+    },
+    {
+      "event_name": "Shot",
+      "n": 43078
+    },
+    {
+      "event_name": "Save attempt",
+      "n": 17619
+    },
+    {
+      "event_name": "Offside",
+      "n": 8182
+    },
+    {
+      "event_name": "Goalkeeper leaving line",
+      "n": 6165
+    }
+  ],
+  "sub_event_types": [
+    {
+      "event_name": "Pass",
+      "sub_event_name": "Simple pass",
+      "n": 1286004
+    },
+    {
+      "event_name": "Duel",
+      "sub_event_name": "Ground attacking duel",
+      "n": 279991
+    },
+    {
+      "event_name": "Duel",
+      "sub_event_name": "Ground defending duel",
+      "n": 278703
+    },
+    {
+      "event_name": "Others on the ball",
+      "sub_event_name": "Touch",
+      "n": 174535
+    },
+    {
+      "event_name": "Duel",
+      "sub_event_name": "Air duel",
+      "n": 168407
+    },
+    {
+      "event_name": "Duel",
+      "sub_event_name": "Ground loose ball duel",
+      "n": 151982
+    },
+    {
+      "event_name": "Pass",
+      "sub_event_name": "High pass",
+      "n": 130215
+    },
+    {
+      "event_name": "Interruption",
+      "sub_event_name": "Ball out of the field",
+      "n": 129180
+    },
+    {
+      "event_name": "Pass",
+      "sub_event_name": "Head pass",
+      "n": 96911
+    },
+    {
+      "event_name": "Free Kick",
+      "sub_event_name": "Throw in",
+      "n": 85080
+    },
+    {
+      "event_name": "Pass",
+      "sub_event_name": "Cross",
+      "n": 62333
+    },
+    {
+      "event_name": "Others on the ball",
+      "sub_event_name": "Clearance",
+      "n": 56819
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Foul",
+      "n": 47143
+    },
+    {
+      "event_name": "Pass",
+      "sub_event_name": "Launch",
+      "n": 45738
+    },
+    {
+      "event_name": "Free Kick",
+      "sub_event_name": "Free Kick",
+      "n": 45566
+    },
+    {
+      "event_name": "Shot",
+      "sub_event_name": "Shot",
+      "n": 43078
+    },
+    {
+      "event_name": "Free Kick",
+      "sub_event_name": "Goal kick",
+      "n": 31797
+    },
+    {
+      "event_name": "Pass",
+      "sub_event_name": "Smart pass",
+      "n": 30303
+    },
+    {
+      "event_name": "Others on the ball",
+      "sub_event_name": "Acceleration",
+      "n": 25886
+    },
+    {
+      "event_name": "Free Kick",
+      "sub_event_name": "Corner",
+      "n": 19316
+    },
+    {
+      "event_name": "Pass",
+      "sub_event_name": "Hand pass",
+      "n": 14004
+    },
+    {
+      "event_name": "Save attempt",
+      "sub_event_name": "Reflexes",
+      "n": 10805
+    },
+    {
+      "event_name": "Free Kick",
+      "sub_event_name": "Free kick cross",
+      "n": 8647
+    },
+    {
+      "event_name": "Offside",
+      "sub_event_name": "",
+      "n": 8182
+    },
+    {
+      "event_name": "Save attempt",
+      "sub_event_name": "Save attempt",
+      "n": 6814
+    },
+    {
+      "event_name": "Goalkeeper leaving line",
+      "sub_event_name": "Goalkeeper leaving line",
+      "n": 6165
+    },
+    {
+      "event_name": "Free Kick",
+      "sub_event_name": "Free kick shot",
+      "n": 2209
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Hand foul",
+      "n": 2078
+    },
+    {
+      "event_name": "Interruption",
+      "sub_event_name": "Whistle",
+      "n": 917
+    },
+    {
+      "event_name": "Free Kick",
+      "sub_event_name": "Penalty",
+      "n": 658
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Protest",
+      "n": 598
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Out of game foul",
+      "n": 499
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Late card foul",
+      "n": 317
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Time lost foul",
+      "n": 221
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Simulation",
+      "n": 110
+    },
+    {
+      "event_name": "Foul",
+      "sub_event_name": "Violent Foul",
+      "n": 83
+    }
+  ],
+  "tags": [
+    {
+      "Tag": 1801,
+      "n": 2117108,
+      "Label": "accurate",
+      "Description": "Accurate"
+    },
+    {
+      "Tag": 1802,
+      "n": 731428,
+      "Label": "not accurate",
+      "Description": "Not accurate"
+    },
+    {
+      "Tag": 701,
+      "n": 339783,
+      "Label": "lost",
+      "Description": "Lost"
+    },
+    {
+      "Tag": 703,
+      "n": 338879,
+      "Label": "won",
+      "Description": "Won"
+    },
+    {
+      "Tag": 702,
+      "n": 199401,
+      "Label": "neutral",
+      "Description": "Neutral"
+    },
+    {
+      "Tag": 1401,
+      "n": 174247,
+      "Label": "interception",
+      "Description": "Interception"
+    },
+    {
+      "Tag": 502,
+      "n": 63174,
+      "Label": "free_space_l",
+      "Description": "Free space left"
+    },
+    {
+      "Tag": 501,
+      "n": 63104,
+      "Label": "free_space_r",
+      "Description": "Free space right"
+    },
+    {
+      "Tag": 402,
+      "n": 58785,
+      "Label": "Right",
+      "Description": "Right foot"
+    },
+    {
+      "Tag": 801,
+      "n": 58569,
+      "Label": "high",
+      "Description": "High"
+    },
+    {
+      "Tag": 503,
+      "n": 52599,
+      "Label": "take_on_l",
+      "Description": "Take on left"
+    },
+    {
+      "Tag": 504,
+      "n": 52594,
+      "Label": "take_on_r",
+      "Description": "Take on right"
+    },
+    {
+      "Tag": 1901,
+      "n": 49341,
+      "Label": "counter_attack",
+      "Description": "Counter attack"
+    },
+    {
+      "Tag": 401,
+      "n": 42416,
+      "Label": "Left",
+      "Description": "Left foot"
+    },
+    {
+      "Tag": 201,
+      "n": 33180,
+      "Label": "opportunity",
+      "Description": "Opportunity"
+    },
+    {
+      "Tag": 901,
+      "n": 30258,
+      "Label": "through",
+      "Description": "Through"
+    },
+    {
+      "Tag": 1601,
+      "n": 21535,
+      "Label": "sliding_tackle",
+      "Description": "Sliding tackle"
+    },
+    {
+      "Tag": 2101,
+      "n": 21327,
+      "Label": "blocked",
+      "Description": "Blocked"
+    },
+    {
+      "Tag": 602,
+      "n": 17645,
+      "Label": "anticipation",
+      "Description": "Anticipation"
+    },
+    {
+      "Tag": 601,
+      "n": 17338,
+      "Label": "anticipated",
+      "Description": "Anticipated"
+    },
+    {
+      "Tag": 1302,
+      "n": 12695,
+      "Label": "missed ball",
+      "Description": "Missed ball"
+    },
+    {
+      "Tag": 302,
+      "n": 12229,
+      "Label": "keyPass",
+      "Description": "Key pass"
+    },
+    {
+      "Tag": 101,
+      "n": 10390,
+      "Label": "Goal",
+      "Description": "Goal"
+    },
+    {
+      "Tag": 1201,
+      "n": 8538,
+      "Label": "gb",
+      "Description": "Position: Goal low center"
+    },
+    {
+      "Tag": 1702,
+      "n": 7441,
+      "Label": "yellow_card",
+      "Description": "Yellow card"
+    },
+    {
+      "Tag": 403,
+      "n": 7079,
+      "Label": "head/body",
+      "Description": "Head/body"
+    },
+    {
+      "Tag": 1203,
+      "n": 5257,
+      "Label": "gc",
+      "Description": "Position: Goal center"
+    },
+    {
+      "Tag": 1205,
+      "n": 5188,
+      "Label": "glb",
+      "Description": "Position: Goal low left"
+    },
+    {
+      "Tag": 1202,
+      "n": 4530,
+      "Label": "gbr",
+      "Description": "Position: Goal low right"
+    },
+    {
+      "Tag": 2001,
+      "n": 4028,
+      "Label": "dangerous_ball_lost",
+      "Description": "Dangerous ball lost"
+    },
+    {
+      "Tag": 1216,
+      "n": 3760,
+      "Label": "otr",
+      "Description": "Position: Out high right"
+    },
+    {
+      "Tag": 1215,
+      "n": 3285,
+      "Label": "otl",
+      "Description": "Position: Out high left"
+    },
+    {
+      "Tag": 1212,
+      "n": 3248,
+      "Label": "olb",
+      "Description": "Position: Out low left"
+    },
+    {
+      "Tag": 301,
+      "n": 3098,
+      "Label": "assist",
+      "Description": "Assist"
+    },
+    {
+      "Tag": 1204,
+      "n": 2924,
+      "Label": "gl",
+      "Description": "Position: Goal center left"
+    },
+    {
+      "Tag": 1210,
+      "n": 2888,
+      "Label": "obr",
+      "Description": "Position: Out low right"
+    },
+    {
+      "Tag": 1206,
+      "n": 2836,
+      "Label": "gr",
+      "Description": "Position: Goal center right"
+    },
+    {
+      "Tag": 1001,
+      "n": 2702,
+      "Label": "fairplay",
+      "Description": "Fairplay"
+    },
+    {
+      "Tag": 1214,
+      "n": 2333,
+      "Label": "ot",
+      "Description": "Position: Out high center"
+    },
+    {
+      "Tag": 1101,
+      "n": 2119,
+      "Label": "direct",
+      "Description": "Direct"
+    },
+    {
+      "Tag": 1207,
+      "n": 2014,
+      "Label": "gt",
+      "Description": "Position: Goal high center"
+    },
+    {
+      "Tag": 1301,
+      "n": 1986,
+      "Label": "Feint",
+      "Description": "Feint"
+    },
+    {
+      "Tag": 1209,
+      "n": 999,
+      "Label": "gtr",
+      "Description": "Position: Goal high right"
+    },
+    {
+      "Tag": 1208,
+      "n": 978,
+      "Label": "gtl",
+      "Description": "Position: Goal high left"
+    },
+    {
+      "Tag": 1211,
+      "n": 937,
+      "Label": "ol",
+      "Description": "Position: Out center left"
+    },
+    {
+      "Tag": 1213,
+      "n": 934,
+      "Label": "or",
+      "Description": "Position: Out center right"
+    },
+    {
+      "Tag": 1701,
+      "n": 174,
+      "Label": "red_card",
+      "Description": "Red card"
+    },
+    {
+      "Tag": 1222,
+      "n": 171,
+      "Label": "ptl",
+      "Description": "Position: Post high left"
+    },
+    {
+      "Tag": 1223,
+      "n": 169,
+      "Label": "ptr",
+      "Description": "Position: Post high right"
+    },
+    {
+      "Tag": 102,
+      "n": 168,
+      "Label": "own_goal",
+      "Description": "Own goal"
+    },
+    {
+      "Tag": 1703,
+      "n": 165,
+      "Label": "second_yellow_card",
+      "Description": "Second yellow card"
+    },
+    {
+      "Tag": 1221,
+      "n": 160,
+      "Label": "pt",
+      "Description": "Position: Post high center"
+    },
+    {
+      "Tag": 1219,
+      "n": 139,
+      "Label": "plb",
+      "Description": "Position: Post low left"
+    },
+    {
+      "Tag": 1217,
+      "n": 122,
+      "Label": "pbr",
+      "Description": "Position: Post low right"
+    },
+    {
+      "Tag": 1220,
+      "n": 107,
+      "Label": "pr",
+      "Description": "Position: Post center right"
+    },
+    {
+      "Tag": 1218,
+      "n": 101,
+      "Label": "pl",
+      "Description": "Position: Post center left"
+    },
+    {
+      "Tag": 1102,
+      "n": 90,
+      "Label": "indirect",
+      "Description": "Indirect"
+    }
+  ],
+  "vocab": [
+    "",
+    "Acceleration",
+    "Air duel",
+    "Ball out of the field",
+    "Clearance",
+    "Corner",
+    "Cross",
+    "Duel",
+    "Feint",
+    "Foul",
+    "Free Kick",
+    "Free kick cross",
+    "Free kick shot",
+    "Goal",
+    "Goal kick",
+    "Goalkeeper leaving line",
+    "Ground attacking duel",
+    "Ground defending duel",
+    "Ground loose ball duel",
+    "Hand foul",
+    "Hand pass",
+    "Head pass",
+    "High pass",
+    "Interruption",
+    "Late card foul",
+    "Launch",
+    "Left",
+    "Offside",
+    "Others on the ball",
+    "Out of game foul",
+    "Pass",
+    "Penalty",
+    "Protest",
+    "Reflexes",
+    "Right",
+    "Save attempt",
+    "Shot",
+    "Simple pass",
+    "Simulation",
+    "Smart pass",
+    "Throw in",
+    "Time lost foul",
+    "Touch",
+    "Violent Foul",
+    "Whistle",
+    "accurate",
+    "anticipated",
+    "anticipation",
+    "assist",
+    "blocked",
+    "counter_attack",
+    "dangerous_ball_lost",
+    "direct",
+    "fairplay",
+    "free_space_l",
+    "free_space_r",
+    "gb",
+    "gbr",
+    "gc",
+    "gl",
+    "glb",
+    "gr",
+    "gt",
+    "gtl",
+    "gtr",
+    "head/body",
+    "high",
+    "indirect",
+    "interception",
+    "keyPass",
+    "lost",
+    "missed ball",
+    "neutral",
+    "not accurate",
+    "obr",
+    "ol",
+    "olb",
+    "opportunity",
+    "or",
+    "ot",
+    "otl",
+    "otr",
+    "own_goal",
+    "pbr",
+    "pl",
+    "plb",
+    "pr",
+    "pt",
+    "ptl",
+    "ptr",
+    "red_card",
+    "second_yellow_card",
+    "sliding_tackle",
+    "take_on_l",
+    "take_on_r",
+    "through",
+    "won",
+    "yellow_card"
+  ],
+  "coordinates": "0-100 en ambos ejes, relativas a la dirección de ataque del equipo que ejecuta",
+  "tracking": false,
+  "minutes_field": "no directo; reconstruible con teamsData (formation.lineup/bench/substitutions)",
+  "position_field": "players.role: GK/DF/MF/FW (4 categorías)",
+  "_audited_at_utc": "2026-11-02T23:11:14+00:00"
+}

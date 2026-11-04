@@ -1,0 +1,15 @@
+{
+  "variant": "full_space",
+  "n_cases": 30,
+  "list_size": 20,
+  "pool": 1155,
+  "pertinent_share_functional_mean": 0.6683333333333333,
+  "pertinent_share_baseline_mean": 0.6088095238095239,
+  "new_pertinent_mean": 10.033333333333333,
+  "new_pertinent_median": 10.5,
+  "overlap_mean": 4.0,
+  "functional_other_position_share_mean": 0.42833333333333334,
+  "chance_pertinent_share": 0.1,
+  "wilcoxon_p": 0.09214650790583354,
+  "rejected": false
+}

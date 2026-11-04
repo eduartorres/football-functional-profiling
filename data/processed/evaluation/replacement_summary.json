@@ -1,0 +1,15 @@
+{
+  "variant": "pca",
+  "n_cases": 30,
+  "list_size": 20,
+  "pool": 1155,
+  "pertinent_share_functional_mean": 0.62,
+  "pertinent_share_baseline_mean": 0.6088095238095239,
+  "new_pertinent_mean": 9.6,
+  "new_pertinent_median": 10.5,
+  "overlap_mean": 3.6333333333333333,
+  "functional_other_position_share_mean": 0.42666666666666675,
+  "chance_pertinent_share": 0.1,
+  "wilcoxon_p": 0.7208756743131864,
+  "rejected": false
+}

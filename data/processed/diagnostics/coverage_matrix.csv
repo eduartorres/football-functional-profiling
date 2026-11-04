@@ -1,0 +1,14 @@
+dimension,wyscout,statsbomb,skillcorner,dfl,pff
+Pases,sí: Pass,sí: Pass,sí: pass_outcome,sí: Play,sí: PA
+Conducciones,sí: Acceleration,sí: Carry,sí: player_possession,no observado,sí: BC
+Remates,sí: Shot,sí: Shot,sí: lead_to_shot,sí: ShotAtGoal,sí: SH
+Duelos,sí: Duel,sí: Duel,sí: on_ball_engagement,sí: TacklingGame,sí: CH
+Recuperaciones/intercep.,sí: interception,"sí: Ball Recovery, Interception",sí: recovery_press,sí: BallClaiming,no observado
+Presión sobre el rival,no observado,sí: Pressure,"sí: pressing, pressure, counter_press",no observado,sí: initialPressureType
+Carreras sin balón,no observado,no observado,sí: off_ball_run,no observado,no observado
+Valor de acción (xG/xT),no observado,sí: statsbomb_xg,sí: xthreat,no observado,no observado
+Coordenadas de evento,sí,sí,sí,sí,sí
+Contexto espacial por evento,no,parcial: 360 en subconjunto,sí: tracking,sí: tracking,sí: 22 jugadores por evento
+Tracking continuo,no,no,sí,sí,sí
+Minutos jugados,no directo; reconstruible con teamsData (formation.lineup/bench/substitutions),reconstruible con lineups.positions[from/to] y eventos de sustitución,players.playing_time en match.json,derivable de alineación y Substitution,derivable de eventos SUB y metadatos de periodos
+Posición nominal,players.role: GK/DF/MF/FW (4 categorías),posición detallada por partido y tramo (lineups.positions),players.player_role (posición detallada por partido),PlayingPosition por partido (códigos DFL),positionGroupType por partido (Rosters)
