@@ -1,0 +1,49 @@
+Árbol composicion_y_localizacion: fidelidad 0.929 en validación cruzada (5 particiones), 0.937 en ajuste. Clases: perfiles 1, 2 y 3.
+
+|--- loc_depth <= 50.158
+|   |--- loc_width <= 29.284
+|   |   |--- loc_depth <= 47.225
+|   |   |   |--- weights: [408.000, 4.000, 7.000] class: 1
+|   |   |--- loc_depth >  47.225
+|   |   |   |--- weights: [44.000, 0.000, 34.000] class: 1
+|   |--- loc_width >  29.284
+|   |   |--- loc_sd_y <= 31.881
+|   |   |   |--- weights: [2.000, 197.000, 1.000] class: 2
+|   |   |--- loc_sd_y >  31.881
+|   |   |   |--- weights: [0.000, 19.000, 11.000] class: 2
+|--- loc_depth >  50.158
+|   |--- loc_width <= 34.293
+|   |   |--- loc_sd_x <= 23.645
+|   |   |   |--- weights: [12.000, 5.000, 633.000] class: 3
+|   |   |--- loc_sd_x >  23.645
+|   |   |   |--- weights: [0.000, 10.000, 26.000] class: 3
+|   |--- loc_width >  34.293
+|   |   |--- loc_depth <= 53.600
+|   |   |   |--- weights: [0.000, 57.000, 0.000] class: 2
+|   |   |--- loc_depth >  53.600
+|   |   |   |--- weights: [0.000, 21.000, 9.000] class: 2
+
+Árbol solo_composicion: fidelidad 0.882 en validación cruzada (5 particiones), 0.900 en ajuste. Clases: perfiles 1, 2 y 3.
+
+|--- comp_remate <= 0.013
+|   |--- comp_centro <= 0.013
+|   |   |--- comp_duelo_ofensivo <= 0.078
+|   |   |   |--- weights: [397.000, 1.000, 11.000] class: 1
+|   |   |--- comp_duelo_ofensivo >  0.078
+|   |   |   |--- weights: [22.000, 0.000, 23.000] class: 3
+|   |--- comp_centro >  0.013
+|   |   |--- comp_despeje <= 0.015
+|   |   |   |--- weights: [2.000, 35.000, 55.000] class: 3
+|   |   |--- comp_despeje >  0.015
+|   |   |   |--- weights: [11.000, 238.000, 16.000] class: 2
+|--- comp_remate >  0.013
+|   |--- comp_duelo_ofensivo <= 0.071
+|   |   |--- comp_centro <= 0.009
+|   |   |   |--- weights: [27.000, 0.000, 6.000] class: 1
+|   |   |--- comp_centro >  0.009
+|   |   |   |--- weights: [5.000, 13.000, 28.000] class: 3
+|   |--- comp_duelo_ofensivo >  0.071
+|   |   |--- comp_centro <= 0.061
+|   |   |   |--- weights: [2.000, 9.000, 538.000] class: 3
+|   |   |--- comp_centro >  0.061
+|   |   |   |--- weights: [0.000, 17.000, 44.000] class: 3

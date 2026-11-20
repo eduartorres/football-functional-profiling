@@ -1,0 +1,374 @@
+{
+  "window": "full",
+  "n_players": 1500,
+  "trees": {
+    "composicion_y_localizacion": {
+      "max_depth": 3,
+      "fidelity_cv": 0.929,
+      "fidelity_train": 0.937,
+      "importance": {
+        "loc_depth": 0.513,
+        "loc_width": 0.473,
+        "loc_sd_y": 0.008,
+        "loc_sd_x": 0.006
+      }
+    },
+    "solo_composicion": {
+      "max_depth": 3,
+      "fidelity_cv": 0.882,
+      "fidelity_train": 0.9,
+      "importance": {
+        "comp_remate": 0.463,
+        "comp_centro": 0.414,
+        "comp_duelo_ofensivo": 0.07,
+        "comp_despeje": 0.053
+      }
+    }
+  },
+  "profiles": [
+    {
+      "profile": 1,
+      "name": "Construcción y defensa posicional",
+      "n": 466,
+      "share": 0.311,
+      "minutes_median": 2182,
+      "top_variables": [
+        {
+          "variable": "loc_depth",
+          "label": "Profundidad media (0 propia portería, 100 rival)",
+          "unit": "",
+          "z": -1.11,
+          "profile_mean": 38.4,
+          "population_mean": 50.6
+        },
+        {
+          "variable": "comp_duelo_ofensivo",
+          "label": "Duelos ofensivos, % de sus acciones",
+          "unit": "%",
+          "z": -0.92,
+          "profile_mean": 3.4,
+          "population_mean": 10.2
+        },
+        {
+          "variable": "p90_clearances",
+          "label": "Despejes por 90",
+          "unit": "",
+          "z": 0.91,
+          "profile_mean": 2.3,
+          "population_mean": 1.3
+        },
+        {
+          "variable": "comp_centro",
+          "label": "Centros, % de sus acciones",
+          "unit": "%",
+          "z": -0.91,
+          "profile_mean": 0.4,
+          "population_mean": 2.4
+        },
+        {
+          "variable": "p90_interceptions",
+          "label": "Intercepciones por 90",
+          "unit": "",
+          "z": 0.89,
+          "profile_mean": 5.6,
+          "population_mean": 4.1
+        },
+        {
+          "variable": "p90_crosses",
+          "label": "Centros por 90",
+          "unit": "",
+          "z": -0.89,
+          "profile_mean": 0.3,
+          "population_mean": 1.6
+        },
+        {
+          "variable": "p90_prog_passes",
+          "label": "Pases progresivos por 90",
+          "unit": "",
+          "z": 0.87,
+          "profile_mean": 5.1,
+          "population_mean": 3.3
+        },
+        {
+          "variable": "loc_width",
+          "label": "Distancia media al eje central (0 a 50)",
+          "unit": "",
+          "z": -0.86,
+          "profile_mean": 21.1,
+          "population_mean": 26.6
+        }
+      ],
+      "positions": {
+        "defensa_central": 0.65,
+        "pivote": 0.26,
+        "mediocentro": 0.082,
+        "lateral": 0.006,
+        "mediapunta": 0.002
+      },
+      "leagues": {
+        "LaLiga": 0.217,
+        "Premier League": 0.2,
+        "Ligue 1": 0.195,
+        "Serie A": 0.195,
+        "Bundesliga": 0.193
+      },
+      "representatives": [
+        {
+          "short_name": "F. Schär",
+          "fine_position": "Centre-Back"
+        },
+        {
+          "short_name": "S. Sané",
+          "fine_position": "Centre-Back"
+        },
+        {
+          "short_name": "L. Koscielny",
+          "fine_position": "Centre-Back"
+        },
+        {
+          "short_name": "Diego Llorente",
+          "fine_position": "Centre-Back"
+        },
+        {
+          "short_name": "F. Fazio",
+          "fine_position": "Centre-Back"
+        },
+        {
+          "short_name": "L. Bonucci",
+          "fine_position": "Centre-Back"
+        }
+      ]
+    },
+    {
+      "profile": 2,
+      "name": "Carril lateral",
+      "n": 313,
+      "share": 0.209,
+      "minutes_median": 2032,
+      "top_variables": [
+        {
+          "variable": "loc_width",
+          "label": "Distancia media al eje central (0 a 50)",
+          "unit": "",
+          "z": 1.49,
+          "profile_mean": 36.1,
+          "population_mean": 26.6
+        },
+        {
+          "variable": "p90_crosses",
+          "label": "Centros por 90",
+          "unit": "",
+          "z": 1.01,
+          "profile_mean": 3.0,
+          "population_mean": 1.6
+        },
+        {
+          "variable": "comp_centro",
+          "label": "Centros, % de sus acciones",
+          "unit": "%",
+          "z": 0.99,
+          "profile_mean": 4.7,
+          "population_mean": 2.4
+        },
+        {
+          "variable": "comp_duelo_defensivo",
+          "label": "Duelos defensivos, % de sus acciones",
+          "unit": "%",
+          "z": 0.71,
+          "profile_mean": 11.6,
+          "population_mean": 9.4
+        },
+        {
+          "variable": "p90_shots",
+          "label": "Remates por 90",
+          "unit": "",
+          "z": -0.68,
+          "profile_mean": 0.5,
+          "population_mean": 1.1
+        },
+        {
+          "variable": "p90_def_duels",
+          "label": "Duelos defensivos por 90",
+          "unit": "",
+          "z": 0.66,
+          "profile_mean": 7.4,
+          "population_mean": 6.1
+        },
+        {
+          "variable": "comp_remate",
+          "label": "Remates, % de sus acciones",
+          "unit": "%",
+          "z": -0.62,
+          "profile_mean": 0.8,
+          "population_mean": 1.8
+        },
+        {
+          "variable": "p90_box_actions",
+          "label": "Acciones en el área por 90",
+          "unit": "",
+          "z": -0.57,
+          "profile_mean": 1.6,
+          "population_mean": 3.1
+        }
+      ],
+      "positions": {
+        "lateral": 0.786,
+        "volante_banda": 0.131,
+        "defensa_central": 0.045,
+        "extremo": 0.029,
+        "mediocentro": 0.006,
+        "pivote": 0.003
+      },
+      "leagues": {
+        "Ligue 1": 0.22,
+        "Premier League": 0.217,
+        "LaLiga": 0.201,
+        "Serie A": 0.201,
+        "Bundesliga": 0.16
+      },
+      "representatives": [
+        {
+          "short_name": "D. Faraoni",
+          "fine_position": "Right-Back"
+        },
+        {
+          "short_name": "A. Cresswell",
+          "fine_position": "Centre-Back"
+        },
+        {
+          "short_name": "Hugo Mallo",
+          "fine_position": "Right-Back"
+        },
+        {
+          "short_name": "L. Baines",
+          "fine_position": "Left-Back"
+        },
+        {
+          "short_name": "Douglas Santos",
+          "fine_position": "Left-Back"
+        },
+        {
+          "short_name": "F. Chafik",
+          "fine_position": "Right-Back"
+        }
+      ]
+    },
+    {
+      "profile": 3,
+      "name": "Ataque y finalización",
+      "n": 721,
+      "share": 0.481,
+      "minutes_median": 1913,
+      "top_variables": [
+        {
+          "variable": "loc_depth",
+          "label": "Profundidad media (0 propia portería, 100 rival)",
+          "unit": "",
+          "z": 0.82,
+          "profile_mean": 59.7,
+          "population_mean": 50.6
+        },
+        {
+          "variable": "p90_interceptions",
+          "label": "Intercepciones por 90",
+          "unit": "",
+          "z": -0.78,
+          "profile_mean": 2.7,
+          "population_mean": 4.1
+        },
+        {
+          "variable": "p90_shots",
+          "label": "Remates por 90",
+          "unit": "",
+          "z": 0.76,
+          "profile_mean": 1.7,
+          "population_mean": 1.1
+        },
+        {
+          "variable": "comp_duelo_ofensivo",
+          "label": "Duelos ofensivos, % de sus acciones",
+          "unit": "%",
+          "z": 0.75,
+          "profile_mean": 15.8,
+          "population_mean": 10.2
+        },
+        {
+          "variable": "p90_clearances",
+          "label": "Despejes por 90",
+          "unit": "",
+          "z": -0.74,
+          "profile_mean": 0.5,
+          "population_mean": 1.3
+        },
+        {
+          "variable": "comp_remate",
+          "label": "Remates, % de sus acciones",
+          "unit": "%",
+          "z": 0.71,
+          "profile_mean": 2.9,
+          "population_mean": 1.8
+        },
+        {
+          "variable": "comp_despeje",
+          "label": "Despejes, % de sus acciones",
+          "unit": "%",
+          "z": -0.68,
+          "profile_mean": 0.9,
+          "population_mean": 2.1
+        },
+        {
+          "variable": "comp_pase_filtrado",
+          "label": "Pases filtrados, % de sus acciones",
+          "unit": "%",
+          "z": 0.67,
+          "profile_mean": 1.8,
+          "population_mean": 1.1
+        }
+      ],
+      "positions": {
+        "delantero_centro": 0.279,
+        "extremo": 0.269,
+        "mediocentro": 0.219,
+        "mediapunta": 0.092,
+        "pivote": 0.049,
+        "volante_banda": 0.047,
+        "segundo_delantero": 0.026,
+        "lateral": 0.015,
+        "defensa_central": 0.004
+      },
+      "leagues": {
+        "Ligue 1": 0.208,
+        "Serie A": 0.205,
+        "LaLiga": 0.204,
+        "Premier League": 0.197,
+        "Bundesliga": 0.186
+      },
+      "representatives": [
+        {
+          "short_name": "Brais Méndez",
+          "fine_position": "Right Winger"
+        },
+        {
+          "short_name": "W. Hughes",
+          "fine_position": "Attacking Midfield"
+        },
+        {
+          "short_name": "G. Ramírez",
+          "fine_position": "Attacking Midfield"
+        },
+        {
+          "short_name": "R. Rodelin",
+          "fine_position": "Centre-Forward"
+        },
+        {
+          "short_name": "M. Gaćinović",
+          "fine_position": "Central Midfield"
+        },
+        {
+          "short_name": "B. Özcan",
+          "fine_position": "Attacking Midfield"
+        }
+      ]
+    }
+  ]
+}

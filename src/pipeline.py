@@ -122,6 +122,13 @@ STAGES = [
     ),
     ("replication", "Replicación con StatsBomb", _call("src.evaluation.replication"), [STATSBOMB_WC]),
     ("profiles_final", "Perfiles finales en la temporada completa (D24)", _profiles_full, []),
+    (
+        "characterize",
+        "Caracterización de negocio de los perfiles finales",
+        _call("src.models.characterize"),
+        [],
+    ),
+    ("figures", "Figuras de perfiles del documento", _call("src.reports.figures"), []),
     ("explorer", "Datos y página del explorador (prototipo)", _explorer, []),
     ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary"), []),
     ("casebook", "Datos y página del casebook de resultados", _casebook, []),

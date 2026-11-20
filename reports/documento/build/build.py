@@ -57,12 +57,13 @@ def para(text, style="Normal", align=None, size=None):
 
 
 # numeración simple para objetivos (sin depender de definiciones de numeración del original)
-def numbered(items):
+def numbered(items, prefix="OE"):
+    # objetivos (OE1, OE2...) o listas numeradas simples (1, 2...), con sangría francesa
     for i, t in enumerate(items, 1):
         par = doc.add_paragraph(style="Normal")
         par.paragraph_format.left_indent = Emu(274320)
         par.paragraph_format.first_line_indent = Emu(-274320)
-        add_runs(par, f"OE{i}.\t{t}")
+        add_runs(par, f"{prefix}{i}.\t{t}")
 
 
 def set_cell_border(cell, **kw):
@@ -169,6 +170,8 @@ for kind, val in C:
             para(it, style="List Bullet")
     elif kind == "numbered":
         numbered(val)
+    elif kind == "numbered_plain":
+        numbered(val, prefix="")
     elif kind == "table":
         add_table(val)
     elif kind == "ref":
