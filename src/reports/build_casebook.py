@@ -76,6 +76,8 @@ def compact(data: dict) -> dict:
         "transitions": r["temporal_transitions"],
         "cases": cases,
         "replication": r["replication"],
+        "cards": r["profile_cards"],
+        "zones": [[z["loc_depth"], z["loc_width"], z["profile"], z["short_name"]] for z in r["zones"]],
     }
 
 

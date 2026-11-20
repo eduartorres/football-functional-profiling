@@ -35,6 +35,13 @@ def results() -> dict:
     keys = ["representation", "algorithm", "k"]
     screen["confirmed"] = screen.set_index(keys).index.isin(confirm.set_index(keys).index)
     grid = screen[keys + ["silhouette", "ari_mean", "noise_share", "nmi_team", "confirmed"]]
+    # zona de actuación de los perfiles finales (temporada completa) para el gráfico de dispersión
+    assign = pd.read_parquet(M / "profiles_full_assignments.parquet")
+    feats = pd.read_parquet(ROOT / "data/processed/features/player_features_full.parquet")
+    zones = assign.merge(
+        feats[["player_id", "competition_file", "loc_depth", "loc_width"]],
+        on=["player_id", "competition_file"],
+    )
     summary = pd.read_csv(M / "profiles_h1_summary.csv")
     z_cols = ["profile", "n"] + [c for c in summary.columns if c.startswith("z_")]
     return {
@@ -48,6 +55,8 @@ def results() -> dict:
         "replacement_cases": pd.read_csv(E / "replacement_cases.csv").round(3).to_dict("records"),
         "replication": json.loads((E / "replication.json").read_text()),
         "sensitivity": pd.read_csv(E / "sensitivity.csv").round(4).to_dict("records"),
+        "profile_cards": json.loads((M / "profile_cards.json").read_text(encoding="utf-8")),
+        "zones": zones[["short_name", "profile", "loc_depth", "loc_width"]].round(2).to_dict("records"),
     }
 
 
