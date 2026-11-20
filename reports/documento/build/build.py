@@ -1,7 +1,8 @@
 """
 Construye el documento del trabajo de grado a partir de content.py.
 
-Reutiliza estilos, márgenes y tamaño de página de plantilla.docx y reemplaza todo su contenido.
+Reutiliza el tamaño de página y los estilos de plantilla.docx, ajusta la tipografía y el espaciado
+para una composición compacta y reemplaza todo su contenido. La salida tiene siempre el mismo nombre.
 Uso: python reports/documento/build/build.py
 """
 
@@ -12,10 +13,10 @@ from pathlib import Path
 import docx
 from docx.enum.section import WD_ORIENT, WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_BREAK
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Emu, Pt, Twips
+from docx.shared import Emu, Inches, Pt, RGBColor, Twips
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -27,6 +28,57 @@ final_sectpr = body.sectPr
 for el in list(body):
     if el is not final_sectpr:
         body.remove(el)
+
+SERIF = "Times New Roman"
+
+
+def set_font(style, size=None, bold=None, italic=None):
+    # fuente explícita, sin depender del tema de la plantilla
+    style.font.name = SERIF
+    rpr = style.element.get_or_add_rPr()
+    fonts = rpr.find(qn("w:rFonts"))
+    if fonts is None:
+        fonts = OxmlElement("w:rFonts")
+        rpr.append(fonts)
+    for k in list(fonts.attrib):
+        del fonts.attrib[k]
+    for k in ("ascii", "hAnsi", "cs", "eastAsia"):
+        fonts.set(qn(f"w:{k}"), SERIF)
+    style.font.color.rgb = RGBColor(0, 0, 0)
+    if size:
+        style.font.size = Pt(size)
+    if bold is not None:
+        style.font.bold = bold
+    if italic is not None:
+        style.font.italic = italic
+
+
+def spacing(style, before, after, line=None, keep=None):
+    pf = style.paragraph_format
+    pf.space_before, pf.space_after = Pt(before), Pt(after)
+    if line:
+        pf.line_spacing = line
+    if keep is not None:
+        pf.keep_with_next = keep
+
+
+# composición sobria y compacta: texto justificado a 11 pt, interlineado 1,1 y títulos en la misma familia
+ST = doc.styles
+set_font(ST["Normal"], 11)
+spacing(ST["Normal"], 0, 5, 1.15)
+ST["Normal"].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+ST["Normal"].paragraph_format.widow_control = True
+set_font(ST["Title"], 17, bold=True)
+spacing(ST["Title"], 0, 6, 1.0)
+ST["Title"].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+set_font(ST["Heading 1"], 14.5, bold=True)
+spacing(ST["Heading 1"], 14, 5, 1.0, keep=True)
+set_font(ST["Heading 2"], 12, bold=True)
+spacing(ST["Heading 2"], 9, 3, 1.0, keep=True)
+set_font(ST["Heading 3"], 11, bold=True, italic=False)
+spacing(ST["Heading 3"], 6, 2, 1.0, keep=True)
+set_font(ST["List Bullet"], 11)
+spacing(ST["List Bullet"], 0, 2, 1.15)
 
 TOKEN = re.compile(r"(\*\*.+?\*\*|\*.+?\*)")
 
@@ -97,6 +149,8 @@ def add_table(spec):
     r = cap.add_run(m.group(2))
     r.italic = True
     cap.paragraph_format.keep_with_next = True
+    cap.paragraph_format.space_before = Pt(6)
+    cap.paragraph_format.space_after = Pt(3)
     headers, rows, widths, fs = spec["headers"], spec["rows"], spec["widths"], spec["font"]
     t = doc.add_table(rows=1 + len(rows), cols=len(headers))
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -114,6 +168,10 @@ def add_table(spec):
             cp.paragraph_format.space_after = Pt(1)
             cp.paragraph_format.space_before = Pt(1)
             cp.paragraph_format.line_spacing = 1.0
+            cp.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            # tablas cortas en una sola página: cada fila se mantiene con la siguiente
+            if len(rows) <= 12 and i < len(rows):
+                cp.paragraph_format.keep_with_next = True
             run = cp.add_run(str(val))
             run.font.size = Pt(fs)
             if i == 0:
@@ -127,6 +185,8 @@ def add_table(spec):
             else:
                 b["bottom"] = {"val": "single", "sz": 2, "color": "BFBFBF"}
             set_cell_border(cell, **b)
+        cs = OxmlElement("w:cantSplit")
+        t.rows[i]._tr.get_or_add_trPr().append(cs)
         if i == 0:
             trPr = t.rows[0]._tr.get_or_add_trPr()
             h = OxmlElement("w:tblHeader")
@@ -138,13 +198,17 @@ def add_table(spec):
         gc.set(qn("w:w"), str(widths[j]))
     if spec.get("note"):
         n = doc.add_paragraph(style="Normal")
+        n.paragraph_format.space_before = Pt(2)
+        n.paragraph_format.space_after = Pt(8)
         r = n.add_run("Nota. ")
         r.italic = True
         r.font.size = Pt(9)
         r = n.add_run(spec["note"])
         r.font.size = Pt(9)
     else:
-        doc.add_paragraph(style="Normal").paragraph_format.space_after = Pt(2)
+        gap = doc.add_paragraph(style="Normal")
+        gap.paragraph_format.space_after = Pt(0)
+        gap.paragraph_format.line_spacing = 0.6
     if spec["landscape"]:
         sec = doc.add_section(WD_SECTION.NEW_PAGE)
         set_landscape(sec, False)
@@ -154,9 +218,10 @@ def add_table(spec):
 doc.add_paragraph(TITLE, style="Title")
 for kind, val in C:
     if kind == "subtitle":
-        para(val)
+        para(val, align=WD_ALIGN_PARAGRAPH.CENTER).paragraph_format.space_after = Pt(10)
     elif kind == "meta":
-        para(val)
+        mp = para(val, align=WD_ALIGN_PARAGRAPH.CENTER)
+        mp.paragraph_format.space_after = Pt(1)
     elif kind == "h1":
         doc.add_paragraph(val, style="Heading 1")
     elif kind == "h2":
@@ -175,15 +240,18 @@ for kind, val in C:
     elif kind == "table":
         add_table(val)
     elif kind == "ref":
-        par = para(val)
+        par = para(val, align=WD_ALIGN_PARAGRAPH.LEFT)
+        par.paragraph_format.space_after = Pt(3)
         par.paragraph_format.left_indent = Emu(274320)
         par.paragraph_format.first_line_indent = Emu(-274320)
     elif kind == "image":
-        from docx.shared import Inches
-
         img = HERE.parents[2] / val["path"]
-        doc.add_paragraph(style="Normal").add_run().add_picture(str(img), width=Inches(val.get("width", 6.5)))
+        ip = doc.add_paragraph(style="Normal")
+        ip.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        ip.paragraph_format.keep_with_next = True
+        ip.add_run().add_picture(str(img), width=Inches(val.get("width", 6.5)))
         cap = doc.add_paragraph(style="Normal")
+        cap.paragraph_format.space_after = Pt(8)
         r = cap.add_run(val["caption"].split(".")[0] + ". ")
         r.bold = True
         r = cap.add_run(".".join(val["caption"].split(".")[1:]).strip())
@@ -191,7 +259,8 @@ for kind, val in C:
     elif kind == "pagebreak":
         doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
 
-out = str(HERE.parent / "Perfilamiento funcional de jugadores - revisado v3.docx")
+# nombre fijo: cada reconstrucción reemplaza el mismo archivo
+out = str(HERE.parent / "Perfilamiento funcional de jugadores.docx")
 props = doc.core_properties
 props.author = props.last_modified_by = "Eduar Felipe Riaño Torres"
 props.comments = ""

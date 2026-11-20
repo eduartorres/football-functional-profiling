@@ -209,6 +209,9 @@ pre.frag .hl{background:var(--yellow);color:var(--ink)}
 /* resultados */
 .expected{list-style:none;margin:0;padding:0;max-width:72ch}
 .expected li{padding:14px 0;border-top:1px solid var(--rule);font-size:1.02rem}
+.expected.row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 24px;max-width:none}
+.expected.row li{font-size:.93rem;color:var(--ink-2)}
+@media (max-width:860px){.expected.row{grid-template-columns:1fr}}
 .expected li b{display:block;font-size:var(--s-note);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:500;margin-bottom:2px}
 
 /* navegación */
@@ -269,7 +272,7 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
 <section class="page cover" id="p1"><div class="inner">
   <div class="kicker">Universidad de los Andes · Facultad de Ingeniería · Departamento de Ingeniería Industrial</div>
   <h1>Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal</h1>
-  <p class="lead">Casebook de resultados. Trabajo Práctico de Grado II (MIIA4005), Maestría en Inteligencia Analítica para la Toma de Decisiones. Noviembre de 2026.</p>
+  <p class="lead">Casebook de sustentación. Trabajo Práctico de Grado II (MIIA4005), Maestría en Inteligencia Analítica para la Toma de Decisiones. Noviembre de 2026.</p>
   <dl>
     <dt>Autor</dt><dd>Eduar Felipe Riaño Torres · código 202423073 · <span class="mono">e.rianot@uniandes.edu.co</span></dd>
     <dt>Asesor</dt><dd>Juan Pablo Gómez Bravo</dd>
@@ -279,13 +282,12 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
 
 <!-- Problema -->
 <section class="page" id="p2"><div class="inner">
-  <div class="kicker"><b>02</b> Descripción del problema</div>
-  <h2>Situación problemática</h2>
+  <div class="kicker"><b>02</b> Problema</div>
+  <h2>La etiqueta dice dónde está registrado un jugador, no cómo juega</h2>
   <div class="grid-2 rev">
     <div style="display:flex;flex-direction:column;gap:18px">
-      <p class="lead">En los procesos de scouting y recruitment la búsqueda de candidatos suele empezar por la posición nominal. Esa etiqueta indica la demarcación registrada del jugador, pero no describe cómo participa en el juego.</p>
-      <p>Dos mediocampistas pueden diferir en la circulación del balón, la progresión o la recuperación, y jugadores registrados en posiciones distintas pueden intervenir de forma parecida. Cuando la comparación depende principalmente de la etiqueta, la preselección puede incluir perfiles poco pertinentes u omitir candidatos comparables.</p>
-      <p>El proyecto propone describir a cada jugador por su comportamiento observado en datos de partidos y evaluar qué información agrega esa descripción frente a la posición.</p>
+      <p class="lead">En scouting y recruitment la búsqueda de candidatos suele empezar por la posición nominal. Dos mediocampistas pueden compartir esa etiqueta y jugar de forma muy distinta, y dos jugadores con etiquetas diferentes pueden cumplir la misma función.</p>
+      <p>Una lista armada por posición mezcla perfiles poco pertinentes y deja por fuera candidatos comparables. El proyecto describe a cada jugador por su comportamiento en los datos de partidos y mide qué agrega esa descripción frente a la posición.</p>
     </div>
     <figure style="margin:0">
       <p class="chart-title">Hamšík y Diamé tienen la misma etiqueta de mediocampista central y difieren en más de 50 puntos de percentil en cinco de seis indicadores</p>
@@ -294,55 +296,28 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
       <p class="note">Posición fina en 2017/18 según los minutos por posición de Transfermarkt: mediocentro para ambos. Hamšík, Serie A, 2.448 minutos; Diamé, Premier League, 2.165 minutos.</p>
     </figure>
   </div>
-</div></section>
-
-<!-- Contexto -->
-<section class="page" id="p3"><div class="inner">
-  <div class="kicker"><b>03</b> Descripción del problema · contexto</div>
-  <h2>La posición ya no describe lo mismo que antes</h2>
-  <p class="lead">El juego se volvió más intenso y más asociado, y las exigencias cambiaron de forma distinta en cada posición. Una misma etiqueta cubre hoy tareas que hace pocos años no le correspondían.</p>
   <div>
-    <p class="chart-sub" style="margin-bottom:8px">Premier League, temporada 2006/07 frente a 2012/13, promedio por jugador y partido</p>
+    <p class="chart-sub" style="margin-bottom:8px">Además, la posición cambió de contenido. Premier League, 2006/07 frente a 2012/13, promedio por jugador y partido</p>
     <div class="shift">
       <div><div class="v">+30<small>%</small></div><p>distancia recorrida a alta intensidad</p></div>
       <div><div class="v">+35<small>%</small></div><p>distancia en sprint</p></div>
       <div><div class="v">25→35</div><p>pases por partido, con precisión que pasa de 76 % a 83 %</p></div>
       <div><div class="v">+36<small>%</small></div><p>alta intensidad de los laterales, la posición que más cambió; centrales y mediocentros concentraron el mayor aumento en pases</p></div>
     </div>
+  
   </div>
-  <div class="grid-2 rev" style="gap:40px">
-    <p>Clubes y federaciones han incorporado áreas de análisis de datos que intervienen en decisiones de rendimiento y de contratación, y la investigación sobre formación de jugadores insiste en evaluar el talento con varias dimensiones a la vez y no con una sola etiqueta.</p>
-    <p>Para un club colombiano, que vende jugadores al exterior de manera continua, esto significa que la vacante que deja una venta es una función que hay que volver a cubrir, no solo un número de camiseta.</p>
-  </div>
-  <p class="src-note">Fuentes: Barnes et al. (2014), <i>International Journal of Sports Medicine</i>, 35(13); Bush et al. (2015), <i>Human Movement Science</i>, 39; Lolli et al. (2024), <i>Science and Medicine in Football</i>; Sarmento et al. (2018), <i>Sports Medicine</i>, 48(4).</p>
+  <p class="src-note">Fuentes: Barnes et al. (2014), <i>International Journal of Sports Medicine</i>, 35(13); Bush et al. (2015), <i>Human Movement Science</i>, 39. Percentiles: Wyscout, cinco grandes ligas 2017/18.</p>
 </div></section>
 
-<!-- Pregunta de negocio -->
-<section class="page" id="p4"><div class="inner">
-  <div class="kicker"><b>04</b> Pregunta de negocio</div>
+<!-- Pregunta de negocio · para quién -->
+<section class="page" id="p3"><div class="inner">
+  <div class="kicker"><b>03</b> Pregunta de negocio · para quién</div>
   <p class="question"><span class="q">¿Cómo apoyar la preselección de jugadores comparables</span> con una necesidad deportiva o con un jugador de referencia a partir de su comportamiento observado en campo?</p>
-  <div class="evo">
-    <div><h3>Versión inicial</h3><p>¿Cómo puede una representación funcional basada en datos complementar la posición nominal para identificar y comparar jugadores en procesos de scouting y recruitment?</p></div>
-    <div><h3>Versión actual</h3><p>Se centra en una decisión concreta, la preselección de candidatos, y en dos formas de consulta: una necesidad deportiva o un jugador de referencia.</p></div>
-    <div><h3>Acotación a partir de los datos</h3><p>Jugadores de campo de las cinco ligas 2017/18 con al menos 900 minutos, y replicación en los 64 partidos del Mundial 2018 presentes en Wyscout y StatsBomb.</p></div>
-  </div>
   <div class="trio">
     <div><h3>Decisión que se apoya</h3><p>Qué jugadores pasan a una revisión deportiva detallada cuando se busca cubrir una función de la plantilla o reemplazar a un futbolista.</p></div>
     <div><h3>Quién decide y cuándo</h3><p>La dirección deportiva y el cuerpo técnico definen la necesidad; el equipo de scouting prepara la lista. Ocurre en la planificación de plantilla y en las ventanas de transferencias.</p></div>
     <div><h3>Por qué se requiere una metodología</h3><p>No existe una etiqueta correcta de perfil funcional. La representación debe construirse con datos de eventos heterogéneos, controlar minutos y contexto, y evaluarse sin una verdad de referencia.</p></div>
   </div>
-  <div class="scope">
-    <div><h3>Dentro del alcance</h3><ul><li>Jugadores de campo</li><li>Eventos de Wyscout como base</li><li>Replicación con StatsBomb en el Mundial 2018</li><li>Transfermarkt como posición de referencia</li></ul></div>
-    <div><h3>Fuera del alcance</h3><ul><li>Porteros</li><li>Predicción de resultados</li><li>Valoración económica</li><li>Decisión automática de contratación</li><li>Estudio espacial con tracking, que quedó como trabajo futuro</li></ul></div>
-    <div><h3>Pregunta de investigación</h3><p>¿En qué medida es posible identificar perfiles funcionales de jugadores a partir de sus patrones de comportamiento en campo, más allá de su posición nominal?</p></div>
-  </div>
-</div></section>
-
-<!-- Para quién -->
-<section class="page" id="p5"><div class="inner">
-  <div class="kicker"><b>05</b> Pregunta de negocio · para qué y para quién</div>
-  <h2>Buscar la pieza que le falta al equipo, no la etiqueta</h2>
-  <p class="lead">Cuando un club vende a su lateral no pierde un número en la planilla: pierde a quien ocupaba el carril, defendía uno contra uno y centraba. La búsqueda por función parte de esa necesidad y encuentra candidatos aunque estén registrados en otra posición o jueguen en ligas que el club no suele mirar.</p>
   <div class="scroll-x"><div class="actors" style="min-width:820px">
     <div class="hd">Quién</div><div class="hd">Qué necesita</div><div class="hd">Qué le aporta</div><div class="hd">Evidencia</div>
     <div class="a">Analista de scouting</div><div>Preseleccionar candidatos comparables con poco tiempo y poco personal</div><div>Una lista de similares por función, con ficha y percentiles para justificar cada nombre</div><div class="ev"><span class="mark">9,6</span> candidatos pertinentes nuevos por caso, con la misma pertinencia</div>
@@ -353,9 +328,9 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
   </div></div>
 </div></section>
 
-<!-- Objetivos -->
-<section class="page" id="p6"><div class="inner">
-  <div class="kicker"><b>06</b> Objetivos</div>
+<!-- Objetivos e hipótesis -->
+<section class="page" id="p4"><div class="inner">
+  <div class="kicker"><b>04</b> Objetivos e hipótesis</div>
   <h2>Objetivo general</h2>
   <p class="lead" style="max-width:70ch">Construir y evaluar perfiles funcionales de futbolistas de campo a partir de su comportamiento observado en datos de juego, para apoyar comparaciones de jugadores que aporten información adicional a la posición nominal.</p>
   <div>
@@ -369,148 +344,38 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
     </ol>
   </div>
   <div class="hyp">
-    <p><b>H1.</b> Dentro de una misma posición nominal hay diferencias de comportamiento que permiten describir perfiles distintos. <span class="mark">No se rechaza.</span></p>
-    <p><b>H2.</b> Algunos jugadores registrados en posiciones diferentes muestran proximidad funcional. <span class="mark">Se rechaza por autoidentificación.</span></p>
-    <p><b>H3.</b> Las dimensiones principales se mantienen al cambiar la muestra y decisiones razonables de procesamiento. <span class="mark">No se rechaza.</span></p>
-    <p><b>H4.</b> La consulta funcional entrega candidatos pertinentes adicionales a una búsqueda restringida por posición. <span class="mark">No se rechaza, con evaluación analítica.</span></p>
+    <p><b>H1.</b> Los perfiles contienen información que la posición fina no captura. <span class="mark">No se rechaza (NMI 0,495; umbral 0,50).</span></p>
+    <p><b>H2.</b> Hay jugadores de posiciones distintas con proximidad funcional estable. <span class="mark">Se rechaza por autoidentificación (0,10).</span></p>
+    <p><b>H3.</b> Los perfiles son estables frente al remuestreo. <span class="mark">No se rechaza (ARI 0,969).</span></p>
+    <p><b>H4.</b> La consulta funcional entrega candidatos pertinentes que la búsqueda por posición no incluye. <span class="mark">No se rechaza (9,6 nuevos por caso).</span></p>
   </div>
 </div></section>
 
-<!-- Fuentes -->
-<section class="page" id="p7"><div class="inner">
-  <div class="kicker"><b>07</b> Uso y análisis de la información · fuentes</div>
-  <h2>Información disponible</h2>
+<!-- Uso y análisis de la información -->
+<section class="page" id="p5"><div class="inner">
+  <div class="kicker"><b>05</b> Uso y análisis de la información</div>
+  <h2>Seis fuentes auditadas; Wyscout como base y StatsBomb para replicar</h2>
   <figure style="margin:0">
     <p class="chart-title">Las fuentes cubren periodos distintos y coinciden en dos torneos: el Mundial 2018 y el Mundial 2022</p>
     <p class="chart-sub">Periodo cubierto por cada fuente. Para StatsBomb se muestran las competiciones relevantes para el proyecto de un total de 80 competiciones-temporada</p>
     <div class="scroll-x"><div id="timeline" style="min-width:760px"></div></div>
   </figure>
-  <div class="scroll-x">
-    <table id="inv">
-      <thead><tr><th>Fuente</th><th>Rol en el proyecto</th><th class="num">Partidos</th><th class="num">Jugadores</th><th class="num">Registros de eventos</th><th>Seguimiento espacial</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <p class="note">Cifras obtenidas de la auditoría de los archivos descargados (src/diagnostics/audit_sources.py). En Transfermarkt los registros corresponden a eventos de partido como goles, tarjetas y cambios. Fuentes: Wyscout (Pappalardo et al., 2019), StatsBomb Open Data, PFF FC, SkillCorner Open Data, DFL (Bassek et al., 2025) y transfermarkt-datasets.</p>
-</div></section>
-
-<!-- Cobertura -->
-<section class="page" id="p8"><div class="inner">
-  <div class="kicker"><b>08</b> Uso y análisis de la información · relaciones entre fuentes</div>
-  <h2>Cobertura de las dimensiones funcionales</h2>
-  <div style="display:flex;flex-direction:column;gap:30px">
-    <figure style="margin:0;min-width:0">
-      <p class="chart-title">Pases, remates y duelos aparecen en las cinco fuentes; la presión y las carreras sin balón no están en Wyscout</p>
-      <p class="chart-sub">Cada celda muestra el campo o tipo de evento encontrado al inspeccionar los archivos</p>
-      <div class="scroll-x"><div class="cov" id="cov"></div></div>
-      <div class="legend" style="margin-top:12px"><span><i style="background:var(--ink)"></i>Observado</span><span><i style="background:var(--mid)"></i>Parcial</span><span><i style="background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)"></i>No observado</span></div>
-    </figure>
-    <div>
-      <h3 class="chart-title" style="margin-bottom:6px">Ajustes al planteamiento a partir de la auditoría</h3>
-      <ol class="adjust adjust-row">
-        <li>La comparación entre proveedores se hizo sobre el Mundial 2018, que está en Wyscout y StatsBomb con los mismos 64 partidos. Así se comparan jugadores y partidos idénticos y no temporadas distintas.</li>
-        <li>El componente espacial se planteó para el Mundial 2022, que tiene StatsBomb 360 y tracking de PFF para los mismos 64 partidos. Por tiempo, quedó como trabajo futuro.</li>
-        <li>El perfil se construyó con acciones con balón y duelos. La presión y el movimiento sin balón solo existen en StatsBomb y SkillCorner y quedan para una extensión.</li>
-      </ol>
-    </div>
-  </div>
-</div></section>
-
-<!-- Variables -->
-<section class="page" id="p9"><div class="inner">
-  <div class="kicker"><b>09</b> Uso y análisis de la información · variables relevantes</div>
-  <h2>Variables relevantes</h2>
-  <div class="grid-2">
-    <div style="display:flex;flex-direction:column;gap:22px">
-      <p>Para el diagnóstico se construyeron 18 indicadores por jugador y temporada a partir de los eventos de Wyscout. Las tasas se calculan por 90 minutos jugados y las proporciones sobre el total de acciones del jugador, que dependen menos del volumen de juego del equipo.</p>
-      <div class="vars">
-        <div><h3>Distribución</h3><ul><li>Pases por 90</li><li>Precisión de pase</li><li>Proporción de pases</li></ul></div>
-        <div><h3>Progresión</h3><ul><li>Pases progresivos por 90</li><li>Entradas al último tercio</li><li>Conducciones por 90</li></ul></div>
-        <div><h3>Creación</h3><ul><li>Pases clave por 90</li><li>Centros por 90</li></ul></div>
-        <div><h3>Finalización</h3><ul><li>Remates por 90</li><li>Acciones en el área</li><li>Proporción de remates</li></ul></div>
-        <div><h3>Recuperación y duelo</h3><ul><li>Intercepciones por 90</li><li>Duelos y duelos aéreos</li><li>Regates ganados</li><li>Proporción de duelos</li></ul></div>
-        <div><h3>Ocupación espacial</h3><ul><li>Profundidad media (eje x)</li><li>Distancia al eje central (eje y)</li></ul></div>
-      </div>
-      <p class="note">Estos indicadores sustentan el diagnóstico. El modelado usa dos representaciones derivadas: volumen por 90 minutos ajustado a una posesión del 50 % y composición de 13 categorías de acción con transformación log-ratio centrada, ambas con un bloque de localización. La posición nominal y las variables de Transfermarkt no intervienen en su construcción.</p>
-    </div>
-    <div style="min-width:0">
-      <p class="chart-sub" style="margin-bottom:6px">Un evento de Wyscout tal como llega en el archivo original</p>
-<pre class="frag">{ <span class="k">"eventName"</span>: <span class="hl">"Pass"</span>, <span class="k">"subEventName"</span>: "Simple pass",
-  <span class="k">"playerId"</span>: 122671, <span class="k">"teamId"</span>: 16521,
-  <span class="k">"matchId"</span>: 2057954, <span class="k">"matchPeriod"</span>: "1H",
-  <span class="k">"eventSec"</span>: 1.656,
-  <span class="k">"positions"</span>: [{"x": <span class="hl">50</span>, "y": 50}, {"x": <span class="hl">35</span>, "y": 53}],
-  <span class="k">"tags"</span>: [{"id": <span class="hl">1801</span>}] }</pre>
-      <div class="arrow-down">las coordenadas van de 0 a 100 en la dirección de ataque; el tag 1801 indica pase preciso</div>
-      <p class="chart-sub" style="margin-bottom:6px">El mismo tipo de evento agregado en la tabla jugador-temporada</p>
-<pre class="frag"><span class="k">jugador</span>            M. Hamšík      <span class="k">competición</span>  Italia 2017/18
-<span class="k">minutos</span>            2.448          <span class="k">rol Wyscout</span>  MD
-<span class="k">pases_p90</span>          91,52          <span class="k">profundidad</span>  57,85
-<span class="k">progresivos_p90</span>     5,59          <span class="k">remates_p90</span>   3,05</pre>
-    </div>
-  </div>
-</div></section>
-
-<!-- Transformación -->
-<section class="page" id="p10"><div class="inner">
-  <div class="kicker"><b>10</b> Uso y análisis de la información · transformación de los datos</div>
-  <h2>Proceso de transformación de los datos</h2>
-  <p class="lead">Recorrido de los datos de Wyscout desde los archivos originales hasta la población que se usará en el modelado. Los archivos de <span class="mono">data/raw</span> no se modifican; cada etapa escribe en una capa propia.</p>
   <div class="scroll-x" style="padding-top:6px">
     <div class="flow">
       <div class="st"><i class="dot done"></i><h3>Archivos originales</h3><span class="n">956 MB</span><p>7 archivos JSON de eventos y 7 de partidos, extraídos de los ZIP descargados de figshare.</p></div>
       <div class="st"><i class="dot done"></i><h3>Eventos en Parquet</h3><span class="n">3.251.294</span><p>Eventos con coordenadas aplanadas y tags como lista. Ocupan 51 MB en la capa interim.</p></div>
-      <div class="st"><i class="dot done"></i><h3>Jugador-partido</h3><span class="n">53.791</span><p>Minutos reconstruidos con alineaciones, cambios y expulsiones, más los conteos de acciones.</p></div>
+      <div class="st"><i class="dot done"></i><h3>Jugador-partido</h3><span class="n">53.791</span><p>Minutos reconstruidos con alineaciones, cambios y expulsiones: 10,97 jugadores por equipo y partido.</p></div>
       <div class="st"><i class="dot done"></i><h3>Jugador-temporada</h3><span class="n">3.676</span><p>Agregación por jugador y competición, con promedios espaciales ponderados por acciones.</p></div>
       <div class="st"><i class="dot done"></i><h3>Población elegible</h3><span class="n mark">1.500</span><p>Jugadores de campo de las cinco ligas con al menos 900 minutos y posición fina conocida.</p></div>
       <div class="st"><i class="dot done"></i><h3>Enlace Transfermarkt</h3><span class="n">97,0 %</span><p>2.493 de 2.570 jugadores enlazados por fecha de nacimiento y similitud de nombre.</p></div>
     </div>
   </div>
-  <div>
-    <p class="chart-sub" style="margin-bottom:8px">Etapas posteriores</p>
-    <div class="flow-next"><span class="done">Volumen ajustado por posesión y composición log-ratio</span><em>→</em><span class="done">Estandarización y ponderación por bloque</span><em>→</em><span class="done">PCA con 80 % de la varianza</span><em>→</em><span class="done">Homologación de StatsBomb: 602 de 604 jugadores enlazados</span></div>
-  </div>
-  <p class="note">Código: <span class="mono">src/harmonization/wyscout_to_parquet.py</span>, <span class="mono">src/features/player_match.py</span>, <span class="mono">src/features/player_features.py</span>, <span class="mono">src/harmonization/statsbomb_wc2018.py</span>. Todo se ejecuta con <span class="mono">python -m src.pipeline</span>.</p>
+  <p class="note">Wyscout (Pappalardo et al., 2019), StatsBomb Open Data, PFF FC, SkillCorner Open Data, DFL (Bassek et al., 2025) y transfermarkt-datasets. Los proveedores no comparten identificadores: los enlaces se construyen y verifican. Todo se ejecuta con <span class="mono">python -m src.pipeline</span>.</p>
 </div></section>
 
-<!-- Modelo de datos -->
-<section class="page" id="p11"><div class="inner">
-  <div class="kicker"><b>11</b> Uso y análisis de la información · estructura de la base de datos</div>
-  <h2>Modelo de datos: cómo se cruzan las fuentes</h2>
-  <p class="lead">Cada tabla tiene una fila por una unidad definida y una llave explícita. Los proveedores no comparten identificadores, así que los enlaces entre fuentes se construyen y se verifican.</p>
-  <div class="scroll-x"><div id="erd" class="erd"></div></div>
-  <p class="note">En gris, las tablas que no se publican en el repositorio: datos crudos, atributos personales y derivados de StatsBomb. La fecha de nacimiento se usa solo para el enlace con Transfermarkt y no llega a las tablas procesadas.</p>
-</div></section>
-
-<!-- Hallazgos: calidad -->
-<section class="page" id="p12"><div class="inner">
-  <div class="kicker"><b>12</b> Hallazgos después de la depuración · calidad</div>
-  <h2>Exploración inicial de los datos de Wyscout</h2>
-  <div class="grid-2 rev">
-    <div style="display:flex;flex-direction:column;gap:20px">
-      <div>
-        <div class="big"><span class="mark">10,97</span></div>
-        <p style="margin-top:8px;max-width:38ch">jugadores en cancha por equipo y partido, en promedio, al sumar los minutos reconstruidos. El valor esperado es 11 menos las expulsiones, lo que respalda la reconstrucción.</p>
-      </div>
-      <div class="facts">
-        <div><b>6,95 %</b><span>de los eventos no tiene jugador asociado; en su mayoría son interrupciones del juego.</span></div>
-        <div><b>0,09 %</b><span>de las combinaciones jugador-partido con eventos no aparece en la alineación del partido.</span></div>
-        <div><b>0,02 %</b><span>de los eventos no tiene coordenada final.</span></div>
-        <div><b>1.152</b><span>de los 3.603 nombres de jugadores venían con caracteres sin decodificar en el archivo original; se corrigieron.</span></div>
-      </div>
-    </div>
-    <figure style="margin:0">
-      <p class="chart-title">Con un umbral de 900 minutos quedan 1.550 jugadores-temporada de campo, el 64 % de los que tienen minutos</p>
-      <p class="chart-sub">Jugadores-temporada de campo en las cinco ligas 2017/18 según el mínimo de minutos exigido</p>
-      <div id="elig"></div>
-      <p class="note">Los porteros se excluyen del perfilamiento. De los 1.550, 50 no tienen posición fina en Transfermarkt y quedan fuera: la población final es de 1.500. Los umbrales de 450 y 1.350 minutos se evaluaron como análisis de sensibilidad.</p>
-    </figure>
-  </div>
-</div></section>
-
-<!-- Hallazgos: posición -->
-<section class="page" id="p13"><div class="inner">
-  <div class="kicker"><b>13</b> Hallazgos preliminares · posición y comportamiento</div>
+<!-- Hallazgos preliminares -->
+<section class="page" id="p6"><div class="inner">
+  <div class="kicker"><b>06</b> Hallazgos preliminares</div>
   <h2>¿Cuánto del comportamiento explica la posición?</h2>
   <div class="grid-2">
     <figure style="margin:0;min-width:0">
@@ -519,33 +384,21 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
       <div id="dumb"></div>
     </figure>
     <div style="display:flex;flex-direction:column;gap:18px;padding-top:6px">
-      <p>Con los nueve grupos de posición fina queda cerca del 41 % de la variación sin explicar. En los indicadores resaltados la posición gruesa casi no informa: centros, conducciones y distancia al eje central.</p>
-      <p>El equipo, por sí solo, explica el 37 % de la variación en pases por 90 minutos. Sin ningún efecto se esperaría cerca del 6 % con 98 equipos, lo que indica que el volumen de pases depende de la posesión del equipo y debe ajustarse.</p>
-      <p class="note">Universo: 1.550 jugadores-temporada de campo con al menos 900 minutos en las cinco ligas 2017/18 (1.500 con posición fina). La posición fina es la posición con más minutos del jugador en las alineaciones de la temporada, agrupada en nueve categorías sin distinguir lado. Es un resultado descriptivo, previo a los perfiles.</p>
+      <p>Aun con la posición fina queda sin explicar cerca del 41 % de la variación. En centros, conducciones y distancia al eje central la posición gruesa casi no informa.</p>
+      <p>El equipo explica por sí solo el 37 % de la variación en pases por 90, frente a un 6 % esperado sin efecto: el volumen depende de la posesión y hay que ajustarlo.</p>
     </div>
   </div>
-</div></section>
-
-<!-- Hallazgos: mediocampistas -->
-<section class="page" id="p14"><div class="inner">
-  <div class="kicker"><b>14</b> Hallazgos preliminares · mediocampistas</div>
-  <h2>Los mediocampistas de Wyscout no forman un grupo homogéneo</h2>
   <figure style="margin:0">
     <p class="chart-title">132 de los 600 mediocampistas de Wyscout jugaron la mayor parte de sus minutos como extremos, defensas o delanteros</p>
     <p class="chart-sub">Posición fina en 2017/18, según los minutos por posición de Transfermarkt, de los jugadores que Wyscout clasifica como mediocampistas (MD)</p>
     <div id="stack"></div>
   </figure>
-  <figure style="margin:0">
-    <p class="chart-title">Dentro de cada posición fina la profundidad media y la progresión varían ampliamente</p>
-    <p class="chart-sub">Eje horizontal: profundidad media de las acciones (0 a 100). Eje vertical: pases progresivos por 90. En gris, los 600 mediocampistas; en negro, los de la posición del panel</p>
-    <div class="scroll-x"><div id="panels" style="min-width:760px"></div></div>
-  </figure>
 </div></section>
 
 <!-- Metodología -->
-<section class="page" id="p15"><div class="inner">
-  <div class="kicker"><b>15</b> Metodología específica</div>
-  <h2>Metodología analítica</h2>
+<section class="page" id="p7"><div class="inner">
+  <div class="kicker"><b>07</b> Metodología</div>
+  <h2>CRISP-DM con el protocolo fijado antes de modelar</h2>
   <div class="grid-2">
     <div class="method">
       <div class="ph">Comprensión del negocio</div>
@@ -567,33 +420,12 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
       <p>El protocolo de modelado, con la grilla, los umbrales de las hipótesis y la regla de selección, se fijó antes de ajustar el primer modelo. Las decisiones tomadas después de ver resultados quedaron registradas como tales.</p>
     </div>
   </div>
+
 </div></section>
 
-<!-- Criterios -->
-<section class="page" id="p16"><div class="inner">
-  <div class="kicker"><b>16</b> Criterios de éxito</div>
-  <h2>Cómo se midió la efectividad de la solución</h2>
-  <p class="lead">No existe una etiqueta correcta de perfil funcional, por eso ningún indicador decide por sí solo. La línea base es una búsqueda por posición fina con la misma población y el mismo tamaño de lista.</p>
-  <div class="scroll-x">
-    <table>
-      <thead><tr><th>Aspecto</th><th>Medida</th><th>Cómo se aplicó</th></tr></thead>
-      <tbody>
-        <tr><td class="src">Separación</td><td>Silueta y Davies-Bouldin</td><td>Comparación de 108 configuraciones en la primera mitad de la temporada</td></tr>
-        <tr><td class="src">Estabilidad</td><td>ARI bootstrap y Jaccard por grupo</td><td>200 réplicas por jugador; umbral de 0,60 para ambos</td></tr>
-        <tr><td class="src">Consistencia temporal</td><td>Perfil asignado en cada mitad y autoidentificación</td><td>1.155 jugadores con al menos 450 minutos en ambas mitades</td></tr>
-        <tr><td class="src">Aporte frente a la posición</td><td>NMI entre perfil y posición fina; vecinos de otra posición</td><td>H1 se rechaza si la NMI llega a 0,50; H2 exige al menos 20 % de vecinos de otra posición y autoidentificación de 0,50</td></tr>
-        <tr><td class="src">Sesgo de equipo</td><td>NMI y V de Cramér corregida entre perfil y equipo</td><td>Condición de descarte: NMI de 0,20 o más</td></tr>
-        <tr><td class="src">Replicación</td><td>Congruencia de Tucker, ARI y vecinos compartidos</td><td>213 jugadores en los mismos 64 partidos del Mundial 2018</td></tr>
-        <tr><td class="src">Uso</td><td>Candidatos pertinentes en una lista de 20</td><td>30 casos de reemplazo del verano de 2018, con un criterio analítico de pertinencia</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="note">Los umbrales quedaron fijados en el protocolo de modelado (versión 1.0) antes del ajuste de los modelos. La evaluación usa datos históricos; sin datos de operación de un área de scouting no se estiman horas de revisión, ahorro ni retorno.</p>
-</div></section>
-
-<!-- Selección del modelo -->
-<section class="page" id="p17"><div class="inner">
-  <div class="kicker"><b>17</b> Modelado · selección</div>
+<!-- Modelado · selección -->
+<section class="page" id="p8"><div class="inner">
+  <div class="kicker"><b>08</b> Modelado · selección</div>
   <h2>Selección del modelo</h2>
   <div class="grid-2">
     <figure style="margin:0;min-width:0">
@@ -612,27 +444,12 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
       <p class="note">Ninguna configuración de arquetipos alcanzó la estabilidad mínima (ARI entre 0,16 y 0,65) y HDBSCAN dejó sin asignar al menos el 23 % de los jugadores, por encima del 20 % permitido. De las 54 configuraciones confirmadas con 200 réplicas, 53 mantuvieron el filtro.</p>
     </div>
   </div>
+
 </div></section>
 
-<!-- Perfiles -->
-<section class="page" id="p18"><div class="inner">
-  <div class="kicker"><b>18</b> Resultados · perfiles</div>
-  <h2>Tres perfiles funcionales</h2>
-  <div class="profiles3">
-    <div><h3>1. Construcción y defensa posicional</h3><div class="n">463 jugadores</div><p>Más pases simples y largos, precisión de pase, pases progresivos, intercepciones y despejes. Actuación profunda y central.</p><div class="who">Cercanos al centroide: F. Schär, L. Bonucci, R. Varane, S. Mustafi</div></div>
-    <div><h3>2. Carril lateral</h3><div class="n">292 jugadores</div><p>Más centros, amplitud, duelos defensivos e intercepciones, con profundidad intermedia.</p><div class="who">Cercanos al centroide: Hugo Mallo, Y. Nagatomo, N. Elvedi, L. Baines</div></div>
-    <div><h3>3. Ataque y finalización</h3><div class="n">655 jugadores</div><p>Más remates, duelos ofensivos, acciones en el área, regates ganados y pases clave. Actuación adelantada.</p><div class="who">Cercanos al centroide: S. Khaoui, G. Kakuta, Z. Junuzović, Ayoze Pérez</div></div>
-  </div>
-  <figure style="margin:0;min-width:0">
-    <p class="chart-title">Los laterales forman un perfil propio; mediocentros y pivotes se reparten entre construcción y ataque</p>
-    <p class="chart-sub">Jugadores de cada posición fina según su perfil, primera mitad de 2017/18. La intensidad indica la proporción dentro de la fila</p>
-    <div class="scroll-x"><div class="pm" id="pm"></div></div>
-  </figure>
-</div></section>
-
-<!-- Perfiles: lectura de negocio -->
-<section class="page" id="p19"><div class="inner">
-  <div class="kicker"><b>19</b> Resultados · cómo leer cada perfil</div>
+<!-- Resultados · tres perfiles -->
+<section class="page" id="p9"><div class="inner">
+  <div class="kicker"><b>09</b> Resultados · tres perfiles</div>
   <h2>Cada perfil ocupa su propia zona del campo</h2>
   <div class="grid-2" style="gap:36px">
     <figure style="margin:0;min-width:0">
@@ -651,42 +468,14 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
     </div>
   </div>
   <div class="cards3" id="cards"></div>
+
 </div></section>
 
-<!-- Hipótesis -->
-<section class="page" id="p20"><div class="inner">
-  <div class="kicker"><b>20</b> Resultados · evaluación</div>
-  <h2>Contraste de las hipótesis</h2>
-  <div class="scroll-x">
-    <table>
-      <thead><tr><th>Hipótesis</th><th>Medida en la reserva</th><th>Criterio de rechazo</th><th>Resultado</th></tr></thead>
-      <tbody>
-        <tr><td>H1. Los perfiles aportan información que la posición fina no captura</td><td>NMI perfil y posición fina de 0,495 (0,475 en desarrollo)</td><td>NMI ≥ 0,50</td><td><span class="verdict ok">No se rechaza</span><br><span class="note">margen estrecho</span></td></tr>
-        <tr><td>H2. Proximidad funcional estable entre posiciones distintas</td><td>31 % de vecinos de otra posición; autoidentificación top-1 de 0,10 (base por 90: 0,18)</td><td>&lt; 20 % de vecinos o top-1 &lt; 0,50</td><td><span class="verdict rej">Se rechaza</span><br><span class="note">por autoidentificación</span></td></tr>
-        <tr><td>H3. Perfiles estables</td><td>ARI bootstrap de 0,969; Jaccard de 0,975 a 0,983</td><td>ARI o Jaccard &lt; 0,60 en la mayoría</td><td><span class="verdict ok">No se rechaza</span></td></tr>
-        <tr><td>H4. Candidatos pertinentes nuevos frente a la posición</td><td>Pertinencia de 0,62 frente a 0,61; 9,6 pertinentes nuevos por caso</td><td>Pertinencia inferior a la base o menos de 2 nuevos</td><td><span class="verdict ok">No se rechaza</span><br><span class="note">evaluación analítica</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="grid-2 rev">
-    <div>
-      <div class="big"><span class="mark">91,8 %</span></div>
-      <p style="margin-top:8px;max-width:40ch">de los 1.155 jugadores con minutos en ambas mitades mantuvo su perfil al aplicar el modelo fijado a la segunda mitad. Por azar se esperaría el 36,7 %.</p>
-      <p class="note" style="margin-top:14px">La silueta en la reserva fue de 0,420, frente a 0,422 en desarrollo. Con validación agrupada por jugador en cinco pliegues, el ARI promedio fue de 0,987.</p>
-    </div>
-    <figure style="margin:0;min-width:0">
-      <p class="chart-title">En cada perfil, entre el 88 % y el 94 % de los jugadores conserva su perfil en la segunda mitad</p>
-      <p class="chart-sub">Filas: perfil en la primera mitad. Columnas: perfil asignado en la segunda</p>
-      <div class="tm" id="tm"></div>
-    </figure>
-  </div>
-</div></section>
-
-<!-- Métricas -->
-<section class="page" id="p21"><div class="inner">
-  <div class="kicker"><b>21</b> Resultados · qué dice cada métrica</div>
+<!-- Resultados · evaluación -->
+<section class="page" id="p10"><div class="inner">
+  <div class="kicker"><b>10</b> Resultados · evaluación</div>
   <h2>Cada métrica descarta un riesgo distinto</h2>
-  <p class="lead">Una partición puede verse separada y ser inestable, ser estable y retratar al equipo, ser independiente del equipo y repetir la posición, o cumplir todo eso y no servirle al usuario. Por eso ninguna métrica decide sola.</p>
+  <p class="lead">Una partición puede verse separada y ser inestable, ser estable y retratar al equipo, o cumplir todo eso y repetir la posición. Por eso ninguna métrica decide sola.</p>
   <div class="scroll-x">
     <table class="metrics" style="min-width:860px">
       <thead><tr><th>Métrica</th><th>Pregunta</th><th>Lectura para el negocio</th><th class="num">Resultado</th><th class="num">Referencia</th></tr></thead>
@@ -704,11 +493,12 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
       </tbody>
     </table>
   </div>
+  <p class="note">H2 se rechaza porque la representación de cuatro componentes no reconoce al mismo jugador entre mitades (top-1 de 0,10). Por eso la consulta del explorador usa el espacio ponderado completo; la decisión consta en el registro de decisiones.</p>
 </div></section>
 
-<!-- Replicación y consulta -->
-<section class="page" id="p22"><div class="inner">
-  <div class="kicker"><b>22</b> Resultados · replicación y consulta</div>
+<!-- Resultados · replicación y consulta -->
+<section class="page" id="p11"><div class="inner">
+  <div class="kicker"><b>11</b> Resultados · replicación y consulta</div>
   <h2>Replicación con StatsBomb y casos de reemplazo</h2>
   <div class="grid-2 rev">
     <figure style="margin:0;min-width:0">
@@ -728,11 +518,12 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
     </figure>
   </div>
   <p class="note">Pertinente: candidato que, en la segunda mitad de la temporada, está dentro del 10 % más cercano al jugador transferido en el espacio descriptivo completo. El criterio comparte variables con la representación y no sustituye la revisión deportiva. Diferencia entre listas: prueba de Wilcoxon, p = 0,72. En promedio las listas compartieron 3,6 candidatos y el 43 % de la lista funcional provino de otra posición fina.</p>
+
 </div></section>
 
-<!-- Prototipo -->
-<section class="page" id="p23"><div class="inner">
-  <div class="kicker"><b>23</b> Despliegue · prototipo</div>
+<!-- Despliegue · prototipo -->
+<section class="page" id="p12"><div class="inner">
+  <div class="kicker"><b>12</b> Despliegue · prototipo</div>
   <h2>Explorador de perfiles y jugadores similares</h2>
   <div class="grid-2">
     <figure class="shot"><img src="__EXPLORER_PNG__" alt="Explorador con la consulta de M. Hamšík: ficha del jugador, percentiles y lista de jugadores similares de otros clubes"></figure>
@@ -747,40 +538,23 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
       <p class="note">La similitud se calcula en el espacio ponderado completo, sin reducción por PCA. Esta decisión se tomó después de la evaluación, al rechazarse H2, y consta en el registro de decisiones.</p>
     </div>
   </div>
+
 </div></section>
 
-<!-- Cronograma -->
-<section class="page" id="p24"><div class="inner">
-  <div class="kicker"><b>24</b> Avance en el cronograma</div>
-  <h2>Estado del trabajo</h2>
-  <p class="lead">El desarrollo empírico de las doce semanas está terminado. El código y los datos procesados están publicados en el repositorio; queda la revisión final del documento.</p>
-  <div class="scroll-x">
-    <div class="gantt" id="gantt"></div>
-  </div>
-  <div class="legend"><span><i style="background:var(--ink)"></i>Realizado</span><span><i style="background:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--ink)"></i>En curso</span><span><i style="background:var(--wash);box-shadow:inset 0 0 0 1px var(--soft)"></i>No ejecutado</span></div>
-  <p class="note">El estudio espacial del Mundial 2022, previsto para la semana 10, no se ejecutó y quedó como trabajo futuro; no forma parte de los objetivos específicos.</p>
-</div></section>
-
-<!-- Retos -->
-<section class="page" id="p25"><div class="inner">
-  <div class="kicker"><b>25</b> Retos del proyecto</div>
-  <h2>Retos y cómo se abordaron</h2>
-  <div class="challenges">
-    <div class="rt">Proveedores con taxonomías y coordenadas distintas</div><div class="rs">Matriz de equivalencias de diez categorías entre Wyscout y StatsBomb y coordenadas reescaladas a 0 a 100. Conducciones, toques y balones divididos se excluyeron de la replicación por no ser equivalentes.</div>
-    <div class="rt">Identidad de los jugadores entre fuentes</div><div class="rs">97,0 % de enlace entre Wyscout y Transfermarkt y 602 de 604 jugadores de StatsBomb enlazados en el Mundial 2018.</div>
-    <div class="rt">Posición de referencia en el tiempo</div><div class="rs">La posición fina se tomó de los minutos por posición en las alineaciones de 2017/18 y no del registro actual de Transfermarkt.</div>
-    <div class="rt">Efecto del equipo y la posesión</div><div class="rs">Volumen ajustado por posesión y composición con log-ratio centrada. La asociación entre perfil y equipo quedó en una NMI de 0,009.</div>
-    <div class="rt">Ausencia de una verdad de referencia</div><div class="rs">Protocolo fijado antes del modelado, estabilidad bootstrap, reserva temporal, replicación con otro proveedor y casos de reemplazo con línea base por posición.</div>
-    <div class="rt">Evaluar la consulta sin usuarios</div><div class="rs">Casos de reemplazo históricos con un criterio analítico de pertinencia medido en la segunda mitad de la temporada, frente a una línea base por posición.</div>
-  </div>
-</div></section>
-
-<!-- Extrapolación -->
-<section class="page" id="p26"><div class="inner">
-  <div class="kicker"><b>26</b> Despliegue · datos vigentes y otras ligas</div>
-  <h2>Qué se necesita para aplicarlo hoy y en la liga colombiana</h2>
-  <p class="lead">La temporada 2017/18 es la única con datos públicos completos y homogéneos de cinco ligas. Su antigüedad deja desactualizada la lista de jugadores, no el método: con datos vigentes, el mismo procedimiento produce perfiles y consultas sobre los jugadores de hoy.</p>
-  <ol class="steps">
+<!-- Resultados obtenidos y siguiente paso -->
+<section class="page" id="p13"><div class="inner">
+  <div class="kicker"><b>13</b> Resultados obtenidos y siguiente paso</div>
+  <h2>Resultados obtenidos</h2>
+  <ol class="expected row">
+    <li><b>Representación</b>Volumen ajustado por posesión y composición de acciones para 1.500 jugadores de campo de las cinco ligas 2017/18, reproducible de punta a punta desde los archivos originales.</li>
+    <li><b>Perfiles</b>Tres perfiles estables y sin asociación con el equipo ni con la liga, que comparten cerca de la mitad de su información con la posición fina.</li>
+    <li><b>Consulta</b>Una consulta de jugadores similares que mantuvo la pertinencia de la búsqueda por posición y aportó 9,6 candidatos pertinentes nuevos por caso.</li>
+    <li><b>Validación</b>Replicación de las dimensiones con StatsBomb en los 64 partidos del Mundial 2018 y análisis de sensibilidad a la exposición, el escalado y la distancia.</li>
+    <li><b>Prototipo</b>Un explorador que permite consultar el perfil de un jugador, sus percentiles y los jugadores con comportamiento similar.</li>
+  </ol>
+  <div>
+    <p class="chart-title" style="margin-bottom:10px">Para aplicarlo con datos vigentes y en la liga colombiana</p>
+    <ol class="steps">
     <li><b>Datos de eventos con licencia</b>Temporadas completas de la liga objetivo y de las ligas de mercado. No hay datos públicos de eventos de la liga colombiana.</li>
     <li><b>Minutos y alineaciones</b>Si el proveedor no los registra, se reconstruyen y se verifica que haya cerca de once jugadores por equipo y partido.</li>
     <li><b>Posición de referencia</b>El snapshot de Transfermarkt usado cubre 65 competiciones, entre ellas Argentina, Brasil y México, pero no Colombia.</li>
@@ -788,27 +562,14 @@ table.metrics td:first-child{font-weight:500;white-space:normal;min-width:150px}
     <li><b>Reajuste con el mismo protocolo</b>Estabilidad, asociación con el equipo y umbral de minutos revisado para torneos cortos; en Colombia se juegan dos por año.</li>
     <li><b>Validación con analistas</b>Medir pertinencia percibida y horas de revisión, lo que este trabajo no pudo observar.</li>
   </ol>
-  <p class="note">Primer paso disponible: los datos abiertos de StatsBomb ya auditados incluyen la Copa América 2024 (32 partidos) y la Eurocopa 2024 (51 partidos). El código de homologación existente permite aplicar el modelo a jugadores en actividad, incluidos los de la selección colombiana.</p>
-</div></section>
-
-<!-- Resultados -->
-<section class="page" id="p27"><div class="inner">
-  <div class="kicker"><b>27</b> Resultados obtenidos</div>
-  <h2>Resultados obtenidos</h2>
-  <ol class="expected">
-    <li><b>Representación</b>Volumen ajustado por posesión y composición de acciones para 1.500 jugadores de campo de las cinco ligas 2017/18, reproducible de punta a punta desde los archivos originales.</li>
-    <li><b>Perfiles</b>Tres perfiles estables y sin asociación con el equipo ni con la liga, que comparten cerca de la mitad de su información con la posición fina.</li>
-    <li><b>Consulta</b>Una consulta de jugadores similares que mantuvo la pertinencia de la búsqueda por posición y aportó 9,6 candidatos pertinentes nuevos por caso.</li>
-    <li><b>Validación</b>Replicación de las dimensiones con StatsBomb en los 64 partidos del Mundial 2018 y análisis de sensibilidad a la exposición, el escalado y la distancia.</li>
-    <li><b>Prototipo</b>Un explorador que permite consultar el perfil de un jugador, sus percentiles y los jugadores con comportamiento similar.</li>
-  </ol>
-  <p class="note">Limitaciones: una sola temporada de ligas europeas, sin cobertura de la liga colombiana en datos públicos de eventos; pertinencia medida con un criterio analítico sobre datos históricos; la representación de cuatro componentes no reconoce el patrón individual de cada jugador entre mitades de la temporada.</p>
+  </div>
+  <p class="note">Primer paso disponible: la Copa América 2024 (32 partidos) y la Eurocopa 2024 (51 partidos) de StatsBomb Open Data, ya auditadas, permiten aplicar el modelo a jugadores en actividad, incluidos los de la selección colombiana. Limitaciones: una sola temporada europea; pertinencia medida con un criterio analítico; sin validación con analistas.</p>
   <p class="foot">Eduar Felipe Riaño Torres · MIIA, Universidad de los Andes · Asesor: Juan Pablo Gómez Bravo · <a href="https://github.com/eduartorres/football-functional-profiling">github.com/eduartorres/football-functional-profiling</a></p>
 </div></section>
 
 <nav class="pager" aria-label="Navegación entre páginas">
   <button id="prev" aria-label="Página anterior">↑</button>
-  <span id="pnum">01 / 27</span>
+  <span id="pnum">01 / 13</span>
   <button id="next" aria-label="Página siguiente">↓</button>
 </nav>
 <div class="tip" id="tip" hidden></div>
@@ -887,55 +648,6 @@ const LABEL = {
   txt(s,X(2015)-6,top+5*rowH+rowH/2+4,"…",{"text-anchor":"end","font-size":"12",fill:C.ink3});
 })();
 
-/* 05 tabla de inventario */
-(function(){
-  const tb=document.querySelector("#inv tbody");
-  const rolMap={"núcleo eventos":"Construcción del perfil con eventos","validación":"Replicación con otro proveedor","tracking / sin balón":"Movimiento sin balón","eventos + tracking":"Eventos y tracking sincronizados","tracking internacional":"Estudio espacial, Mundial 2022","contexto externo":"Contexto del jugador, posterior"};
-  const trk={"Wyscout":"No","StatsBomb":"360 en 426 partidos","SkillCorner":"1.244.814 frames a 10 Hz","DFL":"23.739.462 posiciones a 25 Hz","PFF FC":"64 partidos","Transfermarkt":"No"};
-  DATA.inventory.forEach(r=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML=`<td class="src">${r.fuente}</td><td>${rolMap[r.rol]||r.rol}</td><td class="num">${fmt(r.partidos)}</td><td class="num">${fmt(r.jugadores)}</td><td class="num">${fmt(r.eventos)}</td><td>${trk[r.fuente]}</td>`;
-    tb.appendChild(tr);
-  });
-})();
-
-/* 06 matriz de cobertura */
-(function(){
-  const host=document.getElementById("cov");
-  const prov=[["wyscout","Wyscout"],["statsbomb","StatsBomb"],["skillcorner","SkillCorner"],["dfl","DFL"],["pff","PFF"]];
-  const add=(cls,html)=>{const d=document.createElement("div"); d.className=cls; d.innerHTML=html; host.appendChild(d); return d;};
-  add("h",""); prov.forEach(p=>add("h",p[1]));
-  const rows=DATA.coverage.filter(r=>!["Minutos jugados","Posición nominal"].includes(r.dimension));
-  rows.forEach((r,i)=>{
-    if(r.dimension==="Coordenadas de evento") add("sep","");
-    const name={"Recuperaciones/intercep.":"Recuperaciones e intercepciones","Valor de acción (xG/xT)":"Valor de la acción (xG, xT)"}[r.dimension]||r.dimension;
-    add("r",name);
-    prov.forEach(([k])=>{
-      const v=String(r[k]); let cls="no", label="no observado";
-      if(v.startsWith("sí")){cls="yes"; label=v.includes(":")?v.split(":").slice(1).join(":").trim():"sí";}
-      else if(v.startsWith("parcial")){cls="part"; label=v.split(":").slice(1).join(":").trim();}
-      else if(v==="no"){label="no";}
-      add("c "+cls,label);
-    });
-  });
-})();
-
-/* 09 elegibilidad por umbral */
-(function(){
-  const E=DATA.elig, W=520, H=300, left=12, bottom=46, top=26, bw=64;
-  const s=svg("elig",W,H), max=2600, Y=v=>H-bottom-(v/max)*(H-bottom-top);
-  const step=(W-left*2)/E.length;
-  el("line",{x1:left,x2:W-left,y1:H-bottom,y2:H-bottom,stroke:C.ink},s);
-  E.forEach((r,i)=>{
-    const x=left+i*step+(step-bw)/2, v=r.outfield, hi=r.min_minutes===900;
-    const rect=el("rect",{x,y:Y(v),width:bw,height:H-bottom-Y(v),fill:hi?C.yellow:C.soft,stroke:hi?C.ink:"none","stroke-width":"1.2"},s);
-    txt(s,x+bw/2,Y(v)-8,fmt(v),{"text-anchor":"middle","font-size":"13","font-weight":hi?"700":"400",fill:C.ink});
-    txt(s,x+bw/2,H-bottom+18,r.min_minutes===0?"sin mínimo":"≥ "+fmt(r.min_minutes),{"text-anchor":"middle","font-size":"12",fill:C.ink2});
-    rect.addEventListener("mousemove",e=>showTip(e,`<b>${r.min_minutes===0?"Sin mínimo":"Al menos "+fmt(r.min_minutes)+" min"}</b><br>Defensas ${r.role_DF} · Medios ${r.role_MD} · Delanteros ${r.role_FW}`)); rect.addEventListener("mouseleave",hideTip);
-  });
-  txt(s,W/2,H-6,"minutos jugados en la temporada",{"text-anchor":"middle","font-size":"11",fill:C.ink3});
-})();
-
 /* 10 dumbbell eta cuadrado */
 (function(){
   const V=[...DATA.variance].sort((a,b)=>b.eta2_wyscout_role-a.eta2_wyscout_role);
@@ -978,29 +690,6 @@ const LABEL = {
   txt(s,W,90,"Segmentos menores: "+small.join(" · "),{"text-anchor":"end","font-size":"12",fill:C.ink2});
 })();
 
-/* 11 paneles pequeños: profundidad frente a progresión */
-(function(){
-  const P=[["Pivote (Defensive Midfield)",["Defensive Midfield"]],["Mediocentro (Central Midfield)",["Central Midfield"]],["Mediapunta (Attacking Midfield)",["Attacking Midfield"]],["Extremo (Left/Right Winger)",["Left Winger","Right Winger"]]];
-  const W=1100, H=300, gap=26, pw=(W-gap*3)/4, top=30, bottom=44, left=34;
-  const xs=[30,72], ys=[0,10.5];
-  const s=svg("panels",W,H);
-  P.forEach(([title,subs],k)=>{
-    const ox=k*(pw+gap), X=v=>ox+left+(v-xs[0])/(xs[1]-xs[0])*(pw-left-6), Y=v=>H-bottom-(v-ys[0])/(ys[1]-ys[0])*(H-bottom-top);
-    const own=DATA.md.filter(m=>subs.includes(m.s));
-    txt(s,ox,16,`${title} · ${own.length}`,{"font-size":"12.5","font-weight":"700",fill:C.ink});
-    [0,5,10].forEach(t=>{ el("line",{x1:ox+left,x2:ox+pw-6,y1:Y(t),y2:Y(t),stroke:C.rule},s); if(k===0||true) txt(s,ox+left-6,Y(t)+4,t,{"text-anchor":"end","font-size":"10.5",fill:C.ink3}); });
-    [35,50,65].forEach(t=>txt(s,X(t),H-bottom+16,t,{"text-anchor":"middle","font-size":"10.5",fill:C.ink3}));
-    DATA.md.forEach(m=>el("circle",{cx:X(m.x),cy:Y(m.p),r:2.4,fill:C.soft},s));
-    own.forEach(m=>{ const c=el("circle",{cx:X(m.x),cy:Y(m.p),r:3.4,fill:C.ink,stroke:C.paper,"stroke-width":"1"},s);
-      c.addEventListener("mousemove",e=>showTip(e,`<b>${m.n}</b><br>${m.c} · ${fmt(m.m)} min<br>Profundidad ${fmt(m.x,1)} · Progresivos ${fmt(m.p,2)}`)); c.addEventListener("mouseleave",hideTip); });
-    if(k===1){ DATA.pair.forEach(p=>{ const m=DATA.md.find(q=>q.n===p.name); const cx=X(m.x), cy=Y(m.p);
-      el("circle",{cx,cy,r:6.5,fill:C.yellow,stroke:C.ink,"stroke-width":"1.6"},s);
-      txt(s,cx+9,cy-8,m.n,{"font-size":"12","font-weight":"700",fill:C.ink,stroke:C.paper,"stroke-width":"4","paint-order":"stroke"}); }); }
-    txt(s,ox+left+(pw-left)/2,H-8,"profundidad media (0 a 100)",{"text-anchor":"middle","font-size":"10.5",fill:C.ink3});
-  });
-
-})();
-
 /* 14 grilla de configuraciones: silueta frente a ARI bootstrap */
 (function(){
   const G=DATA.grid, W=620, H=390, left=46, right=16, top=30, bottom=44;
@@ -1019,35 +708,6 @@ const LABEL = {
     const c=el("circle",{cx:X(Math.max(g.sil,0)),cy:Y(Math.max(g.ari,0)),r:hi?8:4.2,fill:hi?C.yellow:(comp?C.ink:C.paper),stroke:hi?C.ink:(comp?C.paper:C.ink3),"stroke-width":hi?"2":"1.3"},s);
     c.addEventListener("mousemove",e=>showTip(e,`<b>${name[g.a]}, k = ${g.k}</b><br>${comp?"Composición":"Volumen"}<br>Silueta ${fmt(g.sil,3)} · ARI ${fmt(g.ari,3)}${g.noise>0?`<br>Sin asignar ${fmt(g.noise*100,0)} %`:""}`)); c.addEventListener("mouseleave",hideTip);
     if(hi) txt(s,X(g.sil)+2,Y(g.ari)+24,"K-means, k = 3",{"text-anchor":"end","font-size":"12","font-weight":"700",fill:C.ink,stroke:C.paper,"stroke-width":"4","paint-order":"stroke"});
-  });
-})();
-
-/* 15 matriz posición fina por perfil */
-(function(){
-  const host=document.getElementById("pm");
-  const lab={defensa_central:"Defensa central",lateral:"Lateral",pivote:"Pivote",mediocentro:"Mediocentro",volante_banda:"Volante de banda",mediapunta:"Mediapunta",extremo:"Extremo",segundo_delantero:"Segundo delantero",delantero_centro:"Delantero centro"};
-  const order=["defensa_central","lateral","pivote","mediocentro","volante_banda","mediapunta","extremo","segundo_delantero","delantero_centro"];
-  const add=(cls,html,style)=>{const d=document.createElement("div"); d.className=cls; d.innerHTML=html; if(style) d.style.cssText=style; host.appendChild(d); return d;};
-  add("h",""); ["1. Construcción","2. Carril lateral","3. Ataque"].forEach(h=>add("h",h)); add("h","Total","text-align:right");
-  order.forEach(k=>{
-    const r=DATA.positions.find(p=>p.fine_group===k), v=[r["1"],r["2"],r["3"]], t=v[0]+v[1]+v[2];
-    add("r",lab[k]);
-    v.forEach((n,j)=>{
-      const sh=n/t, bg=sh>=.6?C.ink:sh>=.3?C.ink3:sh>=.1?C.soft:C.wash, fg=sh>=.3?C.paper:C.ink;
-      const c=add("c",n,`background:${bg};color:${fg}`);
-      c.addEventListener("mousemove",e=>showTip(e,`<b>${lab[k]}</b><br>Perfil ${j+1}: ${n} de ${t} (${fmt(sh*100,0)} %)`)); c.addEventListener("mouseleave",hideTip);
-    });
-    add("t",t);
-  });
-})();
-
-/* 16 transiciones entre mitades */
-(function(){
-  const host=document.getElementById("tm"), T=DATA.transitions, L=["Construcción","Carril lateral","Ataque"];
-  const add=(cls,html,style)=>{const d=document.createElement("div"); d.className=cls; d.innerHTML=html; if(style) d.style.cssText=style; host.appendChild(d);};
-  add("lab",""); L.forEach(l=>add("top",l));
-  T.forEach((row,i)=>{ const t=row.reduce((a,b)=>a+b,0); add("lab",L[i]);
-    row.forEach((n,j)=>{ const diag=i===j; add("",diag?`<b>${n}</b>&nbsp;<span style="font-weight:400">(${fmt(n/t*100,0)} %)</span>`:n, diag?`background:${C.ink};color:${C.paper}`:`background:${C.wash};color:${C.ink2}`); });
   });
 })();
 
@@ -1078,59 +738,6 @@ const LABEL = {
     const hit=el("rect",{x:0,y:cy-rowH/2,width:W,height:rowH,fill:"transparent"},s);
     hit.addEventListener("mousemove",e=>showTip(e,`<b>${c.n}</b> → ${c.to}<br>Funcional ${fmt(c.f,2)} · Por posición ${fmt(c.b,2)}<br>Pertinentes nuevos: ${c.new}`)); hit.addEventListener("mouseleave",hideTip);
   });
-})();
-
-/* 19 cronograma */
-(function(){
-  const g=document.getElementById("gantt");
-  const add=(cls,html,style)=>{const d=document.createElement("div"); d.className=cls; if(html) d.innerHTML=html; if(style) d.style.cssText=style; g.appendChild(d); return d;};
-  add("lbl","","grid-row:1;grid-column:1"); for(let w=1;w<=12;w++) add("wk","S"+w,`grid-row:1;grid-column:${w+1}`);
-  add("lbl","Planteamiento y marco de referencia<small>Capítulos 1 a 4 del documento</small>","grid-row:2;grid-column:1"); add("pre","Antes del desarrollo empírico","grid-row:2");
-  add("lbl","Adquisición y trazabilidad de fuentes<small>Seis fuentes, manifiestos y verificación</small>","grid-row:3;grid-column:1"); add("pre","Antes del desarrollo empírico","grid-row:3");
-  const phases=[
-    ["Inventario, licencias y diagnóstico","",1,2,"done"],
-    ["Población elegible e indicadores","1.500 jugadores con posición fina",3,4,"done"],
-    ["Representaciones y modelos","Protocolo fijado antes del primer ajuste",5,7,"done"],
-    ["Evaluación temporal, sensibilidad y replicación","",8,9,"done"],
-    ["Casos de reemplazo y prototipo","",10,10,"done"],
-    ["Estudio espacial, Mundial 2022","Trabajo futuro",10,10,"next"],
-    ["Integración de resultados y revisión del informe","",11,12,"now"]
-  ];
-  phases.forEach(([l,sm,a,b,st],i)=>{ const r=i+4; add("lbl",l+(sm?`<small>${sm}</small>`:""),`grid-row:${r};grid-column:1`); add("bar "+st,"",`grid-row:${r};grid-column:${a+1}/${b+2}`); });
-})();
-
-/* modelo de datos: fuentes, tablas intermedias, tablas procesadas y productos */
-(function(){
-  const W=1120, H=470, bw=200, bh=58, s=svg("erd",W,H);
-  const cols=[10,300,590,880];
-  const N={
-    ev:[0,20,"Eventos Wyscout","evento · event_uid",1], mt:[0,105,"Partidos y alineaciones","partido · match_id",1],
-    pl:[0,190,"Jugadores Wyscout","jugador · player_id",1], tm:[0,275,"Transfermarkt","tm_id · alineaciones 2017/18",1],
-    sb:[0,380,"StatsBomb, Mundial 2018","jugador · sb_player_id",1],
-    pm:[1,20,"Jugador-partido","match_id + player_id",0], tmm:[1,105,"Equipo-partido","match_id + team_id",0],
-    tea:[1,190,"Equipos","team_id",0], pla:[1,275,"Atributos del jugador","player_id · no se publica",1],
-    pos:[2,190,"Posición de referencia","player_id → tm_id",0], ft:[2,62,"Variables por ventana","player_id + competition_file",0],
-    rep:[2,380,"Tablas de replicación","sb_player_id ↔ player_id",1],
-    pr:[3,62,"Modelo y perfiles","player_id + competition_file",0], evl:[3,210,"Evaluación","hipótesis, casos, sensibilidad",0],
-    prod:[3,355,"Explorador y casebook","páginas autocontenidas",0]
-  };
-  const box=k=>{const [c,y]=N[k]; return {x:cols[c],y};};
-  const E=[["ev","pm",""],["mt","pm","minutos"],["ev","tmm","posesión"],["mt","tea",""],["pl","pla",""],
-    ["pm","ft","agregación"],["tmm","ft",""],["pla","pos","fecha + nombre"],["tm","pos","tm_id"],["pos","ft","posición fina"],
-    ["sb","rep","equipo + nombre"],["pm","rep",""],["ft","pr",""],["pr","evl",""],["rep","evl","replicación"],["pr","prod",""],["tea","prod",""]];
-  E.forEach(([a,b,l])=>{
-    const A=box(a), B=box(b), x1=A.x+bw, y1=A.y+bh/2, x2=B.x, y2=B.y+bh/2, mx=(x1+x2)/2;
-    el("path",{d:`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2-6},${y2}`,fill:"none",stroke:C.mid,"stroke-width":"1.3"},s);
-    el("path",{d:`M${x2-7},${y2-4} L${x2},${y2} L${x2-7},${y2+4}`,fill:"none",stroke:C.mid,"stroke-width":"1.3"},s);
-    if(l){ txt(s,mx,(y1+y2)/2-5,l,{"text-anchor":"middle","font-size":"10.5",fill:C.ink2,stroke:C.paper,"stroke-width":"4","paint-order":"stroke"}); }
-  });
-  Object.entries(N).forEach(([k,[c,y,t,sub,priv]])=>{
-    const x=cols[c];
-    el("rect",{x,y,width:bw,height:bh,fill:priv?C.wash:C.paper,stroke:priv?C.soft:C.ink,"stroke-width":priv?"1":"1.4"},s);
-    txt(s,x+12,y+24,t,{"font-size":"13","font-weight":"700",fill:priv?C.ink3:C.ink});
-    txt(s,x+12,y+43,sub,{"font-size":"11",fill:C.ink3,"font-family":"var(--f-mono)"});
-  });
-  ["Fuentes originales","Tablas intermedias","Tablas procesadas","Resultados y productos"].forEach((h,i)=>txt(s,cols[i],H-6,h,{"font-size":"11.5",fill:C.ink3,"letter-spacing":".04em"}));
 })();
 
 /* perfiles: zona de actuación de los 1.500 jugadores */

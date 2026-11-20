@@ -64,16 +64,10 @@ def compact(data: dict) -> dict:
             {k: v[k] for k in ["feature", "eta2_wyscout_role", "eta2_fine_group", "eta2_team"]}
             for v in data["variance"]
         ],
-        "elig": data["eligibility"],
         "md": md,
         "pair": data["example_pair"],
-        "coverage": data["coverage"],
-        "inventory": data["inventory"],
-        "linkage": data["linkage"],
         "grid": grid,
         "selected": r["selected"],
-        "positions": r["profiles_positions"],
-        "transitions": r["temporal_transitions"],
         "cases": cases,
         "replication": r["replication"],
         "cards": r["profile_cards"],
