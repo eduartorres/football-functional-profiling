@@ -27,11 +27,13 @@ h2{font-size:68px;line-height:1.06;font-weight:700;letter-spacing:-.02em}
 svg text{font-family:var(--f)}
 
 /* 1 portada */
-.cover-title{position:absolute;left:120px;top:250px;width:930px;border-left:16px solid var(--yellow);padding-left:44px;margin-left:-60px}
-.cover-meta{position:absolute;left:120px;bottom:150px;display:grid;grid-template-columns:auto auto;gap:14px 40px;font-size:27px}
+.cover-title{position:absolute;left:120px;top:210px;width:930px;border-left:16px solid var(--yellow);padding-left:44px;margin-left:-60px}
+.cover-meta{position:absolute;left:120px;bottom:112px;display:grid;grid-template-columns:auto auto;gap:14px 40px;font-size:27px}
 .cover-meta dt{font-size:19px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-top:6px}
 .cover-meta dd{color:var(--ink)}
 #field{position:absolute;right:70px;top:150px;width:760px;height:700px}
+.ctx{position:absolute;left:120px;top:712px;width:900px;font-size:27px;line-height:1.4;color:var(--ink-2);font-weight:300}
+.ctx b{font-weight:900;color:var(--ink);font-size:44px;letter-spacing:-.02em;display:block;line-height:1.1}
 
 /* 2 problema */
 .two{position:absolute;top:300px;left:120px;right:120px;display:grid;grid-template-columns:1.25fr 1fr;gap:110px;align-items:start}
@@ -61,10 +63,16 @@ svg text{font-family:var(--f)}
 .stats .t{font-size:23px;line-height:1.35;color:var(--ink-2)}
 
 /* 5 impacto */
-#lists{position:absolute;left:120px;top:300px;width:1080px;height:330px}
-.who{position:absolute;left:120px;top:690px;width:1080px;display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
-.who div{border-top:1px solid var(--rule);padding-top:20px;font-size:23px;line-height:1.4;color:var(--ink-2)}
-.who b{display:block;color:var(--ink);font-size:25px;margin-bottom:6px}
+.cases{position:absolute;left:120px;top:335px;width:1080px}
+.cases .cap{font-size:21px;color:var(--ink-3);margin-bottom:10px}
+.cases .row{display:grid;grid-template-columns:1fr 150px 150px 130px 220px;align-items:baseline;padding:13px 0;border-top:1px solid var(--rule);font-size:25px;color:var(--ink-2)}
+.cases .row.hd{border-top:3px solid var(--ink);font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:10px 0}
+.cases .row .nm{color:var(--ink);font-weight:700}
+.cases .row .nm small{display:block;font-size:19px;font-weight:400;color:var(--ink-3);margin-top:2px}
+.cases .row .c{text-align:right;font-variant-numeric:tabular-nums}
+.cases .row .c.nw{font-weight:900;color:var(--ink);font-size:30px}
+.cases .row.first .nm,.cases .row.first .c{color:var(--ink)}
+#lists{position:absolute;left:120px;top:695px;width:1080px;height:300px}
 .shot{position:absolute;right:120px;top:300px;width:470px}
 .shot img{width:100%;display:block;border:1px solid var(--rule)}
 .shot p{font-size:19px;color:var(--ink-3);margin-top:12px;line-height:1.4}
@@ -78,13 +86,14 @@ svg text{font-family:var(--f)}
   <div class="cover-title">
     <h1>Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal</h1>
   </div>
+  <p class="ctx"><b>USD 13.000 millones</b>en fichajes internacionales solo en 2025, y cada fichaje empieza con una lista de candidatos.</p>
   <dl class="cover-meta">
     <dt>Autor</dt><dd>Eduar Felipe Riaño Torres</dd>
     <dt>Asesor</dt><dd>Juan Pablo Gómez Bravo</dd>
   </dl>
   <div id="field"></div>
   <p class="small" style="position:absolute;right:90px;top:870px;width:720px;text-align:right">Los 1.500 jugadores analizados, ubicados según qué tan adelante y qué tan abiertos actúan, y coloreados por su perfil funcional.</p>
-  <div class="foot"><span>Analytics Pitch Awards · noviembre de 2026</span><span>1 / 5</span></div>
+  <div class="foot"><span>Analytics Pitch Awards · noviembre de 2026 · Cifra de mercado: FIFA (2026)</span><span>1 / 5</span></div>
 </section>
 
 <!-- 2 · Problema -->
@@ -151,18 +160,14 @@ svg text{font-family:var(--f)}
     <div class="eyebrow">Para qué sirve</div>
     <h2 style="margin-top:22px;max-width:1500px">La misma calidad de lista, con <span class="mk">casi diez candidatos pertinentes</span> que antes no aparecían</h2>
   </div>
+  <div class="cases" id="cases"><p class="cap">Tres de los 30 casos: candidatos pertinentes en cada lista de 20</p></div>
   <div id="lists"></div>
-  <div class="who">
-    <div><b>Analista de scouting</b>Listas por función, con ficha y percentiles para justificar cada nombre.</div>
-    <div><b>Dirección deportiva</b>Reemplazos en posiciones y ligas que una búsqueda por etiqueta no revisa.</div>
-    <div><b>Cuerpo técnico</b>Pedir la pieza que falta por lo que debe hacer en el campo.</div>
-  </div>
   <figure class="shot">
     <img src="__EXPLORER_PNG__" alt="Explorador: ficha de M. Hamšík y jugadores similares de otros clubes">
     <p>Explorador de perfiles y jugadores similares, generado por el pipeline.</p>
   </figure>
-  <div class="next"><b>Siguiente paso.</b> Aplicarlo a jugadores en actividad, empezando por la Copa América 2024 con datos abiertos, y a la liga colombiana con datos licenciados.</div>
-  <div class="foot"><span>github.com/eduartorres/football-functional-profiling</span><span>5 / 5</span></div>
+  <div class="next"><b>Siguiente paso.</b> Colombia tiene más de 400 futbolistas en ligas extranjeras y cada venta abre una vacante. Primero, jugadores en actividad con la Copa América 2024; después, la liga colombiana con datos licenciados.</div>
+  <div class="foot"><span>github.com/eduartorres/football-functional-profiling · Futbolistas en el exterior: Poli et al. (2024), CIES</span><span>5 / 5</span></div>
 </section>
 
 <script>
@@ -220,6 +225,16 @@ function svg(id,w,h){const s=el("svg",{viewBox:`0 0 ${w} ${h}`,width:w,height:h}
   });
 })();
 
+/* impacto: tres casos concretos, con las cifras de la evaluación (clubes de origen según la tabla de equipos de Wyscout 2017/18) */
+(function(){
+  const pick=[["João Moutinho","João Moutinho","Mónaco → Wolverhampton"],["A. Vidal","Arturo Vidal","Bayern Múnich → Barcelona"],["X. Shaqiri","Xherdan Shaqiri","Stoke City → Liverpool"]];
+  const host=document.getElementById("cases"), by={}; DATA.cases.forEach(c=>by[c.n]=c);
+  const add=(cls,html)=>{const d=document.createElement("div");d.className="row "+cls;d.innerHTML=html;host.appendChild(d);};
+  add("hd",'<span>Venta del verano de 2018</span><span class="c">Por posición</span><span class="c">Por función</span><span class="c">En común</span><span class="c">Nuevos</span>');
+  pick.forEach(([k,name,move],i)=>{const c=by[k];
+    add(i===0?"first":"",`<span class="nm">${name}<small>${move}</small></span><span class="c">${Math.round(c.b*20)} de 20</span><span class="c">${Math.round(c.f*20)} de 20</span><span class="c">${c.ov}</span><span class="c nw">${i===0?'<span class="mk">'+c.new+'</span>':c.new}</span>`);});
+})();
+
 /* impacto: las dos listas de 20 candidatos, promedio de 30 casos de reemplazo */
 (function(){
   const R=DATA.replacement, W=1080,H=320,left=300,bw=W-left-10,u=bw/20,s=svg("lists",W,H);
@@ -233,6 +248,6 @@ function svg(id,w,h){const s=el("svg",{viewBox:`0 0 ${w} ${h}`,width:w,height:h}
   row(20,"Búsqueda por posición",`pertinencia ${fmt(R.pertinent_share_baseline_mean,2)}`,[[shared,C.ink,null,"",null],[20-shared,C.wash,null,"",null]]);
   tx(s,left+4,128,`${fmt(shared,1)} candidatos en común`,{"font-size":"20",fill:C.ink3});
   row(150,"Búsqueda por función",`pertinencia ${fmt(R.pertinent_share_functional_mean,2)}`,[[shared,C.ink,null,"",null],[nw,C.yellow,C.ink,`${fmt(nw,1)} pertinentes nuevos`],[20-shared-nw,C.wash,null,"",null]]);
-  tx(s,left,H-30,`Promedio de ${R.n_cases} transferencias reales del verano de 2018; cada lista tiene 20 candidatos de otros clubes.`,{"font-size":"20",fill:C.ink3});
+  tx(s,left,H-40,`Promedio de ${R.n_cases} transferencias reales del verano de 2018; cada lista tiene 20 candidatos de otros clubes.`,{"font-size":"20",fill:C.ink3});
 })();
 </script>

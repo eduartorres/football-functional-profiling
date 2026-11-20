@@ -2,48 +2,97 @@
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Guion del pitch</title>
 <style>
-/* Guion de lectura del pitch de 3 minutos: el texto sombreado se lee en voz alta; lo demás son indicaciones. */
-:root{--ink:#111;--ink-3:#6e6e6e;--rule:#ddd;--read:#fff8b0;--paper:#fff}
+/* Guion de lectura del pitch de 3 minutos, organizado con la pirámide de Freytag.
+   El texto sombreado se lee en voz alta; lo demás son indicaciones de tono, pausa y gesto. */
+:root{--ink:#111;--ink-2:#3a3a3a;--ink-3:#6e6e6e;--rule:#ddd;--read:#fff8b0;--paper:#fff;--yellow:#FFFF00}
 body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 "Roboto","Helvetica Neue",Arial,sans-serif}
-main{max-width:760px;margin:0 auto;padding:48px 20px 80px}
+main{max-width:780px;margin:0 auto;padding:48px 20px 80px}
 h1{font-size:28px;margin:0 0 6px}
-.meta{color:var(--ink-3);font-size:14px;margin-bottom:28px}
-section{border-top:2px solid var(--ink);padding:16px 0 10px;margin-top:22px}
-h2{font-size:15px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px;display:flex;justify-content:space-between}
-h2 span{color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none}
+.meta{color:var(--ink-3);font-size:14px;margin-bottom:18px}
+figure{margin:8px 0 6px}
+figure svg{width:100%;height:auto;display:block}
+figure figcaption{font-size:13px;color:var(--ink-3);margin-top:4px}
+section{border-top:2px solid var(--ink);padding:16px 0 8px;margin-top:24px}
+section.peak{border-top:6px solid var(--ink)}
+h2{font-size:15px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 4px;display:flex;justify-content:space-between;gap:12px}
+h2 span{color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none;white-space:nowrap}
+.tone{font-size:14px;color:var(--ink-2);margin:0 0 12px}
+.tone b{font-weight:500}
 .say{background:var(--read);padding:2px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.pause{font-size:13px;color:var(--ink-3);font-style:italic;white-space:nowrap}
 p{margin:0 0 12px}
 .cue{font-size:14px;color:var(--ink-3);border-left:3px solid var(--rule);padding-left:10px}
+.opt{font-size:14px;color:var(--ink-3)}
 .total{margin-top:30px;font-size:14px;color:var(--ink-3)}
 </style></head>
 <body><main>
 <h1>Guion del pitch</h1>
-<div class="meta">Analytics Pitch Awards · 3 minutos · 5 láminas. El texto sombreado se lee; lo demás son indicaciones.</div>
+<div class="meta">Analytics Pitch Awards · 3 minutos · 5 láminas. Estructura de la pirámide de Freytag: exposición, acción ascendente, clímax, acción descendente y desenlace. El texto sombreado se lee; lo demás son indicaciones.</div>
 
-<section><h2>Lámina 1 · Portada <span>0:00 a 0:15</span></h2>
-<p><span class="say">Buenas noches. Soy Felipe Riaño, y les voy a mostrar cómo buscar futbolistas por lo que hacen en la cancha y no por la etiqueta con la que están registrados.</span></p>
-<p class="cue">Señalar la nube de puntos: cada punto es un jugador.</p></section>
+<figure>
+<svg viewBox="0 0 760 210" role="img" aria-label="Pirámide de Freytag del pitch: la tensión sube de la lámina 1 a la 5 y cae después del caso Moutinho">
+  <line x1="40" y1="170" x2="720" y2="170" stroke="#ddd"/>
+  <polyline points="40,160 170,160 270,128 370,96 470,62 545,26 610,92 720,150" fill="none" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="545" cy="26" r="9" fill="#FFFF00" stroke="#111" stroke-width="2"/>
+  <g font-size="12" fill="#3a3a3a">
+    <text x="40" y="150">Exposición</text>
+    <text x="300" y="80">Acción ascendente</text>
+    <text x="562" y="22">Clímax</text>
+    <text x="604" y="70">Acción descendente</text>
+    <text x="716" y="164" text-anchor="end">Desenlace</text>
+  </g>
+  <g font-size="11" fill="#6e6e6e" text-anchor="middle">
+    <text x="105" y="190">Lámina 1</text><text x="225" y="190">Lámina 2</text><text x="345" y="190">Lámina 3</text><text x="445" y="190">Lámina 4</text><text x="630" y="190">Lámina 5</text>
+    <text x="40" y="206">0:00</text><text x="545" y="206">1:55</text><text x="720" y="206">3:00</text>
+  </g>
+</svg>
+<figcaption>La tensión sube con cada lámina hasta el caso Moutinho y baja despacio hacia el cierre. El clímax queda cerca de los dos tercios del tiempo.</figcaption>
+</figure>
 
-<section><h2>Lámina 2 · El problema <span>0:15 a 0:55</span></h2>
-<p><span class="say">Cuando un club vende a un jugador, su área de scouting empieza con un filtro: la posición. Pero la posición dice dónde está registrado alguien, no cómo juega.</span></p>
-<p><span class="say">Hamšík y Diamé eran mediocentros en 2017. Uno daba más pases y remataba más que casi todos los mediocampistas de Europa. El otro estaba por debajo de la mayoría en pases y remates, pero disputaba más duelos que casi todos.</span></p>
-<p><span class="say">No es un caso aislado: aun conociendo la posición exacta, el 41 % de las diferencias entre jugadores queda sin explicar. Buscar por etiqueta mezcla funciones distintas y deja por fuera a quien hace lo mismo con otro nombre.</span></p>
-<p class="cue">Recorrer las barras de arriba abajo; terminar en el 41 %.</p></section>
+<section><h2>Exposición · Lámina 1 <span>0:00 a 0:30</span></h2>
+<p class="tone"><b>Intención:</b> poner al público dentro de una situación real antes de presentarse. <b>Tono:</b> tranquilo y cercano, sin prisa.</p>
+<p><span class="say">Solo en 2025, los clubes movieron más de trece mil millones de dólares en fichajes internacionales. Y cada fichaje empieza con una lista de candidatos.</span> <span class="pause">(pausa breve)</span></p>
+<p><span class="say">Verano de 2018: el Mónaco vende a João Moutinho, el mediocampista que ordenaba su juego, y tiene pocas semanas para reemplazarlo. ¿Por dónde empieza? Por el filtro de siempre: la posición.</span> <span class="pause">(pausa)</span></p>
+<p><span class="say">¿Y si ese filtro deja por fuera justo a quien busca? Soy Felipe Riaño, y les propongo buscar futbolistas por lo que hacen en la cancha.</span></p>
+<p class="cue">Señalar la cifra de USD 13.000 millones al empezar. La pregunta se dice mirando al público, no a la pantalla.</p></section>
 
-<section><h2>Lámina 3 · Cómo se resolvió <span>0:55 a 1:40</span></h2>
-<p><span class="say">Seguí CRISP-DM con los datos públicos de Wyscout de las cinco grandes ligas: tres millones doscientos mil eventos que convertí en una fila por jugador, con 1.500 jugadores de al menos 900 minutos.</span></p>
-<p><span class="say">Tomé tres decisiones. Primero, medir qué hace el jugador y no cuánto: la proporción de cada tipo de acción, para que su perfil no dependa de si su equipo tiene el balón. Segundo, fijar las reglas antes de ver resultados. Y tercero, probarlo fuera de muestra: en la otra mitad de la temporada, con jugadores no vistos y con otro proveedor de datos. Con esas reglas comparé 108 modelos.</span></p>
+<section><h2>Acción ascendente · Lámina 2 <span>0:30 a 0:55</span></h2>
+<p class="tone"><b>Intención:</b> mostrar el conflicto con un contraste que se vea. <b>Tono:</b> más firme; la energía empieza a subir.</p>
+<p><span class="say">Miren a Hamšík y a Diamé, los dos mediocentros. Uno pasaba y remataba más que casi todos los mediocampistas de Europa; el otro disputaba más duelos que casi nadie. Misma casilla, otro juego.</span> <span class="pause">(pausa breve)</span></p>
+<p><span class="say">Y no es la excepción: aun con la posición exacta, el 41 % de las diferencias entre jugadores queda sin explicar.</span></p>
+<p class="cue">Recorrer las barras de arriba abajo y terminar señalando el 41 %.</p></section>
+
+<section><h2>Acción ascendente · Lámina 3 <span>0:55 a 1:25</span></h2>
+<p class="tone"><b>Intención:</b> dar credibilidad. Es el tramo más técnico y por eso el más sereno. <b>Tono:</b> seguro, sin acelerar.</p>
+<p><span class="say">Con los datos públicos de Wyscout de las cinco grandes ligas, tres millones de eventos y 1.500 jugadores, medí qué hace cada uno: la proporción de cada tipo de acción, no cuánto toca el balón su equipo.</span></p>
+<p><span class="say">Fijé las reglas antes de ver resultados, comparé 108 modelos y probé el elegido donde podía fallar: en la otra mitad de la temporada, con jugadores no vistos y con otro proveedor.</span></p>
 <p class="cue">Seguir la línea de izquierda a derecha y bajar a las tres decisiones.</p></section>
 
-<section><h2>Lámina 4 · Lo que se encontró <span>1:40 a 2:20</span></h2>
-<p><span class="say">El resultado son tres perfiles: construcción y defensa, carril lateral, y ataque y finalización. Cada uno ocupa su propia zona del campo.</span></p>
-<p><span class="say">Son estables: el 92 % de los jugadores conserva su perfil de una mitad de la temporada a la otra. No dependen del equipo, y se repiten casi igual con otro proveedor en los mismos partidos. Y la posición no los ve: los mediocentros se reparten entre construcción y ataque según lo que de verdad hacen.</span></p>
-<p class="cue">Señalar los tres colores y luego las cuatro cifras de la derecha.</p></section>
+<section><h2>Acción ascendente · Lámina 4 <span>1:25 a 1:55</span></h2>
+<p class="tone"><b>Intención:</b> acumular evidencia y dejar el clímax anunciado. <b>Tono:</b> cada cifra un poco más arriba que la anterior.</p>
+<p><span class="say">Salieron tres perfiles, cada uno en su zona del campo. Y resistieron: el 92 % de los jugadores conserva su perfil de una mitad de la temporada a la otra, el equipo no los explica y con otro proveedor se repiten casi idénticos. La posición no los ve: los mediocentros se reparten entre construcción y ataque.</span></p>
+<p><span class="pause">(pausa)</span> <span class="say">Faltaba la prueba que importa.</span></p>
+<p class="cue">Señalar los tres colores y después las cifras de la derecha. La última frase se dice más despacio y abre el cambio de lámina.</p></section>
 
-<section><h2>Lámina 5 · Para qué sirve <span>2:20 a 3:00</span></h2>
-<p><span class="say">¿Para qué sirve? Tomé treinta transferencias reales de 2018 y comparé dos búsquedas de veinte candidatos. Las dos aciertan igual, pero comparten menos de cuatro nombres: la búsqueda por función aporta casi diez candidatos pertinentes que la búsqueda por posición nunca habría mostrado.</span></p>
-<p><span class="say">Para un club que vende jugadores, eso es un mercado más amplio con el mismo trabajo. Todo está en un explorador web y en un repositorio público, y el siguiente paso es aplicarlo a jugadores en actividad, empezando por la Copa América 2024, y a la liga colombiana. Muchas gracias.</span></p>
-<p class="cue">Señalar la franja amarilla al decir "casi diez".</p></section>
+<section class="peak"><h2>Clímax · Lámina 5 <span>1:55 a 2:25</span></h2>
+<p class="tone"><b>Intención:</b> cerrar la pregunta del inicio con el mismo caso. <b>Tono:</b> el punto más alto; frases cortas y silencios reales.</p>
+<p><span class="say">Volvamos al Mónaco.</span> <span class="pause">(pausa)</span> <span class="say">Pedí veinte candidatos para reemplazar a Moutinho de dos formas. Por posición, dieciséis pertinentes. Por función, también dieciséis.</span> <span class="pause">(pausa)</span></p>
+<p><span class="say">Pero las listas solo compartían cinco nombres: once candidatos pertinentes que la búsqueda por posición nunca habría mostrado.</span> <span class="pause">(pausa larga)</span></p>
+<p><span class="say">Con Arturo Vidal, al salir del Bayern, compartían un solo nombre. Con Shaqiri, del Stoke, la búsqueda por función acertó catorce de veinte; la de posición, nueve.</span></p>
+<p class="cue">Señalar la fila de Moutinho y el 11 en amarillo; luego bajar por Vidal y Shaqiri.</p>
+<p class="opt">Si el tiempo aprieta, se omite la frase de Shaqiri sin perder el hilo.</p></section>
 
-<p class="total">Unas 400 palabras: alrededor de 2 minutos y 50 segundos a ritmo pausado.</p>
+<section><h2>Acción descendente · Lámina 5 <span>2:25 a 2:42</span></h2>
+<p class="tone"><b>Intención:</b> pasar del caso al promedio, con honestidad. <b>Tono:</b> baja la intensidad; más pausado.</p>
+<p><span class="say">En los treinta casos, las dos búsquedas aciertan lo mismo en promedio. La diferencia está en a quién encuentran: casi diez candidatos pertinentes nuevos por caso. Para un club que vende jugadores, eso es un mercado más amplio con el mismo equipo.</span></p>
+<p class="cue">Señalar las dos barras y la franja amarilla.</p></section>
+
+<section><h2>Desenlace · Lámina 5 <span>2:42 a 3:00</span></h2>
+<p class="tone"><b>Intención:</b> traer la idea a casa y cerrar con la pregunta transformada. <b>Tono:</b> lento, voz más baja en la última frase.</p>
+<p><span class="say">Colombia tiene más de cuatrocientos futbolistas en ligas extranjeras, y cada venta abre una vacante. El código es público, el explorador funciona y el siguiente paso es nuestra liga.</span> <span class="pause">(pausa)</span></p>
+<p><span class="say">Porque cuando un club pierde a su mediocampista, la pregunta no es quién juega en esa casilla, sino quién hace lo que él hacía.</span> <span class="pause">(pausa)</span> <span class="say">Muchas gracias.</span></p>
+<p class="cue">Mirar al público en la última frase y esperar un segundo antes del agradecimiento.</p></section>
+
+<p class="total">Unas 420 palabras: cerca de 2 minutos y 50 segundos a ritmo pausado, más las pausas. Ensayar con cronómetro; si pasa de 3:00, omitir la frase de Shaqiri.</p>
+<p class="total">Fuentes de las cifras de contexto: FIFA (2026), transferencias internacionales de 2025; Poli et al. (2024), CIES Football Observatory. Las cifras de los casos salen de data/processed/evaluation/replacement_cases.csv y coinciden con la sección 7.2 del documento.</p>
 </main></body></html>

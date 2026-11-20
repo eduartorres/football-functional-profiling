@@ -56,6 +56,7 @@ def compact(data: dict) -> dict:
             "f": c["pertinent_share_functional"],
             "b": c["pertinent_share_baseline"],
             "new": c["new_pertinent"],
+            "ov": c["overlap"],
         }
         for c in r["replacement_cases"]
     ]
