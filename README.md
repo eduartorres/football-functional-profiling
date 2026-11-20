@@ -48,6 +48,7 @@ H2 se rechaza por el criterio de autoidentificación. El detalle está en los ca
 | Documento del trabajo de grado | `reports/documento/` | Archivo Word; su fuente está en `reports/documento/build/` |
 | Explorador de perfiles (prototipo) | `reports/explorer/explorer.html` | Se descarga y se abre en el navegador; no requiere servidor |
 | Casebook de resultados | `reports/casebook/casebook.html` | Igual que el explorador |
+| Pitch del Analytics Pitch Awards | `reports/pitch/pitch.pdf` | Cinco láminas; la fuente es `pitch.html`, generada por el pipeline, y el guion está en `guion_pitch.html` |
 | Material del avance de octubre de 2026 | `reports/casebook/*_avance_2026-10-11.html` | Casebook y guion del video de avance |
 
 ## Estructura
@@ -60,6 +61,7 @@ manifests/              procedencia e integridad de cada fuente
 reports/documento/      documento del trabajo de grado y su fuente (build/)
 reports/explorer/       explorador de perfiles (prototipo)
 reports/casebook/       casebook de resultados y material del avance
+reports/pitch/          presentación del Analytics Pitch Awards y su guion
 reports/figures/        figuras usadas en el documento
 src/ingestion/          adquisición de las fuentes (se ejecuta una vez)
 src/harmonization/      extracción de Wyscout y homologación con StatsBomb

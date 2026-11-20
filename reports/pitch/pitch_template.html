@@ -1,0 +1,238 @@
+<title>Pitch perfilamiento funcional</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap">
+<style>
+/* Pitch de 3 minutos: cinco láminas de 1920 x 1080 que se imprimen a PDF, una por página.
+   Base blanca y tinta negra; el amarillo Uniandes solo marca la cifra o la palabra que hay que recordar.
+   Los tres colores de perfil son los mismos del documento y del casebook. */
+@page{size:1920px 1080px;margin:0}
+:root{
+  --ink:#0d0d0d; --ink-2:#3a3a3a; --ink-3:#767676; --rule:#d9d9d9; --wash:#f2f2f0; --paper:#ffffff;
+  --yellow:#FFFF00; --p1:#2a78d6; --p2:#eb6834; --p3:#1baf7a;
+  --f:"Roboto","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#e9e9e7}
+body{font-family:var(--f);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{width:1920px;height:1080px;background:var(--paper);position:relative;overflow:hidden;margin:0 auto 40px;page-break-after:always;break-after:page}
+@media print{html,body{background:var(--paper)}.slide{margin:0}}
+.pad{position:absolute;inset:96px 120px 110px 120px}
+.foot{position:absolute;left:120px;right:120px;bottom:48px;display:flex;justify-content:space-between;font-size:19px;color:var(--ink-3);letter-spacing:.02em}
+.foot b{color:var(--ink);font-weight:500}
+.eyebrow{font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+h1{font-size:92px;line-height:1.02;font-weight:900;letter-spacing:-.025em}
+h2{font-size:68px;line-height:1.06;font-weight:700;letter-spacing:-.02em}
+.mk{background:linear-gradient(transparent 60%,var(--yellow) 60%,var(--yellow) 90%,transparent 90%);padding:0 4px}
+.lead{font-size:31px;line-height:1.42;font-weight:300;color:var(--ink-2)}
+.small{font-size:21px;line-height:1.45;color:var(--ink-3)}
+svg text{font-family:var(--f)}
+
+/* 1 portada */
+.cover-title{position:absolute;left:120px;top:250px;width:930px;border-left:16px solid var(--yellow);padding-left:44px;margin-left:-60px}
+.cover-meta{position:absolute;left:120px;bottom:150px;display:grid;grid-template-columns:auto auto;gap:14px 40px;font-size:27px}
+.cover-meta dt{font-size:19px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-top:6px}
+.cover-meta dd{color:var(--ink)}
+#field{position:absolute;right:70px;top:150px;width:760px;height:700px}
+
+/* 2 problema */
+.two{position:absolute;top:300px;left:120px;right:120px;display:grid;grid-template-columns:1.25fr 1fr;gap:110px;align-items:start}
+.bigstat{font-size:190px;font-weight:900;letter-spacing:-.04em;line-height:.9}
+.bigstat sup{font-size:.4em;font-weight:500;vertical-align:.95em;margin-left:4px}
+
+/* 3 método */
+.flow{position:absolute;left:120px;right:120px;top:360px;display:grid;grid-template-columns:repeat(5,1fr)}
+.flow .st{position:relative;padding-top:34px}
+.flow .st::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink)}
+.flow .st::after{content:"";position:absolute;top:-8px;left:0;width:19px;height:19px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 4px var(--ink)}
+.flow .st:last-child::before{right:auto;width:0}
+.flow .st.hi::after{background:var(--yellow)}
+.flow .n{font-size:64px;font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.flow .l{font-size:26px;font-weight:500;margin-top:12px}
+.flow .d{font-size:21px;color:var(--ink-3);margin-top:8px;line-height:1.4;padding-right:28px}
+.why{position:absolute;left:120px;right:120px;top:690px;display:grid;grid-template-columns:repeat(3,1fr);gap:0 60px}
+.why div{font-size:25px;line-height:1.42;color:var(--ink-2);padding-top:22px;border-top:1px solid var(--rule)}
+.why b{display:block;font-size:27px;color:var(--ink);margin-bottom:8px;font-weight:700}
+
+/* 4 resultados */
+#zones{position:absolute;left:96px;top:250px;width:1060px;height:700px}
+.stats{position:absolute;right:120px;top:260px;width:560px;display:grid;gap:0}
+.stats div{padding:22px 0 24px;border-top:1px solid var(--rule);display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline}
+.stats div:first-child{border-top:3px solid var(--ink)}
+.stats .v{font-size:56px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.stats .t{font-size:23px;line-height:1.35;color:var(--ink-2)}
+
+/* 5 impacto */
+#lists{position:absolute;left:120px;top:300px;width:1080px;height:330px}
+.who{position:absolute;left:120px;top:690px;width:1080px;display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
+.who div{border-top:1px solid var(--rule);padding-top:20px;font-size:23px;line-height:1.4;color:var(--ink-2)}
+.who b{display:block;color:var(--ink);font-size:25px;margin-bottom:6px}
+.shot{position:absolute;right:120px;top:300px;width:470px}
+.shot img{width:100%;display:block;border:1px solid var(--rule)}
+.shot p{font-size:19px;color:var(--ink-3);margin-top:12px;line-height:1.4}
+.next{position:absolute;right:120px;top:700px;width:470px;font-size:24px;line-height:1.42;color:var(--ink-2);border-top:3px solid var(--ink);padding-top:18px}
+.next b{color:var(--ink)}
+</style>
+
+<!-- 1 · Portada -->
+<section class="slide">
+  <div class="pad" style="inset:96px 120px"><div class="eyebrow">Universidad de los Andes · Maestría en Inteligencia Analítica para la Toma de Decisiones</div></div>
+  <div class="cover-title">
+    <h1>Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal</h1>
+  </div>
+  <dl class="cover-meta">
+    <dt>Autor</dt><dd>Eduar Felipe Riaño Torres</dd>
+    <dt>Asesor</dt><dd>Juan Pablo Gómez Bravo</dd>
+  </dl>
+  <div id="field"></div>
+  <p class="small" style="position:absolute;right:90px;top:870px;width:720px;text-align:right">Los 1.500 jugadores analizados, ubicados según qué tan adelante y qué tan abiertos actúan, y coloreados por su perfil funcional.</p>
+  <div class="foot"><span>Analytics Pitch Awards · noviembre de 2026</span><span>1 / 5</span></div>
+</section>
+
+<!-- 2 · Problema -->
+<section class="slide">
+  <div class="pad">
+    <div class="eyebrow">El problema</div>
+    <h2 style="margin-top:22px;max-width:1300px">Misma posición, <span class="mk">otro juego</span></h2>
+  </div>
+  <div class="two">
+    <figure>
+      <div id="pair"></div>
+      <p class="small" style="margin-top:14px">Percentil entre 600 mediocampistas de las cinco grandes ligas, 2017/18. Ambos registrados como mediocentros.</p>
+    </figure>
+    <div>
+      <div class="bigstat">41<sup>%</sup></div>
+      <p class="lead" style="margin-top:22px">de las diferencias entre jugadores queda sin explicar aun conociendo su posición exacta.</p>
+      <p class="small" style="margin-top:10px">Mediana de 18 indicadores; varianza no explicada por la posición fina de Transfermarkt.</p>
+      <p class="lead" style="margin-top:34px;color:var(--ink)">Quien busca un reemplazo filtrando por posición mezcla funciones distintas y deja fuera a quien hace lo mismo con otra etiqueta.</p>
+    </div>
+  </div>
+  <div class="foot"><span><b>Usuario:</b> el área de scouting de un club que acaba de vender a un jugador</span><span>2 / 5</span></div>
+</section>
+
+<!-- 3 · Método -->
+<section class="slide">
+  <div class="pad">
+    <div class="eyebrow">Cómo se resolvió · CRISP-DM</div>
+    <h2 style="margin-top:22px;max-width:1500px">De 3,2 millones de eventos a una búsqueda por función</h2>
+  </div>
+  <div class="flow">
+    <div class="st"><div class="n">3.251.294</div><div class="l">eventos</div><div class="d">Wyscout, cinco grandes ligas europeas, 2017/18</div></div>
+    <div class="st"><div class="n">53.791</div><div class="l">jugador-partido</div><div class="d">minutos reconstruidos con alineaciones y cambios</div></div>
+    <div class="st"><div class="n">1.500</div><div class="l">jugadores</div><div class="d">900 minutos o más y posición precisa según Transfermarkt</div></div>
+    <div class="st"><div class="n">108</div><div class="l">modelos comparados</div><div class="d">K-means, mezclas gaussianas, Ward, arquetipos y HDBSCAN</div></div>
+    <div class="st hi"><div class="n">3</div><div class="l">perfiles y una consulta</div><div class="d">de jugadores similares, en un explorador web</div></div>
+  </div>
+  <div class="why">
+    <div><b>Qué hace, no cuánto</b>Se mide la proporción de cada tipo de acción. Así el perfil no depende de si el equipo tiene mucho o poco el balón.</div>
+    <div><b>Reglas antes que resultados</b>Los criterios para elegir el modelo y aceptar cada hipótesis se fijaron antes de ajustar el primer modelo.</div>
+    <div><b>Probado fuera de muestra</b>En la segunda mitad de la temporada, con jugadores no vistos y con otro proveedor de datos, StatsBomb.</div>
+  </div>
+  <div class="foot"><span>Python · DuckDB · scikit-learn · pipeline reproducible y público en GitHub</span><span>3 / 5</span></div>
+</section>
+
+<!-- 4 · Resultados -->
+<section class="slide">
+  <div class="pad">
+    <div class="eyebrow">Lo que se encontró</div>
+    <h2 style="margin-top:22px;max-width:1500px">Tres perfiles estables que la posición no distingue</h2>
+  </div>
+  <div id="zones"></div>
+  <div class="stats">
+    <div><span class="v">0,969</span><span class="t">estabilidad al cambiar la muestra de jugadores (1 es idéntica)</span></div>
+    <div><span class="v">91,8 %</span><span class="t">conserva su perfil de una mitad de la temporada a la otra</span></div>
+    <div><span class="v">0,009</span><span class="t">relación con el equipo: el perfil describe al jugador, no a su club</span></div>
+    <div><span class="v">0,943</span><span class="t">acuerdo con StatsBomb en los mismos 64 partidos del Mundial 2018</span></div>
+  </div>
+  <div class="foot"><span>Los mediocentros se reparten entre construcción y ataque según lo que de verdad hacen</span><span>4 / 5</span></div>
+</section>
+
+<!-- 5 · Impacto -->
+<section class="slide">
+  <div class="pad">
+    <div class="eyebrow">Para qué sirve</div>
+    <h2 style="margin-top:22px;max-width:1500px">La misma calidad de lista, con <span class="mk">casi diez candidatos pertinentes</span> que antes no aparecían</h2>
+  </div>
+  <div id="lists"></div>
+  <div class="who">
+    <div><b>Analista de scouting</b>Listas por función, con ficha y percentiles para justificar cada nombre.</div>
+    <div><b>Dirección deportiva</b>Reemplazos en posiciones y ligas que una búsqueda por etiqueta no revisa.</div>
+    <div><b>Cuerpo técnico</b>Pedir la pieza que falta por lo que debe hacer en el campo.</div>
+  </div>
+  <figure class="shot">
+    <img src="__EXPLORER_PNG__" alt="Explorador: ficha de M. Hamšík y jugadores similares de otros clubes">
+    <p>Explorador de perfiles y jugadores similares, generado por el pipeline.</p>
+  </figure>
+  <div class="next"><b>Siguiente paso.</b> Aplicarlo a jugadores en actividad, empezando por la Copa América 2024 con datos abiertos, y a la liga colombiana con datos licenciados.</div>
+  <div class="foot"><span>github.com/eduartorres/football-functional-profiling</span><span>5 / 5</span></div>
+</section>
+
+<script>
+const DATA = /*__DATA__*/;
+const NS="http://www.w3.org/2000/svg";
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C={ink:css("--ink"),ink2:css("--ink-2"),ink3:css("--ink-3"),rule:css("--rule"),wash:css("--wash"),paper:css("--paper"),yellow:css("--yellow"),p:{1:css("--p1"),2:css("--p2"),3:css("--p3")}};
+const fmt=(v,d=0)=>v.toLocaleString("es-CO",{minimumFractionDigits:d,maximumFractionDigits:d});
+function el(t,a={},p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+function tx(p,x,y,s,a={}){const t=el("text",{x,y,fill:C.ink2,...a},p);t.textContent=s;return t;}
+function svg(id,w,h){const s=el("svg",{viewBox:`0 0 ${w} ${h}`,width:w,height:h});document.getElementById(id).appendChild(s);return s;}
+
+/* portada: los 1.500 jugadores según la zona donde actúan, coloreados por perfil */
+(function(){
+  const W=760,H=700,s=svg("field",W,H), m=24;
+  const X=v=>m+(v-25)/(75-25)*(W-2*m), Y=v=>H-m-(v-8)/(48-8)*(H-2*m);
+  DATA.zones.forEach(([x,y,p])=>el("circle",{cx:X(x),cy:Y(y),r:5.4,fill:C.p[p],"fill-opacity":"0.82"},s));
+})();
+
+/* problema: dos mediocentros con la misma etiqueta */
+(function(){
+  const [a,b]=DATA.pair, keys=Object.keys(a.percentiles);
+  const lab={profundidad_media_x:"Profundidad",pases_p90:"Pases",pases_progresivos_p90:"Pases progresivos",intercepciones_p90:"Intercepciones",duelos_p90:"Duelos",remates_p90:"Remates"};
+  const W=900,rowH=78,top=70,H=top+keys.length*rowH,mid=W/2,lw=210,span=mid-lw/2-70;
+  const s=svg("pair",W,H);
+  tx(s,mid-lw/2-10,30,a.name,{"text-anchor":"end","font-size":"30","font-weight":"700",fill:C.ink});
+  tx(s,mid+lw/2+10,30,b.name,{"font-size":"30","font-weight":"700",fill:C.ink});
+  keys.forEach((k,i)=>{
+    const cy=top+i*rowH+rowH/2, pa=a.percentiles[k], pb=b.percentiles[k], wa=span*pa/100, wb=span*pb/100;
+    el("rect",{x:mid-lw/2-10-span,y:cy-16,width:span,height:32,fill:C.wash},s);
+    el("rect",{x:mid+lw/2+10,y:cy-16,width:span,height:32,fill:C.wash},s);
+    el("rect",{x:mid-lw/2-10-wa,y:cy-16,width:Math.max(wa,2),height:32,fill:C.ink},s);
+    el("rect",{x:mid+lw/2+10,y:cy-16,width:Math.max(wb,2),height:32,fill:C.ink3},s);
+    tx(s,mid,cy+9,lab[k],{"text-anchor":"middle","font-size":"24",fill:C.ink});
+    tx(s,mid-lw/2-18-wa,cy+9,pa,{"text-anchor":"end","font-size":"22","font-weight":"500",fill:C.ink2});
+    tx(s,mid+lw/2+18+wb,cy+9,pb,{"font-size":"22","font-weight":"500",fill:C.ink2});
+  });
+})();
+
+/* resultados: zona de actuación de cada perfil */
+(function(){
+  const W=1060,H=700,left=70,right=20,top=20,bottom=70;
+  const X=v=>left+(v-25)/(75-25)*(W-left-right), Y=v=>H-bottom-(v-8)/(48-8)*(H-bottom-top);
+  const s=svg("zones",W,H);
+  [30,40,50,60,70].forEach(t=>{el("line",{x1:X(t),x2:X(t),y1:top,y2:H-bottom,stroke:C.rule},s);tx(s,X(t),H-bottom+32,t,{"text-anchor":"middle","font-size":"20",fill:C.ink3});});
+  [10,20,30,40].forEach(t=>{el("line",{x1:left,x2:W-right,y1:Y(t),y2:Y(t),stroke:C.rule},s);tx(s,left-14,Y(t)+7,t,{"text-anchor":"end","font-size":"20",fill:C.ink3});});
+  tx(s,X(50),H-4,"qué tan adelante actúa  →",{"text-anchor":"middle","font-size":"21",fill:C.ink3});
+  tx(s,W-right,top+24,"↑ qué tan abierto, lejos del centro",{"text-anchor":"end","font-size":"21",fill:C.ink3});
+  DATA.zones.forEach(([x,y,p])=>el("circle",{cx:X(x),cy:Y(y),r:4.6,fill:C.p[p],"fill-opacity":"0.82",stroke:C.paper,"stroke-width":"0.8"},s));
+  const c={}; DATA.cards.profiles.forEach(p=>c[p.profile]=p);
+  [[1,26.5,12.2],[2,26.5,44.8],[3,61,12.2]].forEach(([p,x,y])=>{
+    el("circle",{cx:X(x)+8,cy:Y(y)-9,r:10,fill:C.p[p]},s);
+    tx(s,X(x)+28,Y(y),c[p].name,{"font-size":"27","font-weight":"700",fill:C.ink,stroke:C.paper,"stroke-width":"7","paint-order":"stroke"});
+    tx(s,X(x)+28,Y(y)+30,fmt(c[p].n)+" jugadores",{"font-size":"22",fill:C.ink2,stroke:C.paper,"stroke-width":"7","paint-order":"stroke"});
+  });
+})();
+
+/* impacto: las dos listas de 20 candidatos, promedio de 30 casos de reemplazo */
+(function(){
+  const R=DATA.replacement, W=1080,H=320,left=300,bw=W-left-10,u=bw/20,s=svg("lists",W,H);
+  const shared=R.overlap_mean, nw=R.new_pertinent_mean;
+  const row=(y,label,sub,segs)=>{
+    tx(s,0,y+30,label,{"font-size":"27","font-weight":"700",fill:C.ink});
+    tx(s,0,y+62,sub,{"font-size":"21",fill:C.ink3});
+    let x=left; segs.forEach(([w,fill,stroke,t,tc])=>{ el("rect",{x:x+2,y,width:Math.max(w*u-4,0),height:72,fill,stroke:stroke||"none","stroke-width":"2"},s);
+      if(t) tx(s,x+12,y+46,t,{"font-size":"23","font-weight":"700",fill:tc||C.ink}); x+=w*u; });
+  };
+  row(20,"Búsqueda por posición",`pertinencia ${fmt(R.pertinent_share_baseline_mean,2)}`,[[shared,C.ink,null,"",null],[20-shared,C.wash,null,"",null]]);
+  tx(s,left+4,128,`${fmt(shared,1)} candidatos en común`,{"font-size":"20",fill:C.ink3});
+  row(150,"Búsqueda por función",`pertinencia ${fmt(R.pertinent_share_functional_mean,2)}`,[[shared,C.ink,null,"",null],[nw,C.yellow,C.ink,`${fmt(nw,1)} pertinentes nuevos`],[20-shared-nw,C.wash,null,"",null]]);
+  tx(s,left,H-30,`Promedio de ${R.n_cases} transferencias reales del verano de 2018; cada lista tiene 20 candidatos de otros clubes.`,{"font-size":"20",fill:C.ink3});
+})();
+</script>

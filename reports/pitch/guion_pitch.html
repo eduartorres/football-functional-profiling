@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guion del pitch</title>
+<style>
+/* Guion de lectura del pitch de 3 minutos: el texto sombreado se lee en voz alta; lo demás son indicaciones. */
+:root{--ink:#111;--ink-3:#6e6e6e;--rule:#ddd;--read:#fff8b0;--paper:#fff}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 "Roboto","Helvetica Neue",Arial,sans-serif}
+main{max-width:760px;margin:0 auto;padding:48px 20px 80px}
+h1{font-size:28px;margin:0 0 6px}
+.meta{color:var(--ink-3);font-size:14px;margin-bottom:28px}
+section{border-top:2px solid var(--ink);padding:16px 0 10px;margin-top:22px}
+h2{font-size:15px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px;display:flex;justify-content:space-between}
+h2 span{color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none}
+.say{background:var(--read);padding:2px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+p{margin:0 0 12px}
+.cue{font-size:14px;color:var(--ink-3);border-left:3px solid var(--rule);padding-left:10px}
+.total{margin-top:30px;font-size:14px;color:var(--ink-3)}
+</style></head>
+<body><main>
+<h1>Guion del pitch</h1>
+<div class="meta">Analytics Pitch Awards · 3 minutos · 5 láminas. El texto sombreado se lee; lo demás son indicaciones.</div>
+
+<section><h2>Lámina 1 · Portada <span>0:00 a 0:15</span></h2>
+<p><span class="say">Buenas noches. Soy Felipe Riaño, y les voy a mostrar cómo buscar futbolistas por lo que hacen en la cancha y no por la etiqueta con la que están registrados.</span></p>
+<p class="cue">Señalar la nube de puntos: cada punto es un jugador.</p></section>
+
+<section><h2>Lámina 2 · El problema <span>0:15 a 0:55</span></h2>
+<p><span class="say">Cuando un club vende a un jugador, su área de scouting empieza con un filtro: la posición. Pero la posición dice dónde está registrado alguien, no cómo juega.</span></p>
+<p><span class="say">Hamšík y Diamé eran mediocentros en 2017. Uno daba más pases y remataba más que casi todos los mediocampistas de Europa. El otro estaba por debajo de la mayoría en pases y remates, pero disputaba más duelos que casi todos.</span></p>
+<p><span class="say">No es un caso aislado: aun conociendo la posición exacta, el 41 % de las diferencias entre jugadores queda sin explicar. Buscar por etiqueta mezcla funciones distintas y deja por fuera a quien hace lo mismo con otro nombre.</span></p>
+<p class="cue">Recorrer las barras de arriba abajo; terminar en el 41 %.</p></section>
+
+<section><h2>Lámina 3 · Cómo se resolvió <span>0:55 a 1:40</span></h2>
+<p><span class="say">Seguí CRISP-DM con los datos públicos de Wyscout de las cinco grandes ligas: tres millones doscientos mil eventos que convertí en una fila por jugador, con 1.500 jugadores de al menos 900 minutos.</span></p>
+<p><span class="say">Tomé tres decisiones. Primero, medir qué hace el jugador y no cuánto: la proporción de cada tipo de acción, para que su perfil no dependa de si su equipo tiene el balón. Segundo, fijar las reglas antes de ver resultados. Y tercero, probarlo fuera de muestra: en la otra mitad de la temporada, con jugadores no vistos y con otro proveedor de datos. Con esas reglas comparé 108 modelos.</span></p>
+<p class="cue">Seguir la línea de izquierda a derecha y bajar a las tres decisiones.</p></section>
+
+<section><h2>Lámina 4 · Lo que se encontró <span>1:40 a 2:20</span></h2>
+<p><span class="say">El resultado son tres perfiles: construcción y defensa, carril lateral, y ataque y finalización. Cada uno ocupa su propia zona del campo.</span></p>
+<p><span class="say">Son estables: el 92 % de los jugadores conserva su perfil de una mitad de la temporada a la otra. No dependen del equipo, y se repiten casi igual con otro proveedor en los mismos partidos. Y la posición no los ve: los mediocentros se reparten entre construcción y ataque según lo que de verdad hacen.</span></p>
+<p class="cue">Señalar los tres colores y luego las cuatro cifras de la derecha.</p></section>
+
+<section><h2>Lámina 5 · Para qué sirve <span>2:20 a 3:00</span></h2>
+<p><span class="say">¿Para qué sirve? Tomé treinta transferencias reales de 2018 y comparé dos búsquedas de veinte candidatos. Las dos aciertan igual, pero comparten menos de cuatro nombres: la búsqueda por función aporta casi diez candidatos pertinentes que la búsqueda por posición nunca habría mostrado.</span></p>
+<p><span class="say">Para un club que vende jugadores, eso es un mercado más amplio con el mismo trabajo. Todo está en un explorador web y en un repositorio público, y el siguiente paso es aplicarlo a jugadores en actividad, empezando por la Copa América 2024, y a la liga colombiana. Muchas gracias.</span></p>
+<p class="cue">Señalar la franja amarilla al decir "casi diez".</p></section>
+
+<p class="total">Unas 400 palabras: alrededor de 2 minutos y 50 segundos a ritmo pausado.</p>
+</main></body></html>

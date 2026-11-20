@@ -132,6 +132,12 @@ STAGES = [
     ("explorer", "Datos y página del explorador (prototipo)", _explorer, []),
     ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary"), []),
     ("casebook", "Datos y página del casebook de resultados", _casebook, []),
+    (
+        "pitch",
+        "Presentación del Analytics Pitch Awards (HTML; el PDF se imprime desde el navegador)",
+        _call("src.reports.build_pitch"),
+        [],
+    ),
 ]
 
 
