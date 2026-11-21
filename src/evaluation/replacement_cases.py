@@ -49,6 +49,26 @@ def cases(pool: pd.DataFrame, seed: int) -> pd.DataFrame:
     return pd.concat(parts).reset_index(drop=True)
 
 
+def lists_for(i: int, pool1: pd.DataFrame, F, Bs, Dsc, L: int):
+    """Listas funcional y por posición de un caso y marca de pertinencia de cada candidato."""
+    cand = (pool1.main_team_id != pool1.main_team_id[i]).to_numpy()
+    cand[i] = False
+    # pertinencia en h2
+    dd = np.linalg.norm(Dsc - Dsc[i], axis=1)
+    thr = np.quantile(dd[cand], TOP_SHARE)
+    pertinent = cand & (dd <= thr)
+    # lista funcional
+    df = np.linalg.norm(F - F[i], axis=1)
+    df[~cand] = np.inf
+    lf = np.argsort(df)[:L]
+    # lista base: misma posición fina
+    same = cand & (pool1.fine_group == pool1.fine_group[i]).to_numpy()
+    db = np.linalg.norm(Bs - Bs[i], axis=1)
+    db[~same] = np.inf
+    lb = [j for j in np.argsort(db)[:L] if np.isfinite(db[j])]
+    return lf, lb, pertinent
+
+
 def main(space_variant: str = "pca") -> None:
     cfg = load_config()
     seed, L = cfg["project"]["seed"], cfg["hypotheses"]["h4_list_size"]
@@ -71,21 +91,7 @@ def main(space_variant: str = "pca") -> None:
         i = int(
             np.where((pool1.player_id == c.player_id) & (pool1.competition_file == c.competition_file))[0][0]
         )
-        cand = (pool1.main_team_id != pool1.main_team_id[i]).to_numpy()
-        cand[i] = False
-        # pertinencia en h2
-        dd = np.linalg.norm(Dsc - Dsc[i], axis=1)
-        thr = np.quantile(dd[cand], TOP_SHARE)
-        pertinent = cand & (dd <= thr)
-        # lista funcional
-        df = np.linalg.norm(F - F[i], axis=1)
-        df[~cand] = np.inf
-        lf = np.argsort(df)[:L]
-        # lista base: misma posición fina
-        same = cand & (pool1.fine_group == pool1.fine_group[i]).to_numpy()
-        db = np.linalg.norm(Bs - Bs[i], axis=1)
-        db[~same] = np.inf
-        lb = [j for j in np.argsort(db)[:L] if np.isfinite(db[j])]
+        lf, lb, pertinent = lists_for(i, pool1, F, Bs, Dsc, L)
         new = set(lf) - set(lb)
         rows.append(
             {

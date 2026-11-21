@@ -1,7 +1,8 @@
 <title>Pitch perfilamiento funcional</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap">
 <style>
-/* Pitch de 3 minutos: cinco láminas de 1920 x 1080 que se imprimen a PDF, una por página.
+/* Pitch de 3 minutos: portada y cinco láminas de 1920 x 1080 que se imprimen a PDF, una por página.
+   El orden sigue la pirámide de Freytag: exposición, acción ascendente, clímax, acción descendente y desenlace.
    Base blanca y tinta negra; el amarillo Uniandes solo marca la cifra o la palabra que hay que recordar.
    Los tres colores de perfil son los mismos del documento y del casebook. */
 @page{size:1920px 1080px;margin:0}
@@ -26,77 +27,109 @@ h2{font-size:68px;line-height:1.06;font-weight:700;letter-spacing:-.02em}
 .small{font-size:21px;line-height:1.45;color:var(--ink-3)}
 svg text{font-family:var(--f)}
 
-/* 1 portada */
-.cover-title{position:absolute;left:120px;top:210px;width:930px;border-left:16px solid var(--yellow);padding-left:44px;margin-left:-60px}
-.cover-meta{position:absolute;left:120px;bottom:112px;display:grid;grid-template-columns:auto auto;gap:14px 40px;font-size:27px}
+/* portada */
+.cover-title{position:absolute;left:120px;top:250px;width:930px;border-left:16px solid var(--yellow);padding-left:44px;margin-left:-60px}
+.cover-meta{position:absolute;left:120px;bottom:150px;display:grid;grid-template-columns:auto auto;gap:14px 40px;font-size:27px}
 .cover-meta dt{font-size:19px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-top:6px}
 .cover-meta dd{color:var(--ink)}
 #field{position:absolute;right:70px;top:150px;width:760px;height:700px}
-.ctx{position:absolute;left:120px;top:712px;width:900px;font-size:27px;line-height:1.4;color:var(--ink-2);font-weight:300}
-.ctx b{font-weight:900;color:var(--ink);font-size:44px;letter-spacing:-.02em;display:block;line-height:1.1}
+
+/* 1 exposición */
+.huge{font-size:200px;font-weight:900;letter-spacing:-.045em;line-height:.9;font-variant-numeric:tabular-nums}
+.expo{position:absolute;top:330px;left:120px;right:120px;display:grid;grid-template-columns:1.15fr 1fr;gap:110px}
+.blocks div{border-top:1px solid var(--rule);padding:22px 0 26px;font-size:26px;line-height:1.42;color:var(--ink-2)}
+.blocks div:first-child{border-top:3px solid var(--ink)}
+.blocks b{display:block;font-size:20px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-bottom:8px}
+.claim{position:absolute;left:120px;right:120px;top:860px;font-size:38px;font-weight:700;letter-spacing:-.01em}
 
 /* 2 problema */
 .two{position:absolute;top:300px;left:120px;right:120px;display:grid;grid-template-columns:1.25fr 1fr;gap:110px;align-items:start}
 .bigstat{font-size:190px;font-weight:900;letter-spacing:-.04em;line-height:.9}
 .bigstat sup{font-size:.4em;font-weight:500;vertical-align:.95em;margin-left:4px}
+.money{margin-top:40px;border-top:3px solid var(--ink);padding-top:20px}
+.money .v{font-size:58px;font-weight:900;letter-spacing:-.03em;white-space:nowrap}
+.money p{font-size:24px;line-height:1.4;color:var(--ink-2);margin-top:8px}
 
-/* 3 método */
-.flow{position:absolute;left:120px;right:120px;top:360px;display:grid;grid-template-columns:repeat(5,1fr)}
-.flow .st{position:relative;padding-top:34px}
+/* 3 método y resultados */
+.flow{position:absolute;left:120px;right:120px;top:265px;display:grid;grid-template-columns:repeat(4,1fr)}
+.flow .st{position:relative;padding-top:30px}
 .flow .st::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink)}
 .flow .st::after{content:"";position:absolute;top:-8px;left:0;width:19px;height:19px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 4px var(--ink)}
 .flow .st:last-child::before{right:auto;width:0}
 .flow .st.hi::after{background:var(--yellow)}
-.flow .n{font-size:64px;font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-.flow .l{font-size:26px;font-weight:500;margin-top:12px}
-.flow .d{font-size:21px;color:var(--ink-3);margin-top:8px;line-height:1.4;padding-right:28px}
-.why{position:absolute;left:120px;right:120px;top:690px;display:grid;grid-template-columns:repeat(3,1fr);gap:0 60px}
-.why div{font-size:25px;line-height:1.42;color:var(--ink-2);padding-top:22px;border-top:1px solid var(--rule)}
-.why b{display:block;font-size:27px;color:var(--ink);margin-bottom:8px;font-weight:700}
-
-/* 4 resultados */
-#zones{position:absolute;left:96px;top:250px;width:1060px;height:700px}
-.stats{position:absolute;right:120px;top:260px;width:560px;display:grid;gap:0}
-.stats div{padding:22px 0 24px;border-top:1px solid var(--rule);display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline}
+.flow .n{font-size:54px;font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.flow .d{font-size:21px;color:var(--ink-2);margin-top:10px;line-height:1.38;padding-right:36px}
+#zones{position:absolute;left:96px;top:450px;width:980px;height:540px}
+.stats{position:absolute;right:120px;top:470px;width:600px;display:grid}
+.stats div{padding:20px 0 22px;border-top:1px solid var(--rule);display:grid;grid-template-columns:190px 1fr;gap:24px;align-items:baseline}
 .stats div:first-child{border-top:3px solid var(--ink)}
-.stats .v{font-size:56px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.stats .v{font-size:52px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
 .stats .t{font-size:23px;line-height:1.35;color:var(--ink-2)}
 
-/* 5 impacto */
-.cases{position:absolute;left:120px;top:335px;width:1080px}
-.cases .cap{font-size:21px;color:var(--ink-3);margin-bottom:10px}
-.cases .row{display:grid;grid-template-columns:1fr 150px 150px 130px 220px;align-items:baseline;padding:13px 0;border-top:1px solid var(--rule);font-size:25px;color:var(--ink-2)}
-.cases .row.hd{border-top:3px solid var(--ink);font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:10px 0}
-.cases .row .nm{color:var(--ink);font-weight:700}
-.cases .row .nm small{display:block;font-size:19px;font-weight:400;color:var(--ink-3);margin-top:2px}
-.cases .row .c{text-align:right;font-variant-numeric:tabular-nums}
-.cases .row .c.nw{font-weight:900;color:var(--ink);font-size:30px}
-.cases .row.first .nm,.cases .row.first .c{color:var(--ink)}
-#lists{position:absolute;left:120px;top:695px;width:1080px;height:300px}
-.shot{position:absolute;right:120px;top:300px;width:470px}
+/* 4 clímax: el caso */
+.context{position:absolute;left:120px;top:330px;width:1080px;font-size:24px;line-height:1.45;color:var(--ink-2)}
+.lists{position:absolute;left:120px;top:470px;width:1080px}
+.lists h3{font-size:20px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin:0 0 12px}
+.lists h3 b{color:var(--ink);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
+.chip{border:1.5px solid var(--ink);padding:8px 14px;font-size:22px;line-height:1.2}
+.chip small{display:block;font-size:17px;color:var(--ink-3)}
+.chip.common{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.common small{color:#cfcfcf}
+.chip .val{font-weight:700;font-variant-numeric:tabular-nums}
+.chip.low{background:var(--yellow)}
+.side{position:absolute;right:120px;top:330px;width:520px;display:grid}
+.side div{padding:22px 0 24px;border-top:1px solid var(--rule)}
+.side div:first-child{border-top:3px solid var(--ink)}
+.side .v{font-size:84px;font-weight:900;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums}
+.side .t{font-size:23px;line-height:1.38;color:var(--ink-2);margin-top:8px}
+
+/* 5 acción descendente y desenlace */
+#lists{position:absolute;left:120px;top:290px;width:1080px;height:300px}
+.close{position:absolute;left:120px;top:690px;width:1080px;border-left:14px solid var(--yellow);padding:6px 0 6px 34px;margin-left:-48px;font-size:44px;line-height:1.22;font-weight:700;letter-spacing:-.015em}
+.shot{position:absolute;right:120px;top:290px;width:470px}
 .shot img{width:100%;display:block;border:1px solid var(--rule)}
 .shot p{font-size:19px;color:var(--ink-3);margin-top:12px;line-height:1.4}
-.next{position:absolute;right:120px;top:700px;width:470px;font-size:24px;line-height:1.42;color:var(--ink-2);border-top:3px solid var(--ink);padding-top:18px}
+.next{position:absolute;right:120px;top:690px;width:470px;font-size:24px;line-height:1.42;color:var(--ink-2);border-top:3px solid var(--ink);padding-top:18px}
 .next b{color:var(--ink)}
 </style>
 
-<!-- 1 · Portada -->
+<!-- Portada -->
 <section class="slide">
   <div class="pad" style="inset:96px 120px"><div class="eyebrow">Universidad de los Andes · Maestría en Inteligencia Analítica para la Toma de Decisiones</div></div>
   <div class="cover-title">
     <h1>Perfilamiento funcional de jugadores de fútbol más allá de la posición nominal</h1>
   </div>
-  <p class="ctx"><b>USD 13.000 millones</b>en fichajes internacionales solo en 2025, y cada fichaje empieza con una lista de candidatos.</p>
   <dl class="cover-meta">
     <dt>Autor</dt><dd>Eduar Felipe Riaño Torres</dd>
     <dt>Asesor</dt><dd>Juan Pablo Gómez Bravo</dd>
   </dl>
   <div id="field"></div>
   <p class="small" style="position:absolute;right:90px;top:870px;width:720px;text-align:right">Los 1.500 jugadores analizados, ubicados según qué tan adelante y qué tan abiertos actúan, y coloreados por su perfil funcional.</p>
-  <div class="foot"><span>Analytics Pitch Awards · noviembre de 2026 · Cifra de mercado: FIFA (2026)</span><span>1 / 5</span></div>
+  <div class="foot"><span>Analytics Pitch Awards · noviembre de 2026</span><span></span></div>
 </section>
 
-<!-- 2 · Problema -->
+<!-- 1 · Exposición -->
+<section class="slide">
+  <div class="pad">
+    <div class="eyebrow">Los datos ya existen</div>
+    <h2 style="margin-top:22px;max-width:1500px">Una temporada de fútbol deja millones de acciones registradas</h2>
+  </div>
+  <div class="expo">
+    <div>
+      <div class="huge" id="events"></div>
+      <p class="lead" style="margin-top:26px;max-width:820px">acciones en los <span id="matches"></span> partidos de las cinco grandes ligas europeas de 2017/18: cada pase, duelo y remate, con el lugar del campo donde ocurrió.</p>
+    </div>
+    <div class="blocks">
+      <div><b>2002 · Moneyball</b>Los Oakland Athletics del béisbol armaron un equipo competitivo con uno de los presupuestos más bajos de su liga, eligiendo jugadores por sus datos y no por su reputación.</div>
+      <div><b>Repositorio de la Universidad</b>Los trabajos de grado sobre analítica deportiva predicen resultados de partidos o evalúan alineaciones. Ninguno busca al jugador que puede reemplazar a otro.</div>
+    </div>
+  </div>
+  <p class="claim">Este trabajo usa esos datos para encontrar <span class="mk">al jugador que puede reemplazar a otro</span>.</p>
+  <div class="foot"><span>Acciones: eventos públicos de Wyscout (Pappalardo et al., 2019)</span><span>1 / 5</span></div>
+</section>
+
+<!-- 2 · Acción ascendente: el problema -->
 <section class="slide">
   <div class="pad">
     <div class="eyebrow">El problema</div>
@@ -105,68 +138,64 @@ svg text{font-family:var(--f)}
   <div class="two">
     <figure>
       <div id="pair"></div>
-      <p class="small" style="margin-top:14px">Percentil entre 600 mediocampistas de las cinco grandes ligas, 2017/18. Ambos registrados como mediocentros.</p>
+      <p class="small" style="margin-top:14px">Percentil entre 600 mediocampistas de las cinco grandes ligas, 2017/18. Ambos jugaron como mediocentros.</p>
     </figure>
     <div>
       <div class="bigstat">41<sup>%</sup></div>
       <p class="lead" style="margin-top:22px">de las diferencias entre jugadores queda sin explicar aun conociendo su posición exacta.</p>
       <p class="small" style="margin-top:10px">Mediana de 18 indicadores; varianza no explicada por la posición fina de Transfermarkt.</p>
-      <p class="lead" style="margin-top:34px;color:var(--ink)">Quien busca un reemplazo filtrando por posición mezcla funciones distintas y deja fuera a quien hace lo mismo con otra etiqueta.</p>
+      <div class="money"><span class="v">USD 13.000 M</span><p>en fichajes internacionales en 2025. La búsqueda de cada reemplazo empieza, casi siempre, por la posición.</p></div>
     </div>
   </div>
-  <div class="foot"><span><b>Usuario:</b> el área de scouting de un club que acaba de vender a un jugador</span><span>2 / 5</span></div>
+  <div class="foot"><span>Mercado: FIFA (2026), transferencias internacionales de 2025</span><span>2 / 5</span></div>
 </section>
 
-<!-- 3 · Método -->
+<!-- 3 · Acción ascendente: método y resultados -->
 <section class="slide">
   <div class="pad">
     <div class="eyebrow">Cómo se resolvió · CRISP-DM</div>
-    <h2 style="margin-top:22px;max-width:1500px">De 3,2 millones de eventos a una búsqueda por función</h2>
+    <h2 style="margin-top:22px;max-width:1600px">Describir a cada jugador por lo que hace</h2>
   </div>
   <div class="flow">
-    <div class="st"><div class="n">3.251.294</div><div class="l">eventos</div><div class="d">Wyscout, cinco grandes ligas europeas, 2017/18</div></div>
-    <div class="st"><div class="n">53.791</div><div class="l">jugador-partido</div><div class="d">minutos reconstruidos con alineaciones y cambios</div></div>
-    <div class="st"><div class="n">1.500</div><div class="l">jugadores</div><div class="d">900 minutos o más y posición precisa según Transfermarkt</div></div>
-    <div class="st"><div class="n">108</div><div class="l">modelos comparados</div><div class="d">K-means, mezclas gaussianas, Ward, arquetipos y HDBSCAN</div></div>
-    <div class="st hi"><div class="n">3</div><div class="l">perfiles y una consulta</div><div class="d">de jugadores similares, en un explorador web</div></div>
-  </div>
-  <div class="why">
-    <div><b>Qué hace, no cuánto</b>Se mide la proporción de cada tipo de acción. Así el perfil no depende de si el equipo tiene mucho o poco el balón.</div>
-    <div><b>Reglas antes que resultados</b>Los criterios para elegir el modelo y aceptar cada hipótesis se fijaron antes de ajustar el primer modelo.</div>
-    <div><b>Probado fuera de muestra</b>En la segunda mitad de la temporada, con jugadores no vistos y con otro proveedor de datos, StatsBomb.</div>
-  </div>
-  <div class="foot"><span>Python · DuckDB · scikit-learn · pipeline reproducible y público en GitHub</span><span>3 / 5</span></div>
-</section>
-
-<!-- 4 · Resultados -->
-<section class="slide">
-  <div class="pad">
-    <div class="eyebrow">Lo que se encontró</div>
-    <h2 style="margin-top:22px;max-width:1500px">Tres perfiles estables que la posición no distingue</h2>
+    <div class="st"><div class="n" id="ev2"></div><div class="d">acciones convertidas en la proporción de cada tipo de acción por jugador</div></div>
+    <div class="st"><div class="n">1.500</div><div class="d">jugadores con al menos 900 minutos y posición fina conocida</div></div>
+    <div class="st"><div class="n">108</div><div class="d">modelos comparados con reglas fijadas antes de ver resultados</div></div>
+    <div class="st hi"><div class="n">3</div><div class="d">perfiles funcionales y una consulta de jugadores similares</div></div>
   </div>
   <div id="zones"></div>
   <div class="stats">
-    <div><span class="v">0,969</span><span class="t">estabilidad al cambiar la muestra de jugadores (1 es idéntica)</span></div>
-    <div><span class="v">91,8 %</span><span class="t">conserva su perfil de una mitad de la temporada a la otra</span></div>
-    <div><span class="v">0,009</span><span class="t">relación con el equipo: el perfil describe al jugador, no a su club</span></div>
-    <div><span class="v">0,943</span><span class="t">acuerdo con StatsBomb en los mismos 64 partidos del Mundial 2018</span></div>
+    <div><span class="v">91,8 %</span><span class="t">de los jugadores conserva su perfil de una mitad de la temporada a la otra</span></div>
+    <div><span class="v">0,009</span><span class="t">de relación con el equipo: el perfil describe al jugador y no a su club</span></div>
+    <div><span class="v">0,943</span><span class="t">de acuerdo con StatsBomb, otro proveedor, en los 64 partidos del Mundial 2018</span></div>
   </div>
-  <div class="foot"><span>Los mediocentros se reparten entre construcción y ataque según lo que de verdad hacen</span><span>4 / 5</span></div>
+  <div class="foot"><span>Python · DuckDB · scikit-learn · K-means sobre la composición de acciones · repositorio público</span><span>3 / 5</span></div>
 </section>
 
-<!-- 5 · Impacto -->
+<!-- 4 · Clímax: el caso Moutinho -->
 <section class="slide">
   <div class="pad">
-    <div class="eyebrow">Para qué sirve</div>
-    <h2 style="margin-top:22px;max-width:1500px">La misma calidad de lista, con <span class="mk">casi diez candidatos pertinentes</span> que antes no aparecían</h2>
+    <div class="eyebrow">El caso · Mónaco, verano de 2018</div>
+    <h2 style="margin-top:22px;max-width:1600px">Para reemplazar a Moutinho, la búsqueda por función <span class="mk">sumó once opciones</span></h2>
   </div>
-  <div class="cases" id="cases"><p class="cap">Tres de los 30 casos: candidatos pertinentes en cada lista de 20</p></div>
+  <p class="context" id="context"></p>
+  <div class="lists" id="caselists"></div>
+  <div class="side" id="side"></div>
+  <div class="foot"><span>Valores de mercado: Transfermarkt, último valor antes de la venta (transfermarkt-datasets). Pertinente: criterio analítico del trabajo</span><span>4 / 5</span></div>
+</section>
+
+<!-- 5 · Acción descendente y desenlace -->
+<section class="slide">
+  <div class="pad">
+    <div class="eyebrow">Más allá de un caso</div>
+    <h2 style="margin-top:22px;max-width:1600px">En 30 transferencias, la misma precisión y <span class="mk">casi diez opciones nuevas</span> por caso</h2>
+  </div>
   <div id="lists"></div>
+  <p class="close">¿Cuántas contrataciones se deciden por el nombre del jugador, y cuántas por lo que ese jugador hace en la cancha?</p>
   <figure class="shot">
     <img src="__EXPLORER_PNG__" alt="Explorador: ficha de M. Hamšík y jugadores similares de otros clubes">
     <p>Explorador de perfiles y jugadores similares, generado por el pipeline.</p>
   </figure>
-  <div class="next"><b>Siguiente paso.</b> Colombia tiene más de 400 futbolistas en ligas extranjeras y cada venta abre una vacante. Primero, jugadores en actividad con la Copa América 2024; después, la liga colombiana con datos licenciados.</div>
+  <div class="next"><b>Siguiente paso.</b> Colombia tiene más de 400 futbolistas en ligas extranjeras, y cada venta abre una vacante. Primero, jugadores en actividad con la Copa América 2024; después, la liga colombiana con datos licenciados.</div>
   <div class="foot"><span>github.com/eduartorres/football-functional-profiling · Futbolistas en el exterior: Poli et al. (2024), CIES</span><span>5 / 5</span></div>
 </section>
 
@@ -209,30 +238,47 @@ function svg(id,w,h){const s=el("svg",{viewBox:`0 0 ${w} ${h}`,width:w,height:h}
 
 /* resultados: zona de actuación de cada perfil */
 (function(){
-  const W=1060,H=700,left=70,right=20,top=20,bottom=70;
+  const W=980,H=540,left=70,right=20,top=16,bottom=62;
   const X=v=>left+(v-25)/(75-25)*(W-left-right), Y=v=>H-bottom-(v-8)/(48-8)*(H-bottom-top);
   const s=svg("zones",W,H);
   [30,40,50,60,70].forEach(t=>{el("line",{x1:X(t),x2:X(t),y1:top,y2:H-bottom,stroke:C.rule},s);tx(s,X(t),H-bottom+32,t,{"text-anchor":"middle","font-size":"20",fill:C.ink3});});
   [10,20,30,40].forEach(t=>{el("line",{x1:left,x2:W-right,y1:Y(t),y2:Y(t),stroke:C.rule},s);tx(s,left-14,Y(t)+7,t,{"text-anchor":"end","font-size":"20",fill:C.ink3});});
-  tx(s,X(50),H-4,"qué tan adelante actúa  →",{"text-anchor":"middle","font-size":"21",fill:C.ink3});
+  tx(s,X(50),H-2,"qué tan adelante actúa  →",{"text-anchor":"middle","font-size":"21",fill:C.ink3});
   tx(s,W-right,top+24,"↑ qué tan abierto, lejos del centro",{"text-anchor":"end","font-size":"21",fill:C.ink3});
   DATA.zones.forEach(([x,y,p])=>el("circle",{cx:X(x),cy:Y(y),r:4.6,fill:C.p[p],"fill-opacity":"0.82",stroke:C.paper,"stroke-width":"0.8"},s));
   const c={}; DATA.cards.profiles.forEach(p=>c[p.profile]=p);
-  [[1,26.5,12.2],[2,26.5,44.8],[3,61,12.2]].forEach(([p,x,y])=>{
+  [[1,26.5,12.2],[2,26.5,44.8],[3,55,12.2]].forEach(([p,x,y])=>{
     el("circle",{cx:X(x)+8,cy:Y(y)-9,r:10,fill:C.p[p]},s);
     tx(s,X(x)+28,Y(y),c[p].name,{"font-size":"27","font-weight":"700",fill:C.ink,stroke:C.paper,"stroke-width":"7","paint-order":"stroke"});
     tx(s,X(x)+28,Y(y)+30,fmt(c[p].n)+" jugadores",{"font-size":"22",fill:C.ink2,stroke:C.paper,"stroke-width":"7","paint-order":"stroke"});
   });
 })();
 
-/* impacto: tres casos concretos, con las cifras de la evaluación (clubes de origen según la tabla de equipos de Wyscout 2017/18) */
+/* exposición y método: acciones registradas en las cinco ligas (inventario de Wyscout) */
 (function(){
-  const pick=[["João Moutinho","João Moutinho","Mónaco → Wolverhampton"],["A. Vidal","Arturo Vidal","Bayern Múnich → Barcelona"],["X. Shaqiri","Xherdan Shaqiri","Stoke City → Liverpool"]];
-  const host=document.getElementById("cases"), by={}; DATA.cases.forEach(c=>by[c.n]=c);
-  const add=(cls,html)=>{const d=document.createElement("div");d.className="row "+cls;d.innerHTML=html;host.appendChild(d);};
-  add("hd",'<span>Venta del verano de 2018</span><span class="c">Por posición</span><span class="c">Por función</span><span class="c">En común</span><span class="c">Nuevos</span>');
-  pick.forEach(([k,name,move],i)=>{const c=by[k];
-    add(i===0?"first":"",`<span class="nm">${name}<small>${move}</small></span><span class="c">${Math.round(c.b*20)} de 20</span><span class="c">${Math.round(c.f*20)} de 20</span><span class="c">${c.ov}</span><span class="c nw">${i===0?'<span class="mk">'+c.new+'</span>':c.new}</span>`);});
+  const E=DATA.events_leagues;
+  document.getElementById("events").textContent=fmt(E.events/1e6,2).replace(/,?0+$/,"")+" M";
+  document.getElementById("matches").textContent=fmt(E.matches);
+  document.getElementById("ev2").textContent=fmt(E.events/1e6,2)+" M";
+})();
+
+/* clímax: las dos listas del caso Moutinho, con valor de mercado */
+(function(){
+  const S=DATA.story, c=S.case, mv=S.club_midfield_moves;
+  const m=v=>"EUR "+fmt(v,v%1?1:0)+" M";
+  const out=mv.filter(x=>x.direction==="salida"&&x.player!==c.name&&x.fee_m_eur>=40).map(x=>x.player.split(" ").slice(-1)[0]);
+  const inn=mv.filter(x=>x.direction==="llegada"), spent=inn.reduce((a,x)=>a+x.fee_m_eur,0);
+  document.getElementById("context").innerHTML=`El Mónaco vendió a João Moutinho al Wolverhampton por ${m(c.fee_m_eur)}. Ese verano también vendió a ${out.join(" y a ")}, y pagó ${m(spent)} por dos mediocampistas: ${inn.map(x=>x.player.split(" ").slice(-1)[0]+" ("+fmt(x.fee_m_eur)+")").join(" y ")}.`;
+  const med=S.new_pertinent_median_value_m_eur;
+  const host=document.getElementById("caselists");
+  const chip=(p,cls)=>`<span class="chip ${cls}">${p.name} · <span class="val">${fmt(p.value_m_eur,p.value_m_eur%1?1:0)}</span><small>${p.club}</small></span>`;
+  host.innerHTML=`<h3>En las dos listas · <b>${S.common.length}</b></h3><div class="chips">${S.common.map(p=>chip(p,"common")).join("")}</div>
+    <h3>Solo en la búsqueda por función, pertinentes · <b>${S.new_pertinent.length}</b></h3>
+    <div class="chips">${[...S.new_pertinent].sort((a,b)=>a.value_m_eur-b.value_m_eur).map(p=>chip(p,p.value_m_eur<=med?"low":"")).join("")}</div>
+    <p class="small" style="margin-top:-12px">Valor de mercado en millones de euros. En amarillo, los que valían ${m(med)} o menos.</p>`;
+  document.getElementById("side").innerHTML=`<div><span class="v">${S.pertinent_baseline} = ${S.pertinent_functional}</span><p class="t">candidatos pertinentes de ${S.list_size} en la búsqueda por posición y en la búsqueda por función</p></div>
+    <div><span class="v">${S.common.length} de ${S.list_size}</span><p class="t">nombres coinciden entre las dos listas</p></div>
+    <div><span class="v">${m(med)}</span><p class="t">valor de mercado mediano de los ${S.new_pertinent.length} jugadores nuevos; ${S.new_pertinent_at_or_below_median} valían eso o menos</p></div>`;
 })();
 
 /* impacto: las dos listas de 20 candidatos, promedio de 30 casos de reemplazo */

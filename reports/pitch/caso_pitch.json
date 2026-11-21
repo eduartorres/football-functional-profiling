@@ -1,0 +1,184 @@
+{
+ "case": {
+  "name": "João Moutinho",
+  "from_club": "Monaco",
+  "to_club": "Wolves",
+  "date": "2018-07-24",
+  "fee_m_eur": 5.6,
+  "value_m_eur": 10.0
+ },
+ "list_size": 20,
+ "pertinent_functional": 16,
+ "pertinent_baseline": 16,
+ "common": [
+  {
+   "name": "Fabián",
+   "club": "Real Betis",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 20.0
+  },
+  {
+   "name": "Dani Parejo",
+   "club": "Valencia",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 20.0
+  },
+  {
+   "name": "Borja Valero",
+   "club": "Internazionale",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 4.0
+  },
+  {
+   "name": "J. Veretout",
+   "club": "Fiorentina",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 18.0
+  },
+  {
+   "name": "R. Amalfitano",
+   "club": "Dijon",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 2.0
+  }
+ ],
+ "new_pertinent": [
+  {
+   "name": "M. Pjanić",
+   "club": "Juventus",
+   "position": "pivote",
+   "pertinent": true,
+   "value_m_eur": 65.0
+  },
+  {
+   "name": "Trigueros",
+   "club": "Villarreal",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 20.0
+  },
+  {
+   "name": "G. Krychowiak",
+   "club": "West Bromwich Albion",
+   "position": "pivote",
+   "pertinent": true,
+   "value_m_eur": 18.0
+  },
+  {
+   "name": "Y. Cabaye",
+   "club": "Crystal Palace",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 10.0
+  },
+  {
+   "name": "M. Arnold",
+   "club": "Wolfsburg",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 10.0
+  },
+  {
+   "name": "V. Darida",
+   "club": "Hertha BSC",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 8.0
+  },
+  {
+   "name": "A. Bertolacci",
+   "club": "Genoa",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 7.5
+  },
+  {
+   "name": "D. Cataldi",
+   "club": "Benevento",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 4.0
+  },
+  {
+   "name": "Thiago Maia",
+   "club": "Lille",
+   "position": "pivote",
+   "pertinent": true,
+   "value_m_eur": 4.0
+  },
+  {
+   "name": "F. Viviani",
+   "club": "SPAL",
+   "position": "pivote",
+   "pertinent": true,
+   "value_m_eur": 3.5
+  },
+  {
+   "name": "J. Martin",
+   "club": "Strasbourg",
+   "position": "mediocentro",
+   "pertinent": true,
+   "value_m_eur": 3.0
+  }
+ ],
+ "new_pertinent_median_value_m_eur": 8.0,
+ "new_pertinent_at_or_below_median": 6,
+ "baseline_median_value_m_eur": 8.5,
+ "club_midfield_moves": [
+  {
+   "player": "Thomas Lemar",
+   "direction": "salida",
+   "other_club": "Atlético",
+   "fee_m_eur": 72.0,
+   "sub_position": "Attacking Midfield"
+  },
+  {
+   "player": "Fabinho",
+   "direction": "salida",
+   "other_club": "Liverpool",
+   "fee_m_eur": 45.0,
+   "sub_position": "Defensive Midfield"
+  },
+  {
+   "player": "Aleksandr Golovin",
+   "direction": "llegada",
+   "other_club": "CSKA Moscow",
+   "fee_m_eur": 30.0,
+   "sub_position": "Attacking Midfield"
+  },
+  {
+   "player": "Jean-Eudes Aholou",
+   "direction": "llegada",
+   "other_club": "R. Strasbourg",
+   "fee_m_eur": 14.0,
+   "sub_position": "Defensive Midfield"
+  },
+  {
+   "player": "Soualiho Meïté",
+   "direction": "salida",
+   "other_club": "Torino",
+   "fee_m_eur": 11.5,
+   "sub_position": "Defensive Midfield"
+  },
+  {
+   "player": "João Moutinho",
+   "direction": "salida",
+   "other_club": "Wolves",
+   "fee_m_eur": 5.6,
+   "sub_position": "Central Midfield"
+  },
+  {
+   "player": "Rúben Vinagre",
+   "direction": "salida",
+   "other_club": "Wolves",
+   "fee_m_eur": 2.25,
+   "sub_position": "Left Midfield"
+  }
+ ],
+ "source": "transfermarkt-datasets (snapshot del 6 de julio de 2026): transfers y player_valuations"
+}

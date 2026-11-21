@@ -133,6 +133,12 @@ STAGES = [
     ("dictionary", "Diccionario de datos (anexo A)", _call("src.reports.data_dictionary"), []),
     ("casebook", "Datos y página del casebook de resultados", _casebook, []),
     (
+        "pitch_case",
+        "Caso Moutinho del pitch: listas y valores de mercado",
+        _call("src.reports.pitch_case"),
+        [_tm_db()],
+    ),
+    (
         "pitch",
         "Presentación del Analytics Pitch Awards (HTML; el PDF se imprime desde el navegador)",
         _call("src.reports.build_pitch"),

@@ -48,7 +48,7 @@ H2 se rechaza por el criterio de autoidentificación. El detalle está en los ca
 | Documento del trabajo de grado | `reports/documento/` | Archivo Word; su fuente está en `reports/documento/build/` |
 | Explorador de perfiles (prototipo) | `reports/explorer/explorer.html` | Se descarga y se abre en el navegador; no requiere servidor |
 | Casebook de resultados | `reports/casebook/casebook.html` | Igual que el explorador |
-| Pitch del Analytics Pitch Awards | `reports/pitch/pitch.pdf` | Cinco láminas; la fuente es `pitch.html`, generada por el pipeline, y el guion está en `guion_pitch.html` |
+| Pitch del Analytics Pitch Awards | `reports/pitch/pitch.pdf` | Portada y cinco láminas; la fuente es `pitch.html`, generada por el pipeline, y el guion está en `guion_pitch.html`. El caso que se narra sale de `caso_pitch.json` |
 | Material del avance de octubre de 2026 | `reports/casebook/*_avance_2026-10-11.html` | Casebook y guion del video de avance |
 
 ## Estructura
